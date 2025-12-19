@@ -7,9 +7,9 @@
  *
  * Code generation for model "motor_calibration".
  *
- * Model version              : 1.64
+ * Model version              : 1.73
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Wed Dec 17 14:22:16 2025
+ * C source code generated on : Fri Dec 19 14:23:41 2025
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -36,12 +36,12 @@ P_motor_calibration_T motor_calibration_P = {
   /* Mask Parameter: HILWriteAnalog_channels
    * Referenced by: '<Root>/HIL Write Analog'
    */
-  0U,
+  1U,
 
   /* Mask Parameter: HILReadAnalog_channels
    * Referenced by: '<Root>/HIL Read Analog'
    */
-  0U,
+  1U,
 
   /* Mask Parameter: HILWriteDigitalTimebase_channel
    * Referenced by: '<Root>/HIL Write Digital Timebase'
@@ -98,20 +98,45 @@ P_motor_calibration_T motor_calibration_P = {
    */
   0.0,
 
-  /* Expression: 1
+  /* Expression: 3
    * Referenced by: '<Root>/Sine Wave'
    */
-  1.0,
+  3.0,
 
   /* Expression: 0
    * Referenced by: '<Root>/Sine Wave'
    */
   0.0,
 
+  /* Expression: 0.8
+   * Referenced by: '<Root>/Amplitude'
+   */
+  0.8,
+
+  /* Expression: 0.5
+   * Referenced by: '<Root>/Max Voltage'
+   */
+  0.5,
+
   /* Expression: 1
-   * Referenced by: '<Root>/Constant'
+   * Referenced by: '<Root>/Pulse Generator'
    */
   1.0,
+
+  /* Computed Parameter: PulseGenerator_Period
+   * Referenced by: '<Root>/Pulse Generator'
+   */
+  2.0,
+
+  /* Computed Parameter: PulseGenerator_Duty
+   * Referenced by: '<Root>/Pulse Generator'
+   */
+  1.0,
+
+  /* Expression: 0
+   * Referenced by: '<Root>/Pulse Generator'
+   */
+  0.0,
 
   /* Expression: set_other_outputs_at_terminate
    * Referenced by: '<Root>/HIL Initialize'
@@ -458,7 +483,7 @@ P_motor_calibration_T motor_calibration_P = {
    */
   1,
 
-  /* Computed Parameter: Constant_Value_h
+  /* Computed Parameter: Constant_Value
    * Referenced by: '<S7>/Constant'
    */
   0,

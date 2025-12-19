@@ -7,9 +7,9 @@
  *
  * Code generation for model "motor_calibration".
  *
- * Model version              : 1.64
+ * Model version              : 1.73
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Wed Dec 17 14:22:16 2025
+ * C source code generated on : Fri Dec 19 14:23:41 2025
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -36,15 +36,20 @@ RT_MODEL_motor_calibration_T *const motor_calibration_M = &motor_calibration_M_;
 void motor_calibration_output(void)
 {
   /* local block i/o variables */
+  real_T rtb_PulseGenerator;
   boolean_T rtb_HILReadDigital_o1;
   boolean_T rtb_HILReadDigital_o2;
   boolean_T rtb_HILReadDigital_o3;
   boolean_T rtb_HILReadDigital_o4;
 
-  /* Sin: '<Root>/Sine Wave' */
-  motor_calibration_B.SineWave = sin(motor_calibration_P.SineWave_Freq *
+  /* Gain: '<Root>/Max Voltage' incorporates:
+   *  Gain: '<Root>/Amplitude'
+   *  Sin: '<Root>/Sine Wave'
+   */
+  motor_calibration_B.MaxVoltage = (sin(motor_calibration_P.SineWave_Freq *
     motor_calibration_M->Timing.t[0] + motor_calibration_P.SineWave_Phase) *
-    motor_calibration_P.SineWave_Amp + motor_calibration_P.SineWave_Bias;
+    motor_calibration_P.SineWave_Amp + motor_calibration_P.SineWave_Bias) *
+    motor_calibration_P.Amplitude_Gain * motor_calibration_P.MaxVoltage_Gain;
 
   /* S-Function (hil_write_analog_block): '<Root>/HIL Write Analog' */
 
@@ -53,7 +58,7 @@ void motor_calibration_output(void)
     t_error result;
     result = hil_write_analog(motor_calibration_DW.HILInitialize_Card,
       &motor_calibration_P.HILWriteAnalog_channels, 1,
-      &motor_calibration_B.SineWave);
+      &motor_calibration_B.MaxVoltage);
     if (result < 0) {
       msg_get_error_messageA(NULL, result, _rt_error_message, sizeof
         (_rt_error_message));
@@ -62,7 +67,7 @@ void motor_calibration_output(void)
   }
 
   /* SignalConversion: '<Root>/ConcatBufferAtVector ConcatenateIn1' */
-  motor_calibration_B.VectorConcatenate[0] = motor_calibration_B.SineWave;
+  motor_calibration_B.VectorConcatenate[0] = motor_calibration_B.MaxVoltage;
 
   /* S-Function (hil_read_analog_block): '<Root>/HIL Read Analog' */
 
@@ -81,15 +86,26 @@ void motor_calibration_output(void)
       motor_calibration_DW.HILReadAnalog_Buffer;
   }
 
-  /* S-Function (hil_write_digital_timebase_block): '<Root>/HIL Write Digital Timebase' incorporates:
-   *  Constant: '<Root>/Constant'
-   */
+  /* DiscretePulseGenerator: '<Root>/Pulse Generator' */
+  rtb_PulseGenerator = (motor_calibration_DW.clockTickCounter <
+                        motor_calibration_P.PulseGenerator_Duty) &&
+    (motor_calibration_DW.clockTickCounter >= 0) ?
+    motor_calibration_P.PulseGenerator_Amp : 0.0;
+  if (motor_calibration_DW.clockTickCounter >=
+      motor_calibration_P.PulseGenerator_Period - 1.0) {
+    motor_calibration_DW.clockTickCounter = 0;
+  } else {
+    motor_calibration_DW.clockTickCounter++;
+  }
+
+  /* End of DiscretePulseGenerator: '<Root>/Pulse Generator' */
+  /* S-Function (hil_write_digital_timebase_block): '<Root>/HIL Write Digital Timebase' */
 
   /* S-Function Block: motor_calibration/HIL Write Digital Timebase (hil_write_digital_timebase_block) */
   {
     t_error result;
-    motor_calibration_DW.HILWriteDigitalTimebase_Buffer =
-      (motor_calibration_P.Constant_Value != 0);
+    motor_calibration_DW.HILWriteDigitalTimebase_Buffer = (rtb_PulseGenerator !=
+      0);
     result = hil_task_write_digital
       (motor_calibration_DW.HILWriteDigitalTimebase_Task, 1,
        &motor_calibration_DW.HILWriteDigitalTimebase_Buffer);
@@ -183,8 +199,8 @@ void motor_calibration_output(void)
    *  Constant: '<S7>/Constant'
    *  RelationalOperator: '<S7>/Compare'
    */
-  if (motor_calibration_B.LogicalOperator4 !=
-      motor_calibration_P.Constant_Value_h) {
+  if (motor_calibration_B.LogicalOperator4 != motor_calibration_P.Constant_Value)
+  {
     rtmSetStopRequested(motor_calibration_M, 1);
   }
 
@@ -293,6 +309,9 @@ void motor_calibration_update(void)
 /* Model initialize function */
 void motor_calibration_initialize(void)
 {
+  /* Start for DiscretePulseGenerator: '<Root>/Pulse Generator' */
+  motor_calibration_DW.clockTickCounter = 0;
+
   /* Start for S-Function (hil_initialize_block): '<Root>/HIL Initialize' */
 
   /* S-Function Block: motor_calibration/HIL Initialize (hil_initialize_block) */
@@ -308,6 +327,15 @@ void motor_calibration_initialize(void)
     }
 
     is_switching = false;
+    result = hil_set_card_specific_options
+      (motor_calibration_DW.HILInitialize_Card, " ", 2);
+    if (result < 0) {
+      msg_get_error_messageA(NULL, result, _rt_error_message, sizeof
+        (_rt_error_message));
+      rtmSetErrorStatus(motor_calibration_M, _rt_error_message);
+      return;
+    }
+
     if ((motor_calibration_P.HILInitialize_CKPStart && !is_switching) ||
         (motor_calibration_P.HILInitialize_CKPEnter && is_switching)) {
       result = hil_set_clock_mode(motor_calibration_DW.HILInitialize_Card,
@@ -553,9 +581,7 @@ void motor_calibration_initialize(void)
     }
   }
 
-  /* Start for S-Function (hil_write_digital_timebase_block): '<Root>/HIL Write Digital Timebase' incorporates:
-   *  Constant: '<Root>/Constant'
-   */
+  /* Start for S-Function (hil_write_digital_timebase_block): '<Root>/HIL Write Digital Timebase' */
 
   /* S-Function Block: motor_calibration/HIL Write Digital Timebase (hil_write_digital_timebase_block) */
   {
@@ -768,15 +794,15 @@ RT_MODEL_motor_calibration_T *motor_calibration(void)
     motor_calibration_M->Timing.sampleHits = (&mdlSampleHits[0]);
   }
 
-  rtmSetTFinal(motor_calibration_M, 300.0);
+  rtmSetTFinal(motor_calibration_M, 3.0);
   motor_calibration_M->Timing.stepSize0 = 0.002;
   motor_calibration_M->Timing.stepSize1 = 0.002;
 
   /* External mode info */
-  motor_calibration_M->Sizes.checksums[0] = (1568072030U);
-  motor_calibration_M->Sizes.checksums[1] = (260431834U);
-  motor_calibration_M->Sizes.checksums[2] = (1923106447U);
-  motor_calibration_M->Sizes.checksums[3] = (335521697U);
+  motor_calibration_M->Sizes.checksums[0] = (2953468686U);
+  motor_calibration_M->Sizes.checksums[1] = (1028518001U);
+  motor_calibration_M->Sizes.checksums[2] = (2062848508U);
+  motor_calibration_M->Sizes.checksums[3] = (2072127110U);
 
   {
     static const sysRanDType rtAlwaysEnabled = SUBSYS_RAN_BC_ENABLE;
@@ -803,7 +829,7 @@ RT_MODEL_motor_calibration_T *motor_calibration(void)
                 sizeof(B_motor_calibration_T));
 
   {
-    motor_calibration_B.SineWave = 0.0;
+    motor_calibration_B.MaxVoltage = 0.0;
     motor_calibration_B.VectorConcatenate[0] = 0.0;
     motor_calibration_B.VectorConcatenate[1] = 0.0;
     motor_calibration_B.HILReadDigital_o1 = 0.0;
@@ -885,9 +911,9 @@ RT_MODEL_motor_calibration_T *motor_calibration(void)
   motor_calibration_M->Sizes.numU = (0);/* Number of model inputs */
   motor_calibration_M->Sizes.sysDirFeedThru = (0);/* The model is not direct feedthrough */
   motor_calibration_M->Sizes.numSampTimes = (2);/* Number of sample times */
-  motor_calibration_M->Sizes.numBlocks = (42);/* Number of blocks */
+  motor_calibration_M->Sizes.numBlocks = (44);/* Number of blocks */
   motor_calibration_M->Sizes.numBlockIO = (9);/* Number of block outputs */
-  motor_calibration_M->Sizes.numBlockPrms = (137);/* Sum of parameter "widths" */
+  motor_calibration_M->Sizes.numBlockPrms = (142);/* Sum of parameter "widths" */
   return motor_calibration_M;
 }
 

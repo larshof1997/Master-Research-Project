@@ -7,9 +7,9 @@
  *
  * Code generation for model "motor_calibration".
  *
- * Model version              : 1.64
+ * Model version              : 1.73
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Wed Dec 17 14:22:16 2025
+ * C source code generated on : Fri Dec 19 14:23:41 2025
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -64,7 +64,7 @@ static const char_T * rtDataTypeNames[] = {
 
 /* data type transitions for block I/O structure */
 static DataTypeTransition rtBTransitions[] = {
-  { (char_T *)(&motor_calibration_B.SineWave), 0, 0, 6 },
+  { (char_T *)(&motor_calibration_B.MaxVoltage), 0, 0, 6 },
 
   { (char_T *)(&motor_calibration_B.LogicalOperator4), 8, 0, 4 }
   ,
@@ -77,7 +77,7 @@ static DataTypeTransition rtBTransitions[] = {
 
   { (char_T *)(&motor_calibration_DW.HILWriteAnalog_PWORK), 11, 0, 6 },
 
-  { (char_T *)(&motor_calibration_DW.HILInitialize_DOStates[0]), 6, 0, 25 },
+  { (char_T *)(&motor_calibration_DW.clockTickCounter), 6, 0, 26 },
 
   { (char_T *)(&motor_calibration_DW.HILInitialize_DOBits[0]), 8, 0, 10 },
 
@@ -101,7 +101,7 @@ static DataTypeTransition rtPTransitions[] = {
 
   { (char_T *)(&motor_calibration_P.StopwithMessage_message_icon), 2, 0, 4 },
 
-  { (char_T *)(&motor_calibration_P.SineWave_Amp), 0, 0, 23 },
+  { (char_T *)(&motor_calibration_P.SineWave_Amp), 0, 0, 28 },
 
   { (char_T *)(&motor_calibration_P.HILInitialize_CKChannels[0]), 6, 0, 7 },
 

@@ -7,9 +7,9 @@
  *
  * Code generation for model "motor_calibration".
  *
- * Model version              : 1.64
+ * Model version              : 1.73
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Wed Dec 17 14:22:16 2025
+ * C source code generated on : Fri Dec 19 14:23:41 2025
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -854,7 +854,7 @@
 
 /* Block signals (default storage) */
 typedef struct {
-  real_T SineWave;                     /* '<Root>/Sine Wave' */
+  real_T MaxVoltage;                   /* '<Root>/Max Voltage' */
   real_T VectorConcatenate[2];         /* '<Root>/Vector Concatenate' */
   real_T HILReadDigital_o1;            /* '<S1>/HIL Read Digital' */
   real_T HILReadDigital_o2;            /* '<S1>/HIL Read Digital' */
@@ -885,6 +885,7 @@ typedef struct {
   void *HILWriteDigital_PWORK;         /* '<S1>/HIL Write Digital' */
   void *HILReadDigital_PWORK;          /* '<S1>/HIL Read Digital' */
   void *HILReadDigital_PWORK_o;        /* '<S2>/HIL Read Digital' */
+  int32_T clockTickCounter;            /* '<Root>/Pulse Generator' */
   int32_T HILInitialize_DOStates[9];   /* '<Root>/HIL Initialize' */
   int32_T HILInitialize_QuadratureModes[8];/* '<Root>/HIL Initialize' */
   int32_T HILInitialize_InitialEICounts[8];/* '<Root>/HIL Initialize' */
@@ -951,14 +952,29 @@ struct P_motor_calibration_T_ {
   real_T SineWave_Bias;                /* Expression: 0
                                         * Referenced by: '<Root>/Sine Wave'
                                         */
-  real_T SineWave_Freq;                /* Expression: 1
+  real_T SineWave_Freq;                /* Expression: 3
                                         * Referenced by: '<Root>/Sine Wave'
                                         */
   real_T SineWave_Phase;               /* Expression: 0
                                         * Referenced by: '<Root>/Sine Wave'
                                         */
-  real_T Constant_Value;               /* Expression: 1
-                                        * Referenced by: '<Root>/Constant'
+  real_T Amplitude_Gain;               /* Expression: 0.8
+                                        * Referenced by: '<Root>/Amplitude'
+                                        */
+  real_T MaxVoltage_Gain;              /* Expression: 0.5
+                                        * Referenced by: '<Root>/Max Voltage'
+                                        */
+  real_T PulseGenerator_Amp;           /* Expression: 1
+                                        * Referenced by: '<Root>/Pulse Generator'
+                                        */
+  real_T PulseGenerator_Period;        /* Computed Parameter: PulseGenerator_Period
+                                        * Referenced by: '<Root>/Pulse Generator'
+                                        */
+  real_T PulseGenerator_Duty;          /* Computed Parameter: PulseGenerator_Duty
+                                        * Referenced by: '<Root>/Pulse Generator'
+                                        */
+  real_T PulseGenerator_PhaseDelay;    /* Expression: 0
+                                        * Referenced by: '<Root>/Pulse Generator'
                                         */
   real_T HILInitialize_OOTerminate;    /* Expression: set_other_outputs_at_terminate
                                         * Referenced by: '<Root>/HIL Initialize'
@@ -1167,7 +1183,7 @@ struct P_motor_calibration_T_ {
   boolean_T HILReadDigital_Active_h;   /* Computed Parameter: HILReadDigital_Active_h
                                         * Referenced by: '<S2>/HIL Read Digital'
                                         */
-  boolean_T Constant_Value_h;          /* Computed Parameter: Constant_Value_h
+  boolean_T Constant_Value;            /* Computed Parameter: Constant_Value
                                         * Referenced by: '<S7>/Constant'
                                         */
   boolean_T Constant_Value_i;          /* Computed Parameter: Constant_Value_i
