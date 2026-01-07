@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.74"
+    ComputedModelVersion    "1.82"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -136,8 +136,8 @@ Model {
 	ViewObjType		"SimulinkTopLevel"
 	LoadSaveID		"0"
 	Extents			[2522.0, 1235.0]
-	ZoomFactor		[1.0]
-	Offset			[79.870303094387054, 35.750012397766113]
+	ZoomFactor		[1.5]
+	Offset			[-104.31442361275231, -5.3636031877537675]
       }
       Object {
 	$PropName		"DockComponentsInfo"
@@ -172,9 +172,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "S4236610"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Fri Dec 19 14:29:39 2025"
-  RTWModifiedTimeStamp	  688055005
-  ModelVersionFormat	  "1.%<AutoIncrement:74>"
+  LastModifiedDate	  "Mon Jan 05 17:33:28 2026"
+  RTWModifiedTimeStamp	  689531138
+  ModelVersionFormat	  "1.%<AutoIncrement:82>"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
   LibraryLinkDisplay	  "none"
@@ -290,11 +290,11 @@ Model {
 	    PropName		    "DisabledProps"
 	  }
 	  Description		  ""
-	  StartTime		  "0.0"
-	  StopTime		  "3"
+	  StartTime		  "0"
+	  StopTime		  "10"
 	  AbsTol		  "auto"
 	  AutoScaleAbsTol	  on
-	  FixedStep		  "0.002"
+	  FixedStep		  "0.004"
 	  InitialStep		  "auto"
 	  MaxOrder		  5
 	  ZcThreshold		  "auto"
@@ -1382,20 +1382,9 @@ Model {
     TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
     TiledPageScale	    1
     ShowPageBoundaries	    off
-    ZoomFactor		    "100"
+    ZoomFactor		    "150"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "307"
-    Block {
-      BlockType		      Gain
-      Name		      "Amplitude"
-      SID		      "301"
-      Position		      [800, 270, 830, 300]
-      ZOrder		      458
-      Gain		      "0.8"
-      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
-      OutDataTypeStr	      "Inherit: Inherit via internal rule"
-      SaturateOnIntegerOverflow	off
-    }
+    SIDHighWatermark	    "312"
     Block {
       BlockType		      SubSystem
       Name		      "Enable AMPAQ"
@@ -2077,7 +2066,7 @@ Model {
       BlockType		      Gain
       Name		      "Max Voltage"
       SID		      "303"
-      Position		      [890, 270, 920, 300]
+      Position		      [815, 270, 845, 300]
       ZOrder		      460
       Gain		      "0.5"
       ParamDataTypeStr	      "Inherit: Inherit via internal rule"
@@ -2089,10 +2078,10 @@ Model {
       Name		      "Pulse\nGenerator"
       SID		      "299"
       Ports		      [0, 1]
-      Position		      [935, 684, 965, 716]
+      Position		      [865, 684, 895, 716]
       ZOrder		      456
       PulseType		      "Time based"
-      Period		      "0.004"
+      Period		      "0.008"
       PulseWidth	      "50"
     }
     Block {
@@ -2102,7 +2091,7 @@ Model {
       Ports		      [0, 1]
       Position		      [670, 270, 700, 300]
       ZOrder		      464
-      Frequency		      "3"
+      Frequency		      "15"
       SampleTime	      "0"
     }
     Block {
@@ -2134,42 +2123,11 @@ Model {
       DstPort		      1
     }
     Line {
-      ZOrder		      120
-      SrcBlock		      "Pulse\nGenerator"
-      SrcPort		      1
-      DstBlock		      "HIL Write Digital\nTimebase"
-      DstPort		      1
-    }
-    Line {
-      ZOrder		      130
+      ZOrder		      153
       SrcBlock		      "Sine Wave"
-      SrcPort		      1
-      DstBlock		      "Amplitude"
-      DstPort		      1
-    }
-    Line {
-      ZOrder		      124
-      SrcBlock		      "Amplitude"
       SrcPort		      1
       DstBlock		      "Max Voltage"
       DstPort		      1
-    }
-    Line {
-      ZOrder		      125
-      SrcBlock		      "Max Voltage"
-      SrcPort		      1
-      Points		      [53, 0]
-      Branch {
-	ZOrder			128
-	DstBlock		"HIL Write Analog"
-	DstPort			1
-      }
-      Branch {
-	ZOrder			127
-	Points			[0, 130]
-	DstBlock		"Vector\nConcatenate"
-	DstPort			1
-      }
     }
     Line {
       ZOrder		      134
@@ -2177,6 +2135,30 @@ Model {
       SrcPort		      1
       DstBlock		      "Vector\nConcatenate"
       DstPort		      2
+    }
+    Line {
+      ZOrder		      149
+      SrcBlock		      "Max Voltage"
+      SrcPort		      1
+      Points		      [165, 0]
+      Branch {
+	ZOrder			150
+	Points			[0, 130]
+	DstBlock		"Vector\nConcatenate"
+	DstPort			1
+      }
+      Branch {
+	ZOrder			141
+	DstBlock		"HIL Write Analog"
+	DstPort			1
+      }
+    }
+    Line {
+      ZOrder		      152
+      SrcBlock		      "Pulse\nGenerator"
+      SrcPort		      1
+      DstBlock		      "HIL Write Digital\nTimebase"
+      DstPort		      1
     }
     Annotation {
       SID		      "164"
@@ -2197,7 +2179,7 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @         \"  T0 "
+    "        !0    @    !     0    $         \"0    @         \"  V0 "
   }
   DataRecord {
     Tag			    DataTag1
@@ -2205,7 +2187,7 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @         \"  T0 "
+    "        !0    @    !     0    $         \"0    @         \"  V0 "
   }
   DataRecord {
     Tag			    DataTag2
@@ -2701,7 +2683,7 @@ MatData {
     "X    !@    @    &          4    (     0    $    !          D    (               .    N $   8    (     @         % "
     "   \"     $    !     0         %  0 $0    $   !5    :7-?=6YI<75E          !O;&1?8FQO8VL          &]L9%]N86UE      "
     "      :7-?;6]D96Q?8VQO<VEN9P!I<U]D96QE=&5D              X    P    !@    @    ) @        4    (     0    $    !    "
-    "      (  0 !    #@   #@    &    \"     8         !0    @    !     0    $         \"0    @         \"  T0 X    X   "
+    "      (  0 !    #@   #@    &    \"     8         !0    @    !     0    $         \"0    @         \"  V0 X    X   "
     " !@    @    $          4    (     0    4    !         !     %    2$E,+3$    .    ,     8    (    \"0(        %    "
     "\"     $    !     0         \"  $       X    P    !@    @    ) @        4    (     0    $    !          (  0      "
   }
@@ -2711,7 +2693,7 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @         \"  T0 "
+    "        !0    @    !     0    $         \"0    @         \"  V0 "
   }
   DataRecord {
     Tag			    DataTag4
@@ -2719,7 +2701,7 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @         \"  T0 "
+    "        !0    @    !     0    $         \"0    @         \"  V0 "
   }
   DataRecord {
     Tag			    DataTag5
@@ -2727,7 +2709,7 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @         \"  T0 "
+    "        !0    @    !     0    $         \"0    @         \"  V0 "
   }
   DataRecord {
     Tag			    DataTag6
@@ -2735,6 +2717,6 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @         \"  T0 "
+    "        !0    @    !     0    $         \"0    @         \"  V0 "
   }
 }

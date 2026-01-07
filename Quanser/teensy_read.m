@@ -1,12 +1,12 @@
-
-
+delete(instrfindall);  % Clears any lingering/stuck serial objects
+clear s;
 % Adjust COM port to match your Teensy
 port = 'COM5';
-baud = 2000000;  % match Teensy baud
+baud = 115200;  % match Teensy baud
 
-% Create serial object
-s = serial(port, 'BaudRate', baud);
-fopen(s);
+s = serial('COM5', 'BaudRate', 115200);
+pause(1.5);  % Short delay for Teensy USB to settle (1-2 seconds is plenty without the wait loop)
+fopen(s);  % Or configure/fclear if using serialport
 
 % Open CSV for logging
 timestamp = datetime('now','Format','yyyyMMdd_HHmmss');
@@ -35,7 +35,6 @@ while true
             end
         end
     end
-    
     % Stop if timeout exceeded
     if toc(lastTime) > timeout && index > 1
         break;

@@ -7,9 +7,9 @@
  *
  * Code generation for model "motor_calibration".
  *
- * Model version              : 1.73
+ * Model version              : 1.81
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Fri Dec 19 14:23:41 2025
+ * C source code generated on : Mon Jan  5 16:25:57 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -43,13 +43,12 @@ void motor_calibration_output(void)
   boolean_T rtb_HILReadDigital_o4;
 
   /* Gain: '<Root>/Max Voltage' incorporates:
-   *  Gain: '<Root>/Amplitude'
    *  Sin: '<Root>/Sine Wave'
    */
   motor_calibration_B.MaxVoltage = (sin(motor_calibration_P.SineWave_Freq *
     motor_calibration_M->Timing.t[0] + motor_calibration_P.SineWave_Phase) *
     motor_calibration_P.SineWave_Amp + motor_calibration_P.SineWave_Bias) *
-    motor_calibration_P.Amplitude_Gain * motor_calibration_P.MaxVoltage_Gain;
+    motor_calibration_P.MaxVoltage_Gain;
 
   /* S-Function (hil_write_analog_block): '<Root>/HIL Write Analog' */
 
@@ -112,7 +111,7 @@ void motor_calibration_output(void)
     if (motor_calibration_DW.HILWriteDigitalTimebase_Started == false && result >=
         0) {
       result = hil_task_start(motor_calibration_DW.HILWriteDigitalTimebase_Task,
-        (t_clock) motor_calibration_P.HILWriteDigitalTimebase_clock, 500.0, -1);
+        (t_clock) motor_calibration_P.HILWriteDigitalTimebase_clock, 250.0, -1);
       motor_calibration_DW.HILWriteDigitalTimebase_Started = (result == 0);
     }
 
@@ -286,7 +285,7 @@ void motor_calibration_update(void)
     motor_calibration_M->Timing.stepSize0 * 4294967296.0;
 
   {
-    /* Update absolute timer for sample time: [0.002s, 0.0s] */
+    /* Update absolute timer for sample time: [0.004s, 0.0s] */
     /* The "clockTick1" counts the number of times the code of this task has
      * been executed. The absolute time is the multiplication of "clockTick1"
      * and "Timing.stepSize1". Size of "clockTick1" ensures timer will not
@@ -778,7 +777,7 @@ RT_MODEL_motor_calibration_T *motor_calibration(void)
 
     /* task periods */
     motor_calibration_M->Timing.sampleTimes[0] = (0.0);
-    motor_calibration_M->Timing.sampleTimes[1] = (0.002);
+    motor_calibration_M->Timing.sampleTimes[1] = (0.004);
 
     /* task offsets */
     motor_calibration_M->Timing.offsetTimes[0] = (0.0);
@@ -794,15 +793,15 @@ RT_MODEL_motor_calibration_T *motor_calibration(void)
     motor_calibration_M->Timing.sampleHits = (&mdlSampleHits[0]);
   }
 
-  rtmSetTFinal(motor_calibration_M, 3.0);
-  motor_calibration_M->Timing.stepSize0 = 0.002;
-  motor_calibration_M->Timing.stepSize1 = 0.002;
+  rtmSetTFinal(motor_calibration_M, 10.0);
+  motor_calibration_M->Timing.stepSize0 = 0.004;
+  motor_calibration_M->Timing.stepSize1 = 0.004;
 
   /* External mode info */
-  motor_calibration_M->Sizes.checksums[0] = (2953468686U);
-  motor_calibration_M->Sizes.checksums[1] = (1028518001U);
-  motor_calibration_M->Sizes.checksums[2] = (2062848508U);
-  motor_calibration_M->Sizes.checksums[3] = (2072127110U);
+  motor_calibration_M->Sizes.checksums[0] = (905849957U);
+  motor_calibration_M->Sizes.checksums[1] = (3801592399U);
+  motor_calibration_M->Sizes.checksums[2] = (13617866U);
+  motor_calibration_M->Sizes.checksums[3] = (31328462U);
 
   {
     static const sysRanDType rtAlwaysEnabled = SUBSYS_RAN_BC_ENABLE;
@@ -819,8 +818,8 @@ RT_MODEL_motor_calibration_T *motor_calibration(void)
   }
 
   motor_calibration_M->solverInfoPtr = (&motor_calibration_M->solverInfo);
-  motor_calibration_M->Timing.stepSize = (0.002);
-  rtsiSetFixedStepSize(&motor_calibration_M->solverInfo, 0.002);
+  motor_calibration_M->Timing.stepSize = (0.004);
+  rtsiSetFixedStepSize(&motor_calibration_M->solverInfo, 0.004);
   rtsiSetSolverMode(&motor_calibration_M->solverInfo, SOLVER_MODE_SINGLETASKING);
 
   /* block I/O */
@@ -911,9 +910,9 @@ RT_MODEL_motor_calibration_T *motor_calibration(void)
   motor_calibration_M->Sizes.numU = (0);/* Number of model inputs */
   motor_calibration_M->Sizes.sysDirFeedThru = (0);/* The model is not direct feedthrough */
   motor_calibration_M->Sizes.numSampTimes = (2);/* Number of sample times */
-  motor_calibration_M->Sizes.numBlocks = (44);/* Number of blocks */
+  motor_calibration_M->Sizes.numBlocks = (43);/* Number of blocks */
   motor_calibration_M->Sizes.numBlockIO = (9);/* Number of block outputs */
-  motor_calibration_M->Sizes.numBlockPrms = (142);/* Sum of parameter "widths" */
+  motor_calibration_M->Sizes.numBlockPrms = (141);/* Sum of parameter "widths" */
   return motor_calibration_M;
 }
 

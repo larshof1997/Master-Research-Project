@@ -7,9 +7,9 @@
  *
  * Code generation for model "motor_calibration".
  *
- * Model version              : 1.73
+ * Model version              : 1.81
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Fri Dec 19 14:23:41 2025
+ * C source code generated on : Mon Jan  5 16:25:57 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -952,14 +952,11 @@ struct P_motor_calibration_T_ {
   real_T SineWave_Bias;                /* Expression: 0
                                         * Referenced by: '<Root>/Sine Wave'
                                         */
-  real_T SineWave_Freq;                /* Expression: 3
+  real_T SineWave_Freq;                /* Expression: 15
                                         * Referenced by: '<Root>/Sine Wave'
                                         */
   real_T SineWave_Phase;               /* Expression: 0
                                         * Referenced by: '<Root>/Sine Wave'
-                                        */
-  real_T Amplitude_Gain;               /* Expression: 0.8
-                                        * Referenced by: '<Root>/Amplitude'
                                         */
   real_T MaxVoltage_Gain;              /* Expression: 0.5
                                         * Referenced by: '<Root>/Max Voltage'

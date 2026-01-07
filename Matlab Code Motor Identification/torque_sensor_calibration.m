@@ -53,6 +53,38 @@ measurements = [712.9 , 680;
     0, 515
     ];
 
-sine waves of different frequencies,
-30-80% max freq 
-same for amplitude
+%% Compute residuals
+torque_est = polyval(p, adc);
+residuals = torque_Nm - torque_est;
+
+%% Outlier detection (3-sigma rule)
+sigma = std(residuals);
+inliers = abs(residuals) < 3*sigma;
+
+fprintf('Removed %d outliers\n', sum(~inliers));
+
+%% Refit using inliers only
+p_clean = polyfit(adc(inliers), torque_Nm(inliers), 1);
+
+a_clean = p_clean(1);
+b_clean = p_clean(2);
+
+%% Recompute fit
+adc_fit = linspace(min(adc), max(adc), 200);
+torque_fit_clean = polyval(p_clean, adc_fit);
+
+%% Plot comparison
+figure; hold on; grid on;
+scatter(adc(inliers), torque_Nm(inliers), 35, 'filled');
+scatter(adc(~inliers), torque_Nm(~inliers), 60, 'rx', 'LineWidth', 2);
+plot(adc_fit, torque_fit_clean, 'LineWidth', 2);
+
+xlabel('ADC counts (0–1024)');
+ylabel('Torque [Nm]');
+title('Torque Calibration (Outlier Removed)');
+legend('Inliers', 'Outlier(s)', 'Clean linear fit', 'Location', 'best');
+
+%% Display cleaned calibration
+fprintf('Clean calibration:\n');
+fprintf('Torque [Nm] = %.6e * ADC + %.6e\n', a_clean, b_clean);
+
