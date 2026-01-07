@@ -12,7 +12,7 @@ b  = m2 * l1 * r2;
 
 %% Simulation settings
 dt    = 1e-3;
-tspan = [0, 5];                  % longer sim
+tspan = [0, 0.25];                  % longer sim
 tgrid = (tspan(1):dt:tspan(2)).'; % Nx1
 rng(42);                          % reproducible noise
 
@@ -20,11 +20,11 @@ rng(42);                          % reproducible noise
 rk_substeps = 1;
 
 %% Excitation & simulation sizing
-num_simulations = 100;            % increased
+num_simulations = 10;            % increased
 N = numel(tgrid);
 
 % frequency pool for random selection (Hz)
-freq_pool = [0.2, 0.5, 0.8, 1.2, 1.8, 2.5, 4.0];
+freq_pool = [0.2, 0.5, 1, 2.5, 4.0, 10];
 
 %% Noise settings (small realistic values)
 % sigma_tau1 = 0.01;   % [Nm] process
@@ -53,24 +53,24 @@ fc2 = 0;      % Coulomb [Nm] joint 2
 v_eps = 1e-3; % smoothing speed [rad/s] for tanh
 
 %% initial conditions (wider velocities)
-low  = [-pi, -pi, -2.0, -2.0];
-high = [ pi,  pi,  2.0,  2.0];
+low  = [-pi, -pi, 0, 0];
+high = [ pi,  pi, 0, 0];
 initial_conditions = low + (high - low).*rand(num_simulations, 4);
 
 %% excitation types
-excitation_types = {'sine','multisine','chirp','prbs','bandnoise','step','randompulse'};
+excitation_types = {'sine','multisine','chirp','prbs'};
 
 % prepare pars_list
-pars_list = repmat(struct('type','sine','A1',0.5,'A2',0.5,'f1',0.5,'f2',1.0,'phi1',0,'phi2',0,...
-                          'duration',tspan(2),'prbs_period',0.2,'bandnoise_cutoff',10,...
-                          'multi_harms',[], 'multi_phases',[]), ...
-                   num_simulations, 1);
+pars_list = repmat(struct('type','sine','A1',0.5,'A2',0.5,'f1',0.5,'f2',1.0,...
+    'phi1',0,'phi2',0,'duration',tspan(2),'prbs_period',0.2,...
+    'multi_harms',[],'multi_phases',[]), ...
+    num_simulations, 1);
 
 rng(42);
 %% --- realistic torque adjustments ---
 for i = 1:num_simulations
     % choose type with bias toward smooth/broadband but low freq
-    types_weights = [0.3, 0.2, 0.3, 0.05, 0.05, 0.05, 0.05]; % more smooth
+    types_weights = [0.4, 0.25, 0.3, 0.05]; % more smooth
     cumw = cumsum(types_weights);
     r = rand()*cumw(end);
     pick = find(r <= cumw, 1);
@@ -90,7 +90,6 @@ for i = 1:num_simulations
 
     % PRBS / band noise / multisine adjustments
     pars_list(i).prbs_period = 0.5 + 0.5*rand();   % 0.5..1s
-    pars_list(i).bandnoise_cutoff = 2 + 3*rand();  % 2..5 Hz
 
     if strcmp(pars_list(i).type,'multisine')
         % smooth multi-harmonic low frequency
@@ -295,34 +294,34 @@ function tau = tau_of_t(t, pars)
             val2 = sign(sin(2*pi*(1/period)*t + pars.phi2 + 0.13));
             tau1 = pars.A1 * (val1);
             tau2 = pars.A2 * (val2);
-        case 'bandnoise'
-            % approximate band-limited noise with a sum of random-phase sines
-            tau1 = 0; tau2 = 0;
-            K = 6;
-            for kk = 1:K
-                f_kk = kk * (pars.bandnoise_cutoff/(2*K) + 0.05);
-                tau1 = tau1 + (pars.A1/K) * sin(2*pi*f_kk*t + 2*pi*rand());
-                tau2 = tau2 + (pars.A2/K) * sin(2*pi*(f_kk*1.02)*t + 2*pi*rand());
-            end
-        case 'step'
-            T = max(1, pars.duration);
-            t1 = T*(0.15 + 0.4*rand());
-            t2 = T*(0.45 + 0.4*rand());
-            if t < t1
-                tau1 = 0; tau2 = 0;
-            elseif t < t2
-                tau1 = pars.A1; tau2 = -pars.A2;
-            else
-                tau1 = -0.6*pars.A1; tau2 = 0.6*pars.A2;
-            end
-        case 'randompulse'
-            tau1 = 0; tau2 = 0;
-            if mod(floor(t*10), 50) < 3
-                tau1 = pars.A1 * (2*rand()-1);
-            end
-            if mod(floor((t+0.7)*10), 60) < 4
-                tau2 = pars.A2 * (2*rand()-1);
-            end
+        % case 'bandnoise'
+        %     % approximate band-limited noise with a sum of random-phase sines
+        %     tau1 = 0; tau2 = 0;
+        %     K = 6;
+        %     for kk = 1:K
+        %         f_kk = kk * (pars.bandnoise_cutoff/(2*K) + 0.05);
+        %         tau1 = tau1 + (pars.A1/K) * sin(2*pi*f_kk*t + 2*pi*rand());
+        %         tau2 = tau2 + (pars.A2/K) * sin(2*pi*(f_kk*1.02)*t + 2*pi*rand());
+        %     end
+        % case 'step'
+        %     T = max(1, pars.duration);
+        %     t1 = T*(0.15 + 0.4*rand());
+        %     t2 = T*(0.45 + 0.4*rand());
+        %     if t < t1
+        %         tau1 = 0; tau2 = 0;
+        %     elseif t < t2
+        %         tau1 = pars.A1; tau2 = -pars.A2;
+        %     else
+        %         tau1 = -0.6*pars.A1; tau2 = 0.6*pars.A2;
+        %     end
+        % case 'randompulse'
+        %     tau1 = 0; tau2 = 0;
+        %     if mod(floor(t*10), 50) < 3
+        %         tau1 = pars.A1 * (2*rand()-1);
+        %     end
+        %     if mod(floor((t+0.7)*10), 60) < 4
+        %         tau2 = pars.A2 * (2*rand()-1);
+        %     end
         otherwise
             tau1 = pars.A1 * sin(2*pi*pars.f1*t + pars.phi1);
             tau2 = pars.A2 * sin(2*pi*pars.f2*t + pars.phi2);

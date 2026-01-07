@@ -230,7 +230,7 @@ def load_model():
     device = torch.device("cpu")
 
     # create fresh modules with the same architectures used in training
-    mass_nn = LowerTriangularNN(q_dim, hidden_dims=(128,128)).to(device)
+    mass_nn = LowerTriangularNN(q_dim, hidden_dims=(128,128,128)).to(device)
     diss_nn = LowerTriangularNN(q_dim, hidden_dims=(64,64)).to(device)
     actuator_nn = ActuatorNN(q_dim, u_dim=2, hidden=(2,2)).to(device)
 
