@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.82"
+    ComputedModelVersion    "1.86"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -137,7 +137,7 @@ Model {
 	LoadSaveID		"0"
 	Extents			[2522.0, 1235.0]
 	ZoomFactor		[1.5]
-	Offset			[-104.31442361275231, -5.3636031877537675]
+	Offset			[-379.94775694608416, -127.91360318775435]
       }
       Object {
 	$PropName		"DockComponentsInfo"
@@ -172,9 +172,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "S4236610"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Mon Jan 05 17:33:28 2026"
-  RTWModifiedTimeStamp	  689531138
-  ModelVersionFormat	  "1.%<AutoIncrement:82>"
+  LastModifiedDate	  "Thu Jan 08 18:08:00 2026"
+  RTWModifiedTimeStamp	  689796384
+  ModelVersionFormat	  "1.%<AutoIncrement:86>"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
   LibraryLinkDisplay	  "none"
@@ -291,10 +291,10 @@ Model {
 	  }
 	  Description		  ""
 	  StartTime		  "0"
-	  StopTime		  "10"
+	  StopTime		  "30"
 	  AbsTol		  "auto"
 	  AutoScaleAbsTol	  on
-	  FixedStep		  "0.004"
+	  FixedStep		  "0.01"
 	  InitialStep		  "auto"
 	  MaxOrder		  5
 	  ZcThreshold		  "auto"
@@ -2068,7 +2068,7 @@ Model {
       SID		      "303"
       Position		      [815, 270, 845, 300]
       ZOrder		      460
-      Gain		      "0.5"
+      Gain		      "0.2"
       ParamDataTypeStr	      "Inherit: Inherit via internal rule"
       OutDataTypeStr	      "Inherit: Inherit via internal rule"
       SaturateOnIntegerOverflow	off
@@ -2081,7 +2081,7 @@ Model {
       Position		      [865, 684, 895, 716]
       ZOrder		      456
       PulseType		      "Time based"
-      Period		      "0.008"
+      Period		      "0.02"
       PulseWidth	      "50"
     }
     Block {
@@ -2091,7 +2091,6 @@ Model {
       Ports		      [0, 1]
       Position		      [670, 270, 700, 300]
       ZOrder		      464
-      Frequency		      "15"
       SampleTime	      "0"
     }
     Block {
@@ -2179,7 +2178,7 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @         \"  V0 "
+    "        !0    @    !     0    $         \"0    @         \"  T0 "
   }
   DataRecord {
     Tag			    DataTag1
@@ -2187,7 +2186,7 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @         \"  V0 "
+    "        !0    @    !     0    $         \"0    @         \"  T0 "
   }
   DataRecord {
     Tag			    DataTag2
@@ -2683,7 +2682,7 @@ MatData {
     "X    !@    @    &          4    (     0    $    !          D    (               .    N $   8    (     @         % "
     "   \"     $    !     0         %  0 $0    $   !5    :7-?=6YI<75E          !O;&1?8FQO8VL          &]L9%]N86UE      "
     "      :7-?;6]D96Q?8VQO<VEN9P!I<U]D96QE=&5D              X    P    !@    @    ) @        4    (     0    $    !    "
-    "      (  0 !    #@   #@    &    \"     8         !0    @    !     0    $         \"0    @         \"  V0 X    X   "
+    "      (  0 !    #@   #@    &    \"     8         !0    @    !     0    $         \"0    @         \"  T0 X    X   "
     " !@    @    $          4    (     0    4    !         !     %    2$E,+3$    .    ,     8    (    \"0(        %    "
     "\"     $    !     0         \"  $       X    P    !@    @    ) @        4    (     0    $    !          (  0      "
   }
@@ -2693,7 +2692,7 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @         \"  V0 "
+    "        !0    @    !     0    $         \"0    @         \"  T0 "
   }
   DataRecord {
     Tag			    DataTag4
@@ -2701,7 +2700,7 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @         \"  V0 "
+    "        !0    @    !     0    $         \"0    @         \"  T0 "
   }
   DataRecord {
     Tag			    DataTag5
@@ -2709,7 +2708,7 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @         \"  V0 "
+    "        !0    @    !     0    $         \"0    @         \"  T0 "
   }
   DataRecord {
     Tag			    DataTag6
@@ -2717,6 +2716,6 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @         \"  V0 "
+    "        !0    @    !     0    $         \"0    @         \"  T0 "
   }
 }

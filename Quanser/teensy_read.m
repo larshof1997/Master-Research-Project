@@ -21,7 +21,6 @@ timeout = 1.0;                 % seconds to wait after last reading
 lastTime = tic;                 % timer for last received data
 empty = false;
 
-
 while true
     % Read all available lines
     while s.BytesAvailable > 0

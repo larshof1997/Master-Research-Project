@@ -7,9 +7,9 @@
  *
  * Code generation for model "motor_calibration".
  *
- * Model version              : 1.81
+ * Model version              : 1.85
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Mon Jan  5 16:25:57 2026
+ * C source code generated on : Thu Jan  8 18:04:37 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -66,7 +66,7 @@ P_motor_calibration_T motor_calibration_P = {
   /* Mask Parameter: HILWriteDigitalTimebase_samples
    * Referenced by: '<Root>/HIL Write Digital Timebase'
    */
-  250U,
+  100U,
 
   /* Mask Parameter: StopwithMessage_message_icon
    * Referenced by: '<S3>/Show Message on Host'
@@ -98,20 +98,20 @@ P_motor_calibration_T motor_calibration_P = {
    */
   0.0,
 
-  /* Expression: 15
+  /* Expression: 1
    * Referenced by: '<Root>/Sine Wave'
    */
-  15.0,
+  1.0,
 
   /* Expression: 0
    * Referenced by: '<Root>/Sine Wave'
    */
   0.0,
 
-  /* Expression: 0.5
+  /* Expression: 0.3
    * Referenced by: '<Root>/Max Voltage'
    */
-  0.5,
+  0.3,
 
   /* Expression: 1
    * Referenced by: '<Root>/Pulse Generator'
