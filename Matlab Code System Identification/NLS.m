@@ -1,3 +1,5 @@
+clc; clear all;
+
 psi0 = [0.05; 0.01; 0.1; 0.1; 0.03; 0.03; 5e-2]; %[I1; I2; fc1; fc2; b1 ; b2 ; v_eps]
 v_eps = 1e-3; % smoothing speed [rad/s] for tanh for Linear LS
 lb = [0;0;0;0;0;0;0];
@@ -6,7 +8,7 @@ opts = optimoptions('lsqnonlin','Display','iter','FiniteDifferenceType','forward
                     'SpecifyObjectiveGradient',false,'MaxFunctionEvaluations',1e5, ...
                     'FunctionTolerance',1e-9,'StepTolerance',1e-9);
 
-S = load('planar_2dof_dataset_gaussian_noise.mat');
+S = load('planar_2dof_dataset_no_noise_linear_friction.mat');
 dataset = S.dataset;  
 % Convert to identification data format
 % Filter parameters
@@ -17,44 +19,7 @@ data = dataset_to_iddata(dataset, K, F);
 t_plot = dataset.time;
 idxs = 1:numel(t_plot);
 
-% figure;
-% subplot(2,1,1); hold on; grid on;
-% plot(t_plot, data.q(1,idxs), 'LineWidth', 1.5);
-% plot(t_plot, data.q_filt(1,idxs), '--', 'LineWidth', 1.5);
-% xlabel('t [s]'); ylabel('qd_1');
-% legend('q true','q filt');
-% 
-% subplot(2,1,2); hold on; grid on;
-% plot(t_plot, data.q(2,idxs), 'LineWidth', 1.5);
-% plot(t_plot, data.q_filt(2,idxs), '--', 'LineWidth', 1.5);
-% xlabel('t [s]'); ylabel('qd_2');
-% legend('q true','q filt');
-% 
-% figure;
-% subplot(2,1,1); hold on; grid on;
-% plot(t_plot, data.qd(1,idxs), 'LineWidth', 1.5);
-% plot(t_plot, data.qd_filt(1,idxs), '--', 'LineWidth', 1.5);
-% xlabel('t [s]'); ylabel('qd_1');
-% legend('qd true','qd from diff');
-% 
-% subplot(2,1,2); hold on; grid on;
-% plot(t_plot, data.qd(2,idxs), 'LineWidth', 1.5);
-% plot(t_plot, data.qd_filt(2,idxs), '--', 'LineWidth', 1.5);
-% xlabel('t [s]'); ylabel('qd_2');
-% legend('qd true','qd from diff');
-% 
-% figure;
-% subplot(2,1,1); hold on; grid on;
-% plot(t_plot, data.qdd(1,idxs), 'LineWidth', 1.5);
-% plot(t_plot, data.qdd_filt(1,idxs), '--', 'LineWidth', 1.5);
-% xlabel('t [s]'); ylabel('qdd_1');
-% legend('qdd true','qdd from diff');
-% 
-% subplot(2,1,2); hold on; grid on;
-% plot(t_plot, data.qdd(2,idxs), 'LineWidth', 1.5);
-% plot(t_plot, data.qdd_filt(2,idxs), '--', 'LineWidth', 1.5);
-% xlabel('t [s]'); ylabel('qdd_2');
-% legend('qdd true','qdd from diff');
+
 
 
 opts = optimoptions('lsqnonlin', ...
@@ -66,19 +31,19 @@ psi_hat = estimate_theta_ls(data,v_eps);
 psi_hat = [psi_hat;v_eps];
 
 %NON-Linear
-fun = @(psi) residualsEL_analytic(psi, data);
-[psi_hat,~,res,exitflag,out] = lsqnonlin(fun, psi0, lb, ub, opts);
+% fun = @(psi) residualsEL_analytic(psi, data);
+% [psi_hat,~,res,exitflag,out] = lsqnonlin(fun, psi0, lb, ub, opts);
 
 % [psi_hat,~,res,exitflag,out] = lsqnonlin(@(psi) residualsEL(psi, data), psi0, lb, ub, opts);
 
 
 %% Check results
 %Load dataset
-S = load('planar_2dof_dataset_gaussian_noise.mat');
+S = load('planar_2dof_dataset_no_noise_linear_friction.mat');
 dataset = S.dataset;
 
 % Choose a run to validate on (change this index if you like)
-run_idx = 1;
+run_idx = 9;
 r = dataset.runs(run_idx);
 
 t  = r.time;               % time vector (Nx1)
@@ -129,37 +94,74 @@ end
 
 %% Plots: true vs identified model
 
-figure('Color','w','Name','Joint angles: true vs identified');
-subplot(2,1,1); hold on; grid on;
-plot(t, x_true(:,1), 'b', 'LineWidth', 1.5);
-plot(t, x_hat(:,1),  'r--', 'LineWidth', 1.5);
-xlabel('Time [s]'); ylabel('theta_1 [rad]');
-legend('true','identified','Location','best');
-title('Joint 1 angle');
+%% ---------- LaTeX-style plotting setup ----------
+set(groot, 'defaultTextInterpreter','latex');
+set(groot, 'defaultAxesTickLabelInterpreter','latex');
+set(groot, 'defaultLegendInterpreter','latex');
 
-subplot(2,1,2); hold on; grid on;
-plot(t, x_true(:,2), 'b', 'LineWidth', 1.5);
-plot(t, x_hat(:,2),  'r--', 'LineWidth', 1.5);
-xlabel('Time [s]'); ylabel('theta_2 [rad]');
-legend('true','identified','Location','best');
-title('Joint 2 angle');
+defaultFontSize = 20;
+defaultLineWidth = 1.8;
 
-figure('Color','w','Name','Joint velocities: true vs identified');
-subplot(2,1,1); hold on; grid on;
-plot(t, x_true(:,3), 'b', 'LineWidth', 1.5);
-plot(t, x_hat(:,3),  'r--', 'LineWidth', 1.5);
-xlabel('Time [s]'); ylabel('theta_1 [rad/s]');
-legend('true','identified','Location','best');
-title('Joint 1 velocity');
+set(groot, 'defaultAxesFontSize', defaultFontSize);
+set(groot, 'defaultLineLineWidth', defaultLineWidth);
 
-subplot(2,1,2); hold on; grid on;
-plot(t, x_true(:,4), 'b', 'LineWidth', 1.5);
-plot(t, x_hat(:,4),  'r--', 'LineWidth', 1.5);
-xlabel('Time [s]'); ylabel('theta_2 [rad/s]');
-legend('true','identified','Location','best');
-title('Joint 2 velocity');
+%% ---------- Joint angles: true vs identified ----------
+fig_angles = figure('Color','w', 'Position',[200 200 900 400]);
+tiledlayout(2,1, 'Padding','compact', 'TileSpacing','compact');
 
+% Joint 1
+nexttile;
+plot(t, x_true(:,1), 'b', 'DisplayName','true');
+hold on;
+plot(t, x_hat(:,1), 'r--', 'DisplayName','identified');
+xlabel('Time $[s]$', 'Interpreter','latex');
+ylabel('$\theta_1$ [rad]', 'Interpreter','latex');
+title('Joint 1 angle', 'Interpreter','latex');
+grid on; box on;
+legend('Location','southeast', 'FontSize', defaultFontSize-2);
 
+% Joint 2
+nexttile;
+plot(t, x_true(:,2), 'b', 'DisplayName','true');
+hold on;
+plot(t, x_hat(:,2), 'r--', 'DisplayName','identified');
+xlabel('Time $[s]$', 'Interpreter','latex');
+ylabel('$\theta_2$ [rad]', 'Interpreter','latex');
+title('Joint 2 angle', 'Interpreter','latex');
+grid on; box on;
+legend('Location','southeast', 'FontSize', defaultFontSize-2);
+
+% Save figure compactly as PNG
+exportgraphics(fig_angles, 'joint_angles_comparison.png', 'Resolution',300, 'BackgroundColor','white');
+
+%% ---------- Joint velocities: true vs identified ----------
+fig_vel = figure('Color','w', 'Position',[250 250 900 400]);
+tiledlayout(2,1, 'Padding','compact', 'TileSpacing','compact');
+
+% Joint 1
+nexttile;
+plot(t, x_true(:,3), 'b', 'DisplayName','true');
+hold on;
+plot(t, x_hat(:,3), 'r--', 'DisplayName','identified');
+xlabel('Time $[s]$', 'Interpreter','latex');
+ylabel('$\dot{\theta}_1$ [rad/s]', 'Interpreter','latex');
+title('Joint 1 velocity', 'Interpreter','latex');
+grid on; box on;
+legend('Location','southeast', 'FontSize', defaultFontSize-2);
+
+% Joint 2
+nexttile;
+plot(t, x_true(:,4), 'b', 'DisplayName','true');
+hold on;
+plot(t, x_hat(:,4), 'r--', 'DisplayName','identified');
+xlabel('Time $[s]$', 'Interpreter','latex');
+ylabel('$\dot{\theta}_2$ [rad/s]', 'Interpreter','latex');
+title('Joint 2 velocity', 'Interpreter','latex');
+grid on; box on;
+legend('Location','southeast', 'FontSize', defaultFontSize-2);
+
+% Save figure compactly as PNG
+exportgraphics(fig_vel, 'joint_velocities_comparison.png', 'Resolution',300, 'BackgroundColor','white');
 
 function dx = f_dyn_id(~, x, tau_applied, a1,a2,b, b1,b2, fc1,fc2, v_eps)
     % x = [theta1; theta2; dtheta1; dtheta2]
@@ -227,6 +229,10 @@ function [M,C] = eulerLagrangeTerms(q, qd, psi)
     % System parameters
     m1 = 1.6537;  l1 = 0.343;  r1 = 0.29; 
     m2 = 0.9982;  l2 = 0.267;  r2 = 0.175; 
+
+    % % System parameters altered
+    % m1 = 1.6512;  l1 = 0.3432;  r1 = 0.295; 
+    % m2 = 1;  l2 = 0.2669;  r2 = 0.1746; 
     
     I1 = psi(1);
     I2 = psi(2);

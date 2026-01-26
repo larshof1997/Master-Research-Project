@@ -71,7 +71,7 @@ runs = repmat(struct( ...
     ), num_simulations, 1);
 
 traj_id = 0;
-rng(1);
+rng(42);
 
 for group = 1:2
     for k = 1:10
@@ -156,40 +156,40 @@ end
 %%
 %% Sign-flip augmentation (dataset doubling)
 
-runs_orig = runs;
-runs_flip = runs;   % preallocate same size
-
-for k = 1:numel(runs)
-    % States (q, dq)
-    runs_flip(k).x_true = -runs_orig(k).x_true;
-
-    % Measurements (mirror state)
-    runs_flip(k).y_meas = -runs_orig(k).y_meas;
-
-    % Torques
-    runs_flip(k).u_cmd       = -runs_orig(k).u_cmd;
-    runs_flip(k).u_cmd_noisy = -runs_orig(k).u_cmd_noisy;
-    runs_flip(k).u_applied   = -runs_orig(k).u_applied;
-
-    % Accelerations
-    runs_flip(k).ddq = -runs_orig(k).ddq;
-
-    % Momentum
-    runs_flip(k).p = -runs_orig(k).p;
-
-    % Energy (DO NOT FLIP)
-    runs_flip(k).KE = runs_orig(k).KE;
-
-    % Initial condition
-    runs_flip(k).initial_condition = -runs_orig(k).initial_condition;
-
-    % Metadata stays identical
-end
-
-% Concatenate original + flipped
-runs = [runs_orig; runs_flip];
-
-disp(['Dataset doubled to ', num2str(numel(runs)), ' runs']);
+% runs_orig = runs;
+% runs_flip = runs;   % preallocate same size
+% 
+% for k = 1:numel(runs)
+%     % States (q, dq)
+%     runs_flip(k).x_true = -runs_orig(k).x_true;
+% 
+%     % Measurements (mirror state)
+%     runs_flip(k).y_meas = -runs_orig(k).y_meas;
+% 
+%     % Torques
+%     runs_flip(k).u_cmd       = -runs_orig(k).u_cmd;
+%     runs_flip(k).u_cmd_noisy = -runs_orig(k).u_cmd_noisy;
+%     runs_flip(k).u_applied   = -runs_orig(k).u_applied;
+% 
+%     % Accelerations
+%     runs_flip(k).ddq = -runs_orig(k).ddq;
+% 
+%     % Momentum
+%     runs_flip(k).p = -runs_orig(k).p;
+% 
+%     % Energy (DO NOT FLIP)
+%     runs_flip(k).KE = runs_orig(k).KE;
+% 
+%     % Initial condition
+%     runs_flip(k).initial_condition = -runs_orig(k).initial_condition;
+% 
+%     % Metadata stays identical
+% end
+% 
+% % Concatenate original + flipped
+% runs = [runs_orig; runs_flip];
+% 
+% disp(['Dataset doubled to ', num2str(numel(runs)), ' runs']);
 
 %% Save dataset 
 dataset.time = t;

@@ -20,7 +20,7 @@ rng(42);                          % reproducible noise
 rk_substeps = 1;
 
 %% Excitation & simulation sizing
-num_simulations = 40;            % increased
+num_simulations = 20;            % increased
 N = numel(tgrid);
 
 % frequency pool for random selection (Hz)
