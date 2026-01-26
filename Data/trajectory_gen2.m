@@ -12,7 +12,7 @@ b  = m2 * l1 * r2;
 
 %% Simulation settings
 dt    = 1e-3;
-tspan = [0, 0.25];                  % longer sim
+tspan = [0, 5];                  % longer sim
 tgrid = (tspan(1):dt:tspan(2)).'; % Nx1
 rng(42);                          % reproducible noise
 
@@ -20,7 +20,7 @@ rng(42);                          % reproducible noise
 rk_substeps = 1;
 
 %% Excitation & simulation sizing
-num_simulations = 10;            % increased
+num_simulations = 40;            % increased
 N = numel(tgrid);
 
 % frequency pool for random selection (Hz)
@@ -234,6 +234,13 @@ plot(tt, r.x_true(:,1), '-', tt, r.y_meas(:,1), '--'); hold on;
 plot(tt, r.x_true(:,2), '-', tt, r.y_meas(:,2), '--'); hold off;
 grid on; ylabel('rad'); xlabel('Time [s]');
 legend('\theta_1 true','\theta_1 meas','\theta_2 true','\theta_2 meas'); title('Angles');
+
+figure('Color','w','Name','Momenta');
+plot(tt, r.p(:,1), '-'); hold on;
+plot(tt, r.p(:,2), '-'); hold off;
+grid on; ylabel('rad'); xlabel('Time [s]');
+legend('p_1','p_1'); title('Angles');
+
 
 %% functions (use your original ones — appended here for completeness)
 function dx = f_dyn(~, x, tau_applied, a1,a2,b, b1,b2, fc1,fc2, v_eps)
