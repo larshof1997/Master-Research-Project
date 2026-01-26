@@ -7,9 +7,9 @@
  *
  * Code generation for model "motor_calibration".
  *
- * Model version              : 1.85
+ * Model version              : 1.87
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Thu Jan  8 18:04:37 2026
+ * C source code generated on : Mon Jan 26 13:42:12 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -855,7 +855,7 @@
 /* Block signals (default storage) */
 typedef struct {
   real_T MaxVoltage;                   /* '<Root>/Max Voltage' */
-  real_T VectorConcatenate[2];         /* '<Root>/Vector Concatenate' */
+  real_T VectorConcatenate[4];         /* '<Root>/Vector Concatenate' */
   real_T HILReadDigital_o1;            /* '<S1>/HIL Read Digital' */
   real_T HILReadDigital_o2;            /* '<S1>/HIL Read Digital' */
   real_T HILReadDigital_o3;            /* '<S1>/HIL Read Digital' */
@@ -878,6 +878,7 @@ typedef struct {
   t_task HILWriteDigitalTimebase_Task; /* '<Root>/HIL Write Digital Timebase' */
   void *HILWriteAnalog_PWORK;          /* '<Root>/HIL Write Analog' */
   void *HILReadAnalog_PWORK;           /* '<Root>/HIL Read Analog' */
+  void *HILReadEncoder_PWORK;          /* '<Root>/HIL Read Encoder' */
   struct {
     void *LoggedData;
   } ToWorkspace_PWORK;                 /* '<Root>/To Workspace' */
@@ -885,6 +886,7 @@ typedef struct {
   void *HILWriteDigital_PWORK;         /* '<S1>/HIL Write Digital' */
   void *HILReadDigital_PWORK;          /* '<S1>/HIL Read Digital' */
   void *HILReadDigital_PWORK_o;        /* '<S2>/HIL Read Digital' */
+  int32_T HILReadEncoder_Buffer[2];    /* '<Root>/HIL Read Encoder' */
   int32_T clockTickCounter;            /* '<Root>/Pulse Generator' */
   int32_T HILInitialize_DOStates[9];   /* '<Root>/HIL Initialize' */
   int32_T HILInitialize_QuadratureModes[8];/* '<Root>/HIL Initialize' */
@@ -907,6 +909,12 @@ typedef struct {
 
 /* Parameters (default storage) */
 struct P_motor_calibration_T_ {
+  real_T KE_D1;                        /* Variable: KE_D1
+                                        * Referenced by: '<Root>/Motor #1 Encoder Calib1'
+                                        */
+  real_T KE_D2;                        /* Variable: KE_D2
+                                        * Referenced by: '<Root>/Motor #2 Encoder Calib1'
+                                        */
   real_T LIMIT_SWITCHES_ENABLE;        /* Variable: LIMIT_SWITCHES_ENABLE
                                         * Referenced by: '<S2>/Constant'
                                         */
@@ -918,6 +926,9 @@ struct P_motor_calibration_T_ {
                                         */
   uint32_T HILReadAnalog_channels;     /* Mask Parameter: HILReadAnalog_channels
                                         * Referenced by: '<Root>/HIL Read Analog'
+                                        */
+  uint32_T HILReadEncoder_channels[2]; /* Mask Parameter: HILReadEncoder_channels
+                                        * Referenced by: '<Root>/HIL Read Encoder'
                                         */
   uint32_T HILWriteDigitalTimebase_channel;/* Mask Parameter: HILWriteDigitalTimebase_channel
                                             * Referenced by: '<Root>/HIL Write Digital Timebase'
@@ -952,13 +963,13 @@ struct P_motor_calibration_T_ {
   real_T SineWave_Bias;                /* Expression: 0
                                         * Referenced by: '<Root>/Sine Wave'
                                         */
-  real_T SineWave_Freq;                /* Expression: 1
+  real_T SineWave_Freq;                /* Expression: 2
                                         * Referenced by: '<Root>/Sine Wave'
                                         */
   real_T SineWave_Phase;               /* Expression: 0
                                         * Referenced by: '<Root>/Sine Wave'
                                         */
-  real_T MaxVoltage_Gain;              /* Expression: 0.3
+  real_T MaxVoltage_Gain;              /* Expression: 0.5
                                         * Referenced by: '<Root>/Max Voltage'
                                         */
   real_T PulseGenerator_Amp;           /* Expression: 1
@@ -1062,6 +1073,9 @@ struct P_motor_calibration_T_ {
                                         */
   boolean_T HILReadAnalog_Active;      /* Computed Parameter: HILReadAnalog_Active
                                         * Referenced by: '<Root>/HIL Read Analog'
+                                        */
+  boolean_T HILReadEncoder_Active;     /* Computed Parameter: HILReadEncoder_Active
+                                        * Referenced by: '<Root>/HIL Read Encoder'
                                         */
   boolean_T HILInitialize_Active;      /* Computed Parameter: HILInitialize_Active
                                         * Referenced by: '<Root>/HIL Initialize'

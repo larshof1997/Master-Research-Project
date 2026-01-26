@@ -7,9 +7,9 @@
  *
  * Code generation for model "motor_calibration".
  *
- * Model version              : 1.85
+ * Model version              : 1.87
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Thu Jan  8 18:04:37 2026
+ * C source code generated on : Mon Jan 26 13:42:12 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -64,7 +64,7 @@ static const char_T * rtDataTypeNames[] = {
 
 /* data type transitions for block I/O structure */
 static DataTypeTransition rtBTransitions[] = {
-  { (char_T *)(&motor_calibration_B.MaxVoltage), 0, 0, 6 },
+  { (char_T *)(&motor_calibration_B.MaxVoltage), 0, 0, 8 },
 
   { (char_T *)(&motor_calibration_B.LogicalOperator4), 8, 0, 4 }
   ,
@@ -75,9 +75,9 @@ static DataTypeTransition rtBTransitions[] = {
 
   { (char_T *)(&motor_calibration_DW.HILWriteDigitalTimebase_Task), 16, 0, 1 },
 
-  { (char_T *)(&motor_calibration_DW.HILWriteAnalog_PWORK), 11, 0, 6 },
+  { (char_T *)(&motor_calibration_DW.HILWriteAnalog_PWORK), 11, 0, 7 },
 
-  { (char_T *)(&motor_calibration_DW.clockTickCounter), 6, 0, 26 },
+  { (char_T *)(&motor_calibration_DW.HILReadEncoder_Buffer[0]), 6, 0, 28 },
 
   { (char_T *)(&motor_calibration_DW.HILInitialize_DOBits[0]), 8, 0, 10 },
 
@@ -93,11 +93,11 @@ static DataTypeTransitionTable rtBTransTable = {
 
 /* data type transitions for Parameters structure */
 static DataTypeTransition rtPTransitions[] = {
-  { (char_T *)(&motor_calibration_P.LIMIT_SWITCHES_ENABLE), 0, 0, 1 },
+  { (char_T *)(&motor_calibration_P.KE_D1), 0, 0, 3 },
 
   { (char_T *)(&motor_calibration_P.HILWriteDigitalTimebase_clock), 6, 0, 1 },
 
-  { (char_T *)(&motor_calibration_P.HILWriteAnalog_channels), 7, 0, 14 },
+  { (char_T *)(&motor_calibration_P.HILWriteAnalog_channels), 7, 0, 16 },
 
   { (char_T *)(&motor_calibration_P.StopwithMessage_message_icon), 2, 0, 4 },
 
@@ -107,7 +107,7 @@ static DataTypeTransition rtPTransitions[] = {
 
   { (char_T *)(&motor_calibration_P.HILInitialize_AIChannels[0]), 7, 0, 42 },
 
-  { (char_T *)(&motor_calibration_P.HILWriteAnalog_Active), 8, 0, 45 }
+  { (char_T *)(&motor_calibration_P.HILWriteAnalog_Active), 8, 0, 46 }
 };
 
 /* data type transition table for Parameters structure */

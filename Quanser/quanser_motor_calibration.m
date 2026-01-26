@@ -4,34 +4,24 @@ clear all; close all; clc;
 data_dir = 'C:\Users\S4236610\Documents\GitHub\Master-Research-Project\Quanser\motor_calibration_data\';
 
 % File lists (keep exact names)
-% mat_files = {
-%     'simulink_V05_f1.mat', 'simulink_V05_f2.mat', 'simulink_V05f3.mat', ...
-%     'simulink_V05_f10.mat', 'simulink_V05_f15.mat', ...
-%     'simulink_V1_f1.mat', 'simulink_V1_f2.mat', 'simulink_V1_f3.mat', ...
-%     'simulink_V1_f10.mat', 'simulink_V1_f15.mat'
-% };
-% 
-% csv_files = {
-%     'teensy_V05_f1.csv', 'teensy_V05_f2.csv', 'teensy_V05_f3.csv', ...
-%     'teensy_V05_f10.csv', 'teensy_V05_f15.csv', ...
-%     'teensy_V1_f1.csv', 'teensy_V1_f2.csv', 'teensy_V1_f3.csv', ...
-%     'teensy_V1_f10.csv', 'teensy_V1_f15.csv'
-% };
-% 
-% File lists (keep exact names)
 mat_files = {
-      'simulink_1.mat',...
-     'simulink_2.mat'
+%       'simulink_01V_1Hz.mat',...
+     'simulink_025V_1Hz.mat',...
+     'simulink_05V_1Hz.mat',...
+     'simulink_025V_2Hz.mat',...
+     'simulink_05V_2Hz.mat'
 };
 % 
 csv_files = {
-     'teensy_1.csv',...
-     'teensy_2.csv',...
+     'teensy_025V_1Hz.csv',...
+     'teensy_05V_1Hz.csv',...
+     'teensy_025V_2Hz.csv',...
+     'teensy_05V_2Hz.csv',...
 % %      'teensy_V03_f05_stall.csv'
 };
 
-% Hold out frequency 15 Hz for testing
-test_freq = 'V02';
+% Hold out
+test_freq = '2Hz';
 train_idx = ~contains(mat_files, test_freq);
 test_idx  = ~train_idx;
 
@@ -39,34 +29,40 @@ test_idx  = ~train_idx;
 a = 1.121303e-03;
 b = -5.774345e-01;
 
-train_I = [];  train_tau = [];  train_w = [];
-test_I  = [];  test_tau  = [];
+train_I = [];  train_tau = [];  train_omega = []; train_omega_dot = []; 
+test_I  = [];  test_tau  = [];  test_omega = []; test_omega_dot = []; 
 
-
+% Filter parameters
+F = 61;
+K = 2;
 
 for i = 1:length(mat_files)
     % Load torque (teensy)
     csv_data = dlmread(fullfile(data_dir, csv_files{i}), ',', 0, 0);  % change to 1,0 if header
     adc = csv_data(:,2);
     tau = a * adc + b;
-    
-    tau_raw = a * adc + b;
-
+  
     dt = 0.01;
-%     tau = kalman_filter_tau(tau_raw, dt);
     N = length(tau);
     
     % Load current (simulink)
     S = load(fullfile(data_dir, mat_files{i}));
     vars = fieldnames(S);
     data = S.(vars{1});
-    if isstruct(data) && isfield(data,'Data')
-        I_full = data.Data(:,2);
-    else
-        I_full = data(:,2);
-    end
+    I_full = data(:,2);
+    p_full =  data(:,3);
     I = I_full(end-N:end-1);
-   
+    p = p_full(end-N:end-1);
+    
+    % Compute filtered current and position
+    I_filt = sgolayfilt(I, K, F);
+    p_filt = sgolayfilt(p, K, F);
+    tau = sgolayfilt(tau, K, F);
+    
+    % Compute filtered derivative of current
+    [~, g] = sgolay(K, F);  
+    omega = conv(p_filt, factorial(1)/(-dt) * g(:,2), 'same');
+    omega_dot = conv(omega, factorial(1)/(-dt) * g(:,2), 'same');
     
 %     % Signal alignment using cross-correlation
 %     maxLag = 500;
@@ -86,71 +82,117 @@ for i = 1:length(mat_files)
 %     end
 
     % Ensure equal length (safety)
-    N = length(I);
+    N = length(I_filt);
+    
     tau = tau(300:end-100);
-    I = I(300:end-100);
-    N = length(I);
+    I_filt = I_filt(300:end-100);
+    p_filt = p_filt(300:end-100);
+    p = p(300:end-100);
+    omega = omega(300:end-100);
+    omega_dot = omega_dot(300:end-100);
+    
+    N = length(I_filt);
 %     
-    figure;
-    hold on
-    plot(I)
-    plot(tau)
-    hold off
+%     figure;
+%     hold on
+%     plot(I_filt)
+%     plot(tau)
+%     hold off
+%     
+%     figure;
+%     hold on
+%     plot(p)
+%     plot(p_filt)
+%     hold off
+%     
+%     
+%     
+%     figure;
+%     hold on
+%     plot(p_filt)
+%     plot(omega)
+%     plot(omega_dot)
+%     hold off
     
     if train_idx(i)
-        train_I   = [train_I;   I];
+        train_I   = [train_I;   I_filt];
         train_tau = [train_tau; tau];
-        train_w   = [train_w;   (1/N)*ones(N,1)];  % equal weight per dataset
+        train_omega = [train_omega; omega];
+        train_omega_dot = [train_omega_dot; omega_dot];
+
     else
-        test_I    = [test_I;    I];
+        test_I    = [test_I;    I_filt];
         test_tau  = [test_tau;  tau];
+        test_omega = [test_omega; omega];
+        test_omega_dot = [test_omega_dot; omega_dot];
     end
 end
 
+% Output
+Y = train_tau;
 
+% Regressor matrix
+X = [train_omega_dot, ...        % inertia term
+    train_omega, ...   % viscous friction
+    train_I];           % torque constant
 
-% Weighted linear fit: tau = Kt * I + tau0
-mdl = fitlm(train_I, train_tau, 'Intercept',true, 'Weights',train_w);
-Kt   = mdl.Coefficients.Estimate(2);
-tau0 = mdl.Coefficients.Estimate(1);
+Theta_ols = (X' * X) \ (X' * Y);
 
-disp('=== Torque-Current Calibration ===');
-disp(['Kt  (torque constant) = ' num2str(Kt, '%.6f') ' Nm/A']);
-disp(['tau0 (offset)         = ' num2str(tau0, '%.6f') ' Nm']);
-disp(mdl);
+J_est    = Theta_ols(1);
+B_est    = Theta_ols(2);
+Kt_est   = Theta_ols(3);
 
-% Test performance
-pred_test = predict(mdl, test_I);
-rmse_test = sqrt(mean((pred_test - test_tau).^2));
-disp(['Test RMSE',num2str(rmse_test, '%.5f') ' Nm']);
+fprintf('\n=== OLS torque model ===\n');
+fprintf('J     = %.6e\n', J_est);
+fprintf('B     = %.6e\n', B_est);
+fprintf('Kt    = %.6e\n', Kt_est);
 
-% --- Plots ---
-figure('Position',[100 100 1100 500]);
+res0 = (Y - X*Theta_ols).^2;
+var_est = movmean(res0, round(0.05*length(Y))); % e.g. 5% window
+var_est = max(var_est, 1e-7);
+W = diag(1./var_est);
+Theta_wls = (X'*W*X) \ (X'*W*Y);
 
-% Training
-subplot(1,2,1);
-scatter(train_I, train_tau, 8, 'b', 'filled', 'MarkerFaceAlpha',0.4);
+% J_est    = Theta_wls(1);
+% B_est    = Theta_wls(2);
+% Kt_est   = Theta_wls(3);
+
+%% Compute and plot the estimated outputs
+% This is the reconstructed torque
+Y_hat = J_est*train_omega_dot + B_est * train_omega + Kt_est*train_I;
+
+% Plot the original supplied voltage and reconstructed voltage
+figure;
 hold on;
-xfit = linspace(min(train_I), max(train_I), 200)';
-yfit = Kt * xfit + tau0;
-plot(xfit, yfit, 'r-', 'LineWidth',2);
-xlabel('Current I (A)');
-ylabel('Torque \tau (Nm)');
-title('Training Data + Fit');
-legend('Data points', sprintf('Fit: \\tau = %.5f I + %.4f', Kt, tau0), 'Location','best');
-grid on;
+plot(train_tau)
+plot(Y_hat)
+hold off;
+legend('Measured torque', 'Reconstructed torque')
+xlabel('Time [s]')
+ylabel('Torque [Nm]')
 
-% Test
-subplot(1,2,2);
-scatter(test_I, test_tau, 8, 'b', 'filled', 'MarkerFaceAlpha',0.4);
+% ---- Compute MSE for training dataset ----
+mse_train = mean((train_tau - Y_hat).^2);
+fprintf('MSE (Training dataset, 1 Hz): %.6f\n', mse_train);
+
+%% Compute and plot the estimated outputs on test set
+% This is the reconstructed torque
+Y_hat = J_est*test_omega_dot + B_est * test_omega + Kt_est*test_I;
+
+% Plot the original supplied voltage and reconstructed voltage
+figure;
 hold on;
-[test_I_sorted, sort_idx] = sort(test_I);  % Fixed indexing
-plot(test_I_sorted, pred_test(sort_idx), 'r-', 'LineWidth',2);
-xlabel('Current I (A)');
-ylabel('Torque \tau (Nm)');
-title(sprintf('Test (f=%d Hz) - RMSE = %.4f Nm', test_freq, rmse_test));
-legend('Test data', 'Prediction', 'Location','best');
-grid on;
+plot(test_tau)
+plot(Y_hat)
+hold off;
+legend('Measured torque', 'Reconstructed torque')
+xlabel('Time [s]')
+ylabel('Torque [Nm]')
+
+% ---- Compute MSE for training dataset ----
+mse_train = mean((test_tau - Y_hat).^2);
+fprintf('MSE (Test dataset, 1 Hz): %.6f\n', mse_train);
+
 
 function tau_smooth = kalman_filter_tau(tau, dt)
 
@@ -163,8 +205,8 @@ function tau_smooth = kalman_filter_tau(tau, dt)
 
     % ---- TUNING PARAMETERS ----
     Q = [1e-7 0;
-         0    1e-4];   % process noise (smoothness)
-    R = 0.1;          % measurement noise
+         0    1e-7];   % process noise (smoothness)
+    R = 0.01;          % measurement noise
     % ---------------------------
 
      % Allocate storage
@@ -197,14 +239,7 @@ function tau_smooth = kalman_filter_tau(tau, dt)
     x_smooth = x_filt;
     P_smooth = P_filt;
 
-    for k = N-1:-1:1
-        C = P_filt(:,:,k) * F' / P_pred(:,:,k+1);
-        x_smooth(:,k) = x_filt(:,k) + ...
-                        C * (x_smooth(:,k+1) - x_pred(:,k+1));
-        P_smooth(:,:,k) = P_filt(:,:,k) + ...
-                          C * (P_smooth(:,:,k+1) - P_pred(:,:,k+1)) * C';
-    end
-
+ 
     % Output: smoothed torque
     tau_smooth = x_smooth(1,:)';
 end

@@ -129,7 +129,7 @@ RELATIVE_PATH_TO_ANCHOR   = ..
 MODELREF_TARGET_TYPE      = NONE
 
 #-- Support for parallel builds
-START_DIR         = C:\Users\S4236610\DOCUME~1\MRP-CO~1\QUANSE~1
+START_DIR         = C:\Users\S4236610\Documents\GitHub\Master-Research-Project\Quanser
 MASTER_ANCHOR_DIR = 
 
 #-- Support multi-instance code
