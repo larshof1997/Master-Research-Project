@@ -7,9 +7,9 @@
  *
  * Code generation for model "motor_calibration".
  *
- * Model version              : 1.85
+ * Model version              : 1.87
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Thu Jan  8 18:04:37 2026
+ * C source code generated on : Mon Jan 26 13:42:12 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -36,6 +36,7 @@ RT_MODEL_motor_calibration_T *const motor_calibration_M = &motor_calibration_M_;
 void motor_calibration_output(void)
 {
   /* local block i/o variables */
+  real_T rtb_HILReadEncoder_o1;
   real_T rtb_PulseGenerator;
   boolean_T rtb_HILReadDigital_o1;
   boolean_T rtb_HILReadDigital_o2;
@@ -84,6 +85,31 @@ void motor_calibration_output(void)
     motor_calibration_B.VectorConcatenate[1] =
       motor_calibration_DW.HILReadAnalog_Buffer;
   }
+
+  /* S-Function (hil_read_encoder_block): '<Root>/HIL Read Encoder' */
+
+  /* S-Function Block: motor_calibration/HIL Read Encoder (hil_read_encoder_block) */
+  {
+    t_error result = hil_read_encoder(motor_calibration_DW.HILInitialize_Card,
+      motor_calibration_P.HILReadEncoder_channels, 2,
+      &motor_calibration_DW.HILReadEncoder_Buffer[0]);
+    if (result < 0) {
+      msg_get_error_messageA(NULL, result, _rt_error_message, sizeof
+        (_rt_error_message));
+      rtmSetErrorStatus(motor_calibration_M, _rt_error_message);
+    } else {
+      rtb_HILReadEncoder_o1 = motor_calibration_DW.HILReadEncoder_Buffer[0];
+      rtb_PulseGenerator = motor_calibration_DW.HILReadEncoder_Buffer[1];
+    }
+  }
+
+  /* Gain: '<Root>/Motor #1 Encoder Calib1' */
+  motor_calibration_B.VectorConcatenate[2] = motor_calibration_P.KE_D1 *
+    rtb_HILReadEncoder_o1;
+
+  /* Gain: '<Root>/Motor #2 Encoder Calib1' */
+  motor_calibration_B.VectorConcatenate[3] = motor_calibration_P.KE_D2 *
+    rtb_PulseGenerator;
 
   /* DiscretePulseGenerator: '<Root>/Pulse Generator' */
   rtb_PulseGenerator = (motor_calibration_DW.clockTickCounter <
@@ -326,6 +352,15 @@ void motor_calibration_initialize(void)
     }
 
     is_switching = false;
+    result = hil_set_card_specific_options
+      (motor_calibration_DW.HILInitialize_Card, " ", 2);
+    if (result < 0) {
+      msg_get_error_messageA(NULL, result, _rt_error_message, sizeof
+        (_rt_error_message));
+      rtmSetErrorStatus(motor_calibration_M, _rt_error_message);
+      return;
+    }
+
     if ((motor_calibration_P.HILInitialize_CKPStart && !is_switching) ||
         (motor_calibration_P.HILInitialize_CKPEnter && is_switching)) {
       result = hil_set_clock_mode(motor_calibration_DW.HILInitialize_Card,
@@ -789,10 +824,10 @@ RT_MODEL_motor_calibration_T *motor_calibration(void)
   motor_calibration_M->Timing.stepSize1 = 0.01;
 
   /* External mode info */
-  motor_calibration_M->Sizes.checksums[0] = (600341937U);
-  motor_calibration_M->Sizes.checksums[1] = (3403163660U);
-  motor_calibration_M->Sizes.checksums[2] = (1086903192U);
-  motor_calibration_M->Sizes.checksums[3] = (1865228441U);
+  motor_calibration_M->Sizes.checksums[0] = (2324506587U);
+  motor_calibration_M->Sizes.checksums[1] = (2926189964U);
+  motor_calibration_M->Sizes.checksums[2] = (1712812859U);
+  motor_calibration_M->Sizes.checksums[3] = (1279585475U);
 
   {
     static const sysRanDType rtAlwaysEnabled = SUBSYS_RAN_BC_ENABLE;
@@ -822,6 +857,8 @@ RT_MODEL_motor_calibration_T *motor_calibration(void)
     motor_calibration_B.MaxVoltage = 0.0;
     motor_calibration_B.VectorConcatenate[0] = 0.0;
     motor_calibration_B.VectorConcatenate[1] = 0.0;
+    motor_calibration_B.VectorConcatenate[2] = 0.0;
+    motor_calibration_B.VectorConcatenate[3] = 0.0;
     motor_calibration_B.HILReadDigital_o1 = 0.0;
     motor_calibration_B.HILReadDigital_o2 = 0.0;
     motor_calibration_B.HILReadDigital_o3 = 0.0;
@@ -901,9 +938,9 @@ RT_MODEL_motor_calibration_T *motor_calibration(void)
   motor_calibration_M->Sizes.numU = (0);/* Number of model inputs */
   motor_calibration_M->Sizes.sysDirFeedThru = (0);/* The model is not direct feedthrough */
   motor_calibration_M->Sizes.numSampTimes = (2);/* Number of sample times */
-  motor_calibration_M->Sizes.numBlocks = (43);/* Number of blocks */
+  motor_calibration_M->Sizes.numBlocks = (46);/* Number of blocks */
   motor_calibration_M->Sizes.numBlockIO = (9);/* Number of block outputs */
-  motor_calibration_M->Sizes.numBlockPrms = (141);/* Sum of parameter "widths" */
+  motor_calibration_M->Sizes.numBlockPrms = (146);/* Sum of parameter "widths" */
   return motor_calibration_M;
 }
 

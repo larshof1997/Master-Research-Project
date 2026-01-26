@@ -7,9 +7,9 @@
  *
  * Code generation for model "motor_calibration".
  *
- * Model version              : 1.85
+ * Model version              : 1.87
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Thu Jan  8 18:04:37 2026
+ * C source code generated on : Mon Jan 26 13:42:12 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -23,6 +23,16 @@
 
 /* Block parameters (default storage) */
 P_motor_calibration_T motor_calibration_P = {
+  /* Variable: KE_D1
+   * Referenced by: '<Root>/Motor #1 Encoder Calib1'
+   */
+  1.5339807878856413E-5,
+
+  /* Variable: KE_D2
+   * Referenced by: '<Root>/Motor #2 Encoder Calib1'
+   */
+  3.0679615757712826E-5,
+
   /* Variable: LIMIT_SWITCHES_ENABLE
    * Referenced by: '<S2>/Constant'
    */
@@ -42,6 +52,11 @@ P_motor_calibration_T motor_calibration_P = {
    * Referenced by: '<Root>/HIL Read Analog'
    */
   1U,
+
+  /* Mask Parameter: HILReadEncoder_channels
+   * Referenced by: '<Root>/HIL Read Encoder'
+   */
+  { 0U, 2U },
 
   /* Mask Parameter: HILWriteDigitalTimebase_channel
    * Referenced by: '<Root>/HIL Write Digital Timebase'
@@ -98,20 +113,20 @@ P_motor_calibration_T motor_calibration_P = {
    */
   0.0,
 
-  /* Expression: 1
+  /* Expression: 2
    * Referenced by: '<Root>/Sine Wave'
    */
-  1.0,
+  2.0,
 
   /* Expression: 0
    * Referenced by: '<Root>/Sine Wave'
    */
   0.0,
 
-  /* Expression: 0.3
+  /* Expression: 0.5
    * Referenced by: '<Root>/Max Voltage'
    */
-  0.3,
+  0.5,
 
   /* Expression: 1
    * Referenced by: '<Root>/Pulse Generator'
@@ -280,6 +295,11 @@ P_motor_calibration_T motor_calibration_P = {
 
   /* Computed Parameter: HILReadAnalog_Active
    * Referenced by: '<Root>/HIL Read Analog'
+   */
+  1,
+
+  /* Computed Parameter: HILReadEncoder_Active
+   * Referenced by: '<Root>/HIL Read Encoder'
    */
   1,
 
