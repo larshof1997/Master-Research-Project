@@ -5,6 +5,7 @@ from torchdiffeq import odeint_adjoint as odeint
 import torch.nn.functional as F
 import numpy as np
 
+
 def make_mlp(in_dim, out_dim, hidden=(128,128), activation=nn.Tanh):
     layers = []
     d = in_dim
@@ -22,7 +23,7 @@ class LowerTriangularNN(nn.Module):
 
     The last-layer activation ensures diagonal positivity (Softplus + ε).
     """
-    def __init__(self, n_dim, hidden_dims=(64, 64), eps=1e-3):
+    def __init__(self, n_dim, input_dim = 2, hidden_dims=(64, 64), eps=1e-3):
         super().__init__()
 
         self.n_dim = n_dim
@@ -33,8 +34,6 @@ class LowerTriangularNN(nn.Module):
 
         # Build feed-forward network
         layers = []
-        input_dim = n_dim
-
         for h in hidden_dims:
             layers.append(nn.Linear(input_dim, h))
             layers.append(nn.Tanh())
@@ -75,7 +74,6 @@ class LowerTriangularNN(nn.Module):
         return M
 
 
-
 class ActuatorNN(nn.Module):
     """Map q -> B(q) (n x m) matrix. Input: q [B,n], Output: [B, n, m]."""
     def __init__(self, q_dim, u_dim, hidden=(128,128)):
@@ -104,7 +102,10 @@ class HamiltonianNN(nn.Module):
         # q: [B, q_dim], p: [B, q_dim]
 
         #NN mass matrix:
-        M = self.mass_nn(q)                # [B, q, q]
+        q2 = q[:, 1:2]               # <-- ONLY q2 used
+        M = self.mass_nn(q2)                # [B, q, q]
+        #both q
+        # M = self.mass_nn(q)                # [B, q, q]
 
         #Real mass matrix
         # M = FixedMassMatrix(q)
@@ -142,7 +143,7 @@ class HamiltonianDynamics(nn.Module):
 
         # H = self.hamiltonian_model(q, p)  # [B]
 
-        x = x.clone().detach().requires_grad_(True)  # Ensure x requires gradients
+        # x = x.clone().detach().requires_grad_(True)  # Ensure x requires gradients
         q, p = torch.split(x, x.shape[-1]//2, dim=-1)
         q.requires_grad_(True)
         p.requires_grad_(True)
@@ -150,10 +151,11 @@ class HamiltonianDynamics(nn.Module):
 
         # compute gradient dH/dx = [dH/dq, dH/dp]
         # Compute gradients ∂H/∂x
-        dH = torch.autograd.grad(outputs=H, inputs=x, grad_outputs=torch.ones_like(H), create_graph=True)[0]
-            
-        dH_dq = dH[:, :q.shape[-1]]
-        dH_dp = dH[:, q.shape[-1]:]
+        # dH = torch.autograd.grad(outputs=H, inputs=x, grad_outputs=torch.ones_like(H), create_graph=True)[0]
+        # dH_dq = dH[:, :q.shape[-1]]
+        # dH_dp = dH[:, q.shape[-1]:]
+
+        dH_dq, dH_dp = torch.autograd.grad(H.sum(), (q, p), create_graph=True)
 
         dq_dt = dH_dp
         dp_dt = -dH_dq
@@ -163,7 +165,7 @@ class HamiltonianDynamics(nn.Module):
 
         damping = -torch.bmm(D,dq_dt.unsqueeze(-1)).squeeze(-1)
  
-        # A = self.actuator_nn(q)
+        A = self.actuator_nn(q)
         # tau = torch.bmm(A,u.unsqueeze(-1)).squeeze(-1)
         # actuation = tau
         actuation = u
@@ -189,6 +191,7 @@ def rk4_step(odefunc, x, t, dt):
     k4 = odefunc(t + dt,   x + dt * k3)
     x_next = x + dt * (k1 + 2*k2 + 2*k3 + k4) / 6
     return x_next
+
 
 
 def predict_next(x_numpy, dt, u_numpy):
@@ -229,9 +232,9 @@ def load_model():
     u_dim = 2   # must match training 
     device = torch.device("cpu")
 
-    # create fresh modules with the same architectures used in training
-    mass_nn = LowerTriangularNN(q_dim, hidden_dims=(128,128,128)).to(device)
-    diss_nn = LowerTriangularNN(q_dim, hidden_dims=(64,64)).to(device)
+    # instantiate networks 
+    mass_nn = LowerTriangularNN(q_dim, input_dim = 1, hidden_dims=(128,128)).to(device) #input only q2
+    diss_nn = LowerTriangularNN(q_dim, hidden_dims=(128,128)).to(device)
     actuator_nn = ActuatorNN(q_dim, u_dim=2, hidden=(2,2)).to(device)
 
     # load saved state dict (make sure path is correct)

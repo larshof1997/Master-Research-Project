@@ -1,3 +1,34 @@
+
+% Training: scatter + fit line
+nexttile;
+hold on;
+s = scatter(train_I, train_tau, defaultMarkerSize, 'filled', 'MarkerFaceAlpha', 0.45);
+xfit = linspace(min(train_I), max(train_I), 200)';
+yfit = Kt * xfit + tau0;
+ph = plot(xfit, yfit, 'r-', 'LineWidth', 2.2);
+xlabel('Current $I$ (A)', 'Interpreter','latex');
+ylabel('Torque $\tau$ (Nm)', 'Interpreter','latex');
+title(sprintf('Train (0.1V, 1Hz) - RMSE = %.4f Nm', mdl.RMSE), 'Interpreter','latex');grid on; box on;
+legend([s ph], {'Data points', sprintf('$\\tau = %.6f I  %.6f$', Kt, tau0)}, 'Interpreter','latex', 'Location','best', 'FontSize', defaultFontSize-2);
+set(gca, 'FontSize', defaultFontSize);
+axis tight;
+hold off;
+
+% Test: scatter + predicted curve (sorted)
+nexttile;
+s2 = scatter(test_I, test_tau, defaultMarkerSize, 'filled', 'MarkerFaceAlpha', 0.45);
+hold on;
+[test_I_sorted, sort_idx] = sort(test_I);
+plot(test_I_sorted, pred_test(sort_idx), 'r-', 'LineWidth', 2.2);
+xlabel('Current $I$ (A)', 'Interpreter','latex');
+ylabel('Torque $\tau$ (Nm)', 'Interpreter','latex');
+title(sprintf('Test (0.2V, 1Hz) - RMSE = %.4f Nm', rmse_test), 'Interpreter','latex');
+grid on; box on;
+legend('Test data', 'Prediction', 'Location','best', 'Interpreter','latex', 'FontSize', defaultFontSize-2);
+set(gca, 'FontSize', defaultFontSize);
+axis tight;
+hold off;
+
 clear all; close all; clc;
 
 % Directory
