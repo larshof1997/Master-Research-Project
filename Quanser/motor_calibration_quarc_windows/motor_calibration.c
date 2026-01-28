@@ -7,9 +7,9 @@
  *
  * Code generation for model "motor_calibration".
  *
- * Model version              : 1.87
+ * Model version              : 1.89
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Mon Jan 26 13:42:12 2026
+ * C source code generated on : Wed Jan 28 16:53:53 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -42,14 +42,35 @@ void motor_calibration_output(void)
   boolean_T rtb_HILReadDigital_o2;
   boolean_T rtb_HILReadDigital_o3;
   boolean_T rtb_HILReadDigital_o4;
+  real_T currentTime;
+  real_T currentTime_tmp;
 
-  /* Gain: '<Root>/Max Voltage' incorporates:
+  /* Step: '<S3>/Step' incorporates:
    *  Sin: '<Root>/Sine Wave'
    */
-  motor_calibration_B.MaxVoltage = (sin(motor_calibration_P.SineWave_Freq *
-    motor_calibration_M->Timing.t[0] + motor_calibration_P.SineWave_Phase) *
+  currentTime_tmp = motor_calibration_M->Timing.t[0];
+  if (currentTime_tmp < motor_calibration_P.Ramp_start) {
+    currentTime = motor_calibration_P.Step_Y0;
+  } else {
+    currentTime = motor_calibration_P.Ramp_slope;
+  }
+
+  /* End of Step: '<S3>/Step' */
+
+  /* Product: '<Root>/Product' incorporates:
+   *  Clock: '<S3>/Clock'
+   *  Constant: '<S3>/Constant'
+   *  Constant: '<S3>/Constant1'
+   *  Product: '<S3>/Product'
+   *  Sin: '<Root>/Sine Wave'
+   *  Sum: '<S3>/Output'
+   *  Sum: '<S3>/Sum'
+   */
+  motor_calibration_B.Product = (sin(motor_calibration_P.SineWave_Freq *
+    currentTime_tmp + motor_calibration_P.SineWave_Phase) *
     motor_calibration_P.SineWave_Amp + motor_calibration_P.SineWave_Bias) *
-    motor_calibration_P.MaxVoltage_Gain;
+    ((motor_calibration_M->Timing.t[0] - motor_calibration_P.Ramp_start) *
+     currentTime + motor_calibration_P.Ramp_InitialOutput);
 
   /* S-Function (hil_write_analog_block): '<Root>/HIL Write Analog' */
 
@@ -58,7 +79,7 @@ void motor_calibration_output(void)
     t_error result;
     result = hil_write_analog(motor_calibration_DW.HILInitialize_Card,
       &motor_calibration_P.HILWriteAnalog_channels, 1,
-      &motor_calibration_B.MaxVoltage);
+      &motor_calibration_B.Product);
     if (result < 0) {
       msg_get_error_messageA(NULL, result, _rt_error_message, sizeof
         (_rt_error_message));
@@ -67,7 +88,7 @@ void motor_calibration_output(void)
   }
 
   /* SignalConversion: '<Root>/ConcatBufferAtVector ConcatenateIn1' */
-  motor_calibration_B.VectorConcatenate[0] = motor_calibration_B.MaxVoltage;
+  motor_calibration_B.VectorConcatenate[0] = motor_calibration_B.Product;
 
   /* S-Function (hil_read_analog_block): '<Root>/HIL Read Analog' */
 
@@ -220,16 +241,16 @@ void motor_calibration_output(void)
     ((motor_calibration_P.LIMIT_SWITCHES_ENABLE != 0.0) &&
      (!rtb_HILReadDigital_o1));
 
-  /* Stop: '<S3>/Stop Simulation' incorporates:
-   *  Constant: '<S7>/Constant'
-   *  RelationalOperator: '<S7>/Compare'
+  /* Stop: '<S4>/Stop Simulation' incorporates:
+   *  Constant: '<S8>/Constant'
+   *  RelationalOperator: '<S8>/Compare'
    */
   if (motor_calibration_B.LogicalOperator4 != motor_calibration_P.Constant_Value)
   {
     rtmSetStopRequested(motor_calibration_M, 1);
   }
 
-  /* End of Stop: '<S3>/Stop Simulation' */
+  /* End of Stop: '<S4>/Stop Simulation' */
 
   /* Logic: '<S2>/Logical Operator5' incorporates:
    *  Constant: '<S2>/Constant'
@@ -239,16 +260,16 @@ void motor_calibration_output(void)
     ((motor_calibration_P.LIMIT_SWITCHES_ENABLE != 0.0) &&
      (!rtb_HILReadDigital_o2));
 
-  /* Stop: '<S4>/Stop Simulation' incorporates:
-   *  Constant: '<S8>/Constant'
-   *  RelationalOperator: '<S8>/Compare'
+  /* Stop: '<S5>/Stop Simulation' incorporates:
+   *  Constant: '<S9>/Constant'
+   *  RelationalOperator: '<S9>/Compare'
    */
   if (motor_calibration_B.LogicalOperator5 !=
       motor_calibration_P.Constant_Value_i) {
     rtmSetStopRequested(motor_calibration_M, 1);
   }
 
-  /* End of Stop: '<S4>/Stop Simulation' */
+  /* End of Stop: '<S5>/Stop Simulation' */
 
   /* Logic: '<S2>/Logical Operator6' incorporates:
    *  Constant: '<S2>/Constant'
@@ -258,16 +279,16 @@ void motor_calibration_output(void)
     ((motor_calibration_P.LIMIT_SWITCHES_ENABLE != 0.0) &&
      (!rtb_HILReadDigital_o3));
 
-  /* Stop: '<S5>/Stop Simulation' incorporates:
-   *  Constant: '<S9>/Constant'
-   *  RelationalOperator: '<S9>/Compare'
+  /* Stop: '<S6>/Stop Simulation' incorporates:
+   *  Constant: '<S10>/Constant'
+   *  RelationalOperator: '<S10>/Compare'
    */
   if (motor_calibration_B.LogicalOperator6 !=
       motor_calibration_P.Constant_Value_e) {
     rtmSetStopRequested(motor_calibration_M, 1);
   }
 
-  /* End of Stop: '<S5>/Stop Simulation' */
+  /* End of Stop: '<S6>/Stop Simulation' */
 
   /* Logic: '<S2>/Logical Operator7' incorporates:
    *  Constant: '<S2>/Constant'
@@ -277,16 +298,16 @@ void motor_calibration_output(void)
     ((motor_calibration_P.LIMIT_SWITCHES_ENABLE != 0.0) &&
      (!rtb_HILReadDigital_o4));
 
-  /* Stop: '<S6>/Stop Simulation' incorporates:
-   *  Constant: '<S10>/Constant'
-   *  RelationalOperator: '<S10>/Compare'
+  /* Stop: '<S7>/Stop Simulation' incorporates:
+   *  Constant: '<S11>/Constant'
+   *  RelationalOperator: '<S11>/Compare'
    */
   if (motor_calibration_B.LogicalOperator7 !=
       motor_calibration_P.Constant_Value_d) {
     rtmSetStopRequested(motor_calibration_M, 1);
   }
 
-  /* End of Stop: '<S6>/Stop Simulation' */
+  /* End of Stop: '<S7>/Stop Simulation' */
 }
 
 /* Model update function */
@@ -352,15 +373,6 @@ void motor_calibration_initialize(void)
     }
 
     is_switching = false;
-    result = hil_set_card_specific_options
-      (motor_calibration_DW.HILInitialize_Card, " ", 2);
-    if (result < 0) {
-      msg_get_error_messageA(NULL, result, _rt_error_message, sizeof
-        (_rt_error_message));
-      rtmSetErrorStatus(motor_calibration_M, _rt_error_message);
-      return;
-    }
-
     if ((motor_calibration_P.HILInitialize_CKPStart && !is_switching) ||
         (motor_calibration_P.HILInitialize_CKPEnter && is_switching)) {
       result = hil_set_clock_mode(motor_calibration_DW.HILInitialize_Card,
@@ -824,10 +836,10 @@ RT_MODEL_motor_calibration_T *motor_calibration(void)
   motor_calibration_M->Timing.stepSize1 = 0.01;
 
   /* External mode info */
-  motor_calibration_M->Sizes.checksums[0] = (2324506587U);
-  motor_calibration_M->Sizes.checksums[1] = (2926189964U);
-  motor_calibration_M->Sizes.checksums[2] = (1712812859U);
-  motor_calibration_M->Sizes.checksums[3] = (1279585475U);
+  motor_calibration_M->Sizes.checksums[0] = (1108247322U);
+  motor_calibration_M->Sizes.checksums[1] = (4289450173U);
+  motor_calibration_M->Sizes.checksums[2] = (2661542733U);
+  motor_calibration_M->Sizes.checksums[3] = (388391604U);
 
   {
     static const sysRanDType rtAlwaysEnabled = SUBSYS_RAN_BC_ENABLE;
@@ -854,7 +866,7 @@ RT_MODEL_motor_calibration_T *motor_calibration(void)
                 sizeof(B_motor_calibration_T));
 
   {
-    motor_calibration_B.MaxVoltage = 0.0;
+    motor_calibration_B.Product = 0.0;
     motor_calibration_B.VectorConcatenate[0] = 0.0;
     motor_calibration_B.VectorConcatenate[1] = 0.0;
     motor_calibration_B.VectorConcatenate[2] = 0.0;
@@ -938,9 +950,9 @@ RT_MODEL_motor_calibration_T *motor_calibration(void)
   motor_calibration_M->Sizes.numU = (0);/* Number of model inputs */
   motor_calibration_M->Sizes.sysDirFeedThru = (0);/* The model is not direct feedthrough */
   motor_calibration_M->Sizes.numSampTimes = (2);/* Number of sample times */
-  motor_calibration_M->Sizes.numBlocks = (46);/* Number of blocks */
+  motor_calibration_M->Sizes.numBlocks = (53);/* Number of blocks */
   motor_calibration_M->Sizes.numBlockIO = (9);/* Number of block outputs */
-  motor_calibration_M->Sizes.numBlockPrms = (146);/* Sum of parameter "widths" */
+  motor_calibration_M->Sizes.numBlockPrms = (149);/* Sum of parameter "widths" */
   return motor_calibration_M;
 }
 

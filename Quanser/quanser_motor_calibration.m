@@ -1,24 +1,36 @@
 clear all; close all; clc;
 
 % Directory
-data_dir = 'C:\Users\S4236610\Documents\GitHub\Master-Research-Project\Quanser\motor_calibration_data\';
+data_dir = 'C:\Users\S4236610\Documents\GitHub\Master-Research-Project\Quanser\motor_calibration_data_elbow\';
 
 % File lists (keep exact names)
 mat_files = {
-%       'simulink_01V_1Hz.mat',...
-     'simulink_025V_1Hz.mat',...
-     'simulink_05V_1Hz.mat',...
-     'simulink_025V_2Hz.mat',...
-     'simulink_05V_2Hz.mat'
+     'simulink_1Hz_ramp_M2.mat',...
+     'simulink_2Hz_ramp_M2.mat',...
+%      'simulink_075V_2Hz.mat',...
+%      'simulink_05V_2Hz.mat'...
+%       'simulink_05V_3Hz.mat',...
 };
 % 
 csv_files = {
-     'teensy_025V_1Hz.csv',...
-     'teensy_05V_1Hz.csv',...
-     'teensy_025V_2Hz.csv',...
-     'teensy_05V_2Hz.csv',...
-% %      'teensy_V03_f05_stall.csv'
+     'teensy_1Hz_ramp_M2.csv',...
+     'teensy_2Hz_ramp_M2.csv',...
+%      'teensy_075V_2Hz.csv',...
+%      'teensy_05V_2Hz.csv',...
+%     'teensy_05V_3Hz.csv',...
 };
+
+% if data_dir == 'C:\Users\S4236610\Documents\GitHub\Master-Research-Project\Quanser\motor_calibration_data_elbow\'
+%     for i = 1 : size(mat_files,2)
+%         mat_files(i) = replace(mat_files(i),"z","z_M2");
+%         csv_files(i) = replace(csv_files(i),"z","z_M2");
+%     end
+% else
+%     for i = 1 : size(mat_files,2)
+%         mat_files(i) = replace(mat_files(i),"z","z_M1");
+%         csv_files(i) = replace(csv_files(i),"z","z_M1");
+%     end
+% end
 
 % Hold out
 test_freq = '2Hz';
@@ -33,14 +45,14 @@ train_I = [];  train_tau = [];  train_omega = []; train_omega_dot = [];
 test_I  = [];  test_tau  = [];  test_omega = []; test_omega_dot = []; 
 
 % Filter parameters
-F = 61;
-K = 2;
+F = 51;
+K = 3;
 
 for i = 1:length(mat_files)
     % Load torque (teensy)
     csv_data = dlmread(fullfile(data_dir, csv_files{i}), ',', 0, 0);  % change to 1,0 if header
     adc = csv_data(:,2);
-    tau = a * adc + b;
+    tau = (a * adc + b);
   
     dt = 0.01;
     N = length(tau);
@@ -50,9 +62,15 @@ for i = 1:length(mat_files)
     vars = fieldnames(S);
     data = S.(vars{1});
     I_full = data(:,2);
-    p_full =  data(:,3);
+    if data_dir == 'C:\Users\S4236610\Documents\GitHub\Master-Research-Project\Quanser\motor_calibration_data_elbow\'
+        p_full =  data(:,4);
+    else
+        p_full =  data(:,3);
+    end
     I = I_full(end-N:end-1);
     p = p_full(end-N:end-1);
+    
+    
     
     % Compute filtered current and position
     I_filt = sgolayfilt(I, K, F);
@@ -61,8 +79,17 @@ for i = 1:length(mat_files)
     
     % Compute filtered derivative of current
     [~, g] = sgolay(K, F);  
-    omega = conv(p_filt, factorial(1)/(-dt) * g(:,2), 'same');
-    omega_dot = conv(omega, factorial(1)/(-dt) * g(:,2), 'same');
+    
+    d = flipud(g(:,2)) / dt;
+
+    omega     = conv(p_filt, d, 'same');
+    omega_dot = conv(omega, d, 'same');
+    
+    omega     = -omega;
+    omega_dot = -omega_dot;
+    I_filt = I_filt;
+    tau = tau;
+
     
 %     % Signal alignment using cross-correlation
 %     maxLag = 500;
@@ -89,31 +116,17 @@ for i = 1:length(mat_files)
     p_filt = p_filt(300:end-100);
     p = p(300:end-100);
     omega = omega(300:end-100);
-    omega_dot = omega_dot(300:end-100);
+    omega_dot = omega_dot(300:end-100); 
     
     N = length(I_filt);
-%     
-%     figure;
-%     hold on
-%     plot(I_filt)
-%     plot(tau)
-%     hold off
-%     
-%     figure;
-%     hold on
-%     plot(p)
-%     plot(p_filt)
-%     hold off
-%     
-%     
-%     
-%     figure;
-%     hold on
-%     plot(p_filt)
-%     plot(omega)
-%     plot(omega_dot)
-%     hold off
     
+%     figure; hold on;
+%     plot(tau / max(abs(tau)))
+%     plot(omega_dot / max(abs(omega_dot)))
+%     legend('Measured torque','Acceleration')
+%     grid on
+
+
     if train_idx(i)
         train_I   = [train_I;   I_filt];
         train_tau = [train_tau; tau];
@@ -132,11 +145,11 @@ end
 Y = train_tau;
 
 % Regressor matrix
-X = [train_omega_dot, ...        % inertia term
-    train_omega, ...   % viscous friction
+X = [-train_omega_dot, ...        % inertia term
+    -train_omega, ...   % viscous friction
     train_I];           % torque constant
 
-Theta_ols = (X' * X) \ (X' * Y);
+Theta_ols = inv(X' * X)*X'*Y;
 
 J_est    = Theta_ols(1);
 B_est    = Theta_ols(2);
@@ -149,17 +162,17 @@ fprintf('Kt    = %.6e\n', Kt_est);
 
 res0 = (Y - X*Theta_ols).^2;
 var_est = movmean(res0, round(0.05*length(Y))); % e.g. 5% window
-var_est = max(var_est, 1e-7);
+var_est = max(var_est, 1e-5);
 W = diag(1./var_est);
 Theta_wls = (X'*W*X) \ (X'*W*Y);
 
-% J_est    = Theta_wls(1);
-% B_est    = Theta_wls(2);
-% Kt_est   = Theta_wls(3);
+J_est    = Theta_wls(1);
+B_est    = Theta_wls(2);
+Kt_est   = Theta_wls(3);
 
 %% Compute and plot the estimated outputs
 % This is the reconstructed torque
-Y_hat = J_est*train_omega_dot + B_est * train_omega + Kt_est*train_I;
+Y_hat = -J_est*train_omega_dot + -B_est * train_omega + Kt_est*train_I;
 
 % Plot the original supplied voltage and reconstructed voltage
 figure;
