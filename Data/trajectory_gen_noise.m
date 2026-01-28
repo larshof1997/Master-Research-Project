@@ -42,7 +42,7 @@ for A1 = A1_vals
     for A2 = A2_vals
         for f1 = f1_vals
             for f2 = f2_vals
-                grid = [grid; A1, A2, f1, f2]; %#ok<AGROW>
+                grid = [grid; A1, A2, f1, f2]; 
             end
         end
     end

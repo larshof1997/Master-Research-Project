@@ -1,352 +1,233 @@
+% Motor torque identification + publication-quality plots
+% Integrated version: data loading, OLS model, and train/test plots
+
 clear all; close all; clc;
 
-% ---------- Visual style defaults (LaTeX-friendly, larger fonts) ----------
+%% ---------- Visual style defaults (LaTeX-friendly, larger fonts) ----------
 set(groot, 'defaultTextInterpreter','latex');
 set(groot, 'defaultAxesTickLabelInterpreter','latex');
 set(groot, 'defaultLegendInterpreter','latex');
 
-% Global plotting defaults you can tweak
-defaultFontSize = 20;
-defaultLineWidth = 1.6;
-defaultMarkerSize = 36;   % used for scatter 'SizeData'
+defaultFontSize   = 20;
+defaultLineWidth  = 1.6;
+defaultMarkerSize = 36;   % scatter SizeData
+
 set(groot, 'defaultAxesFontSize', defaultFontSize);
 set(groot, 'defaultLineLineWidth', defaultLineWidth);
 
-% Directory
+%% Directory
 data_dir = '/Users/lars/Documents/GitHub/Master-Research-Project/Quanser/motor_calibration_data/';
 
-% File lists (keep exact names)
+%% File lists (keep exact names)
 mat_files = {
-      'simulink_1.mat',...
-     'simulink_2.mat'
+%     'simulink_01V_1Hz.mat',...
+     'simulink_025V_1Hz.mat',...
+     'simulink_05V_1Hz.mat',...
+     'simulink_025V_2Hz.mat',...
+     'simulink_05V_2Hz.mat'
 };
 
 csv_files = {
-     'teensy_1.csv',...
-     'teensy_2.csv',...
+     'teensy_025V_1Hz.csv',...
+     'teensy_05V_1Hz.csv',...
+     'teensy_025V_2Hz.csv',...
+     'teensy_05V_2Hz.csv',...
 };
 
-% Hold out frequency 15 Hz for testing
-test_freq = '1';
+%% Hold out
+test_freq = '2Hz';
 train_idx = ~contains(mat_files, test_freq);
 test_idx  = ~train_idx;
 
-% Torque calibration
+%% Torque calibration (ADC -> Nm)
 a = 1.121303e-03;
 b = -5.774345e-01;
 
-train_I = [];  train_tau = [];  train_w = [];
-test_I  = [];  test_tau  = [];
+train_I = [];  train_tau = [];  train_omega = []; train_omega_dot = [];
+test_I  = [];  test_tau  = [];  test_omega  = []; test_omega_dot  = [];
 
-% ---------- Storage for extrema ----------
-I_peaks_train  = [];
-I_vals_train   = [];
-tau_peaks_train = [];
-tau_vals_train  = [];
-
-% ---------- Storage for extrema ----------
-I_peaks_test  = [];
-I_vals_test   = [];
-tau_peaks_test = [];
-tau_vals_test  = [];
-
-dt = 0.01;
-
-minDist = round(0.2 / dt);
-
-prom_tau = 0.02;   % Nm
-prom_I   = 0.05;   % A
+%% Filter parameters (Savitzky–Golay)
+F = 61;  % frame length (odd)
+K = 2;   % polynomial order
 
 for i = 1:length(mat_files)
-    % ---------------- Load torque (teensy) ----------------
-    csv_data = dlmread(fullfile(data_dir, csv_files{i}), ',', 0, 0);  % change header indices if needed
+    %% Load torque (Teensy)
+    csv_data = dlmread(fullfile(data_dir, csv_files{i}), ',', 0, 0);
     adc = csv_data(:,2);
-    tau_raw = a * adc + b;
+    tau = a * adc + b;
 
-    tau = kalman_filter_tau(tau_raw, dt);
-    N = length(tau);
+    dt = 0.01;
+    N  = length(tau);
 
-    % ---------------- Load current (simulink) ----------------
-    S = load(fullfile(data_dir, mat_files{i}));
-    vars = fieldnames(S);
-    data = S.(vars{1});
-    if isstruct(data) && isfield(data,'Data')
-        I_full = data.Data(:,2);
-    else
-        I_full = data(:,2);
-    end
+    %% Load current & position (Simulink)
+    S     = load(fullfile(data_dir, mat_files{i}));
+    vars  = fieldnames(S);
+    data  = S.(vars{1});
+
+    I_full = data(:,2);
+    p_full = data(:,3);
+
     I = I_full(end-N:end-1);
+    p = p_full(end-N:end-1);
 
+    %% Filtering
+    I_filt = sgolayfilt(I,   K, F);
+    p_filt = sgolayfilt(p,   K, F);
+    tau    = sgolayfilt(tau, K, F);
 
+    %% Velocity and acceleration
+    [~, g] = sgolay(K, F);
+    omega      = conv(p_filt, factorial(1)/(-dt) * g(:,2), 'same');
+    omega_dot  = conv(omega,  factorial(1)/(-dt) * g(:,2), 'same');
 
-    % ---------------- Signal alignment (cross-corr) ----------------
-    maxLag = 500;
-    [c, lags] = xcorr(I - mean(I), tau - mean(tau), maxLag, 'normalized');
-    [~, idx] = max(c);
-    lag = lags(idx);
+    %% Trim transients
+    tau        = tau(300:end-100);
+    I_filt     = I_filt(300:end-100);
+    p_filt     = p_filt(300:end-100);
+    omega      = omega(300:end-100);
+    omega_dot  = omega_dot(300:end-100);
 
-    % If lag > 0: I leads tau  -> shift I backward
-    % If lag < 0: tau lags I   -> shift tau backward
-    if lag > 0
-        tau   = tau(1:end+lag);
-        I = I(-lag+1:end);
-    elseif lag < 0
-        I   = I(1:end+lag);
-        tau = tau(-lag+1:end);
-    end
-
-
-    % Torque peaks & valleys
-    [tp, lt_p] = findpeaks(tau, ...
-        'MinPeakDistance', minDist, ...
-        'MinPeakProminence', prom_tau);
-
-    [tv, lt_v] = findpeaks(-tau, ...
-        'MinPeakDistance', minDist, ...
-        'MinPeakProminence', prom_tau);
-    tv = -tv;
-
-    % Current peaks & valleys
-    [Ip, li_p] = findpeaks(I, ...
-        'MinPeakDistance', minDist, ...
-        'MinPeakProminence', prom_I);
-
-    [Iv, li_v] = findpeaks(-I, ...
-        'MinPeakDistance', minDist, ...
-        'MinPeakProminence', prom_I);
-
-   
-
-
-    % Ensure equal length and trim transient edges
-    tau = tau(300:end-100);
-    tau_raw = tau_raw(300:end-100+lag);
-    I = I(300:end-100);
-    N = length(I);
-
-    % ---------------- Per-file time-series plot ----------------
-    t = (0:N-1)' * dt;
-    fig = figure('Color','w', 'Position',[200 200 900 300]);
-    plot(t, I, 'LineWidth', defaultLineWidth, 'DisplayName','Current $I_a$');
-    hold on;
-    plot(t, tau_raw, 'LineWidth', defaultLineWidth, 'DisplayName','Torque $\tau$');
-    plot(t, tau, 'LineWidth', defaultLineWidth, 'DisplayName','Filtered Torque $\hat{\tau}$');
-    grid on; box on;
-    xlabel('Time (s)', 'Interpreter','latex');
-    ylabel('Amplitude', 'Interpreter','latex');
-    legend('Location','southeast', 'FontSize', defaultFontSize-2);
-    set(gca, 'FontSize', defaultFontSize);
-    hold off;
-
-    % ---------------- Accumulate training / test sets ----------------
+    %% Split train / test
     if train_idx(i)
-        train_I   = [train_I;   I];
-        train_tau = [train_tau; tau];
-        train_w   = [train_w;   (1/N)*ones(N,1)];  % equal weight per dataset
-
-        tau_peaks_train = [tau_peaks_train; tp];
-        tau_vals_train  = [tau_vals_train;  tv];
-        I_peaks_train   = [I_peaks_train;   Ip];
-        I_vals_train    = [I_vals_train;    Iv];
+        train_I         = [train_I;         I_filt];
+        train_tau       = [train_tau;       tau];
+        train_omega     = [train_omega;     omega];
+        train_omega_dot = [train_omega_dot; omega_dot];
     else
-        test_I    = [test_I;    I];
-        test_tau  = [test_tau;  tau];
-
-        tau_peaks_test = [tau_peaks_test; tp];
-        tau_vals_test  = [tau_vals_test;  tv];
-        I_peaks_test   = [I_peaks_test;   Ip];
-        I_vals_test    = [I_vals_test;    Iv];
+        test_I          = [test_I;          I_filt];
+        test_tau        = [test_tau;        tau];
+        test_omega      = [test_omega;      omega];
+        test_omega_dot  = [test_omega_dot;  omega_dot];
     end
 end
 
-% ================= TORQUE CONSTANT FROM EXTREMA =================
-Kt_extrema  = (median(tau_peaks_train) - median(tau_vals_train)) / (median(I_peaks_train) - median(I_vals_train));
-tau0_extrema = median(tau_peaks_train) - Kt_extrema * median(I_peaks_train);
+%% ===================== OLS torque model =====================
+Y = train_tau;
+X = [train_omega_dot, ...   % inertia
+     train_omega,     ...   % viscous friction
+     train_I];              % torque constant
 
-fprintf('\n=== EXTREMA-BASED TORQUE CALIBRATION ===\n');
-fprintf('--------------------------------------\n');
-fprintf('Kt  = %.6f Nm/A\n', Kt_extrema);
-fprintf('tau0 = %.6f Nm\n', tau0_extrema);
+Theta_ols = (X' * X) \ (X' * Y);
 
-% ---------------- Weighted linear fit: tau = Kt * I + tau0 ----------------
-mdl = fitlm(train_I, train_tau, 'Intercept',true, 'Weights',train_w);
-Kt   = mdl.Coefficients.Estimate(2);
-tau0 = mdl.Coefficients.Estimate(1);
+J_est  = Theta_ols(1);
+B_est  = Theta_ols(2);
+Kt_est = Theta_ols(3);
 
-fprintf('=== Torque-Current Calibration ===\n');
-fprintf('Kt  (torque constant) = %.6f Nm/A\n', Kt);
-fprintf('tau0 (offset)         = %.6f Nm\n', tau0);
-disp(mdl);
+fprintf('\n=== OLS torque model ===\n');
+fprintf('J  = %.6e\n', J_est);
+fprintf('B  = %.6e\n', B_est);
+fprintf('Kt = %.6e\n', Kt_est);
 
-% ---------------- Test performance ----------------
-pred_test = predict(mdl, test_I);
-rmse_test = sqrt(mean((pred_test - test_tau).^2));
-fprintf('Test RMSE = %.5f Nm\n', rmse_test);
+%% ===================== Train/Test linear fit (for plots) =====================
+% Simple static fit: tau = Kt * I + tau0 (used ONLY for visualization)
+p_lin = polyfit(train_I, train_tau, 1);
+Kt    = p_lin(1);
+tau0  = p_lin(2);
 
-% ---------------- Plots (training + test) ----------------
-fig = figure('Color','w', 'Position',[150 150 1200 520]);
-tiledlayout(1,2, 'Padding','compact', 'TileSpacing','compact');
+pred_train = polyval(p_lin, train_I);
+pred_test  = polyval(p_lin, test_I);
 
-% Training: scatter + fit line
-nexttile;
-hold on;
-s = scatter(train_I, train_tau, defaultMarkerSize, 'filled', 'MarkerFaceAlpha', 0.45);
+rmse_train = sqrt(mean((train_tau - pred_train).^2));
+rmse_test  = sqrt(mean((test_tau  - pred_test ).^2));
+
+mdl.RMSE = rmse_train; %#ok<STRNU>
+
+%% ===================== Publication-style plots =====================
+figure;
+tiledlayout(1,2,'Padding','compact','TileSpacing','compact');
+
+% ---- Training: scatter + fit line ----
+nexttile; hold on;
+s = scatter(train_I, train_tau, defaultMarkerSize, 'filled', ...
+    'MarkerFaceAlpha', 0.45);
+
 xfit = linspace(min(train_I), max(train_I), 200)';
 yfit = Kt * xfit + tau0;
 ph = plot(xfit, yfit, 'r-', 'LineWidth', 2.2);
-xlabel('Current $I$ (A)', 'Interpreter','latex');
-ylabel('Torque $\tau$ (Nm)', 'Interpreter','latex');
-title(sprintf('Train (0.1V, 1Hz) - RMSE = %.4f Nm', mdl.RMSE), 'Interpreter','latex');grid on; box on;
-legend([s ph], {'Data points', sprintf('$\\tau = %.6f I  %.6f$', Kt, tau0)}, 'Interpreter','latex', 'Location','best', 'FontSize', defaultFontSize-2);
-set(gca, 'FontSize', defaultFontSize);
-axis tight;
+
+xlabel('Current $I$ (A)');
+ylabel('Torque $\\tau$ (Nm)');
+title(sprintf('Train (1 Hz) -- RMSE = %.4f Nm', mdl.RMSE));
+
+grid on; box on; axis tight;
+legend([s ph], {'Data points', ...
+    sprintf('$\\tau = %.6f I %+ .6f$', Kt, tau0)}, ...
+    'Location','best','FontSize',defaultFontSize-2);
+
 hold off;
 
-% Test: scatter + predicted curve (sorted)
-nexttile;
-s2 = scatter(test_I, test_tau, defaultMarkerSize, 'filled', 'MarkerFaceAlpha', 0.45);
-hold on;
-[test_I_sorted, sort_idx] = sort(test_I);
-plot(test_I_sorted, pred_test(sort_idx), 'r-', 'LineWidth', 2.2);
-xlabel('Current $I$ (A)', 'Interpreter','latex');
-ylabel('Torque $\tau$ (Nm)', 'Interpreter','latex');
-title(sprintf('Test (0.2V, 1Hz) - RMSE = %.4f Nm', rmse_test), 'Interpreter','latex');
-grid on; box on;
-legend('Test data', 'Prediction', 'Location','best', 'Interpreter','latex', 'FontSize', defaultFontSize-2);
-set(gca, 'FontSize', defaultFontSize);
-axis tight;
+% ---- Test: scatter + prediction ----
+nexttile; hold on;
+s2 = scatter(test_I, test_tau, defaultMarkerSize, 'filled', ...
+    'MarkerFaceAlpha', 0.45);
+
+[test_I_sorted, idx] = sort(test_I);
+plot(test_I_sorted, pred_test(idx), 'r-', 'LineWidth', 2.2);
+
+xlabel('Current $I$ (A)');
+ylabel('Torque $\\tau$ (Nm)');
+title(sprintf('Test (2 Hz) -- RMSE = %.4f Nm', rmse_test));
+
+grid on; box on; axis tight;
+legend('Test data','Prediction','Location','best', ...
+    'FontSize',defaultFontSize-2);
+
 hold off;
 
-% ================= PEAK-BASED PLOTS (EXTREMA FIT) =================
-fig = figure('Color','w', 'Position',[150 150 1200 520]);
-tiledlayout(1,2, 'Padding','compact', 'TileSpacing','compact');
+%% ===================== Dynamic model reconstruction =====================
+% Training set
+Y_hat_train = J_est*train_omega_dot + B_est*train_omega + Kt_est*train_I;
 
-% ---------------- TRAINING PEAK DATA ----------------
-Np_tr = min(length(I_peaks_train), length(tau_peaks_train));
-Nv_tr = min(length(I_vals_train),  length(tau_vals_train));
+figure; hold on;
+plot(train_tau);
+plot(Y_hat_train);
+legend('Measured torque','Reconstructed torque');
+xlabel('Samples'); ylabel('Torque [Nm]'); grid on; box on;
 
-I_ext_train   = [ I_peaks_train(1:Np_tr) ; I_vals_train(1:Nv_tr) ];
-tau_ext_train = [ tau_peaks_train(1:Np_tr); tau_vals_train(1:Nv_tr) ];
+mse_train_dyn = mean((train_tau - Y_hat_train).^2);
+fprintf('MSE (Training, dynamic model): %.6f\n', mse_train_dyn);
 
-% ---------------- TEST PEAK DATA ----------------
-Np_te = min(length(I_peaks_test), length(tau_peaks_test));
-Nv_te = min(length(I_vals_test),  length(tau_vals_test));
+% Test set
+Y_hat_test = J_est*test_omega_dot + B_est*test_omega + Kt_est*test_I;
 
-I_ext_test   = [ I_peaks_test(1:Np_te) ; I_vals_test(1:Nv_te) ];
-tau_ext_test = [ tau_peaks_test(1:Np_te); tau_vals_test(1:Nv_te) ];
+figure; hold on;
+plot(test_tau);
+plot(Y_hat_test);
+legend('Measured torque','Reconstructed torque');
+xlabel('Samples'); ylabel('Torque [Nm]'); grid on; box on;
 
-% ================= TRAIN: PEAKS + EXTREMA FIT =================
-nexttile;
-hold on;
+mse_test_dyn = mean((test_tau - Y_hat_test).^2);
+fprintf('MSE (Test, dynamic model): %.6f\n', mse_test_dyn);
 
-s = scatter(I_ext_train, tau_ext_train, ...
-    defaultMarkerSize+10, 'filled', ...
-    'MarkerFaceAlpha',0.65);
-
-xfit = linspace(min(I_ext_train), max(I_ext_train), 200)';
-yfit = Kt_extrema * xfit + tau0_extrema;
-ph = plot(xfit, yfit, 'r-', 'LineWidth', 2.2);
-
-xlabel('Current $I$ (A)', 'Interpreter','latex');
-ylabel('Torque $\tau$ (Nm)', 'Interpreter','latex');
-title('Train – Peak-based fit', 'Interpreter','latex');
-
-legend([s ph], ...
-    {'Peaks \& valleys', ...
-     sprintf('$\\tau = %.6f I %+ .6f$', Kt_extrema, tau0_extrema)}, ...
-     'Interpreter','latex', ...
-     'Location','best', ...
-     'FontSize', defaultFontSize-2);
-
-grid on; box on;
-set(gca, 'FontSize', defaultFontSize);
-axis tight;
-hold off;
-
-% ================= TEST: PEAKS + EXTREMA FIT =================
-nexttile;
-hold on;
-
-s2 = scatter(I_ext_test, tau_ext_test, ...
-    defaultMarkerSize+10, 'filled', ...
-    'MarkerFaceAlpha',0.65);
-
-xfit = linspace(min(I_ext_test), max(I_ext_test), 200)';
-yfit = Kt_extrema * xfit + tau0_extrema;
-plot(xfit, yfit, 'r-', 'LineWidth', 2.2);
-
-xlabel('Current $I$ (A)', 'Interpreter','latex');
-ylabel('Torque $\tau$ (Nm)', 'Interpreter','latex');
-title('Test – Peak-based fit', 'Interpreter','latex');
-
-legend('Peaks \& valleys', 'Extrema fit', ...
-       'Interpreter','latex', ...
-       'Location','best', ...
-       'FontSize', defaultFontSize-2);
-
-grid on; box on;
-set(gca, 'FontSize', defaultFontSize);
-axis tight;
-hold off;
-
-
-% Optional: save a high-quality PDF (uncomment if you want to save)
-% exportgraphics(fig, fullfile(data_dir, 'torque_current_fit.pdf'), 'ContentType','vector');
-
-% ---------------- Kalman filter function (unchanged) ----------------
+%% ===================== Helper function =====================
 function tau_smooth = kalman_filter_tau(tau, dt)
-
     N = length(tau);
 
-    % State matrices
-    F = [1 dt;
-         0  1];
+    F = [1 dt; 0 1];
     H = [1 0];
 
-    % ---- TUNING PARAMETERS ----
-    Q = [1e-7 0;
-         0    1e-4];   % process noise (smoothness)
-    R = 0.1;          % measurement noise
-    % ---------------------------
+    Q = [1e-7 0; 0 1e-7];
+    R = 0.01;
 
-     % Allocate storage
-    x_filt = zeros(2, N);
-    P_filt = zeros(2, 2, N);
-    x_pred = zeros(2, N);
-    P_pred = zeros(2, 2, N);
-
-    % Initial conditions
     x = [tau(1); 0];
     P = eye(2);
 
-    % Forward Kalman filter
+    x_filt = zeros(2, N);
+    P_filt = zeros(2, 2, N);
+
     for k = 1:N
-        % Prediction
-        x_pred(:,k) = F * x;
-        P_pred(:,:,k) = F * P * F' + Q;
+        % Predict
+        x_pred = F * x;
+        P_pred = F * P * F' + Q;
 
         % Update
-        K = P_pred(:,:,k) * H' / (H * P_pred(:,:,k) * H' + R);
-        x = x_pred(:,k) + K * (tau(k) - H * x_pred(:,k));
-        P = (eye(2) - K * H) * P_pred(:,:,k);
+        Kk = P_pred * H' / (H * P_pred * H' + R);
+        x  = x_pred + Kk * (tau(k) - H * x_pred);
+        P  = (eye(2) - Kk * H) * P_pred;
 
-        % Store
-        x_filt(:,k) = x;
-        P_filt(:,:,k) = P;
+        x_filt(:,k)   = x;
+        P_filt(:,:,k)= P;
     end
 
-    % RTS backward smoothing
-    x_smooth = x_filt;
-    P_smooth = P_filt;
-
-    for k = N-1:-1:1
-        C = P_filt(:,:,k) * F' / P_pred(:,:,k+1);
-        x_smooth(:,k) = x_filt(:,k) + ...
-                        C * (x_smooth(:,k+1) - x_pred(:,k+1));
-        P_smooth(:,:,k) = P_filt(:,:,k) + ...
-                          C * (P_smooth(:,:,k+1) - P_pred(:,:,k+1)) * C';
-    end
-
-    % Output: smoothed torque
-    tau_smooth = x_smooth(1,:)';
+    tau_smooth = x_filt(1,:)';
 end

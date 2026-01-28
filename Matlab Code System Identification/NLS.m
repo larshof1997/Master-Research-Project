@@ -12,7 +12,7 @@ S = load('planar_2dof_dataset_no_noise_linear_friction.mat');
 dataset = S.dataset;  
 % Convert to identification data format
 % Filter parameters
-F = 251;
+F = 61;
 K = 2;
 data = dataset_to_iddata(dataset, K, F);
 
@@ -27,12 +27,12 @@ opts = optimoptions('lsqnonlin', ...
     'SpecifyObjectiveGradient', true);
 
 %Linear
-psi_hat = estimate_theta_ls(data,v_eps);
-psi_hat = [psi_hat;v_eps];
+% psi_hat = estimate_theta_ls_viscous(data,v_eps);
+% psi_hat = [psi_hat;v_eps];
 
 %NON-Linear
-% fun = @(psi) residualsEL_analytic(psi, data);
-% [psi_hat,~,res,exitflag,out] = lsqnonlin(fun, psi0, lb, ub, opts);
+fun = @(psi) residualsEL_analytic(psi, data);
+[psi_hat,~,res,exitflag,out] = lsqnonlin(fun, psi0, lb, ub, opts);
 
 % [psi_hat,~,res,exitflag,out] = lsqnonlin(@(psi) residualsEL(psi, data), psi0, lb, ub, opts);
 
@@ -65,6 +65,14 @@ fc2_hat = psi_hat(4);
 b1_hat  = psi_hat(5);
 b2_hat  = psi_hat(6);
 v_eps_hat = psi_hat(7);
+
+% I1_hat  = psi_hat(1);
+% I2_hat  = psi_hat(2);
+% fc1_hat = 0;
+% fc2_hat = 0;
+% b1_hat  = psi_hat(3);
+% b2_hat  = psi_hat(4);
+% v_eps_hat = psi_hat(5);
 
 % Shorthand inertial constants
 a1_hat = m1 * r1^2 + m2 * l1^2 + I1_hat;
@@ -247,7 +255,7 @@ function [M,C] = eulerLagrangeTerms(q, qd, psi)
 end
 
 
-function data = dataset_to_iddata(dataset,K, F)
+function data = dataset_to_iddata(dataset, K, F)
     % dataset: struct with fields .time (Nx1) and .runs(1xR)
     % Each runs(i) has fields x_true (Nx4), ddq_true (Nx2), u_applied (Nx2)
 
@@ -263,6 +271,7 @@ function data = dataset_to_iddata(dataset,K, F)
     % Preallocate: all as 2 x Ntot
     data.t        = zeros(1, Ntot);
     data.q_meas   = zeros(2, Ntot);
+    data.q_filt   = zeros(2, Ntot);
     data.qd_filt  = zeros(2, Ntot);
     data.qdd_filt = zeros(2, Ntot);
     data.q        = zeros(2, Ntot);
@@ -274,72 +283,64 @@ function data = dataset_to_iddata(dataset,K, F)
     dt = dataset.runs(1).time(2) - dataset.runs(1).time(1);
     data.dt = dt;
 
-
-
-    idx = 0;
-    idx0 = 0;
+    idx_start = 1;
+    
     for i = 1:R
         r = dataset.runs(i);
         ti = r.time(:);
         Ni_i = Ni(i);
+        
+        idxs = idx_start:(idx_start + Ni_i - 1);
 
+        % Store raw data
         for k = 1:Ni_i
-            idx = idx + 1;
-
+            idx = idxs(k);
             xk = r.x_true(k,:);      % [th1 th2 dth1 dth2]
-            yk = r.y_meas(k,:);      % [th1 th2 dth1 dth2]
-            data.t(idx)       = ti(k);
-            data.q_meas(:,idx)       = yk(1:2).';
-            data.q(:,idx)     = xk(1:2).';          % [theta1; theta2]
-            data.qd(:,idx)    = xk(3:4).';          % [dtheta1; dtheta2]
-            data.qdd(:,idx)   = r.ddq(k,:).';  % [ddtheta1; ddtheta2]
-            data.tau_meas(:,idx) = r.u_applied(k,:).'; % applied torque as "measured"
-        end
-
-        idxs = idx0 + (1:Ni_i);
-
-
-        data.q_filt1 = sgolayfilt(data.q_meas(1,idxs), K, F);
-        data.q_filt2 = sgolayfilt(data.q_meas(2,idxs), K, F);
-        data.q_filt = [data.q_filt1;data.q_filt2];
-
-        % fs = 1/dt;
-        % fc = 10;        % cutoff freq in Hz — tune this! 
-        % order = 6;
-        % 
-        % [b,a] = butter(order, fc/(fs/2));      % normalized cutoff
-        % data.q_filt = filtfilt(b, a, data.q_meas(:,idxs)')';      % preserve row shape
-
-        % central difference for interior points
-        for k = 2:Ni_i-1
-            j = idxs(k);
-            idx_prev = idxs(k-1);
-            idx_next = idxs(k+1);
-
-            data.qd_filt(:,j) = (data.q_filt(:,idx_next)-data.q_filt(:,idx_prev)) / (2*data.dt);
-        end
-
-        % simple one-sided at the boundaries
-        data.qd_filt(:,idxs(1)) = (data.q_filt(:,idxs(2)) - data.q_filt(:,idxs(1))) / data.dt;
-        data.qd_filt(:,idxs(end)) = (data.q_filt(:,idxs(end)) - data.q_filt(:,idxs(end-1))) / data.dt;
-
-        data.qd_filt1 = sgolayfilt(data.qd_filt(1,idxs), K, F);
-        data.qd_filt2 = sgolayfilt(data.qd_filt(2,idxs), K, F);
-        data.qd_filt = [data.qd_filt1;data.qd_filt2];
+            yk = r.y_meas(k,:);      % [th1 th2 dth1 dth4]
             
-        % then accelerations from those velocities, same idea
-        for k = 2:Ni_i-1
-            j = idxs(k); idx_prev = idxs(k-1); idx_next = idxs(k+1);
-            data.qdd_filt(:,j) = (data.qd_filt(:,idx_next)-data.qd_filt(:,idx_prev)) / (2*data.dt);
+            data.t(idx)       = ti(k);
+            data.q_meas(:,idx) = yk(1:2).';
+            data.q(:,idx)      = xk(1:2).';
+            data.qd(:,idx)     = xk(3:4).';
+            data.qdd(:,idx)    = r.ddq(k,:).';
+            data.tau_meas(:,idx) = r.u_applied(k,:).';
         end
-        data.qdd_filt(:,idxs(1)) = (data.qd_filt(:,idxs(2))-data.qd_filt(:,idxs(1))) / data.dt;
-        data.qdd_filt(:,idxs(end)) = (data.qd_filt(:,idxs(end))-data.qd_filt(:,idxs(end-1))) / data.dt;
-        data.qdd_filt1 = sgolayfilt(data.qdd_filt(1,idxs), K, F);
-        data.qdd_filt2 = sgolayfilt(data.qdd_filt(2,idxs), K, F);
-        data.qdd_filt = [data.qdd_filt1;data.qdd_filt2];
+
+        % Filter positions
+        q_filt_seg = zeros(2, Ni_i);
+        q_filt_seg(1,:) = sgolayfilt(data.q_meas(1,idxs), K, F);
+        q_filt_seg(2,:) = sgolayfilt(data.q_meas(2,idxs), K, F);
+        data.q_filt(:,idxs) = q_filt_seg;
+
+        % Compute velocities via central difference
+        qd_filt_seg = zeros(2, Ni_i);
+        for k = 2:Ni_i-1
+            qd_filt_seg(:,k) = (q_filt_seg(:,k+1) - q_filt_seg(:,k-1)) / (2*dt);
+        end
+        qd_filt_seg(:,1) = (q_filt_seg(:,2) - q_filt_seg(:,1)) / dt;
+        qd_filt_seg(:,end) = (q_filt_seg(:,end) - q_filt_seg(:,end-1)) / dt;
+
+        % Filter velocities
+        qd_filt_seg(1,:) = sgolayfilt(qd_filt_seg(1,:), K, F);
+        qd_filt_seg(2,:) = sgolayfilt(qd_filt_seg(2,:), K, F);
+        data.qd_filt(:,idxs) = qd_filt_seg;
+
+        % Compute accelerations via central difference
+        qdd_filt_seg = zeros(2, Ni_i);
+        for k = 2:Ni_i-1
+            qdd_filt_seg(:,k) = (qd_filt_seg(:,k+1) - qd_filt_seg(:,k-1)) / (2*dt);
+        end
+        qdd_filt_seg(:,1) = (qd_filt_seg(:,2) - qd_filt_seg(:,1)) / dt;
+        qdd_filt_seg(:,end) = (qd_filt_seg(:,end) - qd_filt_seg(:,end-1)) / dt;
+
+        % Filter accelerations
+        qdd_filt_seg(1,:) = sgolayfilt(qdd_filt_seg(1,:), K, F);
+        qdd_filt_seg(2,:) = sgolayfilt(qdd_filt_seg(2,:), K, F);
+        data.qdd_filt(:,idxs) = qdd_filt_seg;
+        
+        idx_start = idx_start + Ni_i;
     end
 end
-
 function [r,J] = residualsEL_analytic(psi, data)
     % psi = [I1; I2; fc1; fc2; b1; b2; v_eps]
 
@@ -428,33 +429,123 @@ function [r,J] = residualsEL_analytic(psi, data)
 end
 
 
-function theta_hat = estimate_theta_ls(data,v_eps)
-    %ESTIMATE_THETA_LS  Estimate parameter vector theta_hat via linear least squares
+% function theta_hat = estimate_theta_ls(data,v_eps)
+%     %ESTIMATE_THETA_LS  Estimate parameter vector theta_hat via linear least squares
+% 
+%     N = size(data.q_filt,2);
+%     Y_stack   = zeros(2*N, 6);
+%     tau_stack = zeros(2*N, 1);
+% 
+%     for k = 1:N
+%         qdd1 = data.qdd_filt(1,k);
+%         qdd2 = data.qdd_filt(2,k);
+%         qd1  = data.qd_filt(1,k);
+%         qd2  = data.qd_filt(2,k);
+% 
+%         rows = (2*k-1):(2*k);
+% 
+%         % regressor
+%         Y_stack(rows,:) = [ qdd1,          qdd1 + qdd2,  tanh(qd1 / v_eps), 0,                 qd1, 0;
+%                             0,             qdd1 + qdd2,  0,                 tanh(qd2 / v_eps), 0,   qd2 ];
+% 
+%         % torque stacking
+%         tau_stack(rows) = data.tau_meas(:,k);
+%     end
+% 
+%     % Solve LS
+%     theta_hat = Y_stack \ tau_stack;
+%     % (equivalent to (Y'Y)\(Y'tau)
+% end
 
-    N = size(data.q_filt,2);
+function theta_hat = estimate_theta_ls(data, v_eps)
+    %ESTIMATE_THETA_LS  Estimate parameter vector theta_hat via linear least squares
+    % theta = [I1; I2; fc1; fc2; b1; b2]
+    
+    % Physical constants (KNOWN)
+    m1 = 1.6537;  l1 = 0.343;  r1 = 0.29;
+    m2 = 0.9982;  l2 = 0.267;  r2 = 0.175;
+    b = m2 * l1 * r2;  % This is KNOWN!
+
+    N = size(data.q_filt, 2);
     Y_stack   = zeros(2*N, 6);
     tau_stack = zeros(2*N, 1);
 
     for k = 1:N
-        qdd1 = data.qdd_filt(1,k);
-        qdd2 = data.qdd_filt(2,k);
+        theta2 = data.q_filt(2,k);
         qd1  = data.qd_filt(1,k);
         qd2  = data.qd_filt(2,k);
+        qdd1 = data.qdd_filt(1,k);
+        qdd2 = data.qdd_filt(2,k);
 
         rows = (2*k-1):(2*k);
 
-        % regressor
-        Y_stack(rows,:) = [ qdd1,          qdd1 + qdd2,  tanh(qd1 / v_eps), 0,                 qd1, 0;
-                            0,             qdd1 + qdd2,  0,                 tanh(qd2 / v_eps), 0,   qd2 ];
-
-        % torque stacking
-        tau_stack(rows) = data.tau_meas(:,k);
+        % Regressor for theta = [I1; I2; fc1; fc2; b1; b2]
+        Y_stack(rows,:) = [ qdd1, qdd1 + qdd2, tanh(qd1/v_eps), 0, qd1, 0;
+                                0, qdd1 + qdd2, 0, tanh(qd2/v_eps), 0, qd2 ];
+        
+        % CRITICAL: Subtract known Coriolis/centrifugal terms!
+        s2 = sin(theta2);
+        tau_coriolis = [-b*s2*(2*qd1*qd2 + qd2^2);
+                         b*s2*qd1^2];
+        
+        tau_corrected = data.tau_meas(:,k) - tau_coriolis;
+        tau_stack(rows) = tau_corrected;
     end
+
+    % Check conditioning
+    fprintf('\n=== Regressor Conditioning ===\n');
+    fprintf('Condition number: %.2e\n', cond(Y_stack' * Y_stack));
+    fprintf('Rank: %d/%d\n', rank(Y_stack, 1e-10), size(Y_stack, 2));
 
     % Solve LS
     theta_hat = Y_stack \ tau_stack;
-    % (equivalent to (Y'Y)\(Y'tau)
 end
+
+function theta_hat = estimate_theta_ls_viscous(data, v_eps)
+    %ESTIMATE_THETA_LS  Estimate parameter vector theta_hat via linear least squares
+    % theta = [I1; I2; fc1; fc2; b1; b2]
+    
+    % Physical constants (KNOWN)
+    m1 = 1.6537;  l1 = 0.343;  r1 = 0.29;
+    m2 = 0.9982;  l2 = 0.267;  r2 = 0.175;
+    b = m2 * l1 * r2;  % This is KNOWN!
+
+    N = size(data.q_filt, 2);
+    Y_stack   = zeros(2*N, 4);
+    tau_stack = zeros(2*N, 1);
+
+    for k = 1:N
+        theta2 = data.q_filt(2,k);
+        qd1  = data.qd_filt(1,k);
+        qd2  = data.qd_filt(2,k);
+        qdd1 = data.qdd_filt(1,k);
+        qdd2 = data.qdd_filt(2,k);
+
+        rows = (2*k-1):(2*k);
+
+        % Regressor for theta = [I1; I2; fc1; fc2; b1; b2]
+        Y_stack(rows,:) = [ qdd1, qdd1 + qdd2, qd1, 0;
+                                0, qdd1 + qdd2, 0, qd2 ];
+        
+        % Subtract known Coriolis/centrifugal terms!
+        s2 = sin(theta2);
+        tau_coriolis = [-b*s2*(2*qd1*qd2 + qd2^2);
+                         b*s2*qd1^2];
+        
+        tau_corrected = data.tau_meas(:,k) - tau_coriolis;
+        tau_stack(rows) = tau_corrected;
+    end
+
+    % Check conditioning
+    fprintf('\n=== Regressor Conditioning ===\n');
+    fprintf('Condition number: %.2e\n', cond(Y_stack' * Y_stack));
+    fprintf('Rank: %d/%d\n', rank(Y_stack, 1e-10), size(Y_stack, 2));
+
+    % Solve LS
+    theta_hat = Y_stack \ tau_stack;
+end
+
+
 
 %% calculate MSE's
 mse = computeMSEJointStates(x_true, x_hat)
