@@ -20,12 +20,12 @@ num_simulations = 20;            % increased
 N = numel(t);
 
 %% Noise settings (small realistic values)
-sigma_tau1 = 0;   % [Nm] process
-sigma_tau2 = 0;
-sigma_uc1  = 0;   % command/actuator
-sigma_uc2  = 0;
-sigma_th1  = 0;   % measurement noise
-sigma_th2  = 0;
+sigma_tau1 = 0.002;   % [Nm] process
+sigma_tau2 = 0.0015;
+sigma_uc1  = 0.01;   % command/actuator
+sigma_uc2  = 0.005;
+sigma_th1  = 0.05;   % measurement noise
+sigma_th2  = 0.025;
 sigma_dth1 = 0;
 sigma_dth2 = 0;
 
@@ -46,6 +46,7 @@ runs = repmat(struct( ...
     'time', t, ...
     'x_true', [], ...             % Nx4
     'y_meas', [], ...             % Nx4
+    'y_filt', [], ...             % Nx4
     'u_cmd', [], ...              % Nx2   (nominal)
     'u_cmd_noisy', [], ...        % Nx2   (after command noise)
     'u_applied', [], ...          % Nx2   (command-noisy + process disturbance)
@@ -152,9 +153,20 @@ for group = 1:2
             p(i,:) = momentum_single(x_true(i,:).', a1, a2, b).';
         end
 
+        K = 2;
+        F = 301;
+        q_filt1 = sgolayfilt(y_meas(:,1), K, F);
+        q_filt2 = sgolayfilt(y_meas(:,2), K, F);
+        [~, g] = sgolay(K, F);  
+        qd_filt1 = conv(q_filt1, factorial(1)/(-dt) * g(:,2), 'same');
+        qd_filt2 = conv(q_filt2, factorial(1)/(-dt) * g(:,2), 'same');
+
+        y_filt = [q_filt1 q_filt2 qd_filt1 qd_filt2];
+
         % Store results
         runs(traj_id).x_true = x_true;
         runs(traj_id).y_meas = y_meas;
+        runs(traj_id).y_filt = y_filt;
         runs(traj_id).u_cmd = tau_cmd;
         runs(traj_id).u_cmd_noisy = u_cmd_noisy;
         runs(traj_id).u_applied = u_applied;
@@ -176,8 +188,8 @@ end
 %% Save dataset 
 dataset.time = t;
 dataset.runs = runs;
-save('planar_2dof_dataset_no_noise_linear_friction.mat','dataset','-v7');
-disp('Saved: planar_2dof_dataset_no_noise_linear_friction.mat');
+save('planar_2dof_dataset_gaussian_noise_linear_friction.mat','dataset','-v7');
+disp('Saved: planar_2dof_dataset_gaussian_noise_linear_friction.mat');
 
 %% Quick checks
 r = runs(15); tt = dataset.time;
@@ -194,20 +206,32 @@ legend('u\_cmd','u\_cmd\_noisy','u\_applied','Location','best');
 
 figure('Color','w','Name','Run 15: Truth vs Measurement (angles)');
 subplot(2,1,1);
+hold on;
 plot(tt, r.x_true(:,1), '-'); 
+plot(tt,r.y_filt(:,1),'.')
+hold off;
 grid on; ylabel('rad'); title('\theta_1');
 
 subplot(2,1,2);
+hold on;
 plot(tt, r.x_true(:,2), '-'); 
+plot(tt,r.y_filt(:,2),'.')
+hold off;
 grid on; ylabel('rad'); xlabel('Time [s]'); title('\theta_2');
 
 figure('Color','w','Name','Run 15: Velocities');
 subplot(2,1,1);
+hold on;
 plot(tt, r.x_true(:,3), '-'); 
+plot(tt,r.y_filt(:,3),'.')
+hold off;
 grid on; ylabel('rad/s'); title('$\dot{\theta}_1$','Interpreter','latex');
 
 subplot(2,1,2);
+hold on;
 plot(tt, r.x_true(:,4), '-'); 
+plot(tt,r.y_filt(:,4),'.')
+hold off;
 grid on; ylabel('rad/s'); xlabel('Time [s]'); title('$\dot{\theta}_2$','Interpreter','latex');
 
 %% Functions
