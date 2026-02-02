@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.90"
+    ComputedModelVersion    "1.92"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -184,9 +184,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "S4236610"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Jan 28 17:00:54 2026"
-  RTWModifiedTimeStamp	  691520354
-  ModelVersionFormat	  "1.%<AutoIncrement:90>"
+  LastModifiedDate	  "Mon Feb 02 16:19:51 2026"
+  RTWModifiedTimeStamp	  691949716
+  ModelVersionFormat	  "1.%<AutoIncrement:92>"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
   LibraryLinkDisplay	  "none"
@@ -1696,7 +1696,7 @@ Model {
       SourceProductName	      "QUARC Targets"
       MultiThreadCoSim	      "auto"
       object_name	      "HIL-1"
-      channels		      "[0]"
+      channels		      "[1]"
       sample_time	      "qc_get_step_size"
       active		      on
       vector_output	      off
@@ -1740,7 +1740,7 @@ Model {
       SourceProductName	      "QUARC Targets"
       MultiThreadCoSim	      "auto"
       object_name	      "HIL-1"
-      channels		      "0"
+      channels		      "1"
       sample_time	      "-1"
       active		      off
       vector_input	      off
@@ -2164,9 +2164,9 @@ Model {
       SourceProductName	      "Simulink"
       SourceProductBaseCode   "SL"
       ContentPreviewEnabled   on
-      slope		      "0.05"
+      slope		      "0.015"
       start		      "0"
-      InitialOutput	      "0.5"
+      InitialOutput	      "0.2"
       VectorParams1D	      on
     }
     Block {
@@ -2303,7 +2303,7 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @         \"  S0 "
+    "        !0    @    !     0    $         \"0    @         $  S0 "
   }
   DataRecord {
     Tag			    DataTag1
@@ -2311,7 +2311,7 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @         \"  S0 "
+    "        !0    @    !     0    $         \"0    @         $  S0 "
   }
   DataRecord {
     Tag			    DataTag2
@@ -2807,9 +2807,9 @@ MatData {
     "X    !@    @    &          4    (     0    $    !          D    (               .    N $   8    (     @         % "
     "   \"     $    !     0         %  0 $0    $   !5    :7-?=6YI<75E          !O;&1?8FQO8VL          &]L9%]N86UE      "
     "      :7-?;6]D96Q?8VQO<VEN9P!I<U]D96QE=&5D              X    P    !@    @    ) @        4    (     0    $    !    "
-    "      (  0 !    #@   #@    &    \"     8         !0    @    !     0    $         \"0    @         \"  S0 X    X   "
-    " !@    @    $          4    (     0    4    !         !     %    2$E,+3$    .    ,     8    (    \"0(        %    "
-    "\"     $    !     0         \"  $       X    P    !@    @    ) @        4    (     0    $    !          (  0      "
+    "      (  0 !    #@   #@    &    \"     8         !0    @    !     0    $         \"0    @         $  S0 X    X    "
+    "!@    @    $          4    (     0    4    !         !     %    2$E,+3$    .    ,     8    (    \"0(        %    \""
+    "     $    !     0         \"  $       X    P    !@    @    ) @        4    (     0    $    !          (  0      "
   }
   DataRecord {
     Tag			    DataTag3
@@ -2817,7 +2817,7 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @         \"  S0 "
+    "        !0    @    !     0    $         \"0    @         $  S0 "
   }
   DataRecord {
     Tag			    DataTag4
@@ -2825,7 +2825,7 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @         \"  S0 "
+    "        !0    @    !     0    $         \"0    @         $  S0 "
   }
   DataRecord {
     Tag			    DataTag5
@@ -2833,7 +2833,7 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @         \"  S0 "
+    "        !0    @    !     0    $         \"0    @         $  S0 "
   }
   DataRecord {
     Tag			    DataTag6
@@ -2841,7 +2841,7 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @         \"  S0 "
+    "        !0    @    !     0    $         \"0    @         $  S0 "
   }
   DataRecord {
     Tag			    DataTag7
@@ -2849,6 +2849,6 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @         \"  S0 "
+    "        !0    @    !     0    $         \"0    @         $  S0 "
   }
 }
