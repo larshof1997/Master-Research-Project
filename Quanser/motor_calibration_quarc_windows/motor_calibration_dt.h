@@ -7,9 +7,9 @@
  *
  * Code generation for model "motor_calibration".
  *
- * Model version              : 1.87
+ * Model version              : 1.90
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Mon Jan 26 13:42:12 2026
+ * C source code generated on : Mon Feb  2 15:46:38 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -64,7 +64,7 @@ static const char_T * rtDataTypeNames[] = {
 
 /* data type transitions for block I/O structure */
 static DataTypeTransition rtBTransitions[] = {
-  { (char_T *)(&motor_calibration_B.MaxVoltage), 0, 0, 8 },
+  { (char_T *)(&motor_calibration_B.Product), 0, 0, 8 },
 
   { (char_T *)(&motor_calibration_B.LogicalOperator4), 8, 0, 4 }
   ,
@@ -93,7 +93,7 @@ static DataTypeTransitionTable rtBTransTable = {
 
 /* data type transitions for Parameters structure */
 static DataTypeTransition rtPTransitions[] = {
-  { (char_T *)(&motor_calibration_P.KE_D1), 0, 0, 3 },
+  { (char_T *)(&motor_calibration_P.KE_D1), 0, 0, 6 },
 
   { (char_T *)(&motor_calibration_P.HILWriteDigitalTimebase_clock), 6, 0, 1 },
 
@@ -101,7 +101,7 @@ static DataTypeTransition rtPTransitions[] = {
 
   { (char_T *)(&motor_calibration_P.StopwithMessage_message_icon), 2, 0, 4 },
 
-  { (char_T *)(&motor_calibration_P.SineWave_Amp), 0, 0, 27 },
+  { (char_T *)(&motor_calibration_P.Step_Y0), 0, 0, 27 },
 
   { (char_T *)(&motor_calibration_P.HILInitialize_CKChannels[0]), 6, 0, 7 },
 

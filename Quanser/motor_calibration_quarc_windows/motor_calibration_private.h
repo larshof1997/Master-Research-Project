@@ -7,9 +7,9 @@
  *
  * Code generation for model "motor_calibration".
  *
- * Model version              : 1.87
+ * Model version              : 1.90
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Mon Jan 26 13:42:12 2026
+ * C source code generated on : Mon Feb  2 15:46:38 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping

@@ -7,9 +7,9 @@
  *
  * Code generation for model "motor_calibration".
  *
- * Model version              : 1.87
+ * Model version              : 1.90
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Mon Jan 26 13:42:12 2026
+ * C source code generated on : Mon Feb  2 15:46:38 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -854,7 +854,7 @@
 
 /* Block signals (default storage) */
 typedef struct {
-  real_T MaxVoltage;                   /* '<Root>/Max Voltage' */
+  real_T Product;                      /* '<Root>/Product' */
   real_T VectorConcatenate[4];         /* '<Root>/Vector Concatenate' */
   real_T HILReadDigital_o1;            /* '<S1>/HIL Read Digital' */
   real_T HILReadDigital_o2;            /* '<S1>/HIL Read Digital' */
@@ -918,6 +918,17 @@ struct P_motor_calibration_T_ {
   real_T LIMIT_SWITCHES_ENABLE;        /* Variable: LIMIT_SWITCHES_ENABLE
                                         * Referenced by: '<S2>/Constant'
                                         */
+  real_T Ramp_InitialOutput;           /* Mask Parameter: Ramp_InitialOutput
+                                        * Referenced by: '<S3>/Constant1'
+                                        */
+  real_T Ramp_slope;                   /* Mask Parameter: Ramp_slope
+                                        * Referenced by: '<S3>/Step'
+                                        */
+  real_T Ramp_start;                   /* Mask Parameter: Ramp_start
+                                        * Referenced by:
+                                        *   '<S3>/Constant'
+                                        *   '<S3>/Step'
+                                        */
   int32_T HILWriteDigitalTimebase_clock;/* Mask Parameter: HILWriteDigitalTimebase_clock
                                          * Referenced by: '<Root>/HIL Write Digital Timebase'
                                          */
@@ -946,16 +957,19 @@ struct P_motor_calibration_T_ {
                                             * Referenced by: '<Root>/HIL Write Digital Timebase'
                                             */
   int8_T StopwithMessage_message_icon; /* Mask Parameter: StopwithMessage_message_icon
-                                        * Referenced by: '<S3>/Show Message on Host'
-                                        */
-  int8_T StopwithMessage1_message_icon;/* Mask Parameter: StopwithMessage1_message_icon
                                         * Referenced by: '<S4>/Show Message on Host'
                                         */
-  int8_T StopwithMessage2_message_icon;/* Mask Parameter: StopwithMessage2_message_icon
+  int8_T StopwithMessage1_message_icon;/* Mask Parameter: StopwithMessage1_message_icon
                                         * Referenced by: '<S5>/Show Message on Host'
                                         */
-  int8_T StopwithMessage3_message_icon;/* Mask Parameter: StopwithMessage3_message_icon
+  int8_T StopwithMessage2_message_icon;/* Mask Parameter: StopwithMessage2_message_icon
                                         * Referenced by: '<S6>/Show Message on Host'
+                                        */
+  int8_T StopwithMessage3_message_icon;/* Mask Parameter: StopwithMessage3_message_icon
+                                        * Referenced by: '<S7>/Show Message on Host'
+                                        */
+  real_T Step_Y0;                      /* Expression: 0
+                                        * Referenced by: '<S3>/Step'
                                         */
   real_T SineWave_Amp;                 /* Expression: 1
                                         * Referenced by: '<Root>/Sine Wave'
@@ -968,9 +982,6 @@ struct P_motor_calibration_T_ {
                                         */
   real_T SineWave_Phase;               /* Expression: 0
                                         * Referenced by: '<Root>/Sine Wave'
-                                        */
-  real_T MaxVoltage_Gain;              /* Expression: 0.5
-                                        * Referenced by: '<Root>/Max Voltage'
                                         */
   real_T PulseGenerator_Amp;           /* Expression: 1
                                         * Referenced by: '<Root>/Pulse Generator'
@@ -1195,16 +1206,16 @@ struct P_motor_calibration_T_ {
                                         * Referenced by: '<S2>/HIL Read Digital'
                                         */
   boolean_T Constant_Value;            /* Computed Parameter: Constant_Value
-                                        * Referenced by: '<S7>/Constant'
-                                        */
-  boolean_T Constant_Value_i;          /* Computed Parameter: Constant_Value_i
                                         * Referenced by: '<S8>/Constant'
                                         */
-  boolean_T Constant_Value_e;          /* Computed Parameter: Constant_Value_e
+  boolean_T Constant_Value_i;          /* Computed Parameter: Constant_Value_i
                                         * Referenced by: '<S9>/Constant'
                                         */
-  boolean_T Constant_Value_d;          /* Computed Parameter: Constant_Value_d
+  boolean_T Constant_Value_e;          /* Computed Parameter: Constant_Value_e
                                         * Referenced by: '<S10>/Constant'
+                                        */
+  boolean_T Constant_Value_d;          /* Computed Parameter: Constant_Value_d
+                                        * Referenced by: '<S11>/Constant'
                                         */
 };
 
@@ -1355,13 +1366,14 @@ extern RT_MODEL_motor_calibration_T *const motor_calibration_M;
  * '<Root>' : 'motor_calibration'
  * '<S1>'   : 'motor_calibration/Enable AMPAQ'
  * '<S2>'   : 'motor_calibration/Limit Switches'
- * '<S3>'   : 'motor_calibration/Limit Switches/Stop with Message'
- * '<S4>'   : 'motor_calibration/Limit Switches/Stop with Message1'
- * '<S5>'   : 'motor_calibration/Limit Switches/Stop with Message2'
- * '<S6>'   : 'motor_calibration/Limit Switches/Stop with Message3'
- * '<S7>'   : 'motor_calibration/Limit Switches/Stop with Message/Compare'
- * '<S8>'   : 'motor_calibration/Limit Switches/Stop with Message1/Compare'
- * '<S9>'   : 'motor_calibration/Limit Switches/Stop with Message2/Compare'
- * '<S10>'  : 'motor_calibration/Limit Switches/Stop with Message3/Compare'
+ * '<S3>'   : 'motor_calibration/Ramp'
+ * '<S4>'   : 'motor_calibration/Limit Switches/Stop with Message'
+ * '<S5>'   : 'motor_calibration/Limit Switches/Stop with Message1'
+ * '<S6>'   : 'motor_calibration/Limit Switches/Stop with Message2'
+ * '<S7>'   : 'motor_calibration/Limit Switches/Stop with Message3'
+ * '<S8>'   : 'motor_calibration/Limit Switches/Stop with Message/Compare'
+ * '<S9>'   : 'motor_calibration/Limit Switches/Stop with Message1/Compare'
+ * '<S10>'  : 'motor_calibration/Limit Switches/Stop with Message2/Compare'
+ * '<S11>'  : 'motor_calibration/Limit Switches/Stop with Message3/Compare'
  */
 #endif                                 /* RTW_HEADER_motor_calibration_h_ */

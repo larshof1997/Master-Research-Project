@@ -7,9 +7,9 @@
  *
  * Code generation for model "motor_calibration".
  *
- * Model version              : 1.87
+ * Model version              : 1.90
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Mon Jan 26 13:42:12 2026
+ * C source code generated on : Mon Feb  2 15:46:38 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -38,6 +38,23 @@ P_motor_calibration_T motor_calibration_P = {
    */
   1.0,
 
+  /* Mask Parameter: Ramp_InitialOutput
+   * Referenced by: '<S3>/Constant1'
+   */
+  0.1,
+
+  /* Mask Parameter: Ramp_slope
+   * Referenced by: '<S3>/Step'
+   */
+  0.01,
+
+  /* Mask Parameter: Ramp_start
+   * Referenced by:
+   *   '<S3>/Constant'
+   *   '<S3>/Step'
+   */
+  0.0,
+
   /* Mask Parameter: HILWriteDigitalTimebase_clock
    * Referenced by: '<Root>/HIL Write Digital Timebase'
    */
@@ -46,12 +63,12 @@ P_motor_calibration_T motor_calibration_P = {
   /* Mask Parameter: HILWriteAnalog_channels
    * Referenced by: '<Root>/HIL Write Analog'
    */
-  1U,
+  0U,
 
   /* Mask Parameter: HILReadAnalog_channels
    * Referenced by: '<Root>/HIL Read Analog'
    */
-  1U,
+  0U,
 
   /* Mask Parameter: HILReadEncoder_channels
    * Referenced by: '<Root>/HIL Read Encoder'
@@ -84,24 +101,29 @@ P_motor_calibration_T motor_calibration_P = {
   100U,
 
   /* Mask Parameter: StopwithMessage_message_icon
-   * Referenced by: '<S3>/Show Message on Host'
-   */
-  1,
-
-  /* Mask Parameter: StopwithMessage1_message_icon
    * Referenced by: '<S4>/Show Message on Host'
    */
   1,
 
-  /* Mask Parameter: StopwithMessage2_message_icon
+  /* Mask Parameter: StopwithMessage1_message_icon
    * Referenced by: '<S5>/Show Message on Host'
    */
   1,
 
-  /* Mask Parameter: StopwithMessage3_message_icon
+  /* Mask Parameter: StopwithMessage2_message_icon
    * Referenced by: '<S6>/Show Message on Host'
    */
   1,
+
+  /* Mask Parameter: StopwithMessage3_message_icon
+   * Referenced by: '<S7>/Show Message on Host'
+   */
+  1,
+
+  /* Expression: 0
+   * Referenced by: '<S3>/Step'
+   */
+  0.0,
 
   /* Expression: 1
    * Referenced by: '<Root>/Sine Wave'
@@ -122,11 +144,6 @@ P_motor_calibration_T motor_calibration_P = {
    * Referenced by: '<Root>/Sine Wave'
    */
   0.0,
-
-  /* Expression: 0.5
-   * Referenced by: '<Root>/Max Voltage'
-   */
-  0.5,
 
   /* Expression: 1
    * Referenced by: '<Root>/Pulse Generator'
@@ -499,22 +516,22 @@ P_motor_calibration_T motor_calibration_P = {
   1,
 
   /* Computed Parameter: Constant_Value
-   * Referenced by: '<S7>/Constant'
-   */
-  0,
-
-  /* Computed Parameter: Constant_Value_i
    * Referenced by: '<S8>/Constant'
    */
   0,
 
-  /* Computed Parameter: Constant_Value_e
+  /* Computed Parameter: Constant_Value_i
    * Referenced by: '<S9>/Constant'
    */
   0,
 
-  /* Computed Parameter: Constant_Value_d
+  /* Computed Parameter: Constant_Value_e
    * Referenced by: '<S10>/Constant'
+   */
+  0,
+
+  /* Computed Parameter: Constant_Value_d
+   * Referenced by: '<S11>/Constant'
    */
   0
 };
