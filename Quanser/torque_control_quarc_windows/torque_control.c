@@ -1,0 +1,1132 @@
+/*
+ * torque_control.c
+ *
+ * Academic License - for use in teaching, academic research, and meeting
+ * course requirements at degree granting institutions only.  Not for
+ * government, commercial, or other organizational use.
+ *
+ * Code generation for model "torque_control".
+ *
+ * Model version              : 1.96
+ * Simulink Coder version : 9.0 (R2018b) 24-May-2018
+ * C source code generated on : Tue Feb  3 14:57:49 2026
+ *
+ * Target selection: quarc_windows.tlc
+ * Note: GRT includes extra infrastructure and instrumentation for prototyping
+ * Embedded hardware selection: 32-bit Generic
+ * Code generation objectives: Unspecified
+ * Validation result: Not run
+ */
+
+#include "torque_control.h"
+#include "torque_control_private.h"
+#include "torque_control_dt.h"
+
+/* Block signals (default storage) */
+B_torque_control_T torque_control_B;
+
+/* Continuous states */
+X_torque_control_T torque_control_X;
+
+/* Block states (default storage) */
+DW_torque_control_T torque_control_DW;
+
+/* Real-time model */
+RT_MODEL_torque_control_T torque_control_M_;
+RT_MODEL_torque_control_T *const torque_control_M = &torque_control_M_;
+
+/*
+ * This function updates continuous states using the ODE1 fixed-step
+ * solver algorithm
+ */
+static void rt_ertODEUpdateContinuousStates(RTWSolverInfo *si )
+{
+  time_T tnew = rtsiGetSolverStopTime(si);
+  time_T h = rtsiGetStepSize(si);
+  real_T *x = rtsiGetContStates(si);
+  ODE1_IntgData *id = (ODE1_IntgData *)rtsiGetSolverData(si);
+  real_T *f0 = id->f[0];
+  int_T i;
+  int_T nXc = 1;
+  rtsiSetSimTimeStep(si,MINOR_TIME_STEP);
+  rtsiSetdX(si, f0);
+  torque_control_derivatives();
+  rtsiSetT(si, tnew);
+  for (i = 0; i < nXc; ++i) {
+    x[i] += h * f0[i];
+  }
+
+  rtsiSetSimTimeStep(si,MAJOR_TIME_STEP);
+}
+
+/* Model output function */
+void torque_control_output(void)
+{
+  /* local block i/o variables */
+  real_T rtb_HILReadEncoder_o1;
+  real_T rtb_PulseGenerator;
+  boolean_T rtb_HILReadDigital_o1;
+  boolean_T rtb_HILReadDigital_o2;
+  boolean_T rtb_HILReadDigital_o3;
+  boolean_T rtb_HILReadDigital_o4;
+  if (rtmIsMajorTimeStep(torque_control_M)) {
+    /* set solver stop time */
+    if (!(torque_control_M->Timing.clockTick0+1)) {
+      rtsiSetSolverStopTime(&torque_control_M->solverInfo,
+                            ((torque_control_M->Timing.clockTickH0 + 1) *
+        torque_control_M->Timing.stepSize0 * 4294967296.0));
+    } else {
+      rtsiSetSolverStopTime(&torque_control_M->solverInfo,
+                            ((torque_control_M->Timing.clockTick0 + 1) *
+        torque_control_M->Timing.stepSize0 +
+        torque_control_M->Timing.clockTickH0 *
+        torque_control_M->Timing.stepSize0 * 4294967296.0));
+    }
+  }                                    /* end MajorTimeStep */
+
+  /* Update absolute time of base rate at minor time step */
+  if (rtmIsMinorTimeStep(torque_control_M)) {
+    torque_control_M->Timing.t[0] = rtsiGetT(&torque_control_M->solverInfo);
+  }
+
+  if (rtmIsMajorTimeStep(torque_control_M)) {
+    /* S-Function (hil_read_encoder_block): '<Root>/HIL Read Encoder' */
+
+    /* S-Function Block: torque_control/HIL Read Encoder (hil_read_encoder_block) */
+    {
+      t_error result = hil_read_encoder(torque_control_DW.HILInitialize_Card,
+        torque_control_P.HILReadEncoder_channels, 2,
+        &torque_control_DW.HILReadEncoder_Buffer[0]);
+      if (result < 0) {
+        msg_get_error_messageA(NULL, result, _rt_error_message, sizeof
+          (_rt_error_message));
+        rtmSetErrorStatus(torque_control_M, _rt_error_message);
+      } else {
+        rtb_HILReadEncoder_o1 = torque_control_DW.HILReadEncoder_Buffer[0];
+        rtb_PulseGenerator = torque_control_DW.HILReadEncoder_Buffer[1];
+      }
+    }
+
+    /* Gain: '<Root>/Motor #1 Encoder Calib1' */
+    torque_control_B.Motor1EncoderCalib1 = torque_control_P.KE_D1 *
+      rtb_HILReadEncoder_o1;
+
+    /* SampleTimeMath: '<S2>/TSamp'
+     *
+     * About '<S2>/TSamp':
+     *  y = u * K where K = 1 / ( w * Ts )
+     */
+    torque_control_B.TSamp = torque_control_B.Motor1EncoderCalib1 *
+      torque_control_P.TSamp_WtEt;
+
+    /* UnaryMinus: '<Root>/positive dir: CCW' incorporates:
+     *  Sum: '<S2>/Diff'
+     *  UnitDelay: '<S2>/UD'
+     */
+    torque_control_B.positivedirCCW = -(torque_control_B.TSamp -
+      torque_control_DW.UD_DSTATE);
+
+    /* Gain: '<Root>/Motor #1 Encoder Calib4' */
+    torque_control_B.Motor1EncoderCalib4 = torque_control_P.ke1 *
+      torque_control_B.positivedirCCW;
+  }
+
+  /* Gain: '<Root>/Motor #1 Encoder Calib6' incorporates:
+   *  Constant: '<Root>/tau_ref'
+   *  Product: '<Root>/Product'
+   *  Sin: '<Root>/Sine Wave'
+   */
+  torque_control_B.Motor1EncoderCalib6 = (sin(torque_control_P.SineWave_Freq *
+    torque_control_M->Timing.t[0] + torque_control_P.SineWave_Phase) *
+    torque_control_P.SineWave_Amp + torque_control_P.SineWave_Bias) *
+    torque_control_P.tau_ref_Value * (1.0 / torque_control_P.Kt1);
+  if (rtmIsMajorTimeStep(torque_control_M)) {
+    /* S-Function (hil_read_analog_block): '<Root>/HIL Read Analog' */
+
+    /* S-Function Block: torque_control/HIL Read Analog (hil_read_analog_block) */
+    {
+      t_error result = hil_read_analog(torque_control_DW.HILInitialize_Card,
+        &torque_control_P.HILReadAnalog_channels, 1,
+        &torque_control_DW.HILReadAnalog_Buffer);
+      if (result < 0) {
+        msg_get_error_messageA(NULL, result, _rt_error_message, sizeof
+          (_rt_error_message));
+        rtmSetErrorStatus(torque_control_M, _rt_error_message);
+      }
+
+      torque_control_B.Current = torque_control_DW.HILReadAnalog_Buffer;
+    }
+  }
+
+  /* Sum: '<Root>/Sum1' */
+  torque_control_B.Sum1 = torque_control_B.Motor1EncoderCalib6 -
+    torque_control_B.Current;
+  if (rtmIsMajorTimeStep(torque_control_M)) {
+    /* SampleTimeMath: '<S3>/TSamp'
+     *
+     * About '<S3>/TSamp':
+     *  y = u * K where K = 1 / ( w * Ts )
+     */
+    torque_control_B.TSamp_n = torque_control_B.Motor1EncoderCalib6 *
+      torque_control_P.TSamp_WtEt_f;
+
+    /* Gain: '<Root>/Motor #1 Encoder Calib2' incorporates:
+     *  Sum: '<S3>/Diff'
+     *  UnitDelay: '<S3>/UD'
+     */
+    torque_control_B.Motor1EncoderCalib2 = (torque_control_B.TSamp_n -
+      torque_control_DW.UD_DSTATE_d) * torque_control_P.L1;
+  }
+
+  /* Sum: '<Root>/Add' incorporates:
+   *  Gain: '<Root>/Motor #1 Encoder Calib3'
+   *  Gain: '<Root>/ki '
+   *  Gain: '<Root>/kp'
+   *  Integrator: '<Root>/Integrator'
+   *  Sum: '<Root>/Sum'
+   */
+  torque_control_B.Add = ((torque_control_P.R1 *
+    torque_control_B.Motor1EncoderCalib6 + torque_control_B.Motor1EncoderCalib4)
+    + (torque_control_P.ki_Gain * torque_control_X.Integrator_CSTATE +
+       torque_control_P.kp_Gain * torque_control_B.Sum1)) +
+    torque_control_B.Motor1EncoderCalib2;
+  if (rtmIsMajorTimeStep(torque_control_M)) {
+    /* S-Function (hil_write_analog_block): '<Root>/HIL Write Analog' */
+
+    /* S-Function Block: torque_control/HIL Write Analog (hil_write_analog_block) */
+    {
+      t_error result;
+      result = hil_write_analog(torque_control_DW.HILInitialize_Card,
+        &torque_control_P.HILWriteAnalog_channels, 1, &torque_control_B.Add);
+      if (result < 0) {
+        msg_get_error_messageA(NULL, result, _rt_error_message, sizeof
+          (_rt_error_message));
+        rtmSetErrorStatus(torque_control_M, _rt_error_message);
+      }
+    }
+  }
+
+  /* SignalConversion: '<Root>/ConcatBufferAtVector ConcatenateIn1' */
+  torque_control_B.VectorConcatenate[0] = torque_control_B.Add;
+
+  /* SignalConversion: '<Root>/ConcatBufferAtVector ConcatenateIn2' */
+  torque_control_B.VectorConcatenate[1] = torque_control_B.Current;
+
+  /* SignalConversion: '<Root>/ConcatBufferAtVector ConcatenateIn3' */
+  torque_control_B.VectorConcatenate[2] = torque_control_B.Motor1EncoderCalib1;
+  if (rtmIsMajorTimeStep(torque_control_M)) {
+    /* Gain: '<Root>/Motor #2 Encoder Calib1' */
+    torque_control_B.VectorConcatenate[3] = torque_control_P.KE_D2 *
+      rtb_PulseGenerator;
+
+    /* DiscretePulseGenerator: '<Root>/Pulse Generator' */
+    rtb_PulseGenerator = (torque_control_DW.clockTickCounter <
+                          torque_control_P.PulseGenerator_Duty) &&
+      (torque_control_DW.clockTickCounter >= 0) ?
+      torque_control_P.PulseGenerator_Amp : 0.0;
+    if (torque_control_DW.clockTickCounter >=
+        torque_control_P.PulseGenerator_Period - 1.0) {
+      torque_control_DW.clockTickCounter = 0;
+    } else {
+      torque_control_DW.clockTickCounter++;
+    }
+
+    /* End of DiscretePulseGenerator: '<Root>/Pulse Generator' */
+    /* S-Function (hil_write_digital_timebase_block): '<Root>/HIL Write Digital Timebase' */
+
+    /* S-Function Block: torque_control/HIL Write Digital Timebase (hil_write_digital_timebase_block) */
+    {
+      t_error result;
+      torque_control_DW.HILWriteDigitalTimebase_Buffer = (rtb_PulseGenerator !=
+        0);
+      result = hil_task_write_digital
+        (torque_control_DW.HILWriteDigitalTimebase_Task, 1,
+         &torque_control_DW.HILWriteDigitalTimebase_Buffer);
+      if (torque_control_DW.HILWriteDigitalTimebase_Started == false && result >=
+          0) {
+        result = hil_task_start(torque_control_DW.HILWriteDigitalTimebase_Task,
+          (t_clock) torque_control_P.HILWriteDigitalTimebase_clock, 100.0, -1);
+        torque_control_DW.HILWriteDigitalTimebase_Started = (result == 0);
+      }
+
+      if (result < 0) {
+        msg_get_error_messageA(NULL, result, _rt_error_message, sizeof
+          (_rt_error_message));
+        rtmSetErrorStatus(torque_control_M, _rt_error_message);
+      }
+    }
+
+    /* S-Function (hil_write_digital_block): '<S4>/HIL Write Digital' incorporates:
+     *  Constant: '<S4>/Enable: Active Low'
+     *  Constant: '<S4>/Master Enable: Active High'
+     */
+
+    /* S-Function Block: torque_control/Enable AMPAQ/HIL Write Digital (hil_write_digital_block) */
+    {
+      t_error result;
+      torque_control_DW.HILWriteDigital_Buffer[0] =
+        (torque_control_P.EnableActiveLow_Value[0] != 0);
+      torque_control_DW.HILWriteDigital_Buffer[1] =
+        (torque_control_P.EnableActiveLow_Value[1] != 0);
+      torque_control_DW.HILWriteDigital_Buffer[2] =
+        (torque_control_P.MasterEnableActiveHigh_Value != 0);
+      result = hil_write_digital(torque_control_DW.HILInitialize_Card,
+        torque_control_P.HILWriteDigital_channels, 3,
+        &torque_control_DW.HILWriteDigital_Buffer[0]);
+      if (result < 0) {
+        msg_get_error_messageA(NULL, result, _rt_error_message, sizeof
+          (_rt_error_message));
+        rtmSetErrorStatus(torque_control_M, _rt_error_message);
+      }
+    }
+
+    /* S-Function (hil_read_digital_block): '<S4>/HIL Read Digital' */
+
+    /* S-Function Block: torque_control/Enable AMPAQ/HIL Read Digital (hil_read_digital_block) */
+    {
+      t_error result = hil_read_digital(torque_control_DW.HILInitialize_Card,
+        torque_control_P.HILReadDigital_channels, 3,
+        &torque_control_DW.HILReadDigital_Buffer[0]);
+      if (result < 0) {
+        msg_get_error_messageA(NULL, result, _rt_error_message, sizeof
+          (_rt_error_message));
+        rtmSetErrorStatus(torque_control_M, _rt_error_message);
+      } else {
+        torque_control_B.HILReadDigital_o1 =
+          torque_control_DW.HILReadDigital_Buffer[0];
+        torque_control_B.HILReadDigital_o2 =
+          torque_control_DW.HILReadDigital_Buffer[1];
+        torque_control_B.HILReadDigital_o3 =
+          torque_control_DW.HILReadDigital_Buffer[2];
+      }
+    }
+
+    /* S-Function (hil_read_digital_block): '<S5>/HIL Read Digital' */
+
+    /* S-Function Block: torque_control/Limit Switches/HIL Read Digital (hil_read_digital_block) */
+    {
+      t_error result = hil_read_digital(torque_control_DW.HILInitialize_Card,
+        torque_control_P.HILReadDigital_channels_p, 4,
+        &torque_control_DW.HILReadDigital_Buffer_c[0]);
+      if (result < 0) {
+        msg_get_error_messageA(NULL, result, _rt_error_message, sizeof
+          (_rt_error_message));
+        rtmSetErrorStatus(torque_control_M, _rt_error_message);
+      } else {
+        rtb_HILReadDigital_o1 = torque_control_DW.HILReadDigital_Buffer_c[0];
+        rtb_HILReadDigital_o2 = torque_control_DW.HILReadDigital_Buffer_c[1];
+        rtb_HILReadDigital_o3 = torque_control_DW.HILReadDigital_Buffer_c[2];
+        rtb_HILReadDigital_o4 = torque_control_DW.HILReadDigital_Buffer_c[3];
+      }
+    }
+
+    /* Logic: '<S5>/Logical Operator4' incorporates:
+     *  Constant: '<S5>/Constant'
+     *  Logic: '<S5>/Logical Operator2'
+     */
+    torque_control_B.LogicalOperator4 = ((torque_control_P.LIMIT_SWITCHES_ENABLE
+      != 0.0) && (!rtb_HILReadDigital_o1));
+
+    /* Stop: '<S6>/Stop Simulation' incorporates:
+     *  Constant: '<S10>/Constant'
+     *  RelationalOperator: '<S10>/Compare'
+     */
+    if (torque_control_B.LogicalOperator4 != torque_control_P.Constant_Value) {
+      rtmSetStopRequested(torque_control_M, 1);
+    }
+
+    /* End of Stop: '<S6>/Stop Simulation' */
+
+    /* Logic: '<S5>/Logical Operator5' incorporates:
+     *  Constant: '<S5>/Constant'
+     *  Logic: '<S5>/Logical Operator3'
+     */
+    torque_control_B.LogicalOperator5 = ((torque_control_P.LIMIT_SWITCHES_ENABLE
+      != 0.0) && (!rtb_HILReadDigital_o2));
+
+    /* Stop: '<S7>/Stop Simulation' incorporates:
+     *  Constant: '<S11>/Constant'
+     *  RelationalOperator: '<S11>/Compare'
+     */
+    if (torque_control_B.LogicalOperator5 != torque_control_P.Constant_Value_i)
+    {
+      rtmSetStopRequested(torque_control_M, 1);
+    }
+
+    /* End of Stop: '<S7>/Stop Simulation' */
+
+    /* Logic: '<S5>/Logical Operator6' incorporates:
+     *  Constant: '<S5>/Constant'
+     *  Logic: '<S5>/Logical Operator1'
+     */
+    torque_control_B.LogicalOperator6 = ((torque_control_P.LIMIT_SWITCHES_ENABLE
+      != 0.0) && (!rtb_HILReadDigital_o3));
+
+    /* Stop: '<S8>/Stop Simulation' incorporates:
+     *  Constant: '<S12>/Constant'
+     *  RelationalOperator: '<S12>/Compare'
+     */
+    if (torque_control_B.LogicalOperator6 != torque_control_P.Constant_Value_e)
+    {
+      rtmSetStopRequested(torque_control_M, 1);
+    }
+
+    /* End of Stop: '<S8>/Stop Simulation' */
+
+    /* Logic: '<S5>/Logical Operator7' incorporates:
+     *  Constant: '<S5>/Constant'
+     *  Logic: '<S5>/Logical Operator'
+     */
+    torque_control_B.LogicalOperator7 = ((torque_control_P.LIMIT_SWITCHES_ENABLE
+      != 0.0) && (!rtb_HILReadDigital_o4));
+
+    /* Stop: '<S9>/Stop Simulation' incorporates:
+     *  Constant: '<S13>/Constant'
+     *  RelationalOperator: '<S13>/Compare'
+     */
+    if (torque_control_B.LogicalOperator7 != torque_control_P.Constant_Value_d)
+    {
+      rtmSetStopRequested(torque_control_M, 1);
+    }
+
+    /* End of Stop: '<S9>/Stop Simulation' */
+  }
+}
+
+/* Model update function */
+void torque_control_update(void)
+{
+  if (rtmIsMajorTimeStep(torque_control_M)) {
+    /* Update for UnitDelay: '<S2>/UD' */
+    torque_control_DW.UD_DSTATE = torque_control_B.TSamp;
+
+    /* Update for UnitDelay: '<S3>/UD' */
+    torque_control_DW.UD_DSTATE_d = torque_control_B.TSamp_n;
+  }
+
+  if (rtmIsMajorTimeStep(torque_control_M)) {
+    rt_ertODEUpdateContinuousStates(&torque_control_M->solverInfo);
+  }
+
+  /* Update absolute time for base rate */
+  /* The "clockTick0" counts the number of times the code of this task has
+   * been executed. The absolute time is the multiplication of "clockTick0"
+   * and "Timing.stepSize0". Size of "clockTick0" ensures timer will not
+   * overflow during the application lifespan selected.
+   * Timer of this task consists of two 32 bit unsigned integers.
+   * The two integers represent the low bits Timing.clockTick0 and the high bits
+   * Timing.clockTickH0. When the low bit overflows to 0, the high bits increment.
+   */
+  if (!(++torque_control_M->Timing.clockTick0)) {
+    ++torque_control_M->Timing.clockTickH0;
+  }
+
+  torque_control_M->Timing.t[0] = rtsiGetSolverStopTime
+    (&torque_control_M->solverInfo);
+
+  {
+    /* Update absolute timer for sample time: [0.01s, 0.0s] */
+    /* The "clockTick1" counts the number of times the code of this task has
+     * been executed. The absolute time is the multiplication of "clockTick1"
+     * and "Timing.stepSize1". Size of "clockTick1" ensures timer will not
+     * overflow during the application lifespan selected.
+     * Timer of this task consists of two 32 bit unsigned integers.
+     * The two integers represent the low bits Timing.clockTick1 and the high bits
+     * Timing.clockTickH1. When the low bit overflows to 0, the high bits increment.
+     */
+    if (!(++torque_control_M->Timing.clockTick1)) {
+      ++torque_control_M->Timing.clockTickH1;
+    }
+
+    torque_control_M->Timing.t[1] = torque_control_M->Timing.clockTick1 *
+      torque_control_M->Timing.stepSize1 + torque_control_M->Timing.clockTickH1 *
+      torque_control_M->Timing.stepSize1 * 4294967296.0;
+  }
+}
+
+/* Derivatives for root system: '<Root>' */
+void torque_control_derivatives(void)
+{
+  XDot_torque_control_T *_rtXdot;
+  _rtXdot = ((XDot_torque_control_T *) torque_control_M->derivs);
+
+  /* Derivatives for Integrator: '<Root>/Integrator' */
+  _rtXdot->Integrator_CSTATE = torque_control_B.Sum1;
+}
+
+/* Model initialize function */
+void torque_control_initialize(void)
+{
+  /* Start for DiscretePulseGenerator: '<Root>/Pulse Generator' */
+  torque_control_DW.clockTickCounter = 0;
+
+  /* Start for S-Function (hil_initialize_block): '<Root>/HIL Initialize' */
+
+  /* S-Function Block: torque_control/HIL Initialize (hil_initialize_block) */
+  {
+    t_int result;
+    t_boolean is_switching;
+    result = hil_open("q8", "0", &torque_control_DW.HILInitialize_Card);
+    if (result < 0) {
+      msg_get_error_messageA(NULL, result, _rt_error_message, sizeof
+        (_rt_error_message));
+      rtmSetErrorStatus(torque_control_M, _rt_error_message);
+      return;
+    }
+
+    is_switching = false;
+    result = hil_set_card_specific_options(torque_control_DW.HILInitialize_Card,
+      " ", 2);
+    if (result < 0) {
+      msg_get_error_messageA(NULL, result, _rt_error_message, sizeof
+        (_rt_error_message));
+      rtmSetErrorStatus(torque_control_M, _rt_error_message);
+      return;
+    }
+
+    if ((torque_control_P.HILInitialize_CKPStart && !is_switching) ||
+        (torque_control_P.HILInitialize_CKPEnter && is_switching)) {
+      result = hil_set_clock_mode(torque_control_DW.HILInitialize_Card, (t_clock
+        *) torque_control_P.HILInitialize_CKChannels, 2U, (t_clock_mode *)
+        torque_control_P.HILInitialize_CKModes);
+      if (result < 0) {
+        msg_get_error_messageA(NULL, result, _rt_error_message, sizeof
+          (_rt_error_message));
+        rtmSetErrorStatus(torque_control_M, _rt_error_message);
+        return;
+      }
+    }
+
+    result = hil_watchdog_clear(torque_control_DW.HILInitialize_Card);
+    if (result < 0 && result != -QERR_HIL_WATCHDOG_CLEAR) {
+      msg_get_error_messageA(NULL, result, _rt_error_message, sizeof
+        (_rt_error_message));
+      rtmSetErrorStatus(torque_control_M, _rt_error_message);
+      return;
+    }
+
+    if ((torque_control_P.HILInitialize_AIPStart && !is_switching) ||
+        (torque_control_P.HILInitialize_AIPEnter && is_switching)) {
+      {
+        int_T i1;
+        real_T *dw_AIMinimums = &torque_control_DW.HILInitialize_AIMinimums[0];
+        for (i1=0; i1 < 8; i1++) {
+          dw_AIMinimums[i1] = (torque_control_P.HILInitialize_AILow);
+        }
+      }
+
+      {
+        int_T i1;
+        real_T *dw_AIMaximums = &torque_control_DW.HILInitialize_AIMaximums[0];
+        for (i1=0; i1 < 8; i1++) {
+          dw_AIMaximums[i1] = torque_control_P.HILInitialize_AIHigh;
+        }
+      }
+
+      result = hil_set_analog_input_ranges(torque_control_DW.HILInitialize_Card,
+        torque_control_P.HILInitialize_AIChannels, 8U,
+        &torque_control_DW.HILInitialize_AIMinimums[0],
+        &torque_control_DW.HILInitialize_AIMaximums[0]);
+      if (result < 0) {
+        msg_get_error_messageA(NULL, result, _rt_error_message, sizeof
+          (_rt_error_message));
+        rtmSetErrorStatus(torque_control_M, _rt_error_message);
+        return;
+      }
+    }
+
+    if ((torque_control_P.HILInitialize_AOPStart && !is_switching) ||
+        (torque_control_P.HILInitialize_AOPEnter && is_switching)) {
+      {
+        int_T i1;
+        real_T *dw_AOMinimums = &torque_control_DW.HILInitialize_AOMinimums[0];
+        for (i1=0; i1 < 8; i1++) {
+          dw_AOMinimums[i1] = (torque_control_P.HILInitialize_AOLow);
+        }
+      }
+
+      {
+        int_T i1;
+        real_T *dw_AOMaximums = &torque_control_DW.HILInitialize_AOMaximums[0];
+        for (i1=0; i1 < 8; i1++) {
+          dw_AOMaximums[i1] = torque_control_P.HILInitialize_AOHigh;
+        }
+      }
+
+      result = hil_set_analog_output_ranges(torque_control_DW.HILInitialize_Card,
+        torque_control_P.HILInitialize_AOChannels, 8U,
+        &torque_control_DW.HILInitialize_AOMinimums[0],
+        &torque_control_DW.HILInitialize_AOMaximums[0]);
+      if (result < 0) {
+        msg_get_error_messageA(NULL, result, _rt_error_message, sizeof
+          (_rt_error_message));
+        rtmSetErrorStatus(torque_control_M, _rt_error_message);
+        return;
+      }
+    }
+
+    if ((torque_control_P.HILInitialize_AOStart && !is_switching) ||
+        (torque_control_P.HILInitialize_AOEnter && is_switching)) {
+      {
+        int_T i1;
+        real_T *dw_AOVoltages = &torque_control_DW.HILInitialize_AOVoltages[0];
+        for (i1=0; i1 < 8; i1++) {
+          dw_AOVoltages[i1] = torque_control_P.HILInitialize_AOInitial;
+        }
+      }
+
+      result = hil_write_analog(torque_control_DW.HILInitialize_Card,
+        torque_control_P.HILInitialize_AOChannels, 8U,
+        &torque_control_DW.HILInitialize_AOVoltages[0]);
+      if (result < 0) {
+        msg_get_error_messageA(NULL, result, _rt_error_message, sizeof
+          (_rt_error_message));
+        rtmSetErrorStatus(torque_control_M, _rt_error_message);
+        return;
+      }
+    }
+
+    if (torque_control_P.HILInitialize_AOReset) {
+      {
+        int_T i1;
+        real_T *dw_AOVoltages = &torque_control_DW.HILInitialize_AOVoltages[0];
+        for (i1=0; i1 < 8; i1++) {
+          dw_AOVoltages[i1] = torque_control_P.HILInitialize_AOWatchdog;
+        }
+      }
+
+      result = hil_watchdog_set_analog_expiration_state
+        (torque_control_DW.HILInitialize_Card,
+         torque_control_P.HILInitialize_AOChannels, 8U,
+         &torque_control_DW.HILInitialize_AOVoltages[0]);
+      if (result < 0) {
+        msg_get_error_messageA(NULL, result, _rt_error_message, sizeof
+          (_rt_error_message));
+        rtmSetErrorStatus(torque_control_M, _rt_error_message);
+        return;
+      }
+    }
+
+    result = hil_set_digital_directions(torque_control_DW.HILInitialize_Card,
+      torque_control_P.HILInitialize_DIChannels, 8U,
+      torque_control_P.HILInitialize_DOChannels, 9U);
+    if (result < 0) {
+      msg_get_error_messageA(NULL, result, _rt_error_message, sizeof
+        (_rt_error_message));
+      rtmSetErrorStatus(torque_control_M, _rt_error_message);
+      return;
+    }
+
+    if ((torque_control_P.HILInitialize_DOStart && !is_switching) ||
+        (torque_control_P.HILInitialize_DOEnter && is_switching)) {
+      {
+        int_T i1;
+        boolean_T *dw_DOBits = &torque_control_DW.HILInitialize_DOBits[0];
+        for (i1=0; i1 < 9; i1++) {
+          dw_DOBits[i1] = torque_control_P.HILInitialize_DOInitial;
+        }
+      }
+
+      result = hil_write_digital(torque_control_DW.HILInitialize_Card,
+        torque_control_P.HILInitialize_DOChannels, 9U, (t_boolean *)
+        &torque_control_DW.HILInitialize_DOBits[0]);
+      if (result < 0) {
+        msg_get_error_messageA(NULL, result, _rt_error_message, sizeof
+          (_rt_error_message));
+        rtmSetErrorStatus(torque_control_M, _rt_error_message);
+        return;
+      }
+    }
+
+    if (torque_control_P.HILInitialize_DOReset) {
+      {
+        int_T i1;
+        int32_T *dw_DOStates = &torque_control_DW.HILInitialize_DOStates[0];
+        for (i1=0; i1 < 9; i1++) {
+          dw_DOStates[i1] = torque_control_P.HILInitialize_DOWatchdog;
+        }
+      }
+
+      result = hil_watchdog_set_digital_expiration_state
+        (torque_control_DW.HILInitialize_Card,
+         torque_control_P.HILInitialize_DOChannels, 9U, (const t_digital_state *)
+         &torque_control_DW.HILInitialize_DOStates[0]);
+      if (result < 0) {
+        msg_get_error_messageA(NULL, result, _rt_error_message, sizeof
+          (_rt_error_message));
+        rtmSetErrorStatus(torque_control_M, _rt_error_message);
+        return;
+      }
+    }
+
+    if ((torque_control_P.HILInitialize_EIPStart && !is_switching) ||
+        (torque_control_P.HILInitialize_EIPEnter && is_switching)) {
+      {
+        int_T i1;
+        int32_T *dw_QuadratureModes =
+          &torque_control_DW.HILInitialize_QuadratureModes[0];
+        for (i1=0; i1 < 8; i1++) {
+          dw_QuadratureModes[i1] = torque_control_P.HILInitialize_EIQuadrature;
+        }
+      }
+
+      result = hil_set_encoder_quadrature_mode
+        (torque_control_DW.HILInitialize_Card,
+         torque_control_P.HILInitialize_EIChannels, 8U,
+         (t_encoder_quadrature_mode *)
+         &torque_control_DW.HILInitialize_QuadratureModes[0]);
+      if (result < 0) {
+        msg_get_error_messageA(NULL, result, _rt_error_message, sizeof
+          (_rt_error_message));
+        rtmSetErrorStatus(torque_control_M, _rt_error_message);
+        return;
+      }
+
+      {
+        int_T i1;
+        real_T *dw_FilterFrequency =
+          &torque_control_DW.HILInitialize_FilterFrequency[0];
+        for (i1=0; i1 < 8; i1++) {
+          dw_FilterFrequency[i1] = torque_control_P.HILInitialize_EIFrequency;
+        }
+      }
+
+      result = hil_set_encoder_filter_frequency
+        (torque_control_DW.HILInitialize_Card,
+         torque_control_P.HILInitialize_EIChannels, 8U,
+         &torque_control_DW.HILInitialize_FilterFrequency[0]);
+      if (result < 0) {
+        msg_get_error_messageA(NULL, result, _rt_error_message, sizeof
+          (_rt_error_message));
+        rtmSetErrorStatus(torque_control_M, _rt_error_message);
+        return;
+      }
+    }
+
+    if ((torque_control_P.HILInitialize_EIStart && !is_switching) ||
+        (torque_control_P.HILInitialize_EIEnter && is_switching)) {
+      {
+        int_T i1;
+        int32_T *dw_InitialEICounts =
+          &torque_control_DW.HILInitialize_InitialEICounts[0];
+        for (i1=0; i1 < 8; i1++) {
+          dw_InitialEICounts[i1] = torque_control_P.HILInitialize_EIInitial;
+        }
+      }
+
+      result = hil_set_encoder_counts(torque_control_DW.HILInitialize_Card,
+        torque_control_P.HILInitialize_EIChannels, 8U,
+        &torque_control_DW.HILInitialize_InitialEICounts[0]);
+      if (result < 0) {
+        msg_get_error_messageA(NULL, result, _rt_error_message, sizeof
+          (_rt_error_message));
+        rtmSetErrorStatus(torque_control_M, _rt_error_message);
+        return;
+      }
+    }
+  }
+
+  /* Start for S-Function (hil_write_digital_timebase_block): '<Root>/HIL Write Digital Timebase' */
+
+  /* S-Function Block: torque_control/HIL Write Digital Timebase (hil_write_digital_timebase_block) */
+  {
+    t_error result;
+    torque_control_DW.HILWriteDigitalTimebase_Started = false;
+    result = hil_task_create_digital_writer(torque_control_DW.HILInitialize_Card,
+      torque_control_P.HILWriteDigitalTimebase_samples,
+      &torque_control_P.HILWriteDigitalTimebase_channel, 1,
+      &torque_control_DW.HILWriteDigitalTimebase_Task);
+    if (result < 0) {
+      msg_get_error_messageA(NULL, result, _rt_error_message, sizeof
+        (_rt_error_message));
+      rtmSetErrorStatus(torque_control_M, _rt_error_message);
+    }
+  }
+
+  /* InitializeConditions for UnitDelay: '<S2>/UD' */
+  torque_control_DW.UD_DSTATE = torque_control_P.DiscreteDerivative1_ICPrevScale;
+
+  /* InitializeConditions for Integrator: '<Root>/Integrator' */
+  torque_control_X.Integrator_CSTATE = torque_control_P.Integrator_IC;
+
+  /* InitializeConditions for UnitDelay: '<S3>/UD' */
+  torque_control_DW.UD_DSTATE_d =
+    torque_control_P.DiscreteDerivative2_ICPrevScale;
+}
+
+/* Model terminate function */
+void torque_control_terminate(void)
+{
+  /* Terminate for S-Function (hil_initialize_block): '<Root>/HIL Initialize' */
+
+  /* S-Function Block: torque_control/HIL Initialize (hil_initialize_block) */
+  {
+    t_boolean is_switching;
+    t_int result;
+    t_uint32 num_final_analog_outputs = 0;
+    t_uint32 num_final_digital_outputs = 0;
+    hil_task_stop_all(torque_control_DW.HILInitialize_Card);
+    hil_monitor_stop_all(torque_control_DW.HILInitialize_Card);
+    is_switching = false;
+    if ((torque_control_P.HILInitialize_AOTerminate && !is_switching) ||
+        (torque_control_P.HILInitialize_AOExit && is_switching)) {
+      {
+        int_T i1;
+        real_T *dw_AOVoltages = &torque_control_DW.HILInitialize_AOVoltages[0];
+        for (i1=0; i1 < 8; i1++) {
+          dw_AOVoltages[i1] = torque_control_P.HILInitialize_AOFinal;
+        }
+      }
+
+      num_final_analog_outputs = 8U;
+    }
+
+    if ((torque_control_P.HILInitialize_DOTerminate && !is_switching) ||
+        (torque_control_P.HILInitialize_DOExit && is_switching)) {
+      {
+        int_T i1;
+        boolean_T *dw_DOBits = &torque_control_DW.HILInitialize_DOBits[0];
+        for (i1=0; i1 < 9; i1++) {
+          dw_DOBits[i1] = torque_control_P.HILInitialize_DOFinal;
+        }
+      }
+
+      num_final_digital_outputs = 9U;
+    }
+
+    if (0
+        || num_final_analog_outputs > 0
+        || num_final_digital_outputs > 0
+        ) {
+      /* Attempt to write the final outputs atomically (due to firmware issue in old Q2-USB). Otherwise write channels individually */
+      result = hil_write(torque_control_DW.HILInitialize_Card
+                         , torque_control_P.HILInitialize_AOChannels,
+                         num_final_analog_outputs
+                         , NULL, 0
+                         , torque_control_P.HILInitialize_DOChannels,
+                         num_final_digital_outputs
+                         , NULL, 0
+                         , &torque_control_DW.HILInitialize_AOVoltages[0]
+                         , NULL
+                         , (t_boolean *)
+                         &torque_control_DW.HILInitialize_DOBits[0]
+                         , NULL
+                         );
+      if (result == -QERR_HIL_WRITE_NOT_SUPPORTED) {
+        t_error local_result;
+        result = 0;
+
+        /* The hil_write operation is not supported by this card. Write final outputs for each channel type */
+        if (num_final_analog_outputs > 0) {
+          local_result = hil_write_analog(torque_control_DW.HILInitialize_Card,
+            torque_control_P.HILInitialize_AOChannels, num_final_analog_outputs,
+            &torque_control_DW.HILInitialize_AOVoltages[0]);
+          if (local_result < 0) {
+            result = local_result;
+          }
+        }
+
+        if (num_final_digital_outputs > 0) {
+          local_result = hil_write_digital(torque_control_DW.HILInitialize_Card,
+            torque_control_P.HILInitialize_DOChannels, num_final_digital_outputs,
+            (t_boolean *) &torque_control_DW.HILInitialize_DOBits[0]);
+          if (local_result < 0) {
+            result = local_result;
+          }
+        }
+
+        if (result < 0) {
+          msg_get_error_messageA(NULL, result, _rt_error_message, sizeof
+            (_rt_error_message));
+          rtmSetErrorStatus(torque_control_M, _rt_error_message);
+        }
+      }
+    }
+
+    hil_task_delete_all(torque_control_DW.HILInitialize_Card);
+    hil_monitor_delete_all(torque_control_DW.HILInitialize_Card);
+    hil_close(torque_control_DW.HILInitialize_Card);
+    torque_control_DW.HILInitialize_Card = NULL;
+  }
+}
+
+/*========================================================================*
+ * Start of Classic call interface                                        *
+ *========================================================================*/
+
+/* Solver interface called by GRT_Main */
+#ifndef USE_GENERATED_SOLVER
+
+void rt_ODECreateIntegrationData(RTWSolverInfo *si)
+{
+  UNUSED_PARAMETER(si);
+  return;
+}                                      /* do nothing */
+
+void rt_ODEDestroyIntegrationData(RTWSolverInfo *si)
+{
+  UNUSED_PARAMETER(si);
+  return;
+}                                      /* do nothing */
+
+void rt_ODEUpdateContinuousStates(RTWSolverInfo *si)
+{
+  UNUSED_PARAMETER(si);
+  return;
+}                                      /* do nothing */
+
+#endif
+
+void MdlOutputs(int_T tid)
+{
+  torque_control_output();
+  UNUSED_PARAMETER(tid);
+}
+
+void MdlUpdate(int_T tid)
+{
+  torque_control_update();
+  UNUSED_PARAMETER(tid);
+}
+
+void MdlInitializeSizes(void)
+{
+}
+
+void MdlInitializeSampleTimes(void)
+{
+}
+
+void MdlInitialize(void)
+{
+}
+
+void MdlStart(void)
+{
+  torque_control_initialize();
+}
+
+void MdlTerminate(void)
+{
+  torque_control_terminate();
+}
+
+/* Registration function */
+RT_MODEL_torque_control_T *torque_control(void)
+{
+  /* Registration code */
+
+  /* initialize non-finites */
+  rt_InitInfAndNaN(sizeof(real_T));
+
+  /* initialize real-time model */
+  (void) memset((void *)torque_control_M, 0,
+                sizeof(RT_MODEL_torque_control_T));
+
+  {
+    /* Setup solver object */
+    rtsiSetSimTimeStepPtr(&torque_control_M->solverInfo,
+                          &torque_control_M->Timing.simTimeStep);
+    rtsiSetTPtr(&torque_control_M->solverInfo, &rtmGetTPtr(torque_control_M));
+    rtsiSetStepSizePtr(&torque_control_M->solverInfo,
+                       &torque_control_M->Timing.stepSize0);
+    rtsiSetdXPtr(&torque_control_M->solverInfo, &torque_control_M->derivs);
+    rtsiSetContStatesPtr(&torque_control_M->solverInfo, (real_T **)
+                         &torque_control_M->contStates);
+    rtsiSetNumContStatesPtr(&torque_control_M->solverInfo,
+      &torque_control_M->Sizes.numContStates);
+    rtsiSetNumPeriodicContStatesPtr(&torque_control_M->solverInfo,
+      &torque_control_M->Sizes.numPeriodicContStates);
+    rtsiSetPeriodicContStateIndicesPtr(&torque_control_M->solverInfo,
+      &torque_control_M->periodicContStateIndices);
+    rtsiSetPeriodicContStateRangesPtr(&torque_control_M->solverInfo,
+      &torque_control_M->periodicContStateRanges);
+    rtsiSetErrorStatusPtr(&torque_control_M->solverInfo, (&rtmGetErrorStatus
+      (torque_control_M)));
+    rtsiSetRTModelPtr(&torque_control_M->solverInfo, torque_control_M);
+  }
+
+  rtsiSetSimTimeStep(&torque_control_M->solverInfo, MAJOR_TIME_STEP);
+  torque_control_M->intgData.f[0] = torque_control_M->odeF[0];
+  torque_control_M->contStates = ((real_T *) &torque_control_X);
+  rtsiSetSolverData(&torque_control_M->solverInfo, (void *)
+                    &torque_control_M->intgData);
+  rtsiSetSolverName(&torque_control_M->solverInfo,"ode1");
+
+  /* Initialize timing info */
+  {
+    int_T *mdlTsMap = torque_control_M->Timing.sampleTimeTaskIDArray;
+    mdlTsMap[0] = 0;
+    mdlTsMap[1] = 1;
+    torque_control_M->Timing.sampleTimeTaskIDPtr = (&mdlTsMap[0]);
+    torque_control_M->Timing.sampleTimes =
+      (&torque_control_M->Timing.sampleTimesArray[0]);
+    torque_control_M->Timing.offsetTimes =
+      (&torque_control_M->Timing.offsetTimesArray[0]);
+
+    /* task periods */
+    torque_control_M->Timing.sampleTimes[0] = (0.0);
+    torque_control_M->Timing.sampleTimes[1] = (0.01);
+
+    /* task offsets */
+    torque_control_M->Timing.offsetTimes[0] = (0.0);
+    torque_control_M->Timing.offsetTimes[1] = (0.0);
+  }
+
+  rtmSetTPtr(torque_control_M, &torque_control_M->Timing.tArray[0]);
+
+  {
+    int_T *mdlSampleHits = torque_control_M->Timing.sampleHitArray;
+    mdlSampleHits[0] = 1;
+    mdlSampleHits[1] = 1;
+    torque_control_M->Timing.sampleHits = (&mdlSampleHits[0]);
+  }
+
+  rtmSetTFinal(torque_control_M, 30.0);
+  torque_control_M->Timing.stepSize0 = 0.01;
+  torque_control_M->Timing.stepSize1 = 0.01;
+
+  /* External mode info */
+  torque_control_M->Sizes.checksums[0] = (2414322850U);
+  torque_control_M->Sizes.checksums[1] = (3561163595U);
+  torque_control_M->Sizes.checksums[2] = (48356311U);
+  torque_control_M->Sizes.checksums[3] = (22528943U);
+
+  {
+    static const sysRanDType rtAlwaysEnabled = SUBSYS_RAN_BC_ENABLE;
+    static RTWExtModeInfo rt_ExtModeInfo;
+    static const sysRanDType *systemRan[1];
+    torque_control_M->extModeInfo = (&rt_ExtModeInfo);
+    rteiSetSubSystemActiveVectorAddresses(&rt_ExtModeInfo, systemRan);
+    systemRan[0] = &rtAlwaysEnabled;
+    rteiSetModelMappingInfoPtr(torque_control_M->extModeInfo,
+      &torque_control_M->SpecialInfo.mappingInfo);
+    rteiSetChecksumsPtr(torque_control_M->extModeInfo,
+                        torque_control_M->Sizes.checksums);
+    rteiSetTPtr(torque_control_M->extModeInfo, rtmGetTPtr(torque_control_M));
+  }
+
+  torque_control_M->solverInfoPtr = (&torque_control_M->solverInfo);
+  torque_control_M->Timing.stepSize = (0.01);
+  rtsiSetFixedStepSize(&torque_control_M->solverInfo, 0.01);
+  rtsiSetSolverMode(&torque_control_M->solverInfo, SOLVER_MODE_SINGLETASKING);
+
+  /* block I/O */
+  torque_control_M->blockIO = ((void *) &torque_control_B);
+  (void) memset(((void *) &torque_control_B), 0,
+                sizeof(B_torque_control_T));
+
+  {
+    torque_control_B.Motor1EncoderCalib1 = 0.0;
+    torque_control_B.TSamp = 0.0;
+    torque_control_B.positivedirCCW = 0.0;
+    torque_control_B.Motor1EncoderCalib4 = 0.0;
+    torque_control_B.Motor1EncoderCalib6 = 0.0;
+    torque_control_B.Current = 0.0;
+    torque_control_B.Sum1 = 0.0;
+    torque_control_B.TSamp_n = 0.0;
+    torque_control_B.Motor1EncoderCalib2 = 0.0;
+    torque_control_B.Add = 0.0;
+    torque_control_B.VectorConcatenate[0] = 0.0;
+    torque_control_B.VectorConcatenate[1] = 0.0;
+    torque_control_B.VectorConcatenate[2] = 0.0;
+    torque_control_B.VectorConcatenate[3] = 0.0;
+    torque_control_B.HILReadDigital_o1 = 0.0;
+    torque_control_B.HILReadDigital_o2 = 0.0;
+    torque_control_B.HILReadDigital_o3 = 0.0;
+  }
+
+  /* parameters */
+  torque_control_M->defaultParam = ((real_T *)&torque_control_P);
+
+  /* states (continuous) */
+  {
+    real_T *x = (real_T *) &torque_control_X;
+    torque_control_M->contStates = (x);
+    (void) memset((void *)&torque_control_X, 0,
+                  sizeof(X_torque_control_T));
+  }
+
+  /* states (dwork) */
+  torque_control_M->dwork = ((void *) &torque_control_DW);
+  (void) memset((void *)&torque_control_DW, 0,
+                sizeof(DW_torque_control_T));
+  torque_control_DW.UD_DSTATE = 0.0;
+  torque_control_DW.UD_DSTATE_d = 0.0;
+  torque_control_DW.HILReadAnalog_Buffer = 0.0;
+
+  {
+    int32_T i;
+    for (i = 0; i < 8; i++) {
+      torque_control_DW.HILInitialize_AIMinimums[i] = 0.0;
+    }
+  }
+
+  {
+    int32_T i;
+    for (i = 0; i < 8; i++) {
+      torque_control_DW.HILInitialize_AIMaximums[i] = 0.0;
+    }
+  }
+
+  {
+    int32_T i;
+    for (i = 0; i < 8; i++) {
+      torque_control_DW.HILInitialize_AOMinimums[i] = 0.0;
+    }
+  }
+
+  {
+    int32_T i;
+    for (i = 0; i < 8; i++) {
+      torque_control_DW.HILInitialize_AOMaximums[i] = 0.0;
+    }
+  }
+
+  {
+    int32_T i;
+    for (i = 0; i < 8; i++) {
+      torque_control_DW.HILInitialize_AOVoltages[i] = 0.0;
+    }
+  }
+
+  {
+    int32_T i;
+    for (i = 0; i < 8; i++) {
+      torque_control_DW.HILInitialize_FilterFrequency[i] = 0.0;
+    }
+  }
+
+  /* data type transition information */
+  {
+    static DataTypeTransInfo dtInfo;
+    (void) memset((char_T *) &dtInfo, 0,
+                  sizeof(dtInfo));
+    torque_control_M->SpecialInfo.mappingInfo = (&dtInfo);
+    dtInfo.numDataTypes = 17;
+    dtInfo.dataTypeSizes = &rtDataTypeSizes[0];
+    dtInfo.dataTypeNames = &rtDataTypeNames[0];
+
+    /* Block I/O transition table */
+    dtInfo.BTransTable = &rtBTransTable;
+
+    /* Parameters transition table */
+    dtInfo.PTransTable = &rtPTransTable;
+  }
+
+  /* Initialize Sizes */
+  torque_control_M->Sizes.numContStates = (1);/* Number of continuous states */
+  torque_control_M->Sizes.numPeriodicContStates = (0);/* Number of periodic continuous states */
+  torque_control_M->Sizes.numY = (0);  /* Number of model outputs */
+  torque_control_M->Sizes.numU = (0);  /* Number of model inputs */
+  torque_control_M->Sizes.sysDirFeedThru = (0);/* The model is not direct feedthrough */
+  torque_control_M->Sizes.numSampTimes = (2);/* Number of sample times */
+  torque_control_M->Sizes.numBlocks = (72);/* Number of blocks */
+  torque_control_M->Sizes.numBlockIO = (18);/* Number of block outputs */
+  torque_control_M->Sizes.numBlockPrms = (157);/* Sum of parameter "widths" */
+  return torque_control_M;
+}
+
+/*========================================================================*
+ * End of Classic call interface                                          *
+ *========================================================================*/
