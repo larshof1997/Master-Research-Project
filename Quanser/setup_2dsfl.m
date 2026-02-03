@@ -97,3 +97,33 @@ disp( [ 'K2(4) = ' num2str( K2(4) ) ' A.s/rad' ] )
 if strcmp( SYS_ANALYSIS_1, 'YES' ) || strcmp( SYS_ANALYSIS_2, 'YES' )
     d_2dsfl_sys_analysis
 end
+
+%% Torque calibration parameters
+%Electrical Parameters
+L1 = 4.7544e-02;
+R1 = 4.2737;
+ke1 = 6.8470e-02;
+
+J1 = 2.030252e-02;
+B1 = 9.233265e-02;
+Kt1 = 3.018583e+00;
+
+
+L2 = 4.1682e-02;
+R2 = 4.0151;
+ke2 = 2.7453e-03;
+
+J2 = 8.538833e-04;
+B2 = 8.577738e-02;
+Kt2 = 1.553175e+00;
+
+%%Torque control gains
+wci = 200; %approx5-10x max desired freq
+kp1 = 2*L1*wci - R1;
+% ki1 = L1*wci^2;
+ki1 = 0;
+kp2 = 2*L2*wci - R2;
+ki2 = L2*wci^2;
+
+
+
