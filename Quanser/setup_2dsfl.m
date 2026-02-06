@@ -12,11 +12,6 @@
 %
 clear all
 %
-%%Motor parametes
-Res1 = 2.32;
-Res2 = 2.32;
-ke1 = 0;
-ke2 = 0;
 
 %% Watchdogs
 % Turn on or off all four limit switches of the system. When enabled, it
@@ -118,12 +113,14 @@ B2 = 8.577738e-02;
 Kt2 = 1.553175e+00;
 
 %%Torque control gains
-wci = 200; %approx5-10x max desired freq
-kp1 = 2*L1*wci - R1;
-% ki1 = L1*wci^2;
-ki1 = 0;
-kp2 = 2*L2*wci - R2;
-ki2 = L2*wci^2;
+kp1 = 3;
+ki1 = 20;
+kd1 = 0.8;
+
+kp2 = 3;
+ki2 = 20;
+kd2 = 0.8;
+
 
 
 

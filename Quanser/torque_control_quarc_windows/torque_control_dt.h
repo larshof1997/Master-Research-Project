@@ -7,9 +7,9 @@
  *
  * Code generation for model "torque_control".
  *
- * Model version              : 1.96
+ * Model version              : 1.100
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Tue Feb  3 14:57:49 2026
+ * C source code generated on : Fri Feb  6 16:35:17 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -64,7 +64,7 @@ static const char_T * rtDataTypeNames[] = {
 
 /* data type transitions for block I/O structure */
 static DataTypeTransition rtBTransitions[] = {
-  { (char_T *)(&torque_control_B.Motor1EncoderCalib1), 0, 0, 17 },
+  { (char_T *)(&torque_control_B.TSamp), 0, 0, 16 },
 
   { (char_T *)(&torque_control_B.LogicalOperator4), 8, 0, 4 }
   ,
@@ -75,7 +75,7 @@ static DataTypeTransition rtBTransitions[] = {
 
   { (char_T *)(&torque_control_DW.HILWriteDigitalTimebase_Task), 16, 0, 1 },
 
-  { (char_T *)(&torque_control_DW.HILReadEncoder_PWORK), 11, 0, 13 },
+  { (char_T *)(&torque_control_DW.HILReadEncoder_PWORK), 11, 0, 12 },
 
   { (char_T *)(&torque_control_DW.HILReadEncoder_Buffer[0]), 6, 0, 28 },
 
@@ -92,7 +92,7 @@ static DataTypeTransitionTable rtBTransTable = {
 
 /* data type transitions for Parameters structure */
 static DataTypeTransition rtPTransitions[] = {
-  { (char_T *)(&torque_control_P.KE_D1), 0, 0, 9 },
+  { (char_T *)(&torque_control_P.KE_D1), 0, 0, 14 },
 
   { (char_T *)(&torque_control_P.HILWriteDigitalTimebase_clock), 6, 0, 1 },
 
@@ -100,18 +100,20 @@ static DataTypeTransition rtPTransitions[] = {
 
   { (char_T *)(&torque_control_P.StopwithMessage_message_icon), 2, 0, 4 },
 
-  { (char_T *)(&torque_control_P.TSamp_WtEt), 0, 0, 32 },
+  { (char_T *)(&torque_control_P.DerivativeFilter1_A[0]), 0, 0, 42 },
 
   { (char_T *)(&torque_control_P.HILInitialize_CKChannels[0]), 6, 0, 7 },
 
   { (char_T *)(&torque_control_P.HILInitialize_AIChannels[0]), 7, 0, 42 },
 
-  { (char_T *)(&torque_control_P.HILReadEncoder_Active), 8, 0, 46 }
+  { (char_T *)(&torque_control_P.HILReadEncoder_Active), 8, 0, 46 },
+
+  { (char_T *)(&torque_control_P.ManualSwitch3_CurrentSetting), 3, 0, 3 }
 };
 
 /* data type transition table for Parameters structure */
 static DataTypeTransitionTable rtPTransTable = {
-  8U,
+  9U,
   rtPTransitions
 };
 

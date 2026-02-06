@@ -7,9 +7,9 @@
  *
  * Code generation for model "torque_control".
  *
- * Model version              : 1.96
+ * Model version              : 1.100
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Tue Feb  3 14:57:49 2026
+ * C source code generated on : Fri Feb  6 16:35:17 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -47,7 +47,7 @@ static void rt_ertODEUpdateContinuousStates(RTWSolverInfo *si )
   ODE1_IntgData *id = (ODE1_IntgData *)rtsiGetSolverData(si);
   real_T *f0 = id->f[0];
   int_T i;
-  int_T nXc = 1;
+  int_T nXc = 6;
   rtsiSetSimTimeStep(si,MINOR_TIME_STEP);
   rtsiSetdX(si, f0);
   torque_control_derivatives();
@@ -63,12 +63,14 @@ static void rt_ertODEUpdateContinuousStates(RTWSolverInfo *si )
 void torque_control_output(void)
 {
   /* local block i/o variables */
-  real_T rtb_HILReadEncoder_o1;
   real_T rtb_PulseGenerator;
+  real_T rtb_DiscreteTimeIntegrator;
   boolean_T rtb_HILReadDigital_o1;
   boolean_T rtb_HILReadDigital_o2;
   boolean_T rtb_HILReadDigital_o3;
   boolean_T rtb_HILReadDigital_o4;
+  real_T rtb_ManualSwitch1;
+  real_T tmp;
   if (rtmIsMajorTimeStep(torque_control_M)) {
     /* set solver stop time */
     if (!(torque_control_M->Timing.clockTick0+1)) {
@@ -102,44 +104,75 @@ void torque_control_output(void)
           (_rt_error_message));
         rtmSetErrorStatus(torque_control_M, _rt_error_message);
       } else {
-        rtb_HILReadEncoder_o1 = torque_control_DW.HILReadEncoder_Buffer[0];
-        rtb_PulseGenerator = torque_control_DW.HILReadEncoder_Buffer[1];
+        rtb_PulseGenerator = torque_control_DW.HILReadEncoder_Buffer[0];
+        rtb_DiscreteTimeIntegrator = torque_control_DW.HILReadEncoder_Buffer[1];
       }
     }
 
-    /* Gain: '<Root>/Motor #1 Encoder Calib1' */
-    torque_control_B.Motor1EncoderCalib1 = torque_control_P.KE_D1 *
-      rtb_HILReadEncoder_o1;
+    /* Gain: '<Root>/Motor #2 Encoder Calib1' */
+    rtb_DiscreteTimeIntegrator *= torque_control_P.KE_D2;
 
-    /* SampleTimeMath: '<S2>/TSamp'
+    /* SampleTimeMath: '<S1>/TSamp'
      *
-     * About '<S2>/TSamp':
+     * About '<S1>/TSamp':
      *  y = u * K where K = 1 / ( w * Ts )
      */
-    torque_control_B.TSamp = torque_control_B.Motor1EncoderCalib1 *
+    torque_control_B.TSamp = rtb_DiscreteTimeIntegrator *
       torque_control_P.TSamp_WtEt;
 
-    /* UnaryMinus: '<Root>/positive dir: CCW' incorporates:
-     *  Sum: '<S2>/Diff'
-     *  UnitDelay: '<S2>/UD'
+    /* Gain: '<Root>/Motor #1 Encoder Calib8' incorporates:
+     *  Sum: '<S1>/Diff'
+     *  UnitDelay: '<S1>/UD'
      */
-    torque_control_B.positivedirCCW = -(torque_control_B.TSamp -
-      torque_control_DW.UD_DSTATE);
-
-    /* Gain: '<Root>/Motor #1 Encoder Calib4' */
-    torque_control_B.Motor1EncoderCalib4 = torque_control_P.ke1 *
-      torque_control_B.positivedirCCW;
+    torque_control_B.Motor1EncoderCalib8 = (torque_control_B.TSamp -
+      torque_control_DW.UD_DSTATE) * torque_control_P.ke2;
   }
 
-  /* Gain: '<Root>/Motor #1 Encoder Calib6' incorporates:
+  /* ManualSwitch: '<Root>/Manual Switch3' incorporates:
+   *  Gain: '<Root>/Motor #1 Encoder Calib3'
+   *  TransferFcn: '<Root>/Derivative Filter1'
+   */
+  if (torque_control_P.ManualSwitch3_CurrentSetting == 1) {
+    torque_control_B.ManualSwitch3 = (torque_control_P.DerivativeFilter1_C[0] *
+      torque_control_X.DerivativeFilter1_CSTATE[0] +
+      torque_control_P.DerivativeFilter1_C[1] *
+      torque_control_X.DerivativeFilter1_CSTATE[1]) * torque_control_P.ke1;
+  } else {
+    torque_control_B.ManualSwitch3 = torque_control_B.Motor1EncoderCalib8;
+  }
+
+  /* End of ManualSwitch: '<Root>/Manual Switch3' */
+
+  /* Gain: '<Root>/Torque to current ' incorporates:
    *  Constant: '<Root>/tau_ref'
    *  Product: '<Root>/Product'
    *  Sin: '<Root>/Sine Wave'
    */
-  torque_control_B.Motor1EncoderCalib6 = (sin(torque_control_P.SineWave_Freq *
+  torque_control_B.Torquetocurrent = (sin(torque_control_P.SineWave_Freq *
     torque_control_M->Timing.t[0] + torque_control_P.SineWave_Phase) *
     torque_control_P.SineWave_Amp + torque_control_P.SineWave_Bias) *
-    torque_control_P.tau_ref_Value * (1.0 / torque_control_P.Kt1);
+    torque_control_P.tau_ref_Value * (1.0 / torque_control_P.Kt2);
+
+  /* ManualSwitch: '<Root>/Manual Switch1' incorporates:
+   *  Gain: '<Root>/Motor #1 Encoder Calib2'
+   *  Gain: '<Root>/Motor #1 Encoder Calib5'
+   *  TransferFcn: '<Root>/Derivative Filter2'
+   */
+  if (torque_control_P.ManualSwitch1_CurrentSetting == 1) {
+    rtb_ManualSwitch1 = torque_control_P.L1 *
+      (torque_control_P.DerivativeFilter2_C[0] *
+       torque_control_X.DerivativeFilter2_CSTATE[0] +
+       torque_control_P.DerivativeFilter2_C[1] *
+       torque_control_X.DerivativeFilter2_CSTATE[1]);
+  } else {
+    rtb_ManualSwitch1 = torque_control_P.L2 *
+      (torque_control_P.DerivativeFilter2_C[0] *
+       torque_control_X.DerivativeFilter2_CSTATE[0] +
+       torque_control_P.DerivativeFilter2_C[1] *
+       torque_control_X.DerivativeFilter2_CSTATE[1]);
+  }
+
+  /* End of ManualSwitch: '<Root>/Manual Switch1' */
   if (rtmIsMajorTimeStep(torque_control_M)) {
     /* S-Function (hil_read_analog_block): '<Root>/HIL Read Analog' */
 
@@ -156,40 +189,43 @@ void torque_control_output(void)
 
       torque_control_B.Current = torque_control_DW.HILReadAnalog_Buffer;
     }
+
+    /* DiscreteIntegrator: '<Root>/Discrete-Time Integrator' */
+    rtb_DiscreteTimeIntegrator = torque_control_DW.DiscreteTimeIntegrator_DSTATE;
+
+    /* Gain: '<Root>/Gain1' */
+    torque_control_B.Gain1 = torque_control_P.ki2 * rtb_DiscreteTimeIntegrator;
   }
 
   /* Sum: '<Root>/Sum1' */
-  torque_control_B.Sum1 = torque_control_B.Motor1EncoderCalib6 -
+  torque_control_B.Sum1 = torque_control_B.Torquetocurrent -
     torque_control_B.Current;
-  if (rtmIsMajorTimeStep(torque_control_M)) {
-    /* SampleTimeMath: '<S3>/TSamp'
-     *
-     * About '<S3>/TSamp':
-     *  y = u * K where K = 1 / ( w * Ts )
-     */
-    torque_control_B.TSamp_n = torque_control_B.Motor1EncoderCalib6 *
-      torque_control_P.TSamp_WtEt_f;
 
-    /* Gain: '<Root>/Motor #1 Encoder Calib2' incorporates:
-     *  Sum: '<S3>/Diff'
-     *  UnitDelay: '<S3>/UD'
-     */
-    torque_control_B.Motor1EncoderCalib2 = (torque_control_B.TSamp_n -
-      torque_control_DW.UD_DSTATE_d) * torque_control_P.L1;
+  /* ManualSwitch: '<Root>/Manual Switch2' incorporates:
+   *  Gain: '<Root>/Motor #1 Encoder Calib6'
+   *  Gain: '<Root>/Motor #1 Encoder Calib7'
+   */
+  if (torque_control_P.ManualSwitch2_CurrentSetting == 1) {
+    tmp = torque_control_P.R1 * torque_control_B.Torquetocurrent;
+  } else {
+    tmp = torque_control_P.R2 * torque_control_B.Torquetocurrent;
   }
 
+  /* End of ManualSwitch: '<Root>/Manual Switch2' */
+
   /* Sum: '<Root>/Add' incorporates:
-   *  Gain: '<Root>/Motor #1 Encoder Calib3'
-   *  Gain: '<Root>/ki '
-   *  Gain: '<Root>/kp'
-   *  Integrator: '<Root>/Integrator'
-   *  Sum: '<Root>/Sum'
+   *  Gain: '<Root>/Gain'
+   *  Gain: '<Root>/Gain2'
+   *  Sum: '<Root>/Add1'
+   *  TransferFcn: '<Root>/Derivative Filter4'
+   *  UnaryMinus: '<Root>/positive dir: CCW'
    */
-  torque_control_B.Add = ((torque_control_P.R1 *
-    torque_control_B.Motor1EncoderCalib6 + torque_control_B.Motor1EncoderCalib4)
-    + (torque_control_P.ki_Gain * torque_control_X.Integrator_CSTATE +
-       torque_control_P.kp_Gain * torque_control_B.Sum1)) +
-    torque_control_B.Motor1EncoderCalib2;
+  torque_control_B.Add = ((torque_control_P.DerivativeFilter4_C[0] *
+    torque_control_X.DerivativeFilter4_CSTATE[0] +
+    torque_control_P.DerivativeFilter4_C[1] *
+    torque_control_X.DerivativeFilter4_CSTATE[1]) * torque_control_P.kd2 +
+    (torque_control_P.kp2 * torque_control_B.Sum1 + torque_control_B.Gain1)) +
+    ((-torque_control_B.ManualSwitch3 + tmp) + rtb_ManualSwitch1);
   if (rtmIsMajorTimeStep(torque_control_M)) {
     /* S-Function (hil_write_analog_block): '<Root>/HIL Write Analog' */
 
@@ -207,16 +243,19 @@ void torque_control_output(void)
   }
 
   /* SignalConversion: '<Root>/ConcatBufferAtVector ConcatenateIn1' */
-  torque_control_B.VectorConcatenate[0] = torque_control_B.Add;
+  torque_control_B.VectorConcatenate[0] = torque_control_B.Torquetocurrent;
 
   /* SignalConversion: '<Root>/ConcatBufferAtVector ConcatenateIn2' */
   torque_control_B.VectorConcatenate[1] = torque_control_B.Current;
 
   /* SignalConversion: '<Root>/ConcatBufferAtVector ConcatenateIn3' */
-  torque_control_B.VectorConcatenate[2] = torque_control_B.Motor1EncoderCalib1;
+  torque_control_B.VectorConcatenate[2] = torque_control_B.Add;
+
+  /* SignalConversion: '<Root>/ConcatBufferAtVector ConcatenateIn4' */
+  torque_control_B.VectorConcatenate[3] = torque_control_B.ManualSwitch3;
   if (rtmIsMajorTimeStep(torque_control_M)) {
-    /* Gain: '<Root>/Motor #2 Encoder Calib1' */
-    torque_control_B.VectorConcatenate[3] = torque_control_P.KE_D2 *
+    /* Gain: '<Root>/Motor #1 Encoder Calib1' */
+    torque_control_B.Motor1EncoderCalib1 = torque_control_P.KE_D1 *
       rtb_PulseGenerator;
 
     /* DiscretePulseGenerator: '<Root>/Pulse Generator' */
@@ -256,9 +295,9 @@ void torque_control_output(void)
       }
     }
 
-    /* S-Function (hil_write_digital_block): '<S4>/HIL Write Digital' incorporates:
-     *  Constant: '<S4>/Enable: Active Low'
-     *  Constant: '<S4>/Master Enable: Active High'
+    /* S-Function (hil_write_digital_block): '<S2>/HIL Write Digital' incorporates:
+     *  Constant: '<S2>/Enable: Active Low'
+     *  Constant: '<S2>/Master Enable: Active High'
      */
 
     /* S-Function Block: torque_control/Enable AMPAQ/HIL Write Digital (hil_write_digital_block) */
@@ -280,7 +319,7 @@ void torque_control_output(void)
       }
     }
 
-    /* S-Function (hil_read_digital_block): '<S4>/HIL Read Digital' */
+    /* S-Function (hil_read_digital_block): '<S2>/HIL Read Digital' */
 
     /* S-Function Block: torque_control/Enable AMPAQ/HIL Read Digital (hil_read_digital_block) */
     {
@@ -301,7 +340,7 @@ void torque_control_output(void)
       }
     }
 
-    /* S-Function (hil_read_digital_block): '<S5>/HIL Read Digital' */
+    /* S-Function (hil_read_digital_block): '<S3>/HIL Read Digital' */
 
     /* S-Function Block: torque_control/Limit Switches/HIL Read Digital (hil_read_digital_block) */
     {
@@ -320,76 +359,76 @@ void torque_control_output(void)
       }
     }
 
-    /* Logic: '<S5>/Logical Operator4' incorporates:
-     *  Constant: '<S5>/Constant'
-     *  Logic: '<S5>/Logical Operator2'
+    /* Logic: '<S3>/Logical Operator4' incorporates:
+     *  Constant: '<S3>/Constant'
+     *  Logic: '<S3>/Logical Operator2'
      */
     torque_control_B.LogicalOperator4 = ((torque_control_P.LIMIT_SWITCHES_ENABLE
       != 0.0) && (!rtb_HILReadDigital_o1));
 
-    /* Stop: '<S6>/Stop Simulation' incorporates:
-     *  Constant: '<S10>/Constant'
-     *  RelationalOperator: '<S10>/Compare'
+    /* Stop: '<S4>/Stop Simulation' incorporates:
+     *  Constant: '<S8>/Constant'
+     *  RelationalOperator: '<S8>/Compare'
      */
     if (torque_control_B.LogicalOperator4 != torque_control_P.Constant_Value) {
       rtmSetStopRequested(torque_control_M, 1);
     }
 
-    /* End of Stop: '<S6>/Stop Simulation' */
+    /* End of Stop: '<S4>/Stop Simulation' */
 
-    /* Logic: '<S5>/Logical Operator5' incorporates:
-     *  Constant: '<S5>/Constant'
-     *  Logic: '<S5>/Logical Operator3'
+    /* Logic: '<S3>/Logical Operator5' incorporates:
+     *  Constant: '<S3>/Constant'
+     *  Logic: '<S3>/Logical Operator3'
      */
     torque_control_B.LogicalOperator5 = ((torque_control_P.LIMIT_SWITCHES_ENABLE
       != 0.0) && (!rtb_HILReadDigital_o2));
 
-    /* Stop: '<S7>/Stop Simulation' incorporates:
-     *  Constant: '<S11>/Constant'
-     *  RelationalOperator: '<S11>/Compare'
+    /* Stop: '<S5>/Stop Simulation' incorporates:
+     *  Constant: '<S9>/Constant'
+     *  RelationalOperator: '<S9>/Compare'
      */
     if (torque_control_B.LogicalOperator5 != torque_control_P.Constant_Value_i)
     {
       rtmSetStopRequested(torque_control_M, 1);
     }
 
-    /* End of Stop: '<S7>/Stop Simulation' */
+    /* End of Stop: '<S5>/Stop Simulation' */
 
-    /* Logic: '<S5>/Logical Operator6' incorporates:
-     *  Constant: '<S5>/Constant'
-     *  Logic: '<S5>/Logical Operator1'
+    /* Logic: '<S3>/Logical Operator6' incorporates:
+     *  Constant: '<S3>/Constant'
+     *  Logic: '<S3>/Logical Operator1'
      */
     torque_control_B.LogicalOperator6 = ((torque_control_P.LIMIT_SWITCHES_ENABLE
       != 0.0) && (!rtb_HILReadDigital_o3));
 
-    /* Stop: '<S8>/Stop Simulation' incorporates:
-     *  Constant: '<S12>/Constant'
-     *  RelationalOperator: '<S12>/Compare'
+    /* Stop: '<S6>/Stop Simulation' incorporates:
+     *  Constant: '<S10>/Constant'
+     *  RelationalOperator: '<S10>/Compare'
      */
     if (torque_control_B.LogicalOperator6 != torque_control_P.Constant_Value_e)
     {
       rtmSetStopRequested(torque_control_M, 1);
     }
 
-    /* End of Stop: '<S8>/Stop Simulation' */
+    /* End of Stop: '<S6>/Stop Simulation' */
 
-    /* Logic: '<S5>/Logical Operator7' incorporates:
-     *  Constant: '<S5>/Constant'
-     *  Logic: '<S5>/Logical Operator'
+    /* Logic: '<S3>/Logical Operator7' incorporates:
+     *  Constant: '<S3>/Constant'
+     *  Logic: '<S3>/Logical Operator'
      */
     torque_control_B.LogicalOperator7 = ((torque_control_P.LIMIT_SWITCHES_ENABLE
       != 0.0) && (!rtb_HILReadDigital_o4));
 
-    /* Stop: '<S9>/Stop Simulation' incorporates:
-     *  Constant: '<S13>/Constant'
-     *  RelationalOperator: '<S13>/Compare'
+    /* Stop: '<S7>/Stop Simulation' incorporates:
+     *  Constant: '<S11>/Constant'
+     *  RelationalOperator: '<S11>/Compare'
      */
     if (torque_control_B.LogicalOperator7 != torque_control_P.Constant_Value_d)
     {
       rtmSetStopRequested(torque_control_M, 1);
     }
 
-    /* End of Stop: '<S9>/Stop Simulation' */
+    /* End of Stop: '<S7>/Stop Simulation' */
   }
 }
 
@@ -397,11 +436,12 @@ void torque_control_output(void)
 void torque_control_update(void)
 {
   if (rtmIsMajorTimeStep(torque_control_M)) {
-    /* Update for UnitDelay: '<S2>/UD' */
+    /* Update for UnitDelay: '<S1>/UD' */
     torque_control_DW.UD_DSTATE = torque_control_B.TSamp;
 
-    /* Update for UnitDelay: '<S3>/UD' */
-    torque_control_DW.UD_DSTATE_d = torque_control_B.TSamp_n;
+    /* Update for DiscreteIntegrator: '<Root>/Discrete-Time Integrator' */
+    torque_control_DW.DiscreteTimeIntegrator_DSTATE +=
+      torque_control_P.DiscreteTimeIntegrator_gainval * torque_control_B.Sum1;
   }
 
   if (rtmIsMajorTimeStep(torque_control_M)) {
@@ -450,8 +490,38 @@ void torque_control_derivatives(void)
   XDot_torque_control_T *_rtXdot;
   _rtXdot = ((XDot_torque_control_T *) torque_control_M->derivs);
 
-  /* Derivatives for Integrator: '<Root>/Integrator' */
-  _rtXdot->Integrator_CSTATE = torque_control_B.Sum1;
+  /* Derivatives for TransferFcn: '<Root>/Derivative Filter1' */
+  _rtXdot->DerivativeFilter1_CSTATE[0] = 0.0;
+  _rtXdot->DerivativeFilter1_CSTATE[0] += torque_control_P.DerivativeFilter1_A[0]
+    * torque_control_X.DerivativeFilter1_CSTATE[0];
+  _rtXdot->DerivativeFilter1_CSTATE[1] = 0.0;
+  _rtXdot->DerivativeFilter1_CSTATE[0] += torque_control_P.DerivativeFilter1_A[1]
+    * torque_control_X.DerivativeFilter1_CSTATE[1];
+  _rtXdot->DerivativeFilter1_CSTATE[1] +=
+    torque_control_X.DerivativeFilter1_CSTATE[0];
+  _rtXdot->DerivativeFilter1_CSTATE[0] += torque_control_B.Motor1EncoderCalib1;
+
+  /* Derivatives for TransferFcn: '<Root>/Derivative Filter2' */
+  _rtXdot->DerivativeFilter2_CSTATE[0] = 0.0;
+  _rtXdot->DerivativeFilter2_CSTATE[0] += torque_control_P.DerivativeFilter2_A[0]
+    * torque_control_X.DerivativeFilter2_CSTATE[0];
+  _rtXdot->DerivativeFilter2_CSTATE[1] = 0.0;
+  _rtXdot->DerivativeFilter2_CSTATE[0] += torque_control_P.DerivativeFilter2_A[1]
+    * torque_control_X.DerivativeFilter2_CSTATE[1];
+  _rtXdot->DerivativeFilter2_CSTATE[1] +=
+    torque_control_X.DerivativeFilter2_CSTATE[0];
+  _rtXdot->DerivativeFilter2_CSTATE[0] += torque_control_B.Torquetocurrent;
+
+  /* Derivatives for TransferFcn: '<Root>/Derivative Filter4' */
+  _rtXdot->DerivativeFilter4_CSTATE[0] = 0.0;
+  _rtXdot->DerivativeFilter4_CSTATE[0] += torque_control_P.DerivativeFilter4_A[0]
+    * torque_control_X.DerivativeFilter4_CSTATE[0];
+  _rtXdot->DerivativeFilter4_CSTATE[1] = 0.0;
+  _rtXdot->DerivativeFilter4_CSTATE[0] += torque_control_P.DerivativeFilter4_A[1]
+    * torque_control_X.DerivativeFilter4_CSTATE[1];
+  _rtXdot->DerivativeFilter4_CSTATE[1] +=
+    torque_control_X.DerivativeFilter4_CSTATE[0];
+  _rtXdot->DerivativeFilter4_CSTATE[0] += torque_control_B.Sum1;
 }
 
 /* Model initialize function */
@@ -475,15 +545,6 @@ void torque_control_initialize(void)
     }
 
     is_switching = false;
-    result = hil_set_card_specific_options(torque_control_DW.HILInitialize_Card,
-      " ", 2);
-    if (result < 0) {
-      msg_get_error_messageA(NULL, result, _rt_error_message, sizeof
-        (_rt_error_message));
-      rtmSetErrorStatus(torque_control_M, _rt_error_message);
-      return;
-    }
-
     if ((torque_control_P.HILInitialize_CKPStart && !is_switching) ||
         (torque_control_P.HILInitialize_CKPEnter && is_switching)) {
       result = hil_set_clock_mode(torque_control_DW.HILInitialize_Card, (t_clock
@@ -743,15 +804,30 @@ void torque_control_initialize(void)
     }
   }
 
-  /* InitializeConditions for UnitDelay: '<S2>/UD' */
-  torque_control_DW.UD_DSTATE = torque_control_P.DiscreteDerivative1_ICPrevScale;
+  /* InitializeConditions for UnitDelay: '<S1>/UD' */
+  torque_control_DW.UD_DSTATE = torque_control_P.DiscreteDerivative_ICPrevScaled;
 
-  /* InitializeConditions for Integrator: '<Root>/Integrator' */
-  torque_control_X.Integrator_CSTATE = torque_control_P.Integrator_IC;
+  /* InitializeConditions for DiscreteIntegrator: '<Root>/Discrete-Time Integrator' */
+  torque_control_DW.DiscreteTimeIntegrator_DSTATE =
+    torque_control_P.DiscreteTimeIntegrator_IC;
 
-  /* InitializeConditions for UnitDelay: '<S3>/UD' */
-  torque_control_DW.UD_DSTATE_d =
-    torque_control_P.DiscreteDerivative2_ICPrevScale;
+  /* InitializeConditions for TransferFcn: '<Root>/Derivative Filter1' */
+  torque_control_X.DerivativeFilter1_CSTATE[0] = 0.0;
+
+  /* InitializeConditions for TransferFcn: '<Root>/Derivative Filter2' */
+  torque_control_X.DerivativeFilter2_CSTATE[0] = 0.0;
+
+  /* InitializeConditions for TransferFcn: '<Root>/Derivative Filter4' */
+  torque_control_X.DerivativeFilter4_CSTATE[0] = 0.0;
+
+  /* InitializeConditions for TransferFcn: '<Root>/Derivative Filter1' */
+  torque_control_X.DerivativeFilter1_CSTATE[1] = 0.0;
+
+  /* InitializeConditions for TransferFcn: '<Root>/Derivative Filter2' */
+  torque_control_X.DerivativeFilter2_CSTATE[1] = 0.0;
+
+  /* InitializeConditions for TransferFcn: '<Root>/Derivative Filter4' */
+  torque_control_X.DerivativeFilter4_CSTATE[1] = 0.0;
 }
 
 /* Model terminate function */
@@ -987,18 +1063,23 @@ RT_MODEL_torque_control_T *torque_control(void)
   torque_control_M->Timing.stepSize1 = 0.01;
 
   /* External mode info */
-  torque_control_M->Sizes.checksums[0] = (2414322850U);
-  torque_control_M->Sizes.checksums[1] = (3561163595U);
-  torque_control_M->Sizes.checksums[2] = (48356311U);
-  torque_control_M->Sizes.checksums[3] = (22528943U);
+  torque_control_M->Sizes.checksums[0] = (777914669U);
+  torque_control_M->Sizes.checksums[1] = (455845496U);
+  torque_control_M->Sizes.checksums[2] = (1463651443U);
+  torque_control_M->Sizes.checksums[3] = (2723483610U);
 
   {
     static const sysRanDType rtAlwaysEnabled = SUBSYS_RAN_BC_ENABLE;
     static RTWExtModeInfo rt_ExtModeInfo;
-    static const sysRanDType *systemRan[1];
+    static const sysRanDType *systemRan[6];
     torque_control_M->extModeInfo = (&rt_ExtModeInfo);
     rteiSetSubSystemActiveVectorAddresses(&rt_ExtModeInfo, systemRan);
     systemRan[0] = &rtAlwaysEnabled;
+    systemRan[1] = &rtAlwaysEnabled;
+    systemRan[2] = &rtAlwaysEnabled;
+    systemRan[3] = &rtAlwaysEnabled;
+    systemRan[4] = &rtAlwaysEnabled;
+    systemRan[5] = &rtAlwaysEnabled;
     rteiSetModelMappingInfoPtr(torque_control_M->extModeInfo,
       &torque_control_M->SpecialInfo.mappingInfo);
     rteiSetChecksumsPtr(torque_control_M->extModeInfo,
@@ -1017,20 +1098,19 @@ RT_MODEL_torque_control_T *torque_control(void)
                 sizeof(B_torque_control_T));
 
   {
-    torque_control_B.Motor1EncoderCalib1 = 0.0;
     torque_control_B.TSamp = 0.0;
-    torque_control_B.positivedirCCW = 0.0;
-    torque_control_B.Motor1EncoderCalib4 = 0.0;
-    torque_control_B.Motor1EncoderCalib6 = 0.0;
+    torque_control_B.Motor1EncoderCalib8 = 0.0;
+    torque_control_B.ManualSwitch3 = 0.0;
+    torque_control_B.Torquetocurrent = 0.0;
     torque_control_B.Current = 0.0;
     torque_control_B.Sum1 = 0.0;
-    torque_control_B.TSamp_n = 0.0;
-    torque_control_B.Motor1EncoderCalib2 = 0.0;
+    torque_control_B.Gain1 = 0.0;
     torque_control_B.Add = 0.0;
     torque_control_B.VectorConcatenate[0] = 0.0;
     torque_control_B.VectorConcatenate[1] = 0.0;
     torque_control_B.VectorConcatenate[2] = 0.0;
     torque_control_B.VectorConcatenate[3] = 0.0;
+    torque_control_B.Motor1EncoderCalib1 = 0.0;
     torque_control_B.HILReadDigital_o1 = 0.0;
     torque_control_B.HILReadDigital_o2 = 0.0;
     torque_control_B.HILReadDigital_o3 = 0.0;
@@ -1052,7 +1132,7 @@ RT_MODEL_torque_control_T *torque_control(void)
   (void) memset((void *)&torque_control_DW, 0,
                 sizeof(DW_torque_control_T));
   torque_control_DW.UD_DSTATE = 0.0;
-  torque_control_DW.UD_DSTATE_d = 0.0;
+  torque_control_DW.DiscreteTimeIntegrator_DSTATE = 0.0;
   torque_control_DW.HILReadAnalog_Buffer = 0.0;
 
   {
@@ -1115,15 +1195,15 @@ RT_MODEL_torque_control_T *torque_control(void)
   }
 
   /* Initialize Sizes */
-  torque_control_M->Sizes.numContStates = (1);/* Number of continuous states */
+  torque_control_M->Sizes.numContStates = (6);/* Number of continuous states */
   torque_control_M->Sizes.numPeriodicContStates = (0);/* Number of periodic continuous states */
   torque_control_M->Sizes.numY = (0);  /* Number of model outputs */
   torque_control_M->Sizes.numU = (0);  /* Number of model inputs */
   torque_control_M->Sizes.sysDirFeedThru = (0);/* The model is not direct feedthrough */
   torque_control_M->Sizes.numSampTimes = (2);/* Number of sample times */
-  torque_control_M->Sizes.numBlocks = (72);/* Number of blocks */
-  torque_control_M->Sizes.numBlockIO = (18);/* Number of block outputs */
-  torque_control_M->Sizes.numBlockPrms = (157);/* Sum of parameter "widths" */
+  torque_control_M->Sizes.numBlocks = (84);/* Number of blocks */
+  torque_control_M->Sizes.numBlockIO = (17);/* Number of block outputs */
+  torque_control_M->Sizes.numBlockPrms = (175);/* Sum of parameter "widths" */
   return torque_control_M;
 }
 

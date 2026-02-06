@@ -7,9 +7,9 @@
  *
  * Code generation for model "torque_control".
  *
- * Model version              : 1.96
+ * Model version              : 1.100
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Tue Feb  3 14:57:49 2026
+ * C source code generated on : Fri Feb  6 16:35:17 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
