@@ -122,7 +122,41 @@ ki2 = 20;
 kd2 = 0.8;
 
 %%EULER LAGRANGE MATRICES
+m1 = 1.6537;  l1 = 0.343;  r1 = 0.29;
+m2 = 0.9982;  l2 = 0.267;  r2 = 0.175;
+I1_hat  = 0.0390;
+I2_hat  = 0.0081;
+fc1_hat = 0;
+fc2_hat = 0;
+b1_hat  = 0.0191;
+b2_hat  = 0.0248;
+v_eps_hat = 0.1;
+a1_hat = m1 * r1^2 + m2 * l1^2 + I1_hat;
+a2_hat = m2 * r2^2 + I2_hat;
+b_hat  = m2 * l1 * r2;
 
+kp_traj = [1 0;0 1];
+ki_traj = zeros(2,2);
+kd_traj = [1 0;0 1];
+
+load('trajectory.mat');
+
+function M = M_mat(theta2, a1, a2, b)
+    c2 = cos(theta2);
+    M = [a1 + a2 + 2*b*c2,  a2 + b*c2;
+         a2 + b*c2,         a2];
+end
+
+function C = C_mat(theta2, dtheta1, dtheta2, b)
+    s2 = sin(theta2);
+    C = [-b*s2*dtheta2,           -b*s2*(dtheta1 + dtheta2);
+          b*s2*dtheta1,            0];
+end
+
+function D = D_mat(b1, b2)
+    D = [b1,0;
+         0,b2];
+end
 
 
 

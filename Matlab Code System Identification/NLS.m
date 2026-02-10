@@ -27,12 +27,12 @@ opts = optimoptions('lsqnonlin', ...
     'SpecifyObjectiveGradient', true);
 
 %Linear
-psi_hat = estimate_theta_ls_viscous(data,v_eps);
-psi_hat = [psi_hat;v_eps];
+% psi_hat = estimate_theta_ls_viscous(data,v_eps);
+% psi_hat = [psi_hat;v_eps];
 
 %NON-Linear
-% fun = @(psi) residualsEL_analytic(psi, data);
-% [psi_hat,~,res,exitflag,out] = lsqnonlin(fun, psi0, lb, ub, opts);
+fun = @(psi) residualsEL_analytic(psi, data);
+[psi_hat,~,res,exitflag,out] = lsqnonlin(fun, psi0, lb, ub, opts);
 
 % [psi_hat,~,res,exitflag,out] = lsqnonlin(@(psi) residualsEL(psi, data), psi0, lb, ub, opts);
 
