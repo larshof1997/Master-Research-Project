@@ -27,12 +27,12 @@ opts = optimoptions('lsqnonlin', ...
     'SpecifyObjectiveGradient', true);
 
 %Linear
-% psi_hat = estimate_theta_ls_viscous(data,v_eps);
-% psi_hat = [psi_hat;v_eps];
+psi_hat = estimate_theta_ls_viscous(data,v_eps);
+psi_hat = [psi_hat;v_eps];
 
 %NON-Linear
-fun = @(psi) residualsEL_analytic(psi, data);
-[psi_hat,~,res,exitflag,out] = lsqnonlin(fun, psi0, lb, ub, opts);
+% fun = @(psi) residualsEL_analytic(psi, data);
+% [psi_hat,~,res,exitflag,out] = lsqnonlin(fun, psi0, lb, ub, opts);
 
 % [psi_hat,~,res,exitflag,out] = lsqnonlin(@(psi) residualsEL(psi, data), psi0, lb, ub, opts);
 
@@ -548,7 +548,7 @@ end
 
 
 %% calculate MSE's
-mse = computeMSEJointStates(x_true, x_hat)
+% mse = computeMSEJointStates(x_true, x_hat)
 
 function mse = computeMSEJointStates(x_true, x_hat)
     % Ensure x_hat has the same orientation as x_true
