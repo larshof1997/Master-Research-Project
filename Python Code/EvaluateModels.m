@@ -5,7 +5,7 @@ S = load('planar_2dof_dataset_no_noise_linear_friction.mat');
 dataset = S.dataset;
 
 % Choose a run to vaidate on (change this index if you like)
-run_idx = 9;
+run_idx = 19;
 r = dataset.runs(run_idx);
 
 t  = r.time;               % time vector (Nx1)
@@ -21,12 +21,10 @@ m1 = 1.6537;  l1 = 0.343;  r1 = 0.29;
 m2 = 0.9982;  l2 = 0.267;  r2 = 0.175;
 
 %load python env
-pyenv('Version','/Library/Frameworks/Python.framework/Versions/3.11/bin/python3');
+pyenv('Version', '/Applications/Xcode.app/Contents/Developer/usr/bin/python3')
 
-% Import your ONNX Python wrapper
-% py.importlib.import_module('FFNN');
 % import HNN module 
-py.importlib.import_module('HNN_predict2');
+py.importlib.import_module('HNN_predict_ptrans');
 
 % Preallocate
 x_hat = zeros(N,4);      % [q1 q2 qd1 qd2]
@@ -43,19 +41,13 @@ x_hat_hnn(1,3:4) = p_true(1,1:2);  % p0
 
 dt = t(2) - t(1);
 
-% call it
-% x_hnn = double([x_true(1,1), x_true(1,2), p_true(1,1), p_true(1,2)]);  % 1x4
-% py_out = py.HNN_predict2.predict_next(x_hnn, dt);  % Python object
-% % convert to MATLAB double (1x4)
-% x_next_hnn = double(py_out);
-
 xd_hat =  zeros(N,2);
 xdd_hat =  zeros(N,2);
-py.HNN_predict2.load_model();
+py.HNN_predict_ptrans.load_model();
 for k = 1:N-1
     % Predict acceleration from NN
     % x_hat_hnn(k,:);
-    x_py = py.HNN_predict2.predict_next(x_hat_hnn(k,:), dt, tau_applied(k,:));
+    x_py = py.HNN_predict_ptrans.predict_next(x_hat_hnn(k,:), dt, tau_applied(k,:));
 
     x_mat = cellfun(@double, cell(x_py.tolist()));
     x_hat_hnn(k+1,:) = x_mat;
