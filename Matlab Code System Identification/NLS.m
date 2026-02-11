@@ -548,7 +548,7 @@ end
 
 
 %% calculate MSE's
-mse = computeMSEJointStates(x_true, x_hat)
+% mse = computeMSEJointStates(x_true, x_hat)
 
 function mse = computeMSEJointStates(x_true, x_hat)
     % Ensure x_hat has the same orientation as x_true
