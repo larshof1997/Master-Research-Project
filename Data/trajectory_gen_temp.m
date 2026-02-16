@@ -20,12 +20,12 @@ num_simulations = 20;            % increased
 N = numel(t);
 
 %% Noise settings (small realistic values)
-sigma_tau1 = 0.002;   % [Nm] process
-sigma_tau2 = 0.0015;
-sigma_uc1  = 0.01;   % command/actuator
-sigma_uc2  = 0.005;
-sigma_th1  = 0.05;   % measurement noise
-sigma_th2  = 0.025;
+sigma_tau1 = 0.0002;   % [Nm] process
+sigma_tau2 = 0.00015;
+sigma_uc1  = 0.005;   % command/actuator
+sigma_uc2  = 0.003;
+sigma_th1  = 0.0005;   % measurement noise
+sigma_th2  = 0.0005;
 sigma_dth1 = 0;
 sigma_dth2 = 0;
 
