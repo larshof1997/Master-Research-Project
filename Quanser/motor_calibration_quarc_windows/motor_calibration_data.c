@@ -7,9 +7,9 @@
  *
  * Code generation for model "motor_calibration".
  *
- * Model version              : 1.90
+ * Model version              : 1.93
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Mon Feb  2 15:46:38 2026
+ * C source code generated on : Thu Feb 19 11:41:52 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -36,17 +36,17 @@ P_motor_calibration_T motor_calibration_P = {
   /* Variable: LIMIT_SWITCHES_ENABLE
    * Referenced by: '<S2>/Constant'
    */
-  1.0,
+  0.0,
 
   /* Mask Parameter: Ramp_InitialOutput
    * Referenced by: '<S3>/Constant1'
    */
-  0.1,
+  1.0,
 
   /* Mask Parameter: Ramp_slope
    * Referenced by: '<S3>/Step'
    */
-  0.01,
+  0.0,
 
   /* Mask Parameter: Ramp_start
    * Referenced by:
@@ -63,12 +63,12 @@ P_motor_calibration_T motor_calibration_P = {
   /* Mask Parameter: HILWriteAnalog_channels
    * Referenced by: '<Root>/HIL Write Analog'
    */
-  0U,
+  1U,
 
   /* Mask Parameter: HILReadAnalog_channels
    * Referenced by: '<Root>/HIL Read Analog'
    */
-  0U,
+  1U,
 
   /* Mask Parameter: HILReadEncoder_channels
    * Referenced by: '<Root>/HIL Read Encoder'

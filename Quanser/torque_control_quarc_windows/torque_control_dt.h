@@ -7,9 +7,9 @@
  *
  * Code generation for model "torque_control".
  *
- * Model version              : 1.100
+ * Model version              : 1.107
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Fri Feb  6 16:35:17 2026
+ * C source code generated on : Mon Feb 23 11:04:28 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -69,19 +69,19 @@ static DataTypeTransition rtBTransitions[] = {
   { (char_T *)(&torque_control_B.LogicalOperator4), 8, 0, 4 }
   ,
 
-  { (char_T *)(&torque_control_DW.UD_DSTATE), 0, 0, 51 },
+  { (char_T *)(&torque_control_DW.UD_DSTATE), 0, 0, 54 },
 
   { (char_T *)(&torque_control_DW.HILInitialize_Card), 15, 0, 1 },
 
   { (char_T *)(&torque_control_DW.HILWriteDigitalTimebase_Task), 16, 0, 1 },
 
-  { (char_T *)(&torque_control_DW.HILReadEncoder_PWORK), 11, 0, 12 },
+  { (char_T *)(&torque_control_DW.HILReadEncoder_PWORK), 11, 0, 11 },
 
   { (char_T *)(&torque_control_DW.HILReadEncoder_Buffer[0]), 6, 0, 28 },
 
   { (char_T *)(&torque_control_DW.HILInitialize_DOBits[0]), 8, 0, 10 },
 
-  { (char_T *)(&torque_control_DW.HILWriteDigitalTimebase_Buffer), 14, 0, 11 }
+  { (char_T *)(&torque_control_DW.HILWriteDigitalTimebase_Buffer), 14, 0, 8 }
 };
 
 /* data type transition table for block I/O structure */
@@ -96,17 +96,17 @@ static DataTypeTransition rtPTransitions[] = {
 
   { (char_T *)(&torque_control_P.HILWriteDigitalTimebase_clock), 6, 0, 1 },
 
-  { (char_T *)(&torque_control_P.HILReadEncoder_channels[0]), 7, 0, 16 },
+  { (char_T *)(&torque_control_P.HILReadEncoder_channels[0]), 7, 0, 13 },
 
   { (char_T *)(&torque_control_P.StopwithMessage_message_icon), 2, 0, 4 },
 
-  { (char_T *)(&torque_control_P.DerivativeFilter1_A[0]), 0, 0, 42 },
+  { (char_T *)(&torque_control_P.TSamp_WtEt), 0, 0, 38 },
 
   { (char_T *)(&torque_control_P.HILInitialize_CKChannels[0]), 6, 0, 7 },
 
   { (char_T *)(&torque_control_P.HILInitialize_AIChannels[0]), 7, 0, 42 },
 
-  { (char_T *)(&torque_control_P.HILReadEncoder_Active), 8, 0, 46 },
+  { (char_T *)(&torque_control_P.HILReadEncoder_Active), 8, 0, 45 },
 
   { (char_T *)(&torque_control_P.ManualSwitch3_CurrentSetting), 3, 0, 3 }
 };

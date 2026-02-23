@@ -7,9 +7,9 @@
  *
  * Code generation for model "motor_calibration".
  *
- * Model version              : 1.90
+ * Model version              : 1.93
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Mon Feb  2 15:46:38 2026
+ * C source code generated on : Thu Feb 19 11:41:52 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -87,9 +87,6 @@ void motor_calibration_output(void)
     }
   }
 
-  /* SignalConversion: '<Root>/ConcatBufferAtVector ConcatenateIn1' */
-  motor_calibration_B.VectorConcatenate[0] = motor_calibration_B.Product;
-
   /* S-Function (hil_read_analog_block): '<Root>/HIL Read Analog' */
 
   /* S-Function Block: motor_calibration/HIL Read Analog (hil_read_analog_block) */
@@ -103,7 +100,7 @@ void motor_calibration_output(void)
       rtmSetErrorStatus(motor_calibration_M, _rt_error_message);
     }
 
-    motor_calibration_B.VectorConcatenate[1] =
+    motor_calibration_B.HILReadAnalog =
       motor_calibration_DW.HILReadAnalog_Buffer;
   }
 
@@ -124,13 +121,23 @@ void motor_calibration_output(void)
     }
   }
 
+  /* Gain: '<Root>/Motor #2 Encoder Calib1' */
+  motor_calibration_B.Motor2EncoderCalib1 = motor_calibration_P.KE_D2 *
+    rtb_PulseGenerator;
+
+  /* SignalConversion: '<Root>/ConcatBufferAtVector ConcatenateIn1' */
+  motor_calibration_B.VectorConcatenate[0] = motor_calibration_B.Product;
+
+  /* SignalConversion: '<Root>/ConcatBufferAtVector ConcatenateIn2' */
+  motor_calibration_B.VectorConcatenate[1] = motor_calibration_B.HILReadAnalog;
+
   /* Gain: '<Root>/Motor #1 Encoder Calib1' */
   motor_calibration_B.VectorConcatenate[2] = motor_calibration_P.KE_D1 *
     rtb_HILReadEncoder_o1;
 
-  /* Gain: '<Root>/Motor #2 Encoder Calib1' */
-  motor_calibration_B.VectorConcatenate[3] = motor_calibration_P.KE_D2 *
-    rtb_PulseGenerator;
+  /* SignalConversion: '<Root>/ConcatBufferAtVector ConcatenateIn4' */
+  motor_calibration_B.VectorConcatenate[3] =
+    motor_calibration_B.Motor2EncoderCalib1;
 
   /* DiscretePulseGenerator: '<Root>/Pulse Generator' */
   rtb_PulseGenerator = (motor_calibration_DW.clockTickCounter <
@@ -836,10 +843,10 @@ RT_MODEL_motor_calibration_T *motor_calibration(void)
   motor_calibration_M->Timing.stepSize1 = 0.01;
 
   /* External mode info */
-  motor_calibration_M->Sizes.checksums[0] = (1108247322U);
-  motor_calibration_M->Sizes.checksums[1] = (4289450173U);
-  motor_calibration_M->Sizes.checksums[2] = (2661542733U);
-  motor_calibration_M->Sizes.checksums[3] = (388391604U);
+  motor_calibration_M->Sizes.checksums[0] = (3180002768U);
+  motor_calibration_M->Sizes.checksums[1] = (3758702376U);
+  motor_calibration_M->Sizes.checksums[2] = (3728778697U);
+  motor_calibration_M->Sizes.checksums[3] = (2215750620U);
 
   {
     static const sysRanDType rtAlwaysEnabled = SUBSYS_RAN_BC_ENABLE;
@@ -867,6 +874,8 @@ RT_MODEL_motor_calibration_T *motor_calibration(void)
 
   {
     motor_calibration_B.Product = 0.0;
+    motor_calibration_B.HILReadAnalog = 0.0;
+    motor_calibration_B.Motor2EncoderCalib1 = 0.0;
     motor_calibration_B.VectorConcatenate[0] = 0.0;
     motor_calibration_B.VectorConcatenate[1] = 0.0;
     motor_calibration_B.VectorConcatenate[2] = 0.0;
@@ -950,8 +959,8 @@ RT_MODEL_motor_calibration_T *motor_calibration(void)
   motor_calibration_M->Sizes.numU = (0);/* Number of model inputs */
   motor_calibration_M->Sizes.sysDirFeedThru = (0);/* The model is not direct feedthrough */
   motor_calibration_M->Sizes.numSampTimes = (2);/* Number of sample times */
-  motor_calibration_M->Sizes.numBlocks = (53);/* Number of blocks */
-  motor_calibration_M->Sizes.numBlockIO = (9);/* Number of block outputs */
+  motor_calibration_M->Sizes.numBlocks = (58);/* Number of blocks */
+  motor_calibration_M->Sizes.numBlockIO = (11);/* Number of block outputs */
   motor_calibration_M->Sizes.numBlockPrms = (149);/* Sum of parameter "widths" */
   return motor_calibration_M;
 }

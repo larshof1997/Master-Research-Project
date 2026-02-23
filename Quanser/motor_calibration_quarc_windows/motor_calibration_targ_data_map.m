@@ -533,28 +533,36 @@
     ;%
     ;% Auto data (motor_calibration_B)
     ;%
-      section.nData     = 5;
-      section.data(5)  = dumData; %prealloc
+      section.nData     = 7;
+      section.data(7)  = dumData; %prealloc
       
 	  ;% motor_calibration_B.Product
 	  section.data(1).logicalSrcIdx = 0;
 	  section.data(1).dtTransOffset = 0;
 	
-	  ;% motor_calibration_B.VectorConcatenate
+	  ;% motor_calibration_B.HILReadAnalog
 	  section.data(2).logicalSrcIdx = 1;
 	  section.data(2).dtTransOffset = 1;
 	
-	  ;% motor_calibration_B.HILReadDigital_o1
+	  ;% motor_calibration_B.Motor2EncoderCalib1
 	  section.data(3).logicalSrcIdx = 2;
-	  section.data(3).dtTransOffset = 5;
+	  section.data(3).dtTransOffset = 2;
 	
-	  ;% motor_calibration_B.HILReadDigital_o2
+	  ;% motor_calibration_B.VectorConcatenate
 	  section.data(4).logicalSrcIdx = 3;
-	  section.data(4).dtTransOffset = 6;
+	  section.data(4).dtTransOffset = 3;
 	
-	  ;% motor_calibration_B.HILReadDigital_o3
+	  ;% motor_calibration_B.HILReadDigital_o1
 	  section.data(5).logicalSrcIdx = 4;
 	  section.data(5).dtTransOffset = 7;
+	
+	  ;% motor_calibration_B.HILReadDigital_o2
+	  section.data(6).logicalSrcIdx = 5;
+	  section.data(6).dtTransOffset = 8;
+	
+	  ;% motor_calibration_B.HILReadDigital_o3
+	  section.data(7).logicalSrcIdx = 6;
+	  section.data(7).dtTransOffset = 9;
 	
       nTotData = nTotData + section.nData;
       sigMap.sections(1) = section;
@@ -564,19 +572,19 @@
       section.data(4)  = dumData; %prealloc
       
 	  ;% motor_calibration_B.LogicalOperator4
-	  section.data(1).logicalSrcIdx = 5;
+	  section.data(1).logicalSrcIdx = 7;
 	  section.data(1).dtTransOffset = 0;
 	
 	  ;% motor_calibration_B.LogicalOperator5
-	  section.data(2).logicalSrcIdx = 6;
+	  section.data(2).logicalSrcIdx = 8;
 	  section.data(2).dtTransOffset = 1;
 	
 	  ;% motor_calibration_B.LogicalOperator6
-	  section.data(3).logicalSrcIdx = 7;
+	  section.data(3).logicalSrcIdx = 9;
 	  section.data(3).dtTransOffset = 2;
 	
 	  ;% motor_calibration_B.LogicalOperator7
-	  section.data(4).logicalSrcIdx = 8;
+	  section.data(4).logicalSrcIdx = 10;
 	  section.data(4).dtTransOffset = 3;
 	
       nTotData = nTotData + section.nData;
@@ -681,8 +689,8 @@
       dworkMap.sections(3) = section;
       clear section
       
-      section.nData     = 7;
-      section.data(7)  = dumData; %prealloc
+      section.nData     = 10;
+      section.data(10)  = dumData; %prealloc
       
 	  ;% motor_calibration_DW.HILWriteAnalog_PWORK
 	  section.data(1).logicalSrcIdx = 9;
@@ -692,25 +700,37 @@
 	  section.data(2).logicalSrcIdx = 10;
 	  section.data(2).dtTransOffset = 1;
 	
-	  ;% motor_calibration_DW.HILReadEncoder_PWORK
+	  ;% motor_calibration_DW.Scope_PWORK.LoggedData
 	  section.data(3).logicalSrcIdx = 11;
 	  section.data(3).dtTransOffset = 2;
 	
-	  ;% motor_calibration_DW.ToWorkspace_PWORK.LoggedData
+	  ;% motor_calibration_DW.Scope1_PWORK.LoggedData
 	  section.data(4).logicalSrcIdx = 12;
 	  section.data(4).dtTransOffset = 3;
 	
-	  ;% motor_calibration_DW.HILWriteDigital_PWORK
+	  ;% motor_calibration_DW.HILReadEncoder_PWORK
 	  section.data(5).logicalSrcIdx = 13;
 	  section.data(5).dtTransOffset = 4;
 	
-	  ;% motor_calibration_DW.HILReadDigital_PWORK
+	  ;% motor_calibration_DW.Scope2_PWORK.LoggedData
 	  section.data(6).logicalSrcIdx = 14;
 	  section.data(6).dtTransOffset = 5;
 	
-	  ;% motor_calibration_DW.HILReadDigital_PWORK_o
+	  ;% motor_calibration_DW.ToWorkspace_PWORK.LoggedData
 	  section.data(7).logicalSrcIdx = 15;
 	  section.data(7).dtTransOffset = 6;
+	
+	  ;% motor_calibration_DW.HILWriteDigital_PWORK
+	  section.data(8).logicalSrcIdx = 16;
+	  section.data(8).dtTransOffset = 7;
+	
+	  ;% motor_calibration_DW.HILReadDigital_PWORK
+	  section.data(9).logicalSrcIdx = 17;
+	  section.data(9).dtTransOffset = 8;
+	
+	  ;% motor_calibration_DW.HILReadDigital_PWORK_o
+	  section.data(10).logicalSrcIdx = 18;
+	  section.data(10).dtTransOffset = 9;
 	
       nTotData = nTotData + section.nData;
       dworkMap.sections(4) = section;
@@ -720,23 +740,23 @@
       section.data(5)  = dumData; %prealloc
       
 	  ;% motor_calibration_DW.HILReadEncoder_Buffer
-	  section.data(1).logicalSrcIdx = 16;
+	  section.data(1).logicalSrcIdx = 19;
 	  section.data(1).dtTransOffset = 0;
 	
 	  ;% motor_calibration_DW.clockTickCounter
-	  section.data(2).logicalSrcIdx = 17;
+	  section.data(2).logicalSrcIdx = 20;
 	  section.data(2).dtTransOffset = 2;
 	
 	  ;% motor_calibration_DW.HILInitialize_DOStates
-	  section.data(3).logicalSrcIdx = 18;
+	  section.data(3).logicalSrcIdx = 21;
 	  section.data(3).dtTransOffset = 3;
 	
 	  ;% motor_calibration_DW.HILInitialize_QuadratureModes
-	  section.data(4).logicalSrcIdx = 19;
+	  section.data(4).logicalSrcIdx = 22;
 	  section.data(4).dtTransOffset = 12;
 	
 	  ;% motor_calibration_DW.HILInitialize_InitialEICounts
-	  section.data(5).logicalSrcIdx = 20;
+	  section.data(5).logicalSrcIdx = 23;
 	  section.data(5).dtTransOffset = 20;
 	
       nTotData = nTotData + section.nData;
@@ -747,11 +767,11 @@
       section.data(2)  = dumData; %prealloc
       
 	  ;% motor_calibration_DW.HILInitialize_DOBits
-	  section.data(1).logicalSrcIdx = 21;
+	  section.data(1).logicalSrcIdx = 24;
 	  section.data(1).dtTransOffset = 0;
 	
 	  ;% motor_calibration_DW.HILWriteDigitalTimebase_Started
-	  section.data(2).logicalSrcIdx = 22;
+	  section.data(2).logicalSrcIdx = 25;
 	  section.data(2).dtTransOffset = 9;
 	
       nTotData = nTotData + section.nData;
@@ -762,19 +782,19 @@
       section.data(4)  = dumData; %prealloc
       
 	  ;% motor_calibration_DW.HILWriteDigitalTimebase_Buffer
-	  section.data(1).logicalSrcIdx = 23;
+	  section.data(1).logicalSrcIdx = 26;
 	  section.data(1).dtTransOffset = 0;
 	
 	  ;% motor_calibration_DW.HILWriteDigital_Buffer
-	  section.data(2).logicalSrcIdx = 24;
+	  section.data(2).logicalSrcIdx = 27;
 	  section.data(2).dtTransOffset = 1;
 	
 	  ;% motor_calibration_DW.HILReadDigital_Buffer
-	  section.data(3).logicalSrcIdx = 25;
+	  section.data(3).logicalSrcIdx = 28;
 	  section.data(3).dtTransOffset = 4;
 	
 	  ;% motor_calibration_DW.HILReadDigital_Buffer_c
-	  section.data(4).logicalSrcIdx = 26;
+	  section.data(4).logicalSrcIdx = 29;
 	  section.data(4).dtTransOffset = 7;
 	
       nTotData = nTotData + section.nData;
@@ -807,8 +827,8 @@
   ;%
 
 
-  targMap.checksum0 = 1108247322;
-  targMap.checksum1 = 4289450173;
-  targMap.checksum2 = 2661542733;
-  targMap.checksum3 = 388391604;
+  targMap.checksum0 = 3180002768;
+  targMap.checksum1 = 3758702376;
+  targMap.checksum2 = 3728778697;
+  targMap.checksum3 = 2215750620;
 

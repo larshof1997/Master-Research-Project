@@ -17,8 +17,8 @@ clear all
 % Turn on or off all four limit switches of the system. When enabled, it
 % makes the controller stop as soon as one limit switch gets triggered.
 % set it to 1 (to enable), or 0 (to disable)
-LIMIT_SWITCHES_ENABLE = 1;  % all four limit switches are enabled
-% LIMIT_SWITCHES_ENABLE = 0; % CAUTION: all four limit switches are disabled
+% LIMIT_SWITCHES_ENABLE = 1;  % all four limit switches are enabled
+LIMIT_SWITCHES_ENABLE = 0; % CAUTION: all four limit switches are disabled
 % Turn on or off the safety watchdog on the oscillations of the first flexible link: 
 % set it to 1 (to enable), or 0 (to disable)
 DTH1_LIM_ENABLE = 1;       % safety watchdog #1 turned ON

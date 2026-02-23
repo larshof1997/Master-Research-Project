@@ -10,13 +10,13 @@ clear; clc; close all;
 
 % --- Fourier trajectory parameters ---
 Nf    = 5;              % number of harmonics per joint
-T     = 10;             % fundamental period [s]
+T     = 60;             % fundamental period [s]
 omega = 2*pi / T;       % fundamental pulsation [rad/s]
 
 % --- Physical constraints ---
-q_max   = deg2rad(85);  % position limit [rad] (5 deg safety margin)
-qd_max  = deg2rad(300); % velocity limit  [rad/s]  (adjust to your robot)
-qdd_max = deg2rad(600); % acceleration limit [rad/s^2]
+q_max   = deg2rad(45);  % position limit [rad] (5 deg safety margin)
+qd_max  = deg2rad(10); % velocity limit  [rad/s]  (adjust to your robot)
+qdd_max = deg2rad(100); % acceleration limit [rad/s^2]
 
 % --- Sampling for optimisation ---
 Ns   = 100;             % number of sample points per period for optimisation
