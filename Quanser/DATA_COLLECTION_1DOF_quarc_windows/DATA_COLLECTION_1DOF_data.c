@@ -7,9 +7,9 @@
  *
  * Code generation for model "DATA_COLLECTION_1DOF".
  *
- * Model version              : 1.114
+ * Model version              : 1.123
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Mon Feb 23 11:25:51 2026
+ * C source code generated on : Tue Feb 24 16:45:10 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -23,32 +23,37 @@
 
 /* Block parameters (default storage) */
 P_DATA_COLLECTION_1DOF_T DATA_COLLECTION_1DOF_P = {
+  /* Variable: I1_hat
+   * Referenced by: '<Root>/Constant9'
+   */
+  0.014618,
+
   /* Variable: KE_D1
    * Referenced by:
    *   '<Root>/Motor #1 Encoder Calib1'
-   *   '<S6>/Motor #1 Encoder Calib1'
+   *   '<S7>/Motor #1 Encoder Calib1'
    */
   1.5339807878856413E-5,
 
   /* Variable: KE_D2
    * Referenced by:
    *   '<Root>/Motor #2 Encoder Calib1'
-   *   '<S6>/Motor #2 Encoder Calib1'
+   *   '<S7>/Motor #2 Encoder Calib1'
    */
   3.0679615757712826E-5,
 
   /* Variable: Kt1
-   * Referenced by: '<S6>/Torque to current '
+   * Referenced by: '<S7>/Torque to current '
    */
   3.018583,
 
   /* Variable: L1
-   * Referenced by: '<S6>/Motor #1 Encoder Calib2'
+   * Referenced by: '<S7>/Motor #1 Encoder Calib2'
    */
   0.047544,
 
   /* Variable: L2
-   * Referenced by: '<S6>/Motor #1 Encoder Calib5'
+   * Referenced by: '<S7>/Motor #1 Encoder Calib5'
    */
   0.041682,
 
@@ -58,19 +63,19 @@ P_DATA_COLLECTION_1DOF_T DATA_COLLECTION_1DOF_P = {
   1.0,
 
   /* Variable: R1
-   * Referenced by: '<S6>/Motor #1 Encoder Calib6'
+   * Referenced by: '<S7>/Motor #1 Encoder Calib6'
    */
   4.2737,
 
   /* Variable: R2
-   * Referenced by: '<S6>/Motor #1 Encoder Calib7'
+   * Referenced by: '<S7>/Motor #1 Encoder Calib7'
    */
   4.0151,
 
   /* Variable: a1_hat
    * Referenced by: '<Root>/Constant'
    */
-  0.2955134018,
+  0.27113140180000006,
 
   /* Variable: a2_hat
    * Referenced by: '<Root>/Constant1'
@@ -78,32 +83,49 @@ P_DATA_COLLECTION_1DOF_T DATA_COLLECTION_1DOF_P = {
   0.038669874999999992,
 
   /* Variable: b1_hat
-   * Referenced by: '<Root>/Constant2'
+   * Referenced by: '<Root>/Constant5'
    */
-  0.0191,
+  0.19297,
+
+  /* Variable: b2_hat
+   * Referenced by: '<Root>/Constant4'
+   */
+  0.0248,
 
   /* Variable: b_hat
-   * Referenced by: '<Root>/Constant3'
+   * Referenced by:
+   *   '<Root>/Constant2'
+   *   '<Root>/Constant3'
    */
   0.059916955,
 
+  /* Variable: fc1_hat
+   * Referenced by: '<Root>/Constant7'
+   */
+  0.14628,
+
+  /* Variable: fc2_hat
+   * Referenced by: '<Root>/Constant8'
+   */
+  0.0,
+
   /* Variable: i_sat1
-   * Referenced by: '<S6>/Saturation'
+   * Referenced by: '<S7>/Saturation'
    */
   0.92,
 
   /* Variable: ke1
-   * Referenced by: '<S6>/Motor #1 Encoder Calib3'
+   * Referenced by: '<S7>/Motor #1 Encoder Calib3'
    */
   0.06847,
 
   /* Variable: ke2
-   * Referenced by: '<S6>/Motor #1 Encoder Calib8'
+   * Referenced by: '<S7>/Motor #1 Encoder Calib8'
    */
   0.0027453,
 
   /* Variable: ki1
-   * Referenced by: '<S6>/Gain1'
+   * Referenced by: '<S7>/Gain1'
    */
   0.0,
 
@@ -112,13 +134,18 @@ P_DATA_COLLECTION_1DOF_T DATA_COLLECTION_1DOF_P = {
    */
   { 0.0, 0.0, 0.0, 0.0 },
 
+  /* Variable: v_eps_hat
+   * Referenced by: '<Root>/Constant6'
+   */
+  0.0767,
+
   /* Mask Parameter: DiscreteDerivative3_ICPrevScale
-   * Referenced by: '<S18>/UD'
+   * Referenced by: '<S19>/UD'
    */
   0.0,
 
   /* Mask Parameter: DiscreteDerivative_ICPrevScaled
-   * Referenced by: '<S15>/UD'
+   * Referenced by: '<S16>/UD'
    */
   0.0,
 
@@ -128,12 +155,12 @@ P_DATA_COLLECTION_1DOF_T DATA_COLLECTION_1DOF_P = {
   0.0,
 
   /* Mask Parameter: DiscreteDerivative2_ICPrevScale
-   * Referenced by: '<S17>/UD'
+   * Referenced by: '<S18>/UD'
    */
   0.0,
 
   /* Mask Parameter: DiscreteDerivative1_ICPrevScale
-   * Referenced by: '<S16>/UD'
+   * Referenced by: '<S17>/UD'
    */
   0.0,
 
@@ -143,7 +170,7 @@ P_DATA_COLLECTION_1DOF_T DATA_COLLECTION_1DOF_P = {
   0,
 
   /* Mask Parameter: HILReadEncoder_channels
-   * Referenced by: '<S6>/HIL Read Encoder'
+   * Referenced by: '<S7>/HIL Read Encoder'
    */
   { 0U, 2U },
 
@@ -153,12 +180,12 @@ P_DATA_COLLECTION_1DOF_T DATA_COLLECTION_1DOF_P = {
   { 0U, 2U },
 
   /* Mask Parameter: HILReadAnalog_channels
-   * Referenced by: '<S6>/HIL Read Analog'
+   * Referenced by: '<S7>/HIL Read Analog'
    */
   0U,
 
   /* Mask Parameter: HILWriteAnalog_channels
-   * Referenced by: '<S6>/HIL Write Analog'
+   * Referenced by: '<S7>/HIL Write Analog'
    */
   0U,
 
@@ -188,34 +215,39 @@ P_DATA_COLLECTION_1DOF_T DATA_COLLECTION_1DOF_P = {
   100U,
 
   /* Mask Parameter: StopwithMessage_message_icon
-   * Referenced by: '<S7>/Show Message on Host'
-   */
-  1,
-
-  /* Mask Parameter: StopwithMessage1_message_icon
    * Referenced by: '<S8>/Show Message on Host'
    */
   1,
 
-  /* Mask Parameter: StopwithMessage2_message_icon
+  /* Mask Parameter: StopwithMessage1_message_icon
    * Referenced by: '<S9>/Show Message on Host'
    */
   1,
 
-  /* Mask Parameter: StopwithMessage3_message_icon
+  /* Mask Parameter: StopwithMessage2_message_icon
    * Referenced by: '<S10>/Show Message on Host'
    */
   1,
 
+  /* Mask Parameter: StopwithMessage3_message_icon
+   * Referenced by: '<S11>/Show Message on Host'
+   */
+  1,
+
   /* Computed Parameter: TSamp_WtEt
-   * Referenced by: '<S18>/TSamp'
+   * Referenced by: '<S19>/TSamp'
    */
   100.0,
 
   /* Computed Parameter: TSamp_WtEt_j
-   * Referenced by: '<S15>/TSamp'
+   * Referenced by: '<S16>/TSamp'
    */
   100.0,
+
+  /* Expression: 0
+   * Referenced by: '<Root>/Unit Delay'
+   */
+  0.0,
 
   /* Expression: [3; 0]
    * Referenced by: '<Root>/Gain'
@@ -237,40 +269,55 @@ P_DATA_COLLECTION_1DOF_T DATA_COLLECTION_1DOF_P = {
    */
   100.0,
 
+  /* Expression: 0
+   * Referenced by: '<Root>/Unit Delay1'
+   */
+  0.0,
+
   /* Expression: [0.5; 0]
    * Referenced by: '<Root>/Gain2'
    */
   { 0.5, 0.0 },
 
+  /* Expression: [0;0]
+   * Referenced by: '<Root>/Constant10'
+   */
+  { 0.0, 0.0 },
+
   /* Computed Parameter: TSamp_WtEt_h
-   * Referenced by: '<S17>/TSamp'
+   * Referenced by: '<S18>/TSamp'
    */
   100.0,
 
   /* Expression: 1.5
-   * Referenced by: '<S6>/Gain'
+   * Referenced by: '<S7>/Gain'
    */
   1.5,
 
   /* Computed Parameter: DiscreteTimeIntegrator_gainva_m
-   * Referenced by: '<S6>/Discrete-Time Integrator'
+   * Referenced by: '<S7>/Discrete-Time Integrator'
    */
   0.01,
 
   /* Expression: 0
-   * Referenced by: '<S6>/Discrete-Time Integrator'
+   * Referenced by: '<S7>/Discrete-Time Integrator'
    */
   0.0,
 
   /* Computed Parameter: TSamp_WtEt_n
-   * Referenced by: '<S16>/TSamp'
+   * Referenced by: '<S17>/TSamp'
    */
   100.0,
 
-  /* Expression: 0.01
-   * Referenced by: '<S6>/Gain2'
+  /* Expression: 0
+   * Referenced by: '<S7>/Gain2'
    */
-  0.01,
+  0.0,
+
+  /* Expression: 0
+   * Referenced by: '<Root>/Unit Delay2'
+   */
+  0.0,
 
   /* Expression: 1
    * Referenced by: '<Root>/Pulse Generator'
@@ -433,7 +480,7 @@ P_DATA_COLLECTION_1DOF_T DATA_COLLECTION_1DOF_P = {
   4U,
 
   /* Computed Parameter: HILReadEncoder_Active
-   * Referenced by: '<S6>/HIL Read Encoder'
+   * Referenced by: '<S7>/HIL Read Encoder'
    */
   1,
 
@@ -443,12 +490,12 @@ P_DATA_COLLECTION_1DOF_T DATA_COLLECTION_1DOF_P = {
   1,
 
   /* Computed Parameter: HILReadAnalog_Active
-   * Referenced by: '<S6>/HIL Read Analog'
+   * Referenced by: '<S7>/HIL Read Analog'
    */
   1,
 
   /* Computed Parameter: HILWriteAnalog_Active
-   * Referenced by: '<S6>/HIL Write Analog'
+   * Referenced by: '<S7>/HIL Write Analog'
    */
   0,
 
@@ -648,37 +695,42 @@ P_DATA_COLLECTION_1DOF_T DATA_COLLECTION_1DOF_P = {
   1,
 
   /* Computed Parameter: Constant_Value
-   * Referenced by: '<S11>/Constant'
-   */
-  0,
-
-  /* Computed Parameter: Constant_Value_i
    * Referenced by: '<S12>/Constant'
    */
   0,
 
-  /* Computed Parameter: Constant_Value_e
+  /* Computed Parameter: Constant_Value_i
    * Referenced by: '<S13>/Constant'
    */
   0,
 
-  /* Computed Parameter: Constant_Value_d
+  /* Computed Parameter: Constant_Value_e
    * Referenced by: '<S14>/Constant'
    */
   0,
 
+  /* Computed Parameter: Constant_Value_d
+   * Referenced by: '<S15>/Constant'
+   */
+  0,
+
   /* Computed Parameter: ManualSwitch3_CurrentSetting
-   * Referenced by: '<S6>/Manual Switch3'
+   * Referenced by: '<S7>/Manual Switch3'
    */
   1U,
 
   /* Computed Parameter: ManualSwitch2_CurrentSetting
-   * Referenced by: '<S6>/Manual Switch2'
+   * Referenced by: '<S7>/Manual Switch2'
    */
   1U,
 
   /* Computed Parameter: ManualSwitch1_CurrentSetting
-   * Referenced by: '<S6>/Manual Switch1'
+   * Referenced by: '<S7>/Manual Switch1'
+   */
+  1U,
+
+  /* Computed Parameter: ManualSwitch4_CurrentSetting
+   * Referenced by: '<S7>/Manual Switch4'
    */
   1U
 };

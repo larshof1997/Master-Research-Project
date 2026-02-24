@@ -7,9 +7,9 @@
  *
  * Code generation for model "DATA_COLLECTION_1DOF".
  *
- * Model version              : 1.114
+ * Model version              : 1.123
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Mon Feb 23 11:25:51 2026
+ * C source code generated on : Tue Feb 24 16:45:10 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -64,12 +64,12 @@ static const char_T * rtDataTypeNames[] = {
 
 /* data type transitions for block I/O structure */
 static DataTypeTransition rtBTransitions[] = {
-  { (char_T *)(&DATA_COLLECTION_1DOF_B.TSamp), 0, 0, 23 },
+  { (char_T *)(&DATA_COLLECTION_1DOF_B.TSamp), 0, 0, 27 },
 
   { (char_T *)(&DATA_COLLECTION_1DOF_B.LogicalOperator4), 8, 0, 4 }
   ,
 
-  { (char_T *)(&DATA_COLLECTION_1DOF_DW.UD_DSTATE), 0, 0, 58 },
+  { (char_T *)(&DATA_COLLECTION_1DOF_DW.UD_DSTATE), 0, 0, 64 },
 
   { (char_T *)(&DATA_COLLECTION_1DOF_DW.HILInitialize_Card), 15, 0, 1 },
 
@@ -80,7 +80,7 @@ static DataTypeTransition rtBTransitions[] = {
 
   { (char_T *)(&DATA_COLLECTION_1DOF_DW.HILReadEncoder_Buffer[0]), 6, 0, 30 },
 
-  { (char_T *)(&DATA_COLLECTION_1DOF_DW.FromWorkspace3_IWORK.PrevIndex), 10, 0,
+  { (char_T *)(&DATA_COLLECTION_1DOF_DW.FromWorkspace4_IWORK.PrevIndex), 10, 0,
     3 },
 
   { (char_T *)(&DATA_COLLECTION_1DOF_DW.HILInitialize_DOBits[0]), 8, 0, 10 },
@@ -97,7 +97,7 @@ static DataTypeTransitionTable rtBTransTable = {
 
 /* data type transitions for Parameters structure */
 static DataTypeTransition rtPTransitions[] = {
-  { (char_T *)(&DATA_COLLECTION_1DOF_P.KE_D1), 0, 0, 25 },
+  { (char_T *)(&DATA_COLLECTION_1DOF_P.I1_hat), 0, 0, 30 },
 
   { (char_T *)(&DATA_COLLECTION_1DOF_P.HILWriteDigitalTimebase_clock), 6, 0, 1 },
 
@@ -105,7 +105,7 @@ static DataTypeTransition rtPTransitions[] = {
 
   { (char_T *)(&DATA_COLLECTION_1DOF_P.StopwithMessage_message_icon), 2, 0, 4 },
 
-  { (char_T *)(&DATA_COLLECTION_1DOF_P.TSamp_WtEt), 0, 0, 37 },
+  { (char_T *)(&DATA_COLLECTION_1DOF_P.TSamp_WtEt), 0, 0, 42 },
 
   { (char_T *)(&DATA_COLLECTION_1DOF_P.HILInitialize_CKChannels[0]), 6, 0, 7 },
 
@@ -113,7 +113,7 @@ static DataTypeTransition rtPTransitions[] = {
 
   { (char_T *)(&DATA_COLLECTION_1DOF_P.HILReadEncoder_Active), 8, 0, 47 },
 
-  { (char_T *)(&DATA_COLLECTION_1DOF_P.ManualSwitch3_CurrentSetting), 3, 0, 3 }
+  { (char_T *)(&DATA_COLLECTION_1DOF_P.ManualSwitch3_CurrentSetting), 3, 0, 4 }
 };
 
 /* data type transition table for Parameters structure */

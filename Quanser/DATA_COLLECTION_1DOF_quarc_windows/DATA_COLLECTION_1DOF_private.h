@@ -7,9 +7,9 @@
  *
  * Code generation for model "DATA_COLLECTION_1DOF".
  *
- * Model version              : 1.114
+ * Model version              : 1.123
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Mon Feb 23 11:25:51 2026
+ * C source code generated on : Tue Feb 24 16:45:10 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -24,7 +24,7 @@
 #include "multiword_types.h"
 #include "zero_crossing_types.h"
 
-/* Used by FromWorkspace Block: '<Root>/From Workspace3' */
+/* Used by FromWorkspace Block: '<Root>/From Workspace4' */
 #ifndef rtInterpolate
 # define rtInterpolate(v1,v2,f1,f2)    (((v1)==(v2))?((double)(v1)): (((f1)*((double)(v1)))+((f2)*((double)(v2)))))
 #endif
