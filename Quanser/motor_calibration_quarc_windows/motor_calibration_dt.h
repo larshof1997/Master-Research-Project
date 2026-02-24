@@ -7,9 +7,9 @@
  *
  * Code generation for model "motor_calibration".
  *
- * Model version              : 1.90
+ * Model version              : 1.93
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Mon Feb  2 15:46:38 2026
+ * C source code generated on : Thu Feb 19 11:41:52 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -64,7 +64,7 @@ static const char_T * rtDataTypeNames[] = {
 
 /* data type transitions for block I/O structure */
 static DataTypeTransition rtBTransitions[] = {
-  { (char_T *)(&motor_calibration_B.Product), 0, 0, 8 },
+  { (char_T *)(&motor_calibration_B.Product), 0, 0, 10 },
 
   { (char_T *)(&motor_calibration_B.LogicalOperator4), 8, 0, 4 }
   ,
@@ -75,7 +75,7 @@ static DataTypeTransition rtBTransitions[] = {
 
   { (char_T *)(&motor_calibration_DW.HILWriteDigitalTimebase_Task), 16, 0, 1 },
 
-  { (char_T *)(&motor_calibration_DW.HILWriteAnalog_PWORK), 11, 0, 7 },
+  { (char_T *)(&motor_calibration_DW.HILWriteAnalog_PWORK), 11, 0, 10 },
 
   { (char_T *)(&motor_calibration_DW.HILReadEncoder_Buffer[0]), 6, 0, 28 },
 

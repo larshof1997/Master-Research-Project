@@ -1,0 +1,2 @@
+#include <winuser.rh>
+1 RT_MANIFEST "DATA_COLLECTION_1DOF.auto.manifest"

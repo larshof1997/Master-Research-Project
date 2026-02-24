@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.93"
+    ComputedModelVersion    "1.94"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -184,9 +184,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "S4236610"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Fri Feb 06 11:46:33 2026"
-  RTWModifiedTimeStamp	  692279188
-  ModelVersionFormat	  "1.%<AutoIncrement:93>"
+  LastModifiedDate	  "Thu Feb 19 13:30:40 2026"
+  RTWModifiedTimeStamp	  693402095
+  ModelVersionFormat	  "1.%<AutoIncrement:94>"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
   LibraryLinkDisplay	  "none"
@@ -845,7 +845,7 @@ Model {
 	      Version		      "1.18.1"
 	      Array {
 		Type			"Cell"
-		Dimension		19
+		Dimension		20
 		Cell			"IncludeMdlTerminateFcn"
 		Cell			"SuppressErrorStatus"
 		Cell			"ERTCustomFileBanners"
@@ -865,6 +865,7 @@ Model {
 		Cell			"MultiInstanceERTCode"
 		Cell			"PortableWordSizes"
 		Cell			"PreserveStateflowLocalDataDimensions"
+		Cell			"CombineOutputUpdateFcns"
 		PropName		"DisabledProps"
 	      }
 	      Description	      ""
@@ -941,7 +942,7 @@ Model {
 		  Version		  "1.18.1"
 		  Array {
 		    Type		    "Cell"
-		    Dimension		    18
+		    Dimension		    19
 		    Cell		    "IncludeMdlTerminateFcn"
 		    Cell		    "SuppressErrorStatus"
 		    Cell		    "ERTCustomFileBanners"
@@ -960,6 +961,7 @@ Model {
 		    Cell		    "ConcurrentExecutionCompliant"
 		    Cell		    "MultiInstanceERTCode"
 		    Cell		    "PortableWordSizes"
+		    Cell		    "CombineOutputUpdateFcns"
 		    PropName		    "DisabledProps"
 		  }
 		  Description		  ""
@@ -1327,6 +1329,10 @@ Model {
       SampleTime	      "-1"
     }
     Block {
+      BlockType		      Scope
+      DefaultConfigurationName "Simulink.scopes.TimeScopeBlockCfg"
+    }
+    Block {
       BlockType		      Sin
       SineType		      "Time based"
       TimeSource	      "Use simulation time"
@@ -1409,7 +1415,7 @@ Model {
     ShowPageBoundaries	    off
     ZoomFactor		    "125"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "346"
+    SIDHighWatermark	    "349"
     Block {
       BlockType		      SubSystem
       Name		      "Enable AMPAQ"
@@ -2162,10 +2168,78 @@ Model {
       SourceProductName	      "Simulink"
       SourceProductBaseCode   "SL"
       ContentPreviewEnabled   on
-      slope		      "0.015"
+      slope		      "0"
       start		      "0"
-      InitialOutput	      "0.2"
+      InitialOutput	      "1"
       VectorParams1D	      on
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "Scope"
+      SID		      "347"
+      Ports		      [1]
+      Position		      [970, 314, 1000, 346]
+      ZOrder		      495
+      ScopeSpecificationString "Simulink.scopes.TimeScopeBlockCfg('CurrentConfiguration', extmgr.ConfigurationSet(extm"
+      "gr.Configuration('Core','General UI',true),extmgr.Configuration('Core','Source UI',true),extmgr.Configuration('S"
+      "ources','WiredSimulink',true),extmgr.Configuration('Visuals','Time Domain',true,'SerializedDisplays',{struct('Mi"
+      "nYLimReal','-0.32639','MaxYLimReal','0.33737','YLabelReal','','MinYLimMag','0.00000','MaxYLimMag','0.33737','Leg"
+      "endVisibility','off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesColor',[0 0 0],'AxesTickColor',[0.68627"
+      "4509803922 0.686274509803922 0.686274509803922],'ColorOrder',[1 1 0.0666666666666667;0.0745098039215686 0.623529"
+      "411764706 1;1 0.411764705882353 0.16078431372549;0.392156862745098 0.831372549019608 0.0745098039215686;0.717647"
+      "058823529 0.274509803921569 1;0.0588235294117647 1 1;1 0.0745098039215686 0.650980392156863],'Title','%<SignalLa"
+      "bel>','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines',1,'LineNames',{{'HIL Read Analog'}},'"
+      "ShowContent',true,'Placement',1)},'DisplayPropertyDefaults',struct('MinYLimReal','-0.32639','MaxYLimReal','0.337"
+      "37','YLabelReal','','MinYLimMag','0.00000','MaxYLimMag','0.33737','LegendVisibility','off','XGrid',true,'YGrid',"
+      "true,'PlotMagPhase',false,'AxesColor',[0 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.68627450980"
+      "3922],'ColorOrder',[0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;1 1 0.0666666666"
+      "666667;0.717647058823529 0.274509803921569 1;0.392156862745098 0.831372549019608 0.0745098039215686;0.0588235294"
+      "117647 1 1;1 0.0745098039215686 0.650980392156863])),extmgr.Configuration('Tools','Plot Navigation',true),extmgr"
+      ".Configuration('Tools','Measurements',true,'Version','2018b')),'Version','2018b','Position',[226 269 560 420])"
+      NumInputPorts	      "1"
+      Floating		      off
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "Scope1"
+      SID		      "348"
+      Ports		      [1]
+      Position		      [1195, 329, 1225, 361]
+      ZOrder		      496
+      ScopeSpecificationString "Simulink.scopes.TimeScopeBlockCfg('CurrentConfiguration', extmgr.ConfigurationSet(extm"
+      "gr.Configuration('Core','General UI',true),extmgr.Configuration('Core','Source UI',true),extmgr.Configuration('S"
+      "ources','WiredSimulink',true,'DataLoggingVariableName','ScopeData1'),extmgr.Configuration('Visuals','Time Domain"
+      "',true),extmgr.Configuration('Tools','Plot Navigation',true),extmgr.Configuration('Tools','Measurements',true)),"
+      "'Version','2018b')"
+      NumInputPorts	      "1"
+      Floating		      off
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "Scope2"
+      SID		      "349"
+      Ports		      [1]
+      Position		      [900, 574, 930, 606]
+      ZOrder		      497
+      ScopeSpecificationString "Simulink.scopes.TimeScopeBlockCfg('CurrentConfiguration', extmgr.ConfigurationSet(extm"
+      "gr.Configuration('Core','General UI',true),extmgr.Configuration('Core','Source UI',true),extmgr.Configuration('S"
+      "ources','WiredSimulink',true,'DataLoggingVariableName','ScopeData2'),extmgr.Configuration('Visuals','Time Domain"
+      "',true,'SerializedDisplays',{struct('MinYLimReal','-0.01956','MaxYLimReal','0.01281','YLabelReal','','MinYLimMag"
+      "','0.00000','MaxYLimMag','0.01956','LegendVisibility','off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'Axes"
+      "Color',[0 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.686274509803922],'ColorOrder',[1 1 0.06666"
+      "66666666667;0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;0.392156862745098 0.8313"
+      "72549019608 0.0745098039215686;0.717647058823529 0.274509803921569 1;0.0588235294117647 1 1;1 0.0745098039215686"
+      " 0.650980392156863],'Title','%<SignalLabel>','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines"
+      "',1,'LineNames',{{'Motor #2 Encoder Calib1'}},'ShowContent',true,'Placement',1)},'DisplayPropertyDefaults',struc"
+      "t('MinYLimReal','-0.01956','MaxYLimReal','0.01281','YLabelReal','','MinYLimMag','0.00000','MaxYLimMag','0.01956'"
+      ",'LegendVisibility','off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesColor',[0 0 0],'AxesTickColor',[0."
+      "686274509803922 0.686274509803922 0.686274509803922],'ColorOrder',[0.0745098039215686 0.623529411764706 1;1 0.41"
+      "1764705882353 0.16078431372549;1 1 0.0666666666666667;0.717647058823529 0.274509803921569 1;0.392156862745098 0."
+      "831372549019608 0.0745098039215686;0.0588235294117647 1 1;1 0.0745098039215686 0.650980392156863])),extmgr.Confi"
+      "guration('Tools','Plot Navigation',true),extmgr.Configuration('Tools','Measurements',true,'Version','2018b')),'V"
+      "ersion','2018b','Position',[905 247 560 420])"
+      NumInputPorts	      "1"
+      Floating		      off
     }
     Block {
       BlockType		      Sin
@@ -2218,9 +2292,18 @@ Model {
       ZOrder		      134
       SrcBlock		      "HIL Read Analog"
       SrcPort		      1
-      Points		      [33, 0; 0, 60]
-      DstBlock		      "Vector\nConcatenate"
-      DstPort		      2
+      Points		      [10, 0]
+      Branch {
+	ZOrder			229
+	DstBlock		"Scope"
+	DstPort			1
+      }
+      Branch {
+	ZOrder			228
+	Points			[23, 0; 0, 60]
+	DstBlock		"Vector\nConcatenate"
+	DstPort			2
+      }
     }
     Line {
       ZOrder		      152
@@ -2247,9 +2330,18 @@ Model {
       ZOrder		      202
       SrcBlock		      "Motor #2 Encoder Calib1"
       SrcPort		      1
-      Points		      [151, 0; 0, -40]
-      DstBlock		      "Vector\nConcatenate"
-      DstPort		      4
+      Points		      [115, 0]
+      Branch {
+	ZOrder			231
+	DstBlock		"Scope2"
+	DstPort			1
+      }
+      Branch {
+	ZOrder			230
+	Points			[36, 0; 0, -40]
+	DstBlock		"Vector\nConcatenate"
+	DstPort			4
+      }
     }
     Line {
       ZOrder		      203
@@ -2273,8 +2365,17 @@ Model {
       Points		      [75, 0]
       Branch {
 	ZOrder			224
-	DstBlock		"Vector\nConcatenate"
-	DstPort			1
+	Points			[0, 75]
+	Branch {
+	  ZOrder		  227
+	  DstBlock		  "Scope1"
+	  DstPort		  1
+	}
+	Branch {
+	  ZOrder		  226
+	  DstBlock		  "Vector\nConcatenate"
+	  DstPort		  1
+	}
       }
       Branch {
 	ZOrder			215
@@ -2301,7 +2402,7 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @         $  S0 "
+    "        !0    @    !     0    $         \"0    @         \"  T0 "
   }
   DataRecord {
     Tag			    DataTag1
@@ -2309,7 +2410,7 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @         $  S0 "
+    "        !0    @    !     0    $         \"0    @         \"  T0 "
   }
   DataRecord {
     Tag			    DataTag2
@@ -2805,9 +2906,9 @@ MatData {
     "X    !@    @    &          4    (     0    $    !          D    (               .    N $   8    (     @         % "
     "   \"     $    !     0         %  0 $0    $   !5    :7-?=6YI<75E          !O;&1?8FQO8VL          &]L9%]N86UE      "
     "      :7-?;6]D96Q?8VQO<VEN9P!I<U]D96QE=&5D              X    P    !@    @    ) @        4    (     0    $    !    "
-    "      (  0 !    #@   #@    &    \"     8         !0    @    !     0    $         \"0    @         $  S0 X    X    "
-    "!@    @    $          4    (     0    4    !         !     %    2$E,+3$    .    ,     8    (    \"0(        %    \""
-    "     $    !     0         \"  $       X    P    !@    @    ) @        4    (     0    $    !          (  0      "
+    "      (  0 !    #@   #@    &    \"     8         !0    @    !     0    $         \"0    @         \"  T0 X    X   "
+    " !@    @    $          4    (     0    4    !         !     %    2$E,+3$    .    ,     8    (    \"0(        %    "
+    "\"     $    !     0         \"  $       X    P    !@    @    ) @        4    (     0    $    !          (  0      "
   }
   DataRecord {
     Tag			    DataTag3
@@ -2815,7 +2916,7 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @         $  S0 "
+    "        !0    @    !     0    $         \"0    @         \"  T0 "
   }
   DataRecord {
     Tag			    DataTag4
@@ -2823,7 +2924,7 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @         $  S0 "
+    "        !0    @    !     0    $         \"0    @         \"  T0 "
   }
   DataRecord {
     Tag			    DataTag5
@@ -2831,7 +2932,7 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @         $  S0 "
+    "        !0    @    !     0    $         \"0    @         \"  T0 "
   }
   DataRecord {
     Tag			    DataTag6
@@ -2839,7 +2940,7 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @         $  S0 "
+    "        !0    @    !     0    $         \"0    @         \"  T0 "
   }
   DataRecord {
     Tag			    DataTag7
@@ -2847,6 +2948,6 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @         $  S0 "
+    "        !0    @    !     0    $         \"0    @         \"  T0 "
   }
 }

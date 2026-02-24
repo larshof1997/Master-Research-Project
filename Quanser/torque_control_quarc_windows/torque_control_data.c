@@ -7,9 +7,9 @@
  *
  * Code generation for model "torque_control".
  *
- * Model version              : 1.100
+ * Model version              : 1.107
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Fri Feb  6 16:35:17 2026
+ * C source code generated on : Mon Feb 23 11:04:28 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -33,10 +33,10 @@ P_torque_control_T torque_control_P = {
    */
   3.0679615757712826E-5,
 
-  /* Variable: Kt2
+  /* Variable: Kt1
    * Referenced by: '<Root>/Torque to current '
    */
-  1.553175,
+  3.018583,
 
   /* Variable: L1
    * Referenced by: '<Root>/Motor #1 Encoder Calib2'
@@ -49,7 +49,7 @@ P_torque_control_T torque_control_P = {
   0.041682,
 
   /* Variable: LIMIT_SWITCHES_ENABLE
-   * Referenced by: '<S3>/Constant'
+   * Referenced by: '<S6>/Constant'
    */
   1.0,
 
@@ -63,11 +63,6 @@ P_torque_control_T torque_control_P = {
    */
   4.0151,
 
-  /* Variable: kd2
-   * Referenced by: '<Root>/Gain2'
-   */
-  0.8,
-
   /* Variable: ke1
    * Referenced by: '<Root>/Motor #1 Encoder Calib3'
    */
@@ -78,18 +73,23 @@ P_torque_control_T torque_control_P = {
    */
   0.0027453,
 
-  /* Variable: ki2
-   * Referenced by: '<Root>/Gain1'
+  /* Mask Parameter: DiscreteDerivative1_ICPrevScale
+   * Referenced by: '<S2>/UD'
    */
-  20.0,
-
-  /* Variable: kp2
-   * Referenced by: '<Root>/Gain'
-   */
-  3.0,
+  0.0,
 
   /* Mask Parameter: DiscreteDerivative_ICPrevScaled
    * Referenced by: '<S1>/UD'
+   */
+  0.0,
+
+  /* Mask Parameter: DiscreteDerivative3_ICPrevScale
+   * Referenced by: '<S4>/UD'
+   */
+  0.0,
+
+  /* Mask Parameter: DiscreteDerivative2_ICPrevScale
+   * Referenced by: '<S3>/UD'
    */
   0.0,
 
@@ -119,17 +119,12 @@ P_torque_control_T torque_control_P = {
   16U,
 
   /* Mask Parameter: HILWriteDigital_channels
-   * Referenced by: '<S2>/HIL Write Digital'
+   * Referenced by: '<S5>/HIL Write Digital'
    */
   { 0U, 1U, 4U },
 
   /* Mask Parameter: HILReadDigital_channels
-   * Referenced by: '<S2>/HIL Read Digital'
-   */
-  { 8U, 9U, 12U },
-
-  /* Mask Parameter: HILReadDigital_channels_p
-   * Referenced by: '<S3>/HIL Read Digital'
+   * Referenced by: '<S6>/HIL Read Digital'
    */
   { 8U, 9U, 10U, 11U },
 
@@ -139,44 +134,39 @@ P_torque_control_T torque_control_P = {
   100U,
 
   /* Mask Parameter: StopwithMessage_message_icon
-   * Referenced by: '<S4>/Show Message on Host'
-   */
-  1,
-
-  /* Mask Parameter: StopwithMessage1_message_icon
-   * Referenced by: '<S5>/Show Message on Host'
-   */
-  1,
-
-  /* Mask Parameter: StopwithMessage2_message_icon
-   * Referenced by: '<S6>/Show Message on Host'
-   */
-  1,
-
-  /* Mask Parameter: StopwithMessage3_message_icon
    * Referenced by: '<S7>/Show Message on Host'
    */
   1,
 
-  /* Computed Parameter: DerivativeFilter1_A
-   * Referenced by: '<Root>/Derivative Filter1'
+  /* Mask Parameter: StopwithMessage1_message_icon
+   * Referenced by: '<S8>/Show Message on Host'
    */
-  { -22.61946710584651, -157.91367041742973 },
+  1,
 
-  /* Computed Parameter: DerivativeFilter1_C
-   * Referenced by: '<Root>/Derivative Filter1'
+  /* Mask Parameter: StopwithMessage2_message_icon
+   * Referenced by: '<S9>/Show Message on Host'
    */
-  { 157.91367041742973, 0.0 },
+  1,
+
+  /* Mask Parameter: StopwithMessage3_message_icon
+   * Referenced by: '<S10>/Show Message on Host'
+   */
+  1,
 
   /* Computed Parameter: TSamp_WtEt
+   * Referenced by: '<S2>/TSamp'
+   */
+  100.0,
+
+  /* Computed Parameter: TSamp_WtEt_e
    * Referenced by: '<S1>/TSamp'
    */
   100.0,
 
-  /* Expression: 0.3
+  /* Expression: 0.2
    * Referenced by: '<Root>/tau_ref'
    */
-  0.3,
+  0.2,
 
   /* Expression: 1
    * Referenced by: '<Root>/Sine Wave'
@@ -198,15 +188,15 @@ P_torque_control_T torque_control_P = {
    */
   0.0,
 
-  /* Computed Parameter: DerivativeFilter2_A
-   * Referenced by: '<Root>/Derivative Filter2'
+  /* Computed Parameter: TSamp_WtEt_o
+   * Referenced by: '<S4>/TSamp'
    */
-  { -22.61946710584651, -157.91367041742973 },
+  100.0,
 
-  /* Computed Parameter: DerivativeFilter2_C
-   * Referenced by: '<Root>/Derivative Filter2'
+  /* Expression: 1.5
+   * Referenced by: '<Root>/Gain'
    */
-  { 157.91367041742973, 0.0 },
+  1.5,
 
   /* Computed Parameter: DiscreteTimeIntegrator_gainval
    * Referenced by: '<Root>/Discrete-Time Integrator'
@@ -218,15 +208,30 @@ P_torque_control_T torque_control_P = {
    */
   0.0,
 
-  /* Computed Parameter: DerivativeFilter4_A
-   * Referenced by: '<Root>/Derivative Filter4'
+  /* Expression: 0
+   * Referenced by: '<Root>/Gain1'
    */
-  { -22.61946710584651, -157.91367041742973 },
+  0.0,
 
-  /* Computed Parameter: DerivativeFilter4_C
-   * Referenced by: '<Root>/Derivative Filter4'
+  /* Computed Parameter: TSamp_WtEt_o3
+   * Referenced by: '<S3>/TSamp'
    */
-  { 157.91367041742973, 0.0 },
+  100.0,
+
+  /* Expression: 0.0
+   * Referenced by: '<Root>/Gain2'
+   */
+  0.0,
+
+  /* Expression: 0.94
+   * Referenced by: '<Root>/Im_r1: Saturation'
+   */
+  0.94,
+
+  /* Expression: -0.94
+   * Referenced by: '<Root>/Im_r1: Saturation'
+   */
+  -0.94,
 
   /* Expression: 1
    * Referenced by: '<Root>/Pulse Generator'
@@ -324,12 +329,12 @@ P_torque_control_T torque_control_P = {
   0.0,
 
   /* Expression: [ 0 0 ]
-   * Referenced by: '<S2>/Enable: Active Low'
+   * Referenced by: '<S5>/Enable: Active Low'
    */
   { 0.0, 0.0 },
 
   /* Expression: 1
-   * Referenced by: '<S2>/Master Enable: Active High'
+   * Referenced by: '<S5>/Master Enable: Active High'
    */
   1.0,
 
@@ -584,52 +589,47 @@ P_torque_control_T torque_control_P = {
   0,
 
   /* Computed Parameter: HILWriteDigital_Active
-   * Referenced by: '<S2>/HIL Write Digital'
+   * Referenced by: '<S5>/HIL Write Digital'
    */
   0,
 
   /* Computed Parameter: HILReadDigital_Active
-   * Referenced by: '<S2>/HIL Read Digital'
-   */
-  1,
-
-  /* Computed Parameter: HILReadDigital_Active_h
-   * Referenced by: '<S3>/HIL Read Digital'
+   * Referenced by: '<S6>/HIL Read Digital'
    */
   1,
 
   /* Computed Parameter: Constant_Value
-   * Referenced by: '<S8>/Constant'
-   */
-  0,
-
-  /* Computed Parameter: Constant_Value_i
-   * Referenced by: '<S9>/Constant'
-   */
-  0,
-
-  /* Computed Parameter: Constant_Value_e
-   * Referenced by: '<S10>/Constant'
-   */
-  0,
-
-  /* Computed Parameter: Constant_Value_d
    * Referenced by: '<S11>/Constant'
+   */
+  0,
+
+  /* Computed Parameter: Constant_Value_k
+   * Referenced by: '<S12>/Constant'
+   */
+  0,
+
+  /* Computed Parameter: Constant_Value_m
+   * Referenced by: '<S13>/Constant'
+   */
+  0,
+
+  /* Computed Parameter: Constant_Value_me
+   * Referenced by: '<S14>/Constant'
    */
   0,
 
   /* Computed Parameter: ManualSwitch3_CurrentSetting
    * Referenced by: '<Root>/Manual Switch3'
    */
-  0U,
+  1U,
 
   /* Computed Parameter: ManualSwitch2_CurrentSetting
    * Referenced by: '<Root>/Manual Switch2'
    */
-  0U,
+  1U,
 
   /* Computed Parameter: ManualSwitch1_CurrentSetting
    * Referenced by: '<Root>/Manual Switch1'
    */
-  0U
+  1U
 };

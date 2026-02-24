@@ -7,9 +7,9 @@
  *
  * Code generation for model "torque_control".
  *
- * Model version              : 1.100
+ * Model version              : 1.107
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Fri Feb  6 16:35:17 2026
+ * C source code generated on : Mon Feb 23 11:04:28 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -26,8 +26,5 @@
 
 /* A global buffer for storing error messages (defined in quanser_common library) */
 EXTERN char _rt_error_message[512];
-
-/* private model entry point functions */
-extern void torque_control_derivatives(void);
 
 #endif                                 /* RTW_HEADER_torque_control_private_h_ */

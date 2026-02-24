@@ -13,6 +13,8 @@
 clear all
 %
 
+dt = 0.01;
+
 %% Watchdogs
 % Turn on or off all four limit switches of the system. When enabled, it
 % makes the controller stop as soon as one limit switch gets triggered.
@@ -21,8 +23,8 @@ LIMIT_SWITCHES_ENABLE = 1;  % all four limit switches are enabled
 % LIMIT_SWITCHES_ENABLE = 0; % CAUTION: all four limit switches are disabled
 % Turn on or off the safety watchdog on the oscillations of the first flexible link: 
 % set it to 1 (to enable), or 0 (to disable)
-DTH1_LIM_ENABLE = 1;       % safety watchdog #1 turned ON
-% DTH1_LIM_ENABLE = 0;      % safety watchdog #1 turned OFF
+% DTH1_LIM_ENABLE = 1;       % safety watchdog #1 turned ON
+DTH1_LIM_ENABLE = 0;      % safety watchdog #1 turned OFF
 % Safety Limits on the oscillations of the first flexible link (deg)
 DTH1_MAX = 5.0;            % first flexible link maximum safety oscillation
 DTH1_MIN = - DTH1_MAX;        % first flexible link minimum safety oscillation
@@ -49,49 +51,7 @@ SYS_ANALYSIS_2 = 'NO';
 [K1_strain_b, K1_defl_b, K2_strain_b, K2_defl_b, KE_D1, KE_D2] = config_2dslf_sensors(L1, T1, L2, T2, Kg1, Kg2);
 % For the following state vector: X1 = [ theta11; theta12; theta11_dot; theta12_dot ]
 % State-Space Matrices for Stage 1: A1, B1, C1, and D1
-eqn_2DSFL_Stage1;
-A1 = A; B1 = B; C1 = eye( 4 ); D1 = zeros( 4, 1 );
-% For the following state vector: X2 = [ theta21; theta22; theta21_dot; theta22_dot ]
-% State-Space Matrices for Stage 2: A2, B2, C2, and D2
-eqn_2DSFL_Stage2
-A2 = A; B2 = B; C2 = eye( 4 ); D2 = zeros( 4, 1 );
 %
-%% Control Design
-% Second-order low-pass filter (to obtain the angular speed)
-wcf = 2 * pi * 40; % encoder signal filter cutting frequency (rad/s)
-wcfa = 2 * pi * 2; % analog signal filter cutting frequency (rad/s)
-zetaf = 0.9;        % filter damping ratio
-% LQR Controller Tuning Parameters For The First Stage Of The 2DSFL Robot
-% Q1 = diag([2500 1500 1.0 5.0 ]);
-Q1 = diag([2500 1 1 100 ]);
-R1 = 10;
-% LQR Controller Tuning Parameters For The Second Stage Of The 2DSFL Robot
-% Q2 = diag([2000 1500 0.75 7.0 ]);
-Q2 = diag([2500 1 1 50 ]);
-R2 = 1;
-% calculate the LQR gain vector, K1
-[ K1, S1, E1 ] = lqr( A1, B1, Q1, R1 );
-% calculate the LQR gain vector, K2
-[ K2, S2, E2 ] = lqr( A2, B2, Q2, R2 );
-%
-%% Display / System Analysis
-% Display the calculated gains
-disp( ' ' )
-disp( [ 'K1(1) = ' num2str( K1(1) ) ' A/rad' ] )
-disp( [ 'K1(2) = ' num2str( K1(2) ) ' A/rad' ] )
-disp( [ 'K1(3) = ' num2str( K1(3) ) ' A.s/rad' ] )
-disp( [ 'K1(4) = ' num2str( K1(4) ) ' A.s/rad' ] )
-% Display the calculated gains
-disp( ' ' )
-disp( [ 'K2(1) = ' num2str( K2(1) ) ' A/rad' ] )
-disp( [ 'K2(2) = ' num2str( K2(2) ) ' A/rad' ] )
-disp( [ 'K2(3) = ' num2str( K2(3) ) ' A.s/rad' ] )
-disp( [ 'K2(4) = ' num2str( K2(4) ) ' A.s/rad' ] )
-%
-% System Analysis
-if strcmp( SYS_ANALYSIS_1, 'YES' ) || strcmp( SYS_ANALYSIS_2, 'YES' )
-    d_2dsfl_sys_analysis
-end
 
 %% Torque calibration parameters
 %Electrical Parameters
@@ -113,13 +73,17 @@ B2 = 8.577738e-02;
 Kt2 = 1.553175e+00;
 
 %%Torque control gains
-kp1 = 3;
-ki1 = 20;
-kd1 = 0.8;
+kp1 = 1.5;
+ki1 = 0;
+kd1 = 0;
 
 kp2 = 3;
-ki2 = 20;
+ki2 = 0;
 kd2 = 0.8;
+
+%Current saturation
+i_sat1 = 0.92;
+i_sat2 = 1.2;
 
 %%EULER LAGRANGE MATRICES
 m1 = 1.6537;  l1 = 0.343;  r1 = 0.29;
@@ -135,11 +99,15 @@ a1_hat = m1 * r1^2 + m2 * l1^2 + I1_hat;
 a2_hat = m2 * r2^2 + I2_hat;
 b_hat  = m2 * l1 * r2;
 
-kp_traj = [1 0;0 1];
+kp_traj = zeros(2,2);
 ki_traj = zeros(2,2);
-kd_traj = [1 0;0 1];
+kd_traj = zeros(2,2);
 
 load('trajectory.mat');
+t = (0:length(q)-1)' * dt;
+q_ts = timeseries(q', t);
+qd_ts = timeseries(qd', t);
+qdd_ts = timeseries(qdd', t);
 
 function M = M_mat(theta2, a1, a2, b)
     c2 = cos(theta2);

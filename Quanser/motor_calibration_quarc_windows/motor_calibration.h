@@ -7,9 +7,9 @@
  *
  * Code generation for model "motor_calibration".
  *
- * Model version              : 1.90
+ * Model version              : 1.93
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Mon Feb  2 15:46:38 2026
+ * C source code generated on : Thu Feb 19 11:41:52 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -855,6 +855,8 @@
 /* Block signals (default storage) */
 typedef struct {
   real_T Product;                      /* '<Root>/Product' */
+  real_T HILReadAnalog;                /* '<Root>/HIL Read Analog' */
+  real_T Motor2EncoderCalib1;          /* '<Root>/Motor #2 Encoder Calib1' */
   real_T VectorConcatenate[4];         /* '<Root>/Vector Concatenate' */
   real_T HILReadDigital_o1;            /* '<S1>/HIL Read Digital' */
   real_T HILReadDigital_o2;            /* '<S1>/HIL Read Digital' */
@@ -878,7 +880,19 @@ typedef struct {
   t_task HILWriteDigitalTimebase_Task; /* '<Root>/HIL Write Digital Timebase' */
   void *HILWriteAnalog_PWORK;          /* '<Root>/HIL Write Analog' */
   void *HILReadAnalog_PWORK;           /* '<Root>/HIL Read Analog' */
+  struct {
+    void *LoggedData;
+  } Scope_PWORK;                       /* '<Root>/Scope' */
+
+  struct {
+    void *LoggedData;
+  } Scope1_PWORK;                      /* '<Root>/Scope1' */
+
   void *HILReadEncoder_PWORK;          /* '<Root>/HIL Read Encoder' */
+  struct {
+    void *LoggedData;
+  } Scope2_PWORK;                      /* '<Root>/Scope2' */
+
   struct {
     void *LoggedData;
   } ToWorkspace_PWORK;                 /* '<Root>/To Workspace' */
