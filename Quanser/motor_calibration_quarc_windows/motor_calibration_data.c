@@ -7,9 +7,9 @@
  *
  * Code generation for model "motor_calibration".
  *
- * Model version              : 1.93
+ * Model version              : 1.94
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Thu Feb 19 11:41:52 2026
+ * C source code generated on : Mon Mar  2 17:06:40 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -46,7 +46,7 @@ P_motor_calibration_T motor_calibration_P = {
   /* Mask Parameter: Ramp_slope
    * Referenced by: '<S3>/Step'
    */
-  0.0,
+  0.03,
 
   /* Mask Parameter: Ramp_start
    * Referenced by:
@@ -135,10 +135,10 @@ P_motor_calibration_T motor_calibration_P = {
    */
   0.0,
 
-  /* Expression: 2
+  /* Expression: 1
    * Referenced by: '<Root>/Sine Wave'
    */
-  2.0,
+  1.0,
 
   /* Expression: 0
    * Referenced by: '<Root>/Sine Wave'

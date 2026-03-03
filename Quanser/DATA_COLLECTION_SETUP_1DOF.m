@@ -136,5 +136,127 @@ function D = D_mat(b1, b2)
          0,b2];
 end
 
+%% ================================================================
+%  SIMULINK SETUP GUIDE — 1DOF KPES Controller
+%  ================================================================
+%
+%  STEP 1: Run this script BEFORE opening Simulink to load parameters
+%           into the workspace.
+%
+%  STEP 2: Build the Simulink model as described below.
+%  ================================================================
+
+clear all; clc;
+
+%% ===================== LOAD IDENTIFIED PARAMETERS =====================
+% Replace with your actual values from identify_1dof.m
+I_hat     = 0.039;       % identified inertia
+b_hat     = 0.02;        % identified viscous damping
+fc_hat    = 0.0;         % Coulomb friction (NOT used in controller)
+v_eps_hat = 0.05;        % (NOT used in controller)
+
+%% ===================== DERIVED CONSTANTS =====================
+T_val   = 1 / sqrt(I_hat);
+Ti_val  = sqrt(I_hat);
+D_tilde = b_hat / I_hat;
+G_tilde = 1 / sqrt(I_hat);
+
+%% ===================== CONTROLLER GAINS =====================
+alpha = 0.2;
+Kp    = 6;
+Kd    = 10;
+
+%% ===================== OBSERVER =====================
+kappa   = 0.1;
+phi     = kappa * Ti_val + 0.01;   % constant — no jumps for 1DOF
+xp_init = 0;                       % initial observer state
+
+%% ===================== MOTOR =====================
+Kt1 = 3.018583;          % torque constant [Nm/A]
+
+%% ===================== SIMULATION =====================
+dt = 0.001;               % fixed-step sample time
+
+
+%
+%  KEY NOTES:
+%
+%  1. The MATLAB Function block should contain the function below.
+%     All parameters (I_hat, b_hat, alpha, Kp, Kd, phi, etc.) can
+%     be hardcoded inside, OR passed from workspace using the
+%     "Parameter" tab in the MATLAB Function block editor.
+%
+%  2. The Unit Delay block:
+%        - Sample time: dt (e.g. 0.001)
+%        - Initial condition: 0 (xp_init)
+%
+%  3. Fixed-step solver (e.g. ode4 or discrete) with step size = dt.
+%
+%  4. Coulomb friction is NOT modeled in the controller — it acts
+%     as a disturbance that the KPES feedback naturally rejects
+%     (passivity-based robustness).
+%
+%  ================================================================
+
+%% ================================================================
+%  MATLAB FUNCTION BLOCK CODE — copy this into the block
+%  ================================================================
+%
+%  function [tau_cmd, xp_next, uo] = fcn(q_meas, qd, dqd, ddqd, xp_prev)
+%
+%      % --- Identified parameters ---
+%      I_hat = 0.039;
+%      b_hat = 0.02;
+%
+%      % --- Derived ---
+%      T_val   = 1 / sqrt(I_hat);
+%      Ti_val  = sqrt(I_hat);
+%      D_tilde = b_hat / I_hat;
+%      G_tilde = 1 / sqrt(I_hat);
+%      Gi      = 1 / G_tilde;           % = sqrt(I_hat)
+%
+%      % --- Gains ---
+%      alpha = 0.2;
+%      Kp    = 6;
+%      Kd    = 10;
+%
+%      % --- Observer (constant phi for 1DOF) ---
+%      kappa = 0.1;
+%      phi   = kappa * Ti_val + 0.01;
+%      dt    = 0.001;                    % must match solver step
+%
+%      % --- Momentum estimate ---
+%      phat = xp_prev + phi * q_meas;
+%
+%      % --- Desired transformed momentum ---
+%      pd = Ti_val * dqd;
+%
+%      % --- Errors ---
+%      qe = q_meas - qd;
+%      pe = phat - pd;
+%      z  = qe + alpha * pe;
+%
+%      % --- KPES feedback (S=0 for constant M) ---
+%      v = -alpha*(D_tilde + Kd)*Kp*z - T_val*Kp*z - Kd*pe;
+%
+%      % --- Passive output & interconnection ---
+%      dHe_dqe = Kp * z;
+%      dHe_dpe = pe + alpha * Kp * z;
+%      ye = -T_val * (dHe_dqe + phi * dHe_dpe);
+%      uo = -Gi * ye;
+%
+%      % --- Feedforward (S=0, gradV=0, dpd/dq=0) ---
+%      u_ff = Gi * (D_tilde*pd + Ti_val*ddqd + v);
+%
+%      % --- Total ---
+%      tau_cmd = -uo + u_ff;
+%
+%      % --- Observer update (Euler integration) ---
+%      dxp = -(D_tilde + phi*T_val)*phat + G_tilde*(tau_cmd + uo);
+%      xp_next = xp_prev + dt * dxp;
+%
+%  end
+%
+%  ================================================================
 
 

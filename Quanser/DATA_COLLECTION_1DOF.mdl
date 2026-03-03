@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.123"
+    ComputedModelVersion    "1.124"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -179,7 +179,7 @@ Model {
 	LoadSaveID		"0"
 	Extents			[2522.0, 1235.0]
 	ZoomFactor		[1.0]
-	Offset			[-256.41748511904734, 320.22619047619048]
+	Offset			[137.21584821428587, 306.992857142857]
       }
       Object {
 	$PropName		"DockComponentsInfo"
@@ -214,9 +214,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "S4236610"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Tue Feb 24 15:56:30 2026"
-  RTWModifiedTimeStamp	  693849386
-  ModelVersionFormat	  "1.%<AutoIncrement:123>"
+  LastModifiedDate	  "Tue Feb 24 17:01:17 2026"
+  RTWModifiedTimeStamp	  693852630
+  ModelVersionFormat	  "1.%<AutoIncrement:124>"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
   LibraryLinkDisplay	  "none"
@@ -1552,6 +1552,15 @@ Model {
       SampleTime	      "-1"
       SaturateOnIntegerOverflow	off
     }
+    Block {
+      BlockType		      UnitDelay
+      InitialCondition	      "0"
+      InputProcessing	      "Inherited"
+      SampleTime	      "1"
+      StateMustResolveToSignalObject off
+      CodeGenStateStorageClass "Auto"
+      HasFrameUpgradeWarning  on
+    }
   }
   System {
     Name		    "DATA_COLLECTION_1DOF"
@@ -1572,7 +1581,7 @@ Model {
     ShowPageBoundaries	    off
     ZoomFactor		    "100"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "627"
+    SIDHighWatermark	    "643"
     Block {
       BlockType		      Sum
       Name		      "Add1"
@@ -1607,6 +1616,14 @@ Model {
       SID		      "624"
       Position		      [1650, 705, 1680, 735]
       ZOrder		      642
+      Value		      "[0;0]"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant11"
+      SID		      "632"
+      Position		      [1510, 640, 1540, 670]
+      ZOrder		      650
       Value		      "[0;0]"
     }
     Block {
@@ -1669,7 +1686,7 @@ Model {
       BlockType		      Constant
       Name		      "Constant9"
       SID		      "619"
-      Position		      [1200, 652, 1235, 688]
+      Position		      [1400, 867, 1435, 903]
       ZOrder		      637
       Value		      "I1_hat"
     }
@@ -1947,7 +1964,7 @@ Model {
       BlockType		      FromWorkspace
       Name		      "From\nWorkspace4"
       SID		      "621"
-      Position		      [1160, 725, 1270, 785]
+      Position		      [1265, 880, 1375, 940]
       ZOrder		      639
       VariableName	      "qdd_ts"
       ZeroCross		      on
@@ -1958,7 +1975,7 @@ Model {
       SID		      "427"
       Position		      [1560, 367, 1620, 413]
       ZOrder		      574
-      Gain		      "[2.5; 0]"
+      Gain		      "[0; 0]"
       ParamDataTypeStr	      "Inherit: Inherit via internal rule"
       OutDataTypeStr	      "Inherit: Inherit via internal rule"
       SaturateOnIntegerOverflow	off
@@ -3055,7 +3072,7 @@ Model {
       Name		      "Product2"
       SID		      "622"
       Ports		      [2, 1]
-      Position		      [1350, 712, 1410, 763]
+      Position		      [1480, 872, 1540, 923]
       ZOrder		      640
       InputSameDT	      off
       OutDataTypeStr	      "Inherit: Inherit via internal rule"
@@ -3152,7 +3169,7 @@ Model {
       Name		      "Sum2"
       SID		      "522"
       Ports		      [2, 1]
-      Position		      [720, 470, 760, 510]
+      Position		      [935, 470, 975, 510]
       ZOrder		      595
       ShowName		      off
       IconShape		      "round"
@@ -3183,11 +3200,18 @@ Model {
       ZOrder		      641
     }
     Block {
+      BlockType		      Terminator
+      Name		      "Terminator3"
+      SID		      "636"
+      Position		      [1550, 645, 1570, 665]
+      ZOrder		      654
+    }
+    Block {
       BlockType		      SubSystem
       Name		      "Torque Control Shoulder"
       SID		      "442"
       Ports		      [1]
-      Position		      [1920, 341, 2095, 469]
+      Position		      [2105, 371, 2280, 499]
       ZOrder		      589
       RequestExecContextInheritance off
       ContentPreviewEnabled   on
@@ -4080,6 +4104,36 @@ Model {
       ZOrder		      627
     }
     Block {
+      BlockType		      UnitDelay
+      Name		      "Unit Delay"
+      SID		      "628"
+      Position		      [938, 545, 972, 580]
+      ZOrder		      646
+      BlockRotation	      270
+      InputProcessing	      "Elements as channels (sample based)"
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      UnitDelay
+      Name		      "Unit Delay1"
+      SID		      "630"
+      Position		      [1383, 635, 1417, 670]
+      ZOrder		      648
+      BlockRotation	      270
+      InputProcessing	      "Elements as channels (sample based)"
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      UnitDelay
+      Name		      "Unit Delay2"
+      SID		      "631"
+      Position		      [783, 420, 817, 455]
+      ZOrder		      649
+      BlockRotation	      270
+      InputProcessing	      "Elements as channels (sample based)"
+      SampleTime	      "-1"
+    }
+    Block {
       BlockType		      Concatenate
       Name		      "Vector\nConcatenate1"
       SID		      "523"
@@ -4097,20 +4151,20 @@ Model {
       ScopeSpecificationString "Simulink.scopes.TimeScopeBlockCfg('CurrentConfiguration', extmgr.ConfigurationSet(extm"
       "gr.Configuration('Core','General UI',true),extmgr.Configuration('Core','Source UI',true),extmgr.Configuration('S"
       "ources','WiredSimulink',true),extmgr.Configuration('Visuals','Time Domain',true,'SerializedDisplays',{struct('Mi"
-      "nYLimReal','-1.86428','MaxYLimReal','1.56939','YLabelReal','','MinYLimMag','0.00000','MaxYLimMag','1.86428','Leg"
+      "nYLimReal','-1.78295','MaxYLimReal','1.55657','YLabelReal','','MinYLimMag','0.00000','MaxYLimMag','1.78295','Leg"
       "endVisibility','off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesColor',[0 0 0],'AxesTickColor',[0.68627"
       "4509803922 0.686274509803922 0.686274509803922],'ColorOrder',[1 1 0.0666666666666667;0.0745098039215686 0.623529"
       "411764706 1;1 0.411764705882353 0.16078431372549;0.392156862745098 0.831372549019608 0.0745098039215686;0.717647"
       "058823529 0.274509803921569 1;0.0588235294117647 1 1;1 0.0745098039215686 0.650980392156863],'Title','%<SignalLa"
       "bel>','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines',2,'LineNames',{{'Demux/1','Demux1/1'}"
-      "},'ShowContent',true,'Placement',1)},'DisplayPropertyDefaults',struct('MinYLimReal','-1.86428','MaxYLimReal','1."
-      "56939','YLabelReal','','MinYLimMag','0.00000','MaxYLimMag','1.86428','LegendVisibility','off','XGrid',true,'YGri"
+      "},'ShowContent',true,'Placement',1)},'DisplayPropertyDefaults',struct('MinYLimReal','-1.78295','MaxYLimReal','1."
+      "55657','YLabelReal','','MinYLimMag','0.00000','MaxYLimMag','1.78295','LegendVisibility','off','XGrid',true,'YGri"
       "d',true,'PlotMagPhase',false,'AxesColor',[0 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.68627450"
       "9803922],'ColorOrder',[0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;1 1 0.0666666"
       "666666667;0.717647058823529 0.274509803921569 1;0.392156862745098 0.831372549019608 0.0745098039215686;0.0588235"
       "294117647 1 1;1 0.0745098039215686 0.650980392156863])),extmgr.Configuration('Tools','Plot Navigation',true),ext"
       "mgr.Configuration('Tools','Measurements',true,'Version','2018b')),'Version','2018b','Position',[2561 52 1920 963"
-      "])"
+      "],'VisibleAtModelOpen','on')"
       NumInputPorts	      "2"
       Floating		      off
     }
@@ -4209,17 +4263,17 @@ Model {
       }
       Branch {
 	ZOrder			708
-	Points			[295, 0]
+	Points			[355, 0]
 	Branch {
 	  ZOrder		  777
-	  Points		  [60, 0; 0, -240]
-	  DstBlock		  "Demux1"
+	  DstBlock		  "Unit Delay2"
 	  DstPort		  1
 	}
 	Branch {
 	  ZOrder		  776
-	  DstBlock		  "Sum2"
-	  DstPort		  2
+	  Points		  [155, 0]
+	  DstBlock		  "Unit Delay"
+	  DstPort		  1
 	}
       }
     }
@@ -4262,8 +4316,8 @@ Model {
 	Branch {
 	  ZOrder		  877
 	  Points		  [0, -425; 834, 0]
-	  DstBlock		  "Sum1"
-	  DstPort		  2
+	  DstBlock		  "Unit Delay1"
+	  DstPort		  1
 	}
       }
       Branch {
@@ -4348,7 +4402,7 @@ Model {
       ZOrder		      727
       SrcBlock		      "Sum2"
       SrcPort		      1
-      Points		      [680, 0]
+      Points		      [465, 0]
       Branch {
 	ZOrder			729
 	Points			[0, -100]
@@ -4367,14 +4421,6 @@ Model {
       SrcPort		      1
       Points		      [0, -5]
       DstBlock		      "Demux2"
-      DstPort		      1
-    }
-    Line {
-      ZOrder		      821
-      SrcBlock		      "Demux2"
-      SrcPort		      1
-      Points		      [65, 0; 0, -175]
-      DstBlock		      "Torque Control Shoulder"
       DstPort		      1
     }
     Line {
@@ -4506,14 +4552,6 @@ Model {
       DstPort		      1
     }
     Line {
-      ZOrder		      851
-      SrcBlock		      "MATLAB Function2"
-      SrcPort		      1
-      Points		      [777, 0; 0, -625]
-      DstBlock		      "Add1"
-      DstPort		      6
-    }
-    Line {
       ZOrder		      852
       SrcBlock		      "Selector4"
       SrcPort		      1
@@ -4552,7 +4590,6 @@ Model {
       ZOrder		      869
       SrcBlock		      "From\nWorkspace4"
       SrcPort		      1
-      Points		      [68, 0; 0, -5]
       DstBlock		      "Product2"
       DstPort		      2
     }
@@ -4560,17 +4597,8 @@ Model {
       ZOrder		      866
       SrcBlock		      "Constant9"
       SrcPort		      1
-      Points		      [70, 0; 0, 55]
       DstBlock		      "Product2"
       DstPort		      1
-    }
-    Line {
-      ZOrder		      867
-      SrcBlock		      "Product2"
-      SrcPort		      1
-      Points		      [87, 0; 0, -105]
-      DstBlock		      "Add1"
-      DstPort		      4
     }
     Line {
       ZOrder		      870
@@ -4598,6 +4626,59 @@ Model {
       SrcBlock		      "Sum1"
       SrcPort		      1
       DstBlock		      "Gain2"
+      DstPort		      1
+    }
+    Line {
+      ZOrder		      881
+      SrcBlock		      "Unit Delay"
+      SrcPort		      1
+      DstBlock		      "Sum2"
+      DstPort		      2
+    }
+    Line {
+      ZOrder		      883
+      SrcBlock		      "Unit Delay1"
+      SrcPort		      1
+      DstBlock		      "Sum1"
+      DstPort		      2
+    }
+    Line {
+      ZOrder		      884
+      SrcBlock		      "Unit Delay2"
+      SrcPort		      1
+      Points		      [0, -15]
+      DstBlock		      "Demux1"
+      DstPort		      1
+    }
+    Line {
+      ZOrder		      889
+      SrcBlock		      "Product2"
+      SrcPort		      1
+      Points		      [24, 0; 0, -103; 15, 0; 0, -162]
+      DstBlock		      "Add1"
+      DstPort		      4
+    }
+    Line {
+      ZOrder		      892
+      SrcBlock		      "MATLAB Function2"
+      SrcPort		      1
+      Points		      [748, 0; 0, -625]
+      DstBlock		      "Add1"
+      DstPort		      6
+    }
+    Line {
+      ZOrder		      890
+      SrcBlock		      "Constant11"
+      SrcPort		      1
+      DstBlock		      "Terminator3"
+      DstPort		      1
+    }
+    Line {
+      ZOrder		      902
+      SrcBlock		      "Demux2"
+      SrcPort		      1
+      Points		      [145, 0; 0, -145]
+      DstBlock		      "Torque Control Shoulder"
       DstPort		      1
     }
     Annotation {

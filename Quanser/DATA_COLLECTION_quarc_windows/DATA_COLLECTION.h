@@ -7,9 +7,9 @@
  *
  * Code generation for model "DATA_COLLECTION".
  *
- * Model version              : 1.113
+ * Model version              : 1.114
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Mon Feb 23 12:38:09 2026
+ * C source code generated on : Tue Mar  3 13:11:22 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -846,28 +846,30 @@
 
 /* Block signals (default storage) */
 typedef struct {
-  real_T TSamp;                        /* '<S19>/TSamp' */
-  real_T TSamp_c;                      /* '<S16>/TSamp' */
+  real_T TSamp;                        /* '<S20>/TSamp' */
+  real_T TSamp_d;                      /* '<S17>/TSamp' */
   real_T VectorConcatenate1[2];        /* '<Root>/Vector Concatenate1' */
-  real_T FromWorkspace3[2];            /* '<Root>/From Workspace3' */
   real_T Sum2[2];                      /* '<Root>/Sum2' */
-  real_T TSamp_n[2];                   /* '<S1>/TSamp' */
-  real_T Torquetocurrent;              /* '<S6>/Torque to current ' */
-  real_T TSamp_k;                      /* '<S18>/TSamp' */
-  real_T Current;                      /* '<S6>/HIL Read Analog' */
-  real_T Sum1;                         /* '<S6>/Sum1' */
-  real_T TSamp_g;                      /* '<S17>/TSamp' */
-  real_T Add;                          /* '<S6>/Add' */
-  real_T VectorConcatenate[4];         /* '<S6>/Vector Concatenate' */
-  real_T TSamp_p;                      /* '<S23>/TSamp' */
-  real_T TSamp_o;                      /* '<S20>/TSamp' */
-  real_T Torquetocurrent_g;            /* '<S7>/Torque to current ' */
-  real_T TSamp_ck;                     /* '<S22>/TSamp' */
-  real_T Current_n;                    /* '<S7>/HIL Read Analog' */
-  real_T Sum1_l;                       /* '<S7>/Sum1' */
-  real_T TSamp_a;                      /* '<S21>/TSamp' */
-  real_T Add_c;                        /* '<S7>/Add' */
-  real_T VectorConcatenate_n[4];       /* '<S7>/Vector Concatenate' */
+  real_T TSamp_i[2];                   /* '<S1>/TSamp' */
+  real_T FromWorkspace3[2];            /* '<Root>/From Workspace3' */
+  real_T FromWorkspace1[2];            /* '<Root>/From Workspace1' */
+  real_T Torquetocurrent;              /* '<S7>/Torque to current ' */
+  real_T TSamp_f;                      /* '<S19>/TSamp' */
+  real_T Current;                      /* '<S7>/HIL Read Analog' */
+  real_T Sum1;                         /* '<S7>/Sum1' */
+  real_T TSamp_p;                      /* '<S18>/TSamp' */
+  real_T Saturation;                   /* '<S7>/Saturation' */
+  real_T VectorConcatenate[4];         /* '<S7>/Vector Concatenate' */
+  real_T TSamp_g;                      /* '<S24>/TSamp' */
+  real_T TSamp_b;                      /* '<S21>/TSamp' */
+  real_T Torquetocurrent_k;            /* '<S8>/Torque to current ' */
+  real_T TSamp_j;                      /* '<S23>/TSamp' */
+  real_T Current_b;                    /* '<S8>/HIL Read Analog' */
+  real_T Sum1_d;                       /* '<S8>/Sum1' */
+  real_T TSamp_bl;                     /* '<S22>/TSamp' */
+  real_T Saturation_m;                 /* '<S8>/Saturation' */
+  real_T VectorConcatenate_d[4];       /* '<S8>/Vector Concatenate' */
+  real_T UnitDelay2[2];                /* '<Root>/Unit Delay2' */
   real_T HILReadDigital_o1;            /* '<S2>/HIL Read Digital' */
   real_T HILReadDigital_o2;            /* '<S2>/HIL Read Digital' */
   real_T HILReadDigital_o3;            /* '<S2>/HIL Read Digital' */
@@ -879,20 +881,23 @@ typedef struct {
 
 /* Block states (default storage) for system '<Root>' */
 typedef struct {
-  real_T UD_DSTATE;                    /* '<S19>/UD' */
-  real_T UD_DSTATE_a;                  /* '<S16>/UD' */
+  real_T UD_DSTATE;                    /* '<S20>/UD' */
+  real_T UD_DSTATE_g;                  /* '<S17>/UD' */
+  real_T UnitDelay_DSTATE[2];          /* '<Root>/Unit Delay' */
   real_T DiscreteTimeIntegrator_DSTATE[2];/* '<Root>/Discrete-Time Integrator' */
-  real_T UD_DSTATE_d[2];               /* '<S1>/UD' */
-  real_T UD_DSTATE_g;                  /* '<S18>/UD' */
-  real_T DiscreteTimeIntegrator_DSTATE_e;/* '<S6>/Discrete-Time Integrator' */
-  real_T UD_DSTATE_n;                  /* '<S17>/UD' */
-  real_T UD_DSTATE_d3;                 /* '<S23>/UD' */
-  real_T UD_DSTATE_p;                  /* '<S20>/UD' */
-  real_T UD_DSTATE_e;                  /* '<S22>/UD' */
-  real_T DiscreteTimeIntegrator_DSTATE_a;/* '<S7>/Discrete-Time Integrator' */
-  real_T UD_DSTATE_m;                  /* '<S21>/UD' */
-  real_T HILReadAnalog_Buffer;         /* '<S6>/HIL Read Analog' */
-  real_T HILReadAnalog_Buffer_p;       /* '<S7>/HIL Read Analog' */
+  real_T UD_DSTATE_e[2];               /* '<S1>/UD' */
+  real_T UnitDelay1_DSTATE[2];         /* '<Root>/Unit Delay1' */
+  real_T UD_DSTATE_g1;                 /* '<S19>/UD' */
+  real_T DiscreteTimeIntegrator_DSTATE_p;/* '<S7>/Discrete-Time Integrator' */
+  real_T UD_DSTATE_j;                  /* '<S18>/UD' */
+  real_T UD_DSTATE_h;                  /* '<S24>/UD' */
+  real_T UD_DSTATE_i;                  /* '<S21>/UD' */
+  real_T UD_DSTATE_er;                 /* '<S23>/UD' */
+  real_T DiscreteTimeIntegrator_DSTATE_a;/* '<S8>/Discrete-Time Integrator' */
+  real_T UD_DSTATE_d;                  /* '<S22>/UD' */
+  real_T UnitDelay2_DSTATE[2];         /* '<Root>/Unit Delay2' */
+  real_T HILReadAnalog_Buffer;         /* '<S7>/HIL Read Analog' */
+  real_T HILReadAnalog_Buffer_n;       /* '<S8>/HIL Read Analog' */
   real_T HILInitialize_AIMinimums[8];  /* '<Root>/HIL Initialize' */
   real_T HILInitialize_AIMaximums[8];  /* '<Root>/HIL Initialize' */
   real_T HILInitialize_AOMinimums[8];  /* '<Root>/HIL Initialize' */
@@ -901,8 +906,8 @@ typedef struct {
   real_T HILInitialize_FilterFrequency[8];/* '<Root>/HIL Initialize' */
   t_card HILInitialize_Card;           /* '<Root>/HIL Initialize' */
   t_task HILWriteDigitalTimebase_Task; /* '<Root>/HIL Write Digital Timebase' */
-  void *HILReadEncoder_PWORK;          /* '<S6>/HIL Read Encoder' */
-  void *HILReadEncoder_PWORK_h;        /* '<Root>/HIL Read Encoder' */
+  void *HILReadEncoder_PWORK;          /* '<S7>/HIL Read Encoder' */
+  void *HILReadEncoder_PWORK_g;        /* '<Root>/HIL Read Encoder' */
   struct {
     void *TimePtr;
     void *DataPtr;
@@ -921,42 +926,34 @@ typedef struct {
     void *RSimInfoPtr;
   } FromWorkspace1_PWORK;              /* '<Root>/From Workspace1' */
 
-  void *HILReadAnalog_PWORK;           /* '<S6>/HIL Read Analog' */
-  void *HILWriteAnalog_PWORK;          /* '<S6>/HIL Write Analog' */
+  void *HILReadAnalog_PWORK;           /* '<S7>/HIL Read Analog' */
+  void *HILWriteAnalog_PWORK;          /* '<S7>/HIL Write Analog' */
   struct {
-    void *LoggedData;
-  } Ielbow_PWORK;                      /* '<S6>/I elbow' */
+    void *LoggedData[2];
+  } Ielbow_PWORK;                      /* '<S7>/I elbow' */
 
   struct {
     void *LoggedData;
-  } Irefelbow_PWORK;                   /* '<S6>/I ref  elbow' */
+  } ToWorkspace_PWORK;                 /* '<S7>/To Workspace' */
 
   struct {
     void *LoggedData;
-  } ToWorkspace_PWORK;                 /* '<S6>/To Workspace' */
+  } Velbow_PWORK;                      /* '<S7>/V elbow' */
+
+  void *HILReadEncoder_PWORK_k;        /* '<S8>/HIL Read Encoder' */
+  void *HILReadAnalog_PWORK_a;         /* '<S8>/HIL Read Analog' */
+  void *HILWriteAnalog_PWORK_g;        /* '<S8>/HIL Write Analog' */
+  struct {
+    void *LoggedData[2];
+  } Ishoulder1_PWORK;                  /* '<S8>/I shoulder1' */
 
   struct {
     void *LoggedData;
-  } Vshoulder_PWORK;                   /* '<S6>/V shoulder' */
-
-  void *HILReadEncoder_PWORK_m;        /* '<S7>/HIL Read Encoder' */
-  void *HILReadAnalog_PWORK_b;         /* '<S7>/HIL Read Analog' */
-  void *HILWriteAnalog_PWORK_a;        /* '<S7>/HIL Write Analog' */
-  struct {
-    void *LoggedData;
-  } Irefshoulder2_PWORK;               /* '<S7>/I ref  shoulder2' */
+  } ToWorkspace_PWORK_l;               /* '<S8>/To Workspace' */
 
   struct {
     void *LoggedData;
-  } Ishoulder1_PWORK;                  /* '<S7>/I shoulder1' */
-
-  struct {
-    void *LoggedData;
-  } ToWorkspace_PWORK_p;               /* '<S7>/To Workspace' */
-
-  struct {
-    void *LoggedData;
-  } Vshoulder_PWORK_e;                 /* '<S7>/V shoulder' */
+  } Vshoulder_PWORK;                   /* '<S8>/V shoulder' */
 
   struct {
     void *LoggedData[2];
@@ -968,10 +965,10 @@ typedef struct {
 
   void *HILWriteDigital_PWORK;         /* '<S2>/HIL Write Digital' */
   void *HILReadDigital_PWORK;          /* '<S2>/HIL Read Digital' */
-  void *HILReadDigital_PWORK_o;        /* '<S3>/HIL Read Digital' */
-  int32_T HILReadEncoder_Buffer[2];    /* '<S6>/HIL Read Encoder' */
+  void *HILReadDigital_PWORK_h;        /* '<S3>/HIL Read Digital' */
+  int32_T HILReadEncoder_Buffer[2];    /* '<S7>/HIL Read Encoder' */
   int32_T HILReadEncoder_Buffer_a[2];  /* '<Root>/HIL Read Encoder' */
-  int32_T HILReadEncoder_Buffer_n[2];  /* '<S7>/HIL Read Encoder' */
+  int32_T HILReadEncoder_Buffer_d[2];  /* '<S8>/HIL Read Encoder' */
   int32_T clockTickCounter;            /* '<Root>/Pulse Generator' */
   int32_T HILInitialize_DOStates[9];   /* '<Root>/HIL Initialize' */
   int32_T HILInitialize_QuadratureModes[8];/* '<Root>/HIL Initialize' */
@@ -993,7 +990,7 @@ typedef struct {
   t_boolean HILWriteDigitalTimebase_Buffer;/* '<Root>/HIL Write Digital Timebase' */
   t_boolean HILWriteDigital_Buffer[3]; /* '<S2>/HIL Write Digital' */
   t_boolean HILReadDigital_Buffer[3];  /* '<S2>/HIL Read Digital' */
-  t_boolean HILReadDigital_Buffer_c[4];/* '<S3>/HIL Read Digital' */
+  t_boolean HILReadDigital_Buffer_g[4];/* '<S3>/HIL Read Digital' */
 } DW_DATA_COLLECTION_T;
 
 /* Backward compatible GRT Identifiers */
@@ -1009,43 +1006,45 @@ struct P_DATA_COLLECTION_T_ {
   real_T KE_D1;                        /* Variable: KE_D1
                                         * Referenced by:
                                         *   '<Root>/Motor #1 Encoder Calib1'
-                                        *   '<S6>/Motor #1 Encoder Calib1'
                                         *   '<S7>/Motor #1 Encoder Calib1'
+                                        *   '<S8>/Motor #1 Encoder Calib1'
                                         */
   real_T KE_D2;                        /* Variable: KE_D2
                                         * Referenced by:
                                         *   '<Root>/Motor #2 Encoder Calib1'
-                                        *   '<S6>/Motor #2 Encoder Calib1'
                                         *   '<S7>/Motor #2 Encoder Calib1'
+                                        *   '<S8>/Motor #2 Encoder Calib1'
                                         */
   real_T Kt1;                          /* Variable: Kt1
-                                        * Referenced by: '<S7>/Torque to current '
+                                        * Referenced by: '<S8>/Torque to current '
                                         */
   real_T Kt2;                          /* Variable: Kt2
-                                        * Referenced by: '<S6>/Torque to current '
+                                        * Referenced by: '<S7>/Torque to current '
                                         */
   real_T L1;                           /* Variable: L1
                                         * Referenced by:
-                                        *   '<S6>/Motor #1 Encoder Calib2'
                                         *   '<S7>/Motor #1 Encoder Calib2'
+                                        *   '<S8>/Motor #1 Encoder Calib2'
                                         */
   real_T L2;                           /* Variable: L2
                                         * Referenced by:
-                                        *   '<S6>/Motor #1 Encoder Calib5'
                                         *   '<S7>/Motor #1 Encoder Calib5'
+                                        *   '<S8>/Motor #1 Encoder Calib5'
                                         */
   real_T LIMIT_SWITCHES_ENABLE;        /* Variable: LIMIT_SWITCHES_ENABLE
                                         * Referenced by: '<S3>/Constant'
                                         */
   real_T R1;                           /* Variable: R1
                                         * Referenced by:
-                                        *   '<S6>/Motor #1 Encoder Calib6'
                                         *   '<S7>/Motor #1 Encoder Calib6'
+                                        *   '<S8>/Motor #1 Encoder Calib6'
+                                        *   '<S8>/Saturation'
                                         */
   real_T R2;                           /* Variable: R2
                                         * Referenced by:
-                                        *   '<S6>/Motor #1 Encoder Calib7'
                                         *   '<S7>/Motor #1 Encoder Calib7'
+                                        *   '<S7>/Saturation'
+                                        *   '<S8>/Motor #1 Encoder Calib7'
                                         */
   real_T a1_hat;                       /* Variable: a1_hat
                                         * Referenced by: '<Root>/Constant'
@@ -1054,89 +1053,105 @@ struct P_DATA_COLLECTION_T_ {
                                         * Referenced by: '<Root>/Constant1'
                                         */
   real_T b1_hat;                       /* Variable: b1_hat
-                                        * Referenced by: '<Root>/Constant2'
+                                        * Referenced by: '<Root>/Constant5'
+                                        */
+  real_T b2_hat;                       /* Variable: b2_hat
+                                        * Referenced by: '<Root>/Constant4'
                                         */
   real_T b_hat;                        /* Variable: b_hat
-                                        * Referenced by: '<Root>/Constant3'
-                                        */
-  real_T kd1;                          /* Variable: kd1
                                         * Referenced by:
-                                        *   '<S6>/Gain2'
-                                        *   '<S7>/Gain2'
+                                        *   '<Root>/Constant2'
+                                        *   '<Root>/Constant3'
+                                        */
+  real_T fc1_hat;                      /* Variable: fc1_hat
+                                        * Referenced by: '<Root>/Constant7'
+                                        */
+  real_T fc2_hat;                      /* Variable: fc2_hat
+                                        * Referenced by: '<Root>/Constant8'
+                                        */
+  real_T i_sat1;                       /* Variable: i_sat1
+                                        * Referenced by: '<S8>/Saturation'
+                                        */
+  real_T i_sat2;                       /* Variable: i_sat2
+                                        * Referenced by: '<S7>/Saturation'
                                         */
   real_T ke1;                          /* Variable: ke1
                                         * Referenced by:
-                                        *   '<S6>/Motor #1 Encoder Calib3'
                                         *   '<S7>/Motor #1 Encoder Calib3'
+                                        *   '<S8>/Motor #1 Encoder Calib3'
                                         */
   real_T ke2;                          /* Variable: ke2
                                         * Referenced by:
-                                        *   '<S6>/Motor #1 Encoder Calib8'
                                         *   '<S7>/Motor #1 Encoder Calib8'
+                                        *   '<S8>/Motor #1 Encoder Calib8'
                                         */
   real_T ki1;                          /* Variable: ki1
                                         * Referenced by:
-                                        *   '<S6>/Gain1'
                                         *   '<S7>/Gain1'
+                                        *   '<S8>/Gain1'
                                         */
   real_T ki_traj[4];                   /* Variable: ki_traj
                                         * Referenced by: '<Root>/Gain1'
                                         */
   real_T kp1;                          /* Variable: kp1
-                                        * Referenced by:
-                                        *   '<S6>/Gain'
-                                        *   '<S7>/Gain'
+                                        * Referenced by: '<S8>/Gain'
+                                        */
+  real_T kp2;                          /* Variable: kp2
+                                        * Referenced by: '<S7>/Gain'
+                                        */
+  real_T v_eps_hat;                    /* Variable: v_eps_hat
+                                        * Referenced by: '<Root>/Constant6'
                                         */
   real_T DiscreteDerivative3_ICPrevScale;/* Mask Parameter: DiscreteDerivative3_ICPrevScale
-                                          * Referenced by: '<S19>/UD'
+                                          * Referenced by: '<S20>/UD'
                                           */
   real_T DiscreteDerivative_ICPrevScaled;/* Mask Parameter: DiscreteDerivative_ICPrevScaled
-                                          * Referenced by: '<S16>/UD'
+                                          * Referenced by: '<S17>/UD'
                                           */
-  real_T DiscreteDerivative_ICPrevScal_n;/* Mask Parameter: DiscreteDerivative_ICPrevScal_n
+  real_T DiscreteDerivative_ICPrevScal_k;/* Mask Parameter: DiscreteDerivative_ICPrevScal_k
                                           * Referenced by: '<S1>/UD'
                                           */
   real_T DiscreteDerivative2_ICPrevScale;/* Mask Parameter: DiscreteDerivative2_ICPrevScale
-                                          * Referenced by: '<S18>/UD'
+                                          * Referenced by: '<S19>/UD'
                                           */
   real_T DiscreteDerivative1_ICPrevScale;/* Mask Parameter: DiscreteDerivative1_ICPrevScale
-                                          * Referenced by: '<S17>/UD'
+                                          * Referenced by: '<S18>/UD'
                                           */
-  real_T DiscreteDerivative3_ICPrevSca_e;/* Mask Parameter: DiscreteDerivative3_ICPrevSca_e
+  real_T DiscreteDerivative3_ICPrevSca_i;/* Mask Parameter: DiscreteDerivative3_ICPrevSca_i
+                                          * Referenced by: '<S24>/UD'
+                                          */
+  real_T DiscreteDerivative_ICPrevScal_l;/* Mask Parameter: DiscreteDerivative_ICPrevScal_l
+                                          * Referenced by: '<S21>/UD'
+                                          */
+  real_T DiscreteDerivative2_ICPrevSca_n;/* Mask Parameter: DiscreteDerivative2_ICPrevSca_n
                                           * Referenced by: '<S23>/UD'
                                           */
-  real_T DiscreteDerivative_ICPrevScal_i;/* Mask Parameter: DiscreteDerivative_ICPrevScal_i
-                                          * Referenced by: '<S20>/UD'
-                                          */
-  real_T DiscreteDerivative2_ICPrevSca_d;/* Mask Parameter: DiscreteDerivative2_ICPrevSca_d
+  real_T DiscreteDerivative1_ICPrevSca_c;/* Mask Parameter: DiscreteDerivative1_ICPrevSca_c
                                           * Referenced by: '<S22>/UD'
-                                          */
-  real_T DiscreteDerivative1_ICPrevSca_h;/* Mask Parameter: DiscreteDerivative1_ICPrevSca_h
-                                          * Referenced by: '<S21>/UD'
                                           */
   int32_T HILWriteDigitalTimebase_clock;/* Mask Parameter: HILWriteDigitalTimebase_clock
                                          * Referenced by: '<Root>/HIL Write Digital Timebase'
                                          */
   uint32_T HILReadEncoder_channels[2]; /* Mask Parameter: HILReadEncoder_channels
-                                        * Referenced by: '<S6>/HIL Read Encoder'
+                                        * Referenced by: '<S7>/HIL Read Encoder'
                                         */
-  uint32_T HILReadEncoder_channels_i[2];/* Mask Parameter: HILReadEncoder_channels_i
+  uint32_T HILReadEncoder_channels_d[2];/* Mask Parameter: HILReadEncoder_channels_d
                                          * Referenced by: '<Root>/HIL Read Encoder'
                                          */
   uint32_T HILReadAnalog_channels;     /* Mask Parameter: HILReadAnalog_channels
-                                        * Referenced by: '<S6>/HIL Read Analog'
-                                        */
-  uint32_T HILWriteAnalog_channels;    /* Mask Parameter: HILWriteAnalog_channels
-                                        * Referenced by: '<S6>/HIL Write Analog'
-                                        */
-  uint32_T HILReadEncoder_channels_m[2];/* Mask Parameter: HILReadEncoder_channels_m
-                                         * Referenced by: '<S7>/HIL Read Encoder'
-                                         */
-  uint32_T HILReadAnalog_channels_a;   /* Mask Parameter: HILReadAnalog_channels_a
                                         * Referenced by: '<S7>/HIL Read Analog'
                                         */
-  uint32_T HILWriteAnalog_channels_a;  /* Mask Parameter: HILWriteAnalog_channels_a
+  uint32_T HILWriteAnalog_channels;    /* Mask Parameter: HILWriteAnalog_channels
                                         * Referenced by: '<S7>/HIL Write Analog'
+                                        */
+  uint32_T HILReadEncoder_channels_g[2];/* Mask Parameter: HILReadEncoder_channels_g
+                                         * Referenced by: '<S8>/HIL Read Encoder'
+                                         */
+  uint32_T HILReadAnalog_channels_e;   /* Mask Parameter: HILReadAnalog_channels_e
+                                        * Referenced by: '<S8>/HIL Read Analog'
+                                        */
+  uint32_T HILWriteAnalog_channels_h;  /* Mask Parameter: HILWriteAnalog_channels_h
+                                        * Referenced by: '<S8>/HIL Write Analog'
                                         */
   uint32_T HILWriteDigitalTimebase_channel;/* Mask Parameter: HILWriteDigitalTimebase_channel
                                             * Referenced by: '<Root>/HIL Write Digital Timebase'
@@ -1147,31 +1162,34 @@ struct P_DATA_COLLECTION_T_ {
   uint32_T HILReadDigital_channels[3]; /* Mask Parameter: HILReadDigital_channels
                                         * Referenced by: '<S2>/HIL Read Digital'
                                         */
-  uint32_T HILReadDigital_channels_p[4];/* Mask Parameter: HILReadDigital_channels_p
+  uint32_T HILReadDigital_channels_j[4];/* Mask Parameter: HILReadDigital_channels_j
                                          * Referenced by: '<S3>/HIL Read Digital'
                                          */
   uint32_T HILWriteDigitalTimebase_samples;/* Mask Parameter: HILWriteDigitalTimebase_samples
                                             * Referenced by: '<Root>/HIL Write Digital Timebase'
                                             */
   int8_T StopwithMessage_message_icon; /* Mask Parameter: StopwithMessage_message_icon
-                                        * Referenced by: '<S8>/Show Message on Host'
-                                        */
-  int8_T StopwithMessage1_message_icon;/* Mask Parameter: StopwithMessage1_message_icon
                                         * Referenced by: '<S9>/Show Message on Host'
                                         */
-  int8_T StopwithMessage2_message_icon;/* Mask Parameter: StopwithMessage2_message_icon
+  int8_T StopwithMessage1_message_icon;/* Mask Parameter: StopwithMessage1_message_icon
                                         * Referenced by: '<S10>/Show Message on Host'
                                         */
-  int8_T StopwithMessage3_message_icon;/* Mask Parameter: StopwithMessage3_message_icon
+  int8_T StopwithMessage2_message_icon;/* Mask Parameter: StopwithMessage2_message_icon
                                         * Referenced by: '<S11>/Show Message on Host'
                                         */
+  int8_T StopwithMessage3_message_icon;/* Mask Parameter: StopwithMessage3_message_icon
+                                        * Referenced by: '<S12>/Show Message on Host'
+                                        */
   real_T TSamp_WtEt;                   /* Computed Parameter: TSamp_WtEt
-                                        * Referenced by: '<S19>/TSamp'
+                                        * Referenced by: '<S20>/TSamp'
                                         */
-  real_T TSamp_WtEt_b;                 /* Computed Parameter: TSamp_WtEt_b
-                                        * Referenced by: '<S16>/TSamp'
+  real_T TSamp_WtEt_p;                 /* Computed Parameter: TSamp_WtEt_p
+                                        * Referenced by: '<S17>/TSamp'
                                         */
-  real_T Gain_Gain[2];                 /* Expression: [3; 0]
+  real_T UnitDelay_InitialCondition;   /* Expression: 0
+                                        * Referenced by: '<Root>/Unit Delay'
+                                        */
+  real_T Gain_Gain[2];                 /* Expression: [2; 1]
                                         * Referenced by: '<Root>/Gain'
                                         */
   real_T DiscreteTimeIntegrator_gainval;/* Computed Parameter: DiscreteTimeIntegrator_gainval
@@ -1180,41 +1198,53 @@ struct P_DATA_COLLECTION_T_ {
   real_T DiscreteTimeIntegrator_IC;    /* Expression: 0
                                         * Referenced by: '<Root>/Discrete-Time Integrator'
                                         */
-  real_T TSamp_WtEt_b0;                /* Computed Parameter: TSamp_WtEt_b0
+  real_T TSamp_WtEt_e;                 /* Computed Parameter: TSamp_WtEt_e
                                         * Referenced by: '<S1>/TSamp'
                                         */
-  real_T Gain2_Gain[2];                /* Expression: [0.5; 0]
+  real_T UnitDelay1_InitialCondition;  /* Expression: 0
+                                        * Referenced by: '<Root>/Unit Delay1'
+                                        */
+  real_T Gain2_Gain[2];                /* Expression: [0; 0]
                                         * Referenced by: '<Root>/Gain2'
+                                        */
+  real_T TSamp_WtEt_ei;                /* Computed Parameter: TSamp_WtEt_ei
+                                        * Referenced by: '<S19>/TSamp'
+                                        */
+  real_T DiscreteTimeIntegrator_gainva_p;/* Computed Parameter: DiscreteTimeIntegrator_gainva_p
+                                          * Referenced by: '<S7>/Discrete-Time Integrator'
+                                          */
+  real_T DiscreteTimeIntegrator_IC_i;  /* Expression: 0
+                                        * Referenced by: '<S7>/Discrete-Time Integrator'
                                         */
   real_T TSamp_WtEt_a;                 /* Computed Parameter: TSamp_WtEt_a
                                         * Referenced by: '<S18>/TSamp'
                                         */
-  real_T DiscreteTimeIntegrator_gainva_n;/* Computed Parameter: DiscreteTimeIntegrator_gainva_n
-                                          * Referenced by: '<S6>/Discrete-Time Integrator'
-                                          */
-  real_T DiscreteTimeIntegrator_IC_o;  /* Expression: 0
-                                        * Referenced by: '<S6>/Discrete-Time Integrator'
-                                        */
-  real_T TSamp_WtEt_f;                 /* Computed Parameter: TSamp_WtEt_f
-                                        * Referenced by: '<S17>/TSamp'
-                                        */
-  real_T TSamp_WtEt_j;                 /* Computed Parameter: TSamp_WtEt_j
-                                        * Referenced by: '<S23>/TSamp'
-                                        */
-  real_T TSamp_WtEt_jx;                /* Computed Parameter: TSamp_WtEt_jx
-                                        * Referenced by: '<S20>/TSamp'
+  real_T Gain2_Gain_c;                 /* Expression: 0
+                                        * Referenced by: '<S7>/Gain2'
                                         */
   real_T TSamp_WtEt_h;                 /* Computed Parameter: TSamp_WtEt_h
-                                        * Referenced by: '<S22>/TSamp'
+                                        * Referenced by: '<S24>/TSamp'
                                         */
-  real_T DiscreteTimeIntegrator_gainva_m;/* Computed Parameter: DiscreteTimeIntegrator_gainva_m
-                                          * Referenced by: '<S7>/Discrete-Time Integrator'
+  real_T TSamp_WtEt_l;                 /* Computed Parameter: TSamp_WtEt_l
+                                        * Referenced by: '<S21>/TSamp'
+                                        */
+  real_T TSamp_WtEt_g;                 /* Computed Parameter: TSamp_WtEt_g
+                                        * Referenced by: '<S23>/TSamp'
+                                        */
+  real_T DiscreteTimeIntegrator_gainva_k;/* Computed Parameter: DiscreteTimeIntegrator_gainva_k
+                                          * Referenced by: '<S8>/Discrete-Time Integrator'
                                           */
   real_T DiscreteTimeIntegrator_IC_l;  /* Expression: 0
-                                        * Referenced by: '<S7>/Discrete-Time Integrator'
+                                        * Referenced by: '<S8>/Discrete-Time Integrator'
                                         */
-  real_T TSamp_WtEt_n;                 /* Computed Parameter: TSamp_WtEt_n
-                                        * Referenced by: '<S21>/TSamp'
+  real_T TSamp_WtEt_pz;                /* Computed Parameter: TSamp_WtEt_pz
+                                        * Referenced by: '<S22>/TSamp'
+                                        */
+  real_T Gain2_Gain_l;                 /* Expression: 0
+                                        * Referenced by: '<S8>/Gain2'
+                                        */
+  real_T UnitDelay2_InitialCondition;  /* Expression: 0
+                                        * Referenced by: '<Root>/Unit Delay2'
                                         */
   real_T PulseGenerator_Amp;           /* Expression: 1
                                         * Referenced by: '<Root>/Pulse Generator'
@@ -1313,25 +1343,25 @@ struct P_DATA_COLLECTION_T_ {
                                         * Referenced by: '<Root>/HIL Initialize'
                                         */
   boolean_T HILReadEncoder_Active;     /* Computed Parameter: HILReadEncoder_Active
-                                        * Referenced by: '<S6>/HIL Read Encoder'
+                                        * Referenced by: '<S7>/HIL Read Encoder'
                                         */
-  boolean_T HILReadEncoder_Active_g;   /* Computed Parameter: HILReadEncoder_Active_g
+  boolean_T HILReadEncoder_Active_a;   /* Computed Parameter: HILReadEncoder_Active_a
                                         * Referenced by: '<Root>/HIL Read Encoder'
                                         */
   boolean_T HILReadAnalog_Active;      /* Computed Parameter: HILReadAnalog_Active
-                                        * Referenced by: '<S6>/HIL Read Analog'
-                                        */
-  boolean_T HILWriteAnalog_Active;     /* Computed Parameter: HILWriteAnalog_Active
-                                        * Referenced by: '<S6>/HIL Write Analog'
-                                        */
-  boolean_T HILReadEncoder_Active_h;   /* Computed Parameter: HILReadEncoder_Active_h
-                                        * Referenced by: '<S7>/HIL Read Encoder'
-                                        */
-  boolean_T HILReadAnalog_Active_j;    /* Computed Parameter: HILReadAnalog_Active_j
                                         * Referenced by: '<S7>/HIL Read Analog'
                                         */
-  boolean_T HILWriteAnalog_Active_o;   /* Computed Parameter: HILWriteAnalog_Active_o
+  boolean_T HILWriteAnalog_Active;     /* Computed Parameter: HILWriteAnalog_Active
                                         * Referenced by: '<S7>/HIL Write Analog'
+                                        */
+  boolean_T HILReadEncoder_Active_j;   /* Computed Parameter: HILReadEncoder_Active_j
+                                        * Referenced by: '<S8>/HIL Read Encoder'
+                                        */
+  boolean_T HILReadAnalog_Active_l;    /* Computed Parameter: HILReadAnalog_Active_l
+                                        * Referenced by: '<S8>/HIL Read Analog'
+                                        */
+  boolean_T HILWriteAnalog_Active_l;   /* Computed Parameter: HILWriteAnalog_Active_l
+                                        * Referenced by: '<S8>/HIL Write Analog'
                                         */
   boolean_T HILInitialize_Active;      /* Computed Parameter: HILInitialize_Active
                                         * Referenced by: '<Root>/HIL Initialize'
@@ -1447,38 +1477,44 @@ struct P_DATA_COLLECTION_T_ {
   boolean_T HILReadDigital_Active;     /* Computed Parameter: HILReadDigital_Active
                                         * Referenced by: '<S2>/HIL Read Digital'
                                         */
-  boolean_T HILReadDigital_Active_h;   /* Computed Parameter: HILReadDigital_Active_h
+  boolean_T HILReadDigital_Active_c;   /* Computed Parameter: HILReadDigital_Active_c
                                         * Referenced by: '<S3>/HIL Read Digital'
                                         */
   boolean_T Constant_Value;            /* Computed Parameter: Constant_Value
-                                        * Referenced by: '<S12>/Constant'
-                                        */
-  boolean_T Constant_Value_i;          /* Computed Parameter: Constant_Value_i
                                         * Referenced by: '<S13>/Constant'
                                         */
-  boolean_T Constant_Value_e;          /* Computed Parameter: Constant_Value_e
+  boolean_T Constant_Value_h;          /* Computed Parameter: Constant_Value_h
                                         * Referenced by: '<S14>/Constant'
                                         */
-  boolean_T Constant_Value_d;          /* Computed Parameter: Constant_Value_d
+  boolean_T Constant_Value_m;          /* Computed Parameter: Constant_Value_m
                                         * Referenced by: '<S15>/Constant'
                                         */
+  boolean_T Constant_Value_i;          /* Computed Parameter: Constant_Value_i
+                                        * Referenced by: '<S16>/Constant'
+                                        */
   uint8_T ManualSwitch3_CurrentSetting;/* Computed Parameter: ManualSwitch3_CurrentSetting
-                                        * Referenced by: '<S6>/Manual Switch3'
+                                        * Referenced by: '<S7>/Manual Switch3'
                                         */
   uint8_T ManualSwitch2_CurrentSetting;/* Computed Parameter: ManualSwitch2_CurrentSetting
-                                        * Referenced by: '<S6>/Manual Switch2'
+                                        * Referenced by: '<S7>/Manual Switch2'
                                         */
   uint8_T ManualSwitch1_CurrentSetting;/* Computed Parameter: ManualSwitch1_CurrentSetting
-                                        * Referenced by: '<S6>/Manual Switch1'
+                                        * Referenced by: '<S7>/Manual Switch1'
                                         */
-  uint8_T ManualSwitch3_CurrentSetting_a;/* Computed Parameter: ManualSwitch3_CurrentSetting_a
-                                          * Referenced by: '<S7>/Manual Switch3'
+  uint8_T ManualSwitch4_CurrentSetting;/* Computed Parameter: ManualSwitch4_CurrentSetting
+                                        * Referenced by: '<S7>/Manual Switch4'
+                                        */
+  uint8_T ManualSwitch3_CurrentSetting_n;/* Computed Parameter: ManualSwitch3_CurrentSetting_n
+                                          * Referenced by: '<S8>/Manual Switch3'
                                           */
   uint8_T ManualSwitch2_CurrentSetting_j;/* Computed Parameter: ManualSwitch2_CurrentSetting_j
-                                          * Referenced by: '<S7>/Manual Switch2'
+                                          * Referenced by: '<S8>/Manual Switch2'
                                           */
-  uint8_T ManualSwitch1_CurrentSetting_n;/* Computed Parameter: ManualSwitch1_CurrentSetting_n
-                                          * Referenced by: '<S7>/Manual Switch1'
+  uint8_T ManualSwitch1_CurrentSetting_k;/* Computed Parameter: ManualSwitch1_CurrentSetting_k
+                                          * Referenced by: '<S8>/Manual Switch1'
+                                          */
+  uint8_T ManualSwitch4_CurrentSetting_i;/* Computed Parameter: ManualSwitch4_CurrentSetting_i
+                                          * Referenced by: '<S8>/Manual Switch4'
                                           */
 };
 
@@ -1629,23 +1665,24 @@ extern RT_MODEL_DATA_COLLECTION_T *const DATA_COLLECTION_M;
  * '<S3>'   : 'DATA_COLLECTION/Limit Switches'
  * '<S4>'   : 'DATA_COLLECTION/MATLAB Function'
  * '<S5>'   : 'DATA_COLLECTION/MATLAB Function1'
- * '<S6>'   : 'DATA_COLLECTION/Torque Control Elbow'
- * '<S7>'   : 'DATA_COLLECTION/Torque Control Shoulder'
- * '<S8>'   : 'DATA_COLLECTION/Limit Switches/Stop with Message'
- * '<S9>'   : 'DATA_COLLECTION/Limit Switches/Stop with Message1'
- * '<S10>'  : 'DATA_COLLECTION/Limit Switches/Stop with Message2'
- * '<S11>'  : 'DATA_COLLECTION/Limit Switches/Stop with Message3'
- * '<S12>'  : 'DATA_COLLECTION/Limit Switches/Stop with Message/Compare'
- * '<S13>'  : 'DATA_COLLECTION/Limit Switches/Stop with Message1/Compare'
- * '<S14>'  : 'DATA_COLLECTION/Limit Switches/Stop with Message2/Compare'
- * '<S15>'  : 'DATA_COLLECTION/Limit Switches/Stop with Message3/Compare'
- * '<S16>'  : 'DATA_COLLECTION/Torque Control Elbow/Discrete Derivative'
- * '<S17>'  : 'DATA_COLLECTION/Torque Control Elbow/Discrete Derivative1'
- * '<S18>'  : 'DATA_COLLECTION/Torque Control Elbow/Discrete Derivative2'
- * '<S19>'  : 'DATA_COLLECTION/Torque Control Elbow/Discrete Derivative3'
- * '<S20>'  : 'DATA_COLLECTION/Torque Control Shoulder/Discrete Derivative'
- * '<S21>'  : 'DATA_COLLECTION/Torque Control Shoulder/Discrete Derivative1'
- * '<S22>'  : 'DATA_COLLECTION/Torque Control Shoulder/Discrete Derivative2'
- * '<S23>'  : 'DATA_COLLECTION/Torque Control Shoulder/Discrete Derivative3'
+ * '<S6>'   : 'DATA_COLLECTION/MATLAB Function2'
+ * '<S7>'   : 'DATA_COLLECTION/Torque Control Elbow'
+ * '<S8>'   : 'DATA_COLLECTION/Torque Control Shoulder'
+ * '<S9>'   : 'DATA_COLLECTION/Limit Switches/Stop with Message'
+ * '<S10>'  : 'DATA_COLLECTION/Limit Switches/Stop with Message1'
+ * '<S11>'  : 'DATA_COLLECTION/Limit Switches/Stop with Message2'
+ * '<S12>'  : 'DATA_COLLECTION/Limit Switches/Stop with Message3'
+ * '<S13>'  : 'DATA_COLLECTION/Limit Switches/Stop with Message/Compare'
+ * '<S14>'  : 'DATA_COLLECTION/Limit Switches/Stop with Message1/Compare'
+ * '<S15>'  : 'DATA_COLLECTION/Limit Switches/Stop with Message2/Compare'
+ * '<S16>'  : 'DATA_COLLECTION/Limit Switches/Stop with Message3/Compare'
+ * '<S17>'  : 'DATA_COLLECTION/Torque Control Elbow/Discrete Derivative'
+ * '<S18>'  : 'DATA_COLLECTION/Torque Control Elbow/Discrete Derivative1'
+ * '<S19>'  : 'DATA_COLLECTION/Torque Control Elbow/Discrete Derivative2'
+ * '<S20>'  : 'DATA_COLLECTION/Torque Control Elbow/Discrete Derivative3'
+ * '<S21>'  : 'DATA_COLLECTION/Torque Control Shoulder/Discrete Derivative'
+ * '<S22>'  : 'DATA_COLLECTION/Torque Control Shoulder/Discrete Derivative1'
+ * '<S23>'  : 'DATA_COLLECTION/Torque Control Shoulder/Discrete Derivative2'
+ * '<S24>'  : 'DATA_COLLECTION/Torque Control Shoulder/Discrete Derivative3'
  */
 #endif                                 /* RTW_HEADER_DATA_COLLECTION_h_ */

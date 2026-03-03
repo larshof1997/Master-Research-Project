@@ -64,22 +64,22 @@ B1 = 9.233265e-02;
 Kt1 = 3.018583e+00;
 
 
-L2 = 4.1682e-02;
-R2 = 4.0151;
-ke2 = 2.7453e-03;
+L2 = 4.8190e-02;
+R2 = 4.0364e+00;
+ke2 = 7.9830e-03;
 
-J2 = 8.538833e-04;
-B2 = 8.577738e-02;
-Kt2 = 1.553175e+00;
+J2 = 6.530040e-04;
+B2 = 4.505757e-02;
+Kt2 = 1.111065;
 
 %%Torque control gains
 kp1 = 1.5;
 ki1 = 0;
 kd1 = 0;
 
-kp2 = 3;
+kp2 = 1;
 ki2 = 0;
-kd2 = 0.8;
+kd2 = 0;
 
 %Current saturation
 i_sat1 = 0.92;
@@ -88,13 +88,13 @@ i_sat2 = 1.2;
 %%EULER LAGRANGE MATRICES
 m1 = 1.6537;  l1 = 0.343;  r1 = 0.29;
 m2 = 0.9982;  l2 = 0.267;  r2 = 0.175;
-I1_hat  = 0.0390;
-I2_hat  = 0.0081;
-fc1_hat = 0;
-fc2_hat = 0;
-b1_hat  = 0.0191;
-b2_hat  = 0.0248;
-v_eps_hat = 0.1;
+I1_hat  = 0.017859;
+I2_hat  = 0.020765;
+fc1_hat = 0.169008;
+fc2_hat = 0.336889;
+b1_hat  = 0.209044;
+b2_hat  = 0.225127;
+v_eps_hat = 0.039272;
 a1_hat = m1 * r1^2 + m2 * l1^2 + I1_hat;
 a2_hat = m2 * r2^2 + I2_hat;
 b_hat  = m2 * l1 * r2;
@@ -104,11 +104,20 @@ ki_traj = zeros(2,2);
 kd_traj = zeros(2,2);
 
 load('trajectory.mat');
-t = (0:length(q)-1)' * dt;
-q_ts = timeseries(q', t);
-qd_ts = timeseries(qd', t);
-qdd_ts = timeseries(qdd', t);
 
+% N_delay = round(1/dt);   % samples in 1 second
+% 
+% % --- Prepend zeros in time direction ---
+% q   = [zeros(N_delay, size(q,2));   q(1:end-N_delay, :)];
+% qd  = [zeros(N_delay, size(qd,2));  qd(1:end-N_delay, :)];
+% qdd = [zeros(N_delay, size(qdd,2)); qdd(1:end-N_delay, :)];
+% 
+% % --- Original code unchanged ---
+t = (0:length(q)-1)' * dt;
+
+q_ts   = timeseries(q', t);
+qd_ts  = timeseries(qd', t);
+qdd_ts = timeseries(qdd', t);
 function M = M_mat(theta2, a1, a2, b)
     c2 = cos(theta2);
     M = [a1 + a2 + 2*b*c2,  a2 + b*c2;

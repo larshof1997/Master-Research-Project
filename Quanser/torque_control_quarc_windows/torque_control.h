@@ -7,9 +7,9 @@
  *
  * Code generation for model "torque_control".
  *
- * Model version              : 1.107
+ * Model version              : 1.112
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Mon Feb 23 11:04:28 2026
+ * C source code generated on : Tue Mar  3 10:14:41 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -854,32 +854,33 @@
 
 /* Block signals (default storage) */
 typedef struct {
-  real_T TSamp;                        /* '<S2>/TSamp' */
-  real_T TSamp_l;                      /* '<S1>/TSamp' */
+  real_T TSamp;                        /* '<S3>/TSamp' */
+  real_T TSamp_l;                      /* '<S2>/TSamp' */
   real_T ManualSwitch3;                /* '<Root>/Manual Switch3' */
+  real_T Gain;                         /* '<S1>/Gain' */
   real_T Torquetocurrent;              /* '<Root>/Torque to current ' */
-  real_T TSamp_lo;                     /* '<S4>/TSamp' */
+  real_T TSamp_lo;                     /* '<S5>/TSamp' */
   real_T ManualSwitch1;                /* '<Root>/Manual Switch1' */
   real_T Current;                      /* '<Root>/HIL Read Analog' */
   real_T Sum1;                         /* '<Root>/Sum1' */
   real_T Gain1;                        /* '<Root>/Gain1' */
-  real_T TSamp_n;                      /* '<S3>/TSamp' */
+  real_T TSamp_n;                      /* '<S4>/TSamp' */
   real_T Gain2;                        /* '<Root>/Gain2' */
   real_T Im_r1Saturation;              /* '<Root>/Im_r1: Saturation' */
   real_T VectorConcatenate[4];         /* '<Root>/Vector Concatenate' */
-  boolean_T LogicalOperator4;          /* '<S6>/Logical Operator4' */
-  boolean_T LogicalOperator5;          /* '<S6>/Logical Operator5' */
-  boolean_T LogicalOperator6;          /* '<S6>/Logical Operator6' */
-  boolean_T LogicalOperator7;          /* '<S6>/Logical Operator7' */
+  boolean_T LogicalOperator4;          /* '<S7>/Logical Operator4' */
+  boolean_T LogicalOperator5;          /* '<S7>/Logical Operator5' */
+  boolean_T LogicalOperator6;          /* '<S7>/Logical Operator6' */
+  boolean_T LogicalOperator7;          /* '<S7>/Logical Operator7' */
 } B_torque_control_T;
 
 /* Block states (default storage) for system '<Root>' */
 typedef struct {
-  real_T UD_DSTATE;                    /* '<S2>/UD' */
-  real_T UD_DSTATE_f;                  /* '<S1>/UD' */
-  real_T UD_DSTATE_a;                  /* '<S4>/UD' */
+  real_T UD_DSTATE;                    /* '<S3>/UD' */
+  real_T UD_DSTATE_f;                  /* '<S2>/UD' */
+  real_T UD_DSTATE_a;                  /* '<S5>/UD' */
   real_T DiscreteTimeIntegrator_DSTATE;/* '<Root>/Discrete-Time Integrator' */
-  real_T UD_DSTATE_m;                  /* '<S3>/UD' */
+  real_T UD_DSTATE_m;                  /* '<S4>/UD' */
   real_T HILReadAnalog_Buffer;         /* '<Root>/HIL Read Analog' */
   real_T HILInitialize_AIMinimums[8];  /* '<Root>/HIL Initialize' */
   real_T HILInitialize_AIMaximums[8];  /* '<Root>/HIL Initialize' */
@@ -901,7 +902,7 @@ typedef struct {
   } Voltage_PWORK;                     /* '<Root>/Voltage' */
 
   struct {
-    void *LoggedData;
+    void *LoggedData[2];
   } current_PWORK;                     /* '<Root>/current' */
 
   struct {
@@ -912,12 +913,8 @@ typedef struct {
     void *LoggedData;
   } omega_PWORK;                       /* '<Root>/omega ' */
 
-  struct {
-    void *LoggedData;
-  } refcurrent_PWORK;                  /* '<Root>/ref current ' */
-
-  void *HILWriteDigital_PWORK;         /* '<S5>/HIL Write Digital' */
-  void *HILReadDigital_PWORK;          /* '<S6>/HIL Read Digital' */
+  void *HILWriteDigital_PWORK;         /* '<S6>/HIL Write Digital' */
+  void *HILReadDigital_PWORK;          /* '<S7>/HIL Read Digital' */
   int32_T HILReadEncoder_Buffer[2];    /* '<Root>/HIL Read Encoder' */
   int32_T clockTickCounter;            /* '<Root>/Pulse Generator' */
   int32_T HILInitialize_DOStates[9];   /* '<Root>/HIL Initialize' */
@@ -926,8 +923,8 @@ typedef struct {
   boolean_T HILInitialize_DOBits[9];   /* '<Root>/HIL Initialize' */
   boolean_T HILWriteDigitalTimebase_Started;/* '<Root>/HIL Write Digital Timebase' */
   t_boolean HILWriteDigitalTimebase_Buffer;/* '<Root>/HIL Write Digital Timebase' */
-  t_boolean HILWriteDigital_Buffer[3]; /* '<S5>/HIL Write Digital' */
-  t_boolean HILReadDigital_Buffer[4];  /* '<S6>/HIL Read Digital' */
+  t_boolean HILWriteDigital_Buffer[3]; /* '<S6>/HIL Write Digital' */
+  t_boolean HILReadDigital_Buffer[4];  /* '<S7>/HIL Read Digital' */
 } DW_torque_control_T;
 
 /* Backward compatible GRT Identifiers */
@@ -946,7 +943,7 @@ struct P_torque_control_T_ {
   real_T KE_D2;                        /* Variable: KE_D2
                                         * Referenced by: '<Root>/Motor #2 Encoder Calib1'
                                         */
-  real_T Kt1;                          /* Variable: Kt1
+  real_T Kt2;                          /* Variable: Kt2
                                         * Referenced by: '<Root>/Torque to current '
                                         */
   real_T L1;                           /* Variable: L1
@@ -956,7 +953,7 @@ struct P_torque_control_T_ {
                                         * Referenced by: '<Root>/Motor #1 Encoder Calib5'
                                         */
   real_T LIMIT_SWITCHES_ENABLE;        /* Variable: LIMIT_SWITCHES_ENABLE
-                                        * Referenced by: '<S6>/Constant'
+                                        * Referenced by: '<S7>/Constant'
                                         */
   real_T R1;                           /* Variable: R1
                                         * Referenced by: '<Root>/Motor #1 Encoder Calib6'
@@ -971,17 +968,28 @@ struct P_torque_control_T_ {
                                         * Referenced by: '<Root>/Motor #1 Encoder Calib8'
                                         */
   real_T DiscreteDerivative1_ICPrevScale;/* Mask Parameter: DiscreteDerivative1_ICPrevScale
-                                          * Referenced by: '<S2>/UD'
-                                          */
-  real_T DiscreteDerivative_ICPrevScaled;/* Mask Parameter: DiscreteDerivative_ICPrevScaled
-                                          * Referenced by: '<S1>/UD'
-                                          */
-  real_T DiscreteDerivative3_ICPrevScale;/* Mask Parameter: DiscreteDerivative3_ICPrevScale
-                                          * Referenced by: '<S4>/UD'
-                                          */
-  real_T DiscreteDerivative2_ICPrevScale;/* Mask Parameter: DiscreteDerivative2_ICPrevScale
                                           * Referenced by: '<S3>/UD'
                                           */
+  real_T DiscreteDerivative_ICPrevScaled;/* Mask Parameter: DiscreteDerivative_ICPrevScaled
+                                          * Referenced by: '<S2>/UD'
+                                          */
+  real_T DiscreteDerivative3_ICPrevScale;/* Mask Parameter: DiscreteDerivative3_ICPrevScale
+                                          * Referenced by: '<S5>/UD'
+                                          */
+  real_T DiscreteDerivative2_ICPrevScale;/* Mask Parameter: DiscreteDerivative2_ICPrevScale
+                                          * Referenced by: '<S4>/UD'
+                                          */
+  real_T ChirpSignal_T;                /* Mask Parameter: ChirpSignal_T
+                                        * Referenced by: '<S1>/targetTime'
+                                        */
+  real_T ChirpSignal_f1;               /* Mask Parameter: ChirpSignal_f1
+                                        * Referenced by:
+                                        *   '<S1>/deltaFreq'
+                                        *   '<S1>/initialFreq'
+                                        */
+  real_T ChirpSignal_f2;               /* Mask Parameter: ChirpSignal_f2
+                                        * Referenced by: '<S1>/deltaFreq'
+                                        */
   int32_T HILWriteDigitalTimebase_clock;/* Mask Parameter: HILWriteDigitalTimebase_clock
                                          * Referenced by: '<Root>/HIL Write Digital Timebase'
                                          */
@@ -998,34 +1006,37 @@ struct P_torque_control_T_ {
                                             * Referenced by: '<Root>/HIL Write Digital Timebase'
                                             */
   uint32_T HILWriteDigital_channels[3];/* Mask Parameter: HILWriteDigital_channels
-                                        * Referenced by: '<S5>/HIL Write Digital'
+                                        * Referenced by: '<S6>/HIL Write Digital'
                                         */
   uint32_T HILReadDigital_channels[4]; /* Mask Parameter: HILReadDigital_channels
-                                        * Referenced by: '<S6>/HIL Read Digital'
+                                        * Referenced by: '<S7>/HIL Read Digital'
                                         */
   uint32_T HILWriteDigitalTimebase_samples;/* Mask Parameter: HILWriteDigitalTimebase_samples
                                             * Referenced by: '<Root>/HIL Write Digital Timebase'
                                             */
   int8_T StopwithMessage_message_icon; /* Mask Parameter: StopwithMessage_message_icon
-                                        * Referenced by: '<S7>/Show Message on Host'
-                                        */
-  int8_T StopwithMessage1_message_icon;/* Mask Parameter: StopwithMessage1_message_icon
                                         * Referenced by: '<S8>/Show Message on Host'
                                         */
-  int8_T StopwithMessage2_message_icon;/* Mask Parameter: StopwithMessage2_message_icon
+  int8_T StopwithMessage1_message_icon;/* Mask Parameter: StopwithMessage1_message_icon
                                         * Referenced by: '<S9>/Show Message on Host'
                                         */
-  int8_T StopwithMessage3_message_icon;/* Mask Parameter: StopwithMessage3_message_icon
+  int8_T StopwithMessage2_message_icon;/* Mask Parameter: StopwithMessage2_message_icon
                                         * Referenced by: '<S10>/Show Message on Host'
                                         */
+  int8_T StopwithMessage3_message_icon;/* Mask Parameter: StopwithMessage3_message_icon
+                                        * Referenced by: '<S11>/Show Message on Host'
+                                        */
   real_T TSamp_WtEt;                   /* Computed Parameter: TSamp_WtEt
-                                        * Referenced by: '<S2>/TSamp'
+                                        * Referenced by: '<S3>/TSamp'
                                         */
   real_T TSamp_WtEt_e;                 /* Computed Parameter: TSamp_WtEt_e
-                                        * Referenced by: '<S1>/TSamp'
+                                        * Referenced by: '<S2>/TSamp'
                                         */
   real_T tau_ref_Value;                /* Expression: 0.2
                                         * Referenced by: '<Root>/tau_ref'
+                                        */
+  real_T Gain_Gain;                    /* Expression: 0.5
+                                        * Referenced by: '<S1>/Gain'
                                         */
   real_T SineWave_Amp;                 /* Expression: 1
                                         * Referenced by: '<Root>/Sine Wave'
@@ -1040,9 +1051,9 @@ struct P_torque_control_T_ {
                                         * Referenced by: '<Root>/Sine Wave'
                                         */
   real_T TSamp_WtEt_o;                 /* Computed Parameter: TSamp_WtEt_o
-                                        * Referenced by: '<S4>/TSamp'
+                                        * Referenced by: '<S5>/TSamp'
                                         */
-  real_T Gain_Gain;                    /* Expression: 1.5
+  real_T Gain_Gain_k;                  /* Expression: 2
                                         * Referenced by: '<Root>/Gain'
                                         */
   real_T DiscreteTimeIntegrator_gainval;/* Computed Parameter: DiscreteTimeIntegrator_gainval
@@ -1055,15 +1066,15 @@ struct P_torque_control_T_ {
                                         * Referenced by: '<Root>/Gain1'
                                         */
   real_T TSamp_WtEt_o3;                /* Computed Parameter: TSamp_WtEt_o3
-                                        * Referenced by: '<S3>/TSamp'
+                                        * Referenced by: '<S4>/TSamp'
                                         */
-  real_T Gain2_Gain;                   /* Expression: 0.0
+  real_T Gain2_Gain;                   /* Expression: 0
                                         * Referenced by: '<Root>/Gain2'
                                         */
-  real_T Im_r1Saturation_UpperSat;     /* Expression: 0.94
+  real_T Im_r1Saturation_UpperSat;     /* Expression: 1.2
                                         * Referenced by: '<Root>/Im_r1: Saturation'
                                         */
-  real_T Im_r1Saturation_LowerSat;     /* Expression: -0.94
+  real_T Im_r1Saturation_LowerSat;     /* Expression: -1.2
                                         * Referenced by: '<Root>/Im_r1: Saturation'
                                         */
   real_T PulseGenerator_Amp;           /* Expression: 1
@@ -1124,10 +1135,10 @@ struct P_torque_control_T_ {
                                         * Referenced by: '<Root>/HIL Initialize'
                                         */
   real_T EnableActiveLow_Value[2];     /* Expression: [ 0 0 ]
-                                        * Referenced by: '<S5>/Enable: Active Low'
+                                        * Referenced by: '<S6>/Enable: Active Low'
                                         */
   real_T MasterEnableActiveHigh_Value; /* Expression: 1
-                                        * Referenced by: '<S5>/Master Enable: Active High'
+                                        * Referenced by: '<S6>/Master Enable: Active High'
                                         */
   int32_T HILInitialize_CKChannels[2]; /* Computed Parameter: HILInitialize_CKChannels
                                         * Referenced by: '<Root>/HIL Initialize'
@@ -1280,25 +1291,28 @@ struct P_torque_control_T_ {
                                             * Referenced by: '<Root>/HIL Write Digital Timebase'
                                             */
   boolean_T HILWriteDigital_Active;    /* Computed Parameter: HILWriteDigital_Active
-                                        * Referenced by: '<S5>/HIL Write Digital'
+                                        * Referenced by: '<S6>/HIL Write Digital'
                                         */
   boolean_T HILReadDigital_Active;     /* Computed Parameter: HILReadDigital_Active
-                                        * Referenced by: '<S6>/HIL Read Digital'
+                                        * Referenced by: '<S7>/HIL Read Digital'
                                         */
   boolean_T Constant_Value;            /* Computed Parameter: Constant_Value
-                                        * Referenced by: '<S11>/Constant'
-                                        */
-  boolean_T Constant_Value_k;          /* Computed Parameter: Constant_Value_k
                                         * Referenced by: '<S12>/Constant'
                                         */
-  boolean_T Constant_Value_m;          /* Computed Parameter: Constant_Value_m
+  boolean_T Constant_Value_k;          /* Computed Parameter: Constant_Value_k
                                         * Referenced by: '<S13>/Constant'
                                         */
-  boolean_T Constant_Value_me;         /* Computed Parameter: Constant_Value_me
+  boolean_T Constant_Value_m;          /* Computed Parameter: Constant_Value_m
                                         * Referenced by: '<S14>/Constant'
+                                        */
+  boolean_T Constant_Value_me;         /* Computed Parameter: Constant_Value_me
+                                        * Referenced by: '<S15>/Constant'
                                         */
   uint8_T ManualSwitch3_CurrentSetting;/* Computed Parameter: ManualSwitch3_CurrentSetting
                                         * Referenced by: '<Root>/Manual Switch3'
+                                        */
+  uint8_T ManualSwitch4_CurrentSetting;/* Computed Parameter: ManualSwitch4_CurrentSetting
+                                        * Referenced by: '<Root>/Manual Switch4'
                                         */
   uint8_T ManualSwitch2_CurrentSetting;/* Computed Parameter: ManualSwitch2_CurrentSetting
                                         * Referenced by: '<Root>/Manual Switch2'
@@ -1453,19 +1467,20 @@ extern RT_MODEL_torque_control_T *const torque_control_M;
  * Here is the system hierarchy for this model
  *
  * '<Root>' : 'torque_control'
- * '<S1>'   : 'torque_control/Discrete Derivative'
- * '<S2>'   : 'torque_control/Discrete Derivative1'
- * '<S3>'   : 'torque_control/Discrete Derivative2'
- * '<S4>'   : 'torque_control/Discrete Derivative3'
- * '<S5>'   : 'torque_control/Enable AMPAQ1'
- * '<S6>'   : 'torque_control/Limit Switches1'
- * '<S7>'   : 'torque_control/Limit Switches1/Stop with Message'
- * '<S8>'   : 'torque_control/Limit Switches1/Stop with Message1'
- * '<S9>'   : 'torque_control/Limit Switches1/Stop with Message2'
- * '<S10>'  : 'torque_control/Limit Switches1/Stop with Message3'
- * '<S11>'  : 'torque_control/Limit Switches1/Stop with Message/Compare'
- * '<S12>'  : 'torque_control/Limit Switches1/Stop with Message1/Compare'
- * '<S13>'  : 'torque_control/Limit Switches1/Stop with Message2/Compare'
- * '<S14>'  : 'torque_control/Limit Switches1/Stop with Message3/Compare'
+ * '<S1>'   : 'torque_control/Chirp Signal'
+ * '<S2>'   : 'torque_control/Discrete Derivative'
+ * '<S3>'   : 'torque_control/Discrete Derivative1'
+ * '<S4>'   : 'torque_control/Discrete Derivative2'
+ * '<S5>'   : 'torque_control/Discrete Derivative3'
+ * '<S6>'   : 'torque_control/Enable AMPAQ1'
+ * '<S7>'   : 'torque_control/Limit Switches1'
+ * '<S8>'   : 'torque_control/Limit Switches1/Stop with Message'
+ * '<S9>'   : 'torque_control/Limit Switches1/Stop with Message1'
+ * '<S10>'  : 'torque_control/Limit Switches1/Stop with Message2'
+ * '<S11>'  : 'torque_control/Limit Switches1/Stop with Message3'
+ * '<S12>'  : 'torque_control/Limit Switches1/Stop with Message/Compare'
+ * '<S13>'  : 'torque_control/Limit Switches1/Stop with Message1/Compare'
+ * '<S14>'  : 'torque_control/Limit Switches1/Stop with Message2/Compare'
+ * '<S15>'  : 'torque_control/Limit Switches1/Stop with Message3/Compare'
  */
 #endif                                 /* RTW_HEADER_torque_control_h_ */

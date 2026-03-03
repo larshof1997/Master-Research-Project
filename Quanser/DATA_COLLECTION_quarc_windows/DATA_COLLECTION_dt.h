@@ -7,9 +7,9 @@
  *
  * Code generation for model "DATA_COLLECTION".
  *
- * Model version              : 1.113
+ * Model version              : 1.114
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Mon Feb 23 12:38:09 2026
+ * C source code generated on : Tue Mar  3 13:11:22 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -64,12 +64,12 @@ static const char_T * rtDataTypeNames[] = {
 
 /* data type transitions for block I/O structure */
 static DataTypeTransition rtBTransitions[] = {
-  { (char_T *)(&DATA_COLLECTION_B.TSamp), 0, 0, 35 },
+  { (char_T *)(&DATA_COLLECTION_B.TSamp), 0, 0, 39 },
 
   { (char_T *)(&DATA_COLLECTION_B.LogicalOperator4), 8, 0, 4 }
   ,
 
-  { (char_T *)(&DATA_COLLECTION_DW.UD_DSTATE), 0, 0, 64 },
+  { (char_T *)(&DATA_COLLECTION_DW.UD_DSTATE), 0, 0, 70 },
 
   { (char_T *)(&DATA_COLLECTION_DW.HILInitialize_Card), 15, 0, 1 },
 
@@ -94,7 +94,7 @@ static DataTypeTransitionTable rtBTransTable = {
 
 /* data type transitions for Parameters structure */
 static DataTypeTransition rtPTransitions[] = {
-  { (char_T *)(&DATA_COLLECTION_P.KE_D1), 0, 0, 31 },
+  { (char_T *)(&DATA_COLLECTION_P.KE_D1), 0, 0, 37 },
 
   { (char_T *)(&DATA_COLLECTION_P.HILWriteDigitalTimebase_clock), 6, 0, 1 },
 
@@ -102,7 +102,7 @@ static DataTypeTransition rtPTransitions[] = {
 
   { (char_T *)(&DATA_COLLECTION_P.StopwithMessage_message_icon), 2, 0, 4 },
 
-  { (char_T *)(&DATA_COLLECTION_P.TSamp_WtEt), 0, 0, 41 },
+  { (char_T *)(&DATA_COLLECTION_P.TSamp_WtEt), 0, 0, 46 },
 
   { (char_T *)(&DATA_COLLECTION_P.HILInitialize_CKChannels[0]), 6, 0, 7 },
 
@@ -110,7 +110,7 @@ static DataTypeTransition rtPTransitions[] = {
 
   { (char_T *)(&DATA_COLLECTION_P.HILReadEncoder_Active), 8, 0, 50 },
 
-  { (char_T *)(&DATA_COLLECTION_P.ManualSwitch3_CurrentSetting), 3, 0, 6 }
+  { (char_T *)(&DATA_COLLECTION_P.ManualSwitch3_CurrentSetting), 3, 0, 8 }
 };
 
 /* data type transition table for Parameters structure */

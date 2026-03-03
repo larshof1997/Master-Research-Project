@@ -110,6 +110,14 @@ end
 
 %% 5. SAVE
 q=[q1(:),q2(:)]; qd=[qd1(:),qd2(:)]; qdd=[qdd1(:),qdd2(:)];
+
+N_delay = round(1/Ts);   % samples in 1 second
+
+% --- Prepend zeros in time direction ---
+q   = [zeros(N_delay, size(q,2));   q(1:end-N_delay, :)];
+qd  = [zeros(N_delay, size(qd,2));  qd(1:end-N_delay, :)];
+qdd = [zeros(N_delay, size(qdd,2)); qdd(1:end-N_delay, :)];
+
 save('trajectory.mat','q','qd','qdd','Ts');
 fprintf('\nSaved trajectory.mat (Ts=%.3fs)\n', Ts);
 
