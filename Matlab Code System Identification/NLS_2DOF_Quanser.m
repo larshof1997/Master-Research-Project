@@ -1,40 +1,38 @@
 clc; clear all; close all;
 
 %% ===================== USER SETTINGS =====================
-Kt1 = 3.018583e+00;          % torque constant joint 1 [Nm/A]
-Kt2 = 1.111065;          % torque constant joint 2 [Nm/A] <-- EDIT
+Kt1 = 3.018583e+00;
+Kt2 = 1.111065;
 
-% Physical constants (KNOWN)
-m1 = 1.6537;  l1 = 0.343;  r1 = 0.29;
-m2 = 0.9982;  l2 = 0.267;  r2 = 0.175;
-bp = m2 * l1 * r2;           % coupling term (known)
+J1_motor  = 2.030252e-02;
+B1_motor  = 9.233265e-02;
+J2_motor  = 6.530040e-04;
+B2_motor  = 4.505757e-02;
 
-v_eps = 1e-3;  % smoothing speed [rad/s] for tanh for Linear LS
-lb = [0; 0; 0; 0; 0; 0; 0];
-ub = [1; 1; 0.5; 0.5; 0.5; 0.5; 0.5];
+v_eps = 0.034872;  % smoothing speed [rad/s] for tanh (fixed in Linear LS)
+
+% Bounds for NLS: psi = [a1; a2; bp; fc1; fc2; b1; b2; v_eps]
+lb = [1e-3; 1e-3; 0; 0; 0; 0; 0; 1e-4];
+ub = [1;    1;    0.5; 0.5; 0.5; 0.5; 0.5; 0.5];
 
 % Savitzky-Golay filter parameters
 F = 61;
 K = 2;
 
 %% ===================== LOAD & PREPARE DATA =====================
-% Trajectory (desired) — Nx2 matrices
 S_traj = load('DATA_2DOF/trajectory1.mat');
-q_des   = S_traj.q;          % Nx2
-qd_des  = S_traj.qd;         % Nx2
-qdd_des = S_traj.qdd;        % Nx2
+q_des   = S_traj.q;
+qd_des  = S_traj.qd;
+qdd_des = S_traj.qdd;
 
-% Results joint 1 — Simulink logs one extra sample, trim
 S_res1 = load('DATA_2DOF/shoulder3.mat');
 S_res1 = S_res1.torque_control_data_shoulder;
 S_res1 = S_res1(1:end-1, :);
 
-% Results joint 2
 S_res2 = load('DATA_2DOF/elbow3.mat');
 S_res2 = S_res2.torque_control_data_elbow;
 S_res2 = S_res2(1:end-1, :);
 
-% Extract signals: columns = [desired_current, actual_current, voltage, q_meas]
 actual_current_1 = S_res1(:,2);
 q_meas_1         = S_res1(:,4);
 
@@ -44,26 +42,40 @@ q_meas_2         = S_res2(:,4);
 N = numel(q_meas_1);
 assert(size(q_des,1) == N, 'trajectory and results must have same length');
 
-% Time vector
-dt = 1e-2;                    % <-- SET YOUR SAMPLE TIME HERE
+dt = 1e-2;
 t  = (0:N-1).' * dt;
 
-% Convert current to torque
-tau_meas = [Kt1 * actual_current_1, Kt2 * actual_current_2];   % Nx2
-q_meas   = [q_meas_1, q_meas_2];                                % Nx2
+tau_meas = [Kt1 * actual_current_1, Kt2 * actual_current_2];
+q_meas   = [q_meas_1, q_meas_2];
 
 %% ===================== CONVERT TO ID DATA FORMAT =====================
 data = dataset_to_iddata_2dof(t, q_meas, tau_meas, dt, K, F);
 
-%% ===================== LINEAR LS (viscous + Coulomb) =====================
-psi_hat_lin = estimate_theta_ls_2dof(data, v_eps, bp,  m1, l1, r1, m2, l2, r2);
-fprintf('\n===== Linear LS (viscous + Coulomb) =====\n');
-fprintf('  I1  = %.6f\n', psi_hat_lin(1));
-fprintf('  I2  = %.6f\n', psi_hat_lin(2));
-fprintf('  fc1 = %.6f\n', psi_hat_lin(3));
-fprintf('  fc2 = %.6f\n', psi_hat_lin(4));
-fprintf('  b1  = %.6f\n', psi_hat_lin(5));
-fprintf('  b2  = %.6f\n', psi_hat_lin(6));
+% tau_load = tau_motor - J*qdd - B*qd
+% data.tau_meas(1,:) = data.tau_meas(1,:) - J1_motor * data.qdd_filt(1,:) - B1_motor * data.qd_filt(1,:);
+% data.tau_meas(2,:) = data.tau_meas(2,:) - J2_motor * data.qdd_filt(2,:) - B2_motor * data.qd_filt(2,:);
+
+% Filter torque (same SG params as position)
+data.tau_meas(1,:) = sgolayfilt(data.tau_meas(1,:), K, F);
+data.tau_meas(2,:) = sgolayfilt(data.tau_meas(2,:), K, F);
+
+
+% Update Nx2 version for simulation/plotting
+tau_meas(:,1) = data.tau_meas(1,:).';
+tau_meas(:,2) = data.tau_meas(2,:).';
+
+%% ===================== LINEAR LS (viscous only, a1 a2 bp free) =====================
+psi_hat_lin = estimate_theta_ls_2dof(data);
+fprintf('\n===== Linear LS (viscous only) =====\n');
+fprintf('  a1 = %.6f\n', psi_hat_lin(1));
+fprintf('  a2 = %.6f\n', psi_hat_lin(2));
+fprintf('  bp = %.6f\n', psi_hat_lin(3));
+fprintf('  b1 = %.6f\n', psi_hat_lin(4));
+fprintf('  b2 = %.6f\n', psi_hat_lin(5));
+
+fprintf('\n  det(M) check LS: a1*a2 = %.6f > bp^2 = %.6f ? %s\n', ...
+    psi_hat_lin(1)*psi_hat_lin(2), psi_hat_lin(3)^2, ...
+    mat2str(psi_hat_lin(1)*psi_hat_lin(2) > psi_hat_lin(3)^2));
 
 %% ===================== NONLINEAR LS (warm-started from Linear LS) =====================
 opts = optimoptions('lsqnonlin', ...
@@ -73,50 +85,54 @@ opts = optimoptions('lsqnonlin', ...
     'FunctionTolerance', 1e-9, ...
     'StepTolerance', 1e-9);
 
-% Warm-start from linear LS solution
-psi0_nls = [psi_hat_lin; 5e-2];   % append v_eps initial guess
+% Warm-start: [a1; a2; bp; fc1; fc2; b1; b2; v_eps]
+psi0_nls = [psi_hat_lin(1);    % a1
+            psi_hat_lin(2);    % a2
+            psi_hat_lin(3);    % bp
+            0.1;               % fc1 (guess)
+            0.1;               % fc2 (guess)
+            psi_hat_lin(4);    % b1
+            psi_hat_lin(5);    % b2
+            5e-2];             % v_eps (guess)
 
-fun = @(psi) residualsEL_analytic_2dof(psi, data, m1, l1, r1, m2, l2, r2);
+fun = @(psi) residualsEL_analytic_2dof(psi, data);
 [psi_hat, ~, res, exitflag, out] = lsqnonlin(fun, psi0_nls, lb, ub, opts);
 
 fprintf('\n===== Nonlinear LS =====\n');
-fprintf('  I1    = %.6f  [kg m^2]\n',   psi_hat(1));
-fprintf('  I2    = %.6f  [kg m^2]\n',   psi_hat(2));
-fprintf('  fc1   = %.6f  [Nm]\n',       psi_hat(3));
-fprintf('  fc2   = %.6f  [Nm]\n',       psi_hat(4));
-fprintf('  b1    = %.6f  [Nm s/rad]\n', psi_hat(5));
-fprintf('  b2    = %.6f  [Nm s/rad]\n', psi_hat(6));
-fprintf('  v_eps = %.6f  [rad/s]\n',    psi_hat(7));
+fprintf('  a1    = %.6f  [kg m^2]\n',   psi_hat(1));
+fprintf('  a2    = %.6f  [kg m^2]\n',   psi_hat(2));
+fprintf('  bp    = %.6f  [kg m^2]\n',   psi_hat(3));
+fprintf('  fc1   = %.6f  [Nm]\n',       psi_hat(4));
+fprintf('  fc2   = %.6f  [Nm]\n',       psi_hat(5));
+fprintf('  b1    = %.6f  [Nm s/rad]\n', psi_hat(6));
+fprintf('  b2    = %.6f  [Nm s/rad]\n', psi_hat(7));
+fprintf('  v_eps = %.6f  [rad/s]\n',    psi_hat(8));
 
-%% ===================== SIMULATE both MODELS =====================
+fprintf('\n  det(M) check NLS: a1*a2 = %.6f > bp^2 = %.6f ? %s\n', ...
+    psi_hat(1)*psi_hat(2), psi_hat(3)^2, ...
+    mat2str(psi_hat(1)*psi_hat(2) > psi_hat(3)^2));
 
-% --- Linear LS parameters ---
-I1_lin  = psi_hat_lin(1);
-I2_lin  = psi_hat_lin(2);
-fc1_lin = psi_hat_lin(3);
-fc2_lin = psi_hat_lin(4);
-b1_lin  = psi_hat_lin(5);
-b2_lin  = psi_hat_lin(6);
-v_eps_lin = v_eps;              % fixed during linear LS
+%% ===================== SIMULATE BOTH MODELS =====================
 
-% a1_lin = m1*r1^2 + m2*l1^2 + I1_lin;
-% a2_lin = m2*r2^2 + I2_lin;
-a1_lin = I1_lin;
-a2_lin = I2_lin;
-
+% --- Linear LS parameters (viscous only) ---
+a1_lin = psi_hat_lin(1);
+a2_lin = psi_hat_lin(2);
+bp_lin = psi_hat_lin(3);
+b1_lin = psi_hat_lin(4);
+b2_lin = psi_hat_lin(5);
+fc1_lin   = 0;
+fc2_lin   = 0;
+v_eps_lin = v_eps;
 
 % --- NLS parameters ---
-I1_nls    = psi_hat(1);
-I2_nls    = psi_hat(2);
-fc1_nls   = psi_hat(3);
-fc2_nls   = psi_hat(4);
-b1_nls    = psi_hat(5);
-b2_nls    = psi_hat(6);
-v_eps_nls = psi_hat(7);
-
-a1_nls = m1*r1^2 + m2*l1^2 + I1_nls;
-a2_nls = m2*r2^2 + I2_nls;
-
+a1_nls    = psi_hat(1);
+a2_nls    = psi_hat(2);
+bp_nls    = psi_hat(3);
+fc1_nls   = psi_hat(4);
+fc2_nls   = psi_hat(5);
+b1_nls    = psi_hat(6);
+b2_nls    = psi_hat(7);
+v_eps_nls = psi_hat(8);
 
 % --- Simulate Linear LS model ---
 x_lin = zeros(N, 4);
@@ -125,10 +141,10 @@ x_lin(1,:) = [q_meas(1,1), q_meas(1,2), 0, 0];
 for k = 1:N-1
     h     = dt;
     tau_k = tau_meas(k,:).';
-    k1 = f_dyn_2dof(x_lin(k,:).',             tau_k, a1_lin, a2_lin, bp, b1_lin, b2_lin, fc1_lin, fc2_lin, v_eps_lin);
-    k2 = f_dyn_2dof(x_lin(k,:).' + 0.5*h*k1, tau_k, a1_lin, a2_lin, bp, b1_lin, b2_lin, fc1_lin, fc2_lin, v_eps_lin);
-    k3 = f_dyn_2dof(x_lin(k,:).' + 0.5*h*k2, tau_k, a1_lin, a2_lin, bp, b1_lin, b2_lin, fc1_lin, fc2_lin, v_eps_lin);
-    k4 = f_dyn_2dof(x_lin(k,:).' + h*k3,     tau_k, a1_lin, a2_lin, bp, b1_lin, b2_lin, fc1_lin, fc2_lin, v_eps_lin);
+    k1 = f_dyn_2dof(x_lin(k,:).',             tau_k, a1_lin, a2_lin, bp_lin, b1_lin, b2_lin, fc1_lin, fc2_lin, v_eps_lin);
+    k2 = f_dyn_2dof(x_lin(k,:).' + 0.5*h*k1, tau_k, a1_lin, a2_lin, bp_lin, b1_lin, b2_lin, fc1_lin, fc2_lin, v_eps_lin);
+    k3 = f_dyn_2dof(x_lin(k,:).' + 0.5*h*k2, tau_k, a1_lin, a2_lin, bp_lin, b1_lin, b2_lin, fc1_lin, fc2_lin, v_eps_lin);
+    k4 = f_dyn_2dof(x_lin(k,:).' + h*k3,     tau_k, a1_lin, a2_lin, bp_lin, b1_lin, b2_lin, fc1_lin, fc2_lin, v_eps_lin);
     x_lin(k+1,:) = (x_lin(k,:).' + (h/6)*(k1 + 2*k2 + 2*k3 + k4)).';
 end
 
@@ -139,10 +155,10 @@ x_nls(1,:) = [q_meas(1,1), q_meas(1,2), 0, 0];
 for k = 1:N-1
     h     = dt;
     tau_k = tau_meas(k,:).';
-    k1 = f_dyn_2dof(x_nls(k,:).',             tau_k, a1_nls, a2_nls, bp, b1_nls, b2_nls, fc1_nls, fc2_nls, v_eps_nls);
-    k2 = f_dyn_2dof(x_nls(k,:).' + 0.5*h*k1, tau_k, a1_nls, a2_nls, bp, b1_nls, b2_nls, fc1_nls, fc2_nls, v_eps_nls);
-    k3 = f_dyn_2dof(x_nls(k,:).' + 0.5*h*k2, tau_k, a1_nls, a2_nls, bp, b1_nls, b2_nls, fc1_nls, fc2_nls, v_eps_nls);
-    k4 = f_dyn_2dof(x_nls(k,:).' + h*k3,     tau_k, a1_nls, a2_nls, bp, b1_nls, b2_nls, fc1_nls, fc2_nls, v_eps_nls);
+    k1 = f_dyn_2dof(x_nls(k,:).',             tau_k, a1_nls, a2_nls, bp_nls, b1_nls, b2_nls, fc1_nls, fc2_nls, v_eps_nls);
+    k2 = f_dyn_2dof(x_nls(k,:).' + 0.5*h*k1, tau_k, a1_nls, a2_nls, bp_nls, b1_nls, b2_nls, fc1_nls, fc2_nls, v_eps_nls);
+    k3 = f_dyn_2dof(x_nls(k,:).' + 0.5*h*k2, tau_k, a1_nls, a2_nls, bp_nls, b1_nls, b2_nls, fc1_nls, fc2_nls, v_eps_nls);
+    k4 = f_dyn_2dof(x_nls(k,:).' + h*k3,     tau_k, a1_nls, a2_nls, bp_nls, b1_nls, b2_nls, fc1_nls, fc2_nls, v_eps_nls);
     x_nls(k+1,:) = (x_nls(k,:).' + (h/6)*(k1 + 2*k2 + 2*k3 + k4)).';
 end
 
@@ -157,15 +173,14 @@ for k = 1:N
     qdd_k = data.qdd_filt(:,k);
 
     % Linear LS model torque
-    M_l = M_mat(q_k(2), a1_lin, a2_lin, bp);
-    C_l = C_mat(q_k(2), qd_k(1), qd_k(2), bp);
+    M_l = M_mat(q_k(2), a1_lin, a2_lin, bp_lin);
+    C_l = C_mat(q_k(2), qd_k(1), qd_k(2), bp_lin);
     Fv_l = [b1_lin*qd_k(1); b2_lin*qd_k(2)];
-    Fc_l = [fc1_lin*tanh(qd_k(1)/v_eps_lin); fc2_lin*tanh(qd_k(2)/v_eps_lin)];
-    tau_model_lin(k,:) = (M_l*qdd_k + C_l*qd_k + Fv_l + Fc_l).';
+    tau_model_lin(k,:) = (M_l*qdd_k + C_l*qd_k + Fv_l).';
 
     % NLS model torque
-    M_n = M_mat(q_k(2), a1_nls, a2_nls, bp);
-    C_n = C_mat(q_k(2), qd_k(1), qd_k(2), bp);
+    M_n = M_mat(q_k(2), a1_nls, a2_nls, bp_nls);
+    C_n = C_mat(q_k(2), qd_k(1), qd_k(2), bp_nls);
     Fv_n = [b1_nls*qd_k(1); b2_nls*qd_k(2)];
     Fc_n = [fc1_nls*tanh(qd_k(1)/v_eps_nls); fc2_nls*tanh(qd_k(2)/v_eps_nls)];
     tau_model_nls(k,:) = (M_n*qdd_k + C_n*qd_k + Fv_n + Fc_n).';
@@ -174,7 +189,6 @@ end
 %% ===================== MSE =====================
 fprintf('\n==================== MSE COMPARISON ====================\n');
 
-% --- Forward simulation MSE ---
 fprintf('\n--- Forward simulation MSE ---\n');
 
 e_q1_lin  = q_meas(:,1) - x_lin(:,1);
@@ -188,12 +202,11 @@ e_qd1_nls = data.qd_filt(1,:).' - x_nls(:,3);
 e_qd2_nls = data.qd_filt(2,:).' - x_nls(:,4);
 
 fprintf('       Linear LS          Nonlinear LS\n');
-fprintf('  MSE q1  :   %.6e     %.6e\n',   mean(e_q1_lin.^2),  mean(e_q1_nls.^2));
+fprintf('  MSE q1  :   %.6e     %.6e\n',  mean(e_q1_lin.^2),  mean(e_q1_nls.^2));
 fprintf('  MSE q2  :   %.6e     %.6e\n',  mean(e_q2_lin.^2),  mean(e_q2_nls.^2));
-fprintf('  MSE dq1 :   %.6e     %.6e\n', mean(e_qd1_lin.^2), mean(e_qd1_nls.^2));
-fprintf('  MSE dq2 :   %.6e     %.6e\n', mean(e_qd2_lin.^2), mean(e_qd2_nls.^2));
+fprintf('  MSE dq1 :   %.6e     %.6e\n',  mean(e_qd1_lin.^2), mean(e_qd1_nls.^2));
+fprintf('  MSE dq2 :   %.6e     %.6e\n',  mean(e_qd2_lin.^2), mean(e_qd2_nls.^2));
 
-% --- Torque reconstruction MSE (pointwise) ---
 fprintf('\n--- Torque reconstruction MSE (pointwise) ---\n');
 e_tau1_lin = tau_meas(:,1) - tau_model_lin(:,1);
 e_tau2_lin = tau_meas(:,2) - tau_model_lin(:,2);
@@ -216,7 +229,7 @@ defaultLineWidth = 1.8;
 set(groot, 'defaultAxesFontSize',  defaultFontSize);
 set(groot, 'defaultLineLineWidth', defaultLineWidth);
 
-%% ---------- Joint angles: measured vs both models ----------
+%% ---------- Joint angles ----------
 fig_ang = figure('Color','w', 'Position',[200 200 900 500]);
 tiledlayout(2,1, 'Padding','compact', 'TileSpacing','compact');
 
@@ -308,7 +321,7 @@ function dx = f_dyn_2dof(x, tau, a1, a2, b, b1, b2, fc1, fc2, v_eps)
     dtheta1 = x(3);
     dtheta2 = x(4);
 
-    M = M_mat(theta2, a1, a2, b)
+    M = M_mat(theta2, a1, a2, b);
     C = C_mat(theta2, dtheta1, dtheta2, b);
 
     F_visc = [b1*dtheta1; b2*dtheta2];
@@ -316,7 +329,6 @@ function dx = f_dyn_2dof(x, tau, a1, a2, b, b1, b2, fc1, fc2, v_eps)
     tau_fric = F_visc + F_coul;
 
     ddq = M \ (tau - C*[dtheta1; dtheta2] - tau_fric);
-
     dx = [dtheta1; dtheta2; ddq(1); ddq(2)];
 end
 
@@ -358,23 +370,20 @@ function data = dataset_to_iddata_2dof(t, q_meas, tau_meas, dt, K, F)
     end
 end
 
-function [r, J] = residualsEL_analytic_2dof(psi, data, m1, l1, r1, m2, l2, r2)
+function [r, J] = residualsEL_analytic_2dof(psi, data)
+    % psi = [a1; a2; bp; fc1; fc2; b1; b2; v_eps]  (8 params)
     a1    = psi(1);
     a2    = psi(2);
-    fc1   = psi(3);
-    fc2   = psi(4);
-    b1    = psi(5);
-    b2    = psi(6);
-    v_eps = psi(7);
-
-    bp = m2 * l1 * r2;
-%     a1 = m1*r1^2 + m2*l1^2 + I1;
-%     a2 = m2*r2^2 + I2;
-
+    bp    = psi(3);
+    fc1   = psi(4);
+    fc2   = psi(5);
+    b1    = psi(6);
+    b2    = psi(7);
+    v_eps = psi(8);
 
     N = size(data.q_filt, 2);
     r = zeros(2*N, 1);
-    J = zeros(2*N, 7);
+    J = zeros(2*N, 8);
 
     for k = 1:N
         q   = data.q_filt(:,k);
@@ -382,22 +391,21 @@ function [r, J] = residualsEL_analytic_2dof(psi, data, m1, l1, r1, m2, l2, r2)
         qdd = data.qdd_filt(:,k);
         tau_m = data.tau_meas(:,k);
 
-        theta2  = q(2);
-        dtheta1 = qd(1);
-        dtheta2 = qd(2);
+        qd1  = qd(1);   qd2  = qd(2);
+        qdd1 = qdd(1);  qdd2 = qdd(2);
 
-        c2 = cos(theta2);
-        s2 = sin(theta2);
+        c2 = cos(q(2));
+        s2 = sin(q(2));
 
         M = [a1 + a2 + 2*bp*c2,  a2 + bp*c2;
              a2 + bp*c2,          a2];
 
-        C = [-bp*s2*dtheta2,           -bp*s2*(dtheta1 + dtheta2);
-              bp*s2*dtheta1,            0];
+        C = [-bp*s2*qd2,           -bp*s2*(qd1 + qd2);
+              bp*s2*qd1,            0];
 
-        z1 = qd(1)/v_eps;
-        z2 = qd(2)/v_eps;
-        F_visc = [b1*qd(1); b2*qd(2)];
+        z1 = qd1/v_eps;
+        z2 = qd2/v_eps;
+        F_visc = [b1*qd1; b2*qd2];
         F_coul = [fc1*tanh(z1); fc2*tanh(z2)];
         tau_f  = F_visc + F_coul;
 
@@ -407,29 +415,41 @@ function [r, J] = residualsEL_analytic_2dof(psi, data, m1, l1, r1, m2, l2, r2)
         idx = 2*(k-1) + (1:2);
         r(idx) = rk;
 
-        qdd1 = qdd(1); qdd2 = qdd(2);
-        qd1  = qd(1);  qd2  = qd(2);
+        % --- Analytic Jacobian dr/dpsi = -d(tau_hat)/dpsi, size 2x8 ---
+        Jk = zeros(2,8);
 
-        Jk = zeros(2,7);
+        % d/da1: dM/da1 = [1 0; 0 0]
         Jk(:,1) = -[qdd1; 0];
-        sI2 = qdd1 + qdd2;
-        Jk(:,2) = -[sI2; sI2];
-        Jk(1,3) = -tanh(z1);
-        Jk(2,4) = -tanh(z2);
-        Jk(1,5) = -qd1;
-        Jk(2,6) = -qd2;
+
+        % d/da2: dM/da2 = [1 1; 1 1]
+        Jk(:,2) = -[qdd1+qdd2; qdd1+qdd2];
+
+        % d/dbp: dM/dbp * qdd + dC/dbp * qd
+        Jk(:,3) = -[2*c2*qdd1 + c2*qdd2 - s2*(2*qd1*qd2 + qd2^2);
+                     c2*qdd1 + s2*qd1^2];
+
+        % d/dfc1, d/dfc2
+        Jk(1,4) = -tanh(z1);
+        Jk(2,5) = -tanh(z2);
+
+        % d/db1, d/db2
+        Jk(1,6) = -qd1;
+        Jk(2,7) = -qd2;
+
+        % d/dv_eps
         sech2_z1 = 1/cosh(z1)^2;
         sech2_z2 = 1/cosh(z2)^2;
-        Jk(1,7) =  fc1 * (qd1 / v_eps^2) * sech2_z1;
-        Jk(2,7) =  fc2 * (qd2 / v_eps^2) * sech2_z2;
+        Jk(1,8) =  fc1 * (qd1 / v_eps^2) * sech2_z1;
+        Jk(2,8) =  fc2 * (qd2 / v_eps^2) * sech2_z2;
 
         J(idx,:) = Jk;
     end
 end
 
-function theta_hat = estimate_theta_ls_2dof(data, v_eps, bp,  m1, l1, r1, m2, l2, r2)
+function theta_hat = estimate_theta_ls_2dof(data)
+    % Linear LS: theta = [a1; a2; bp; b1; b2]
     N = size(data.q_filt, 2);
-    Y_stack   = zeros(2*N, 6);
+    Y_stack   = zeros(2*N, 5);
     tau_stack = zeros(2*N, 1);
 
     for k = 1:N
@@ -439,33 +459,20 @@ function theta_hat = estimate_theta_ls_2dof(data, v_eps, bp,  m1, l1, r1, m2, l2
         qdd1 = data.qdd_filt(1,k);
         qdd2 = data.qdd_filt(2,k);
 
+        s2 = sin(theta2);
+        c2 = cos(theta2);
+
         rows = (2*k-1):(2*k);
 
-        Y_stack(rows,:) = [qdd1, qdd1+qdd2, tanh(qd1/v_eps), 0,                qd1, 0;
-                           0,    qdd1+qdd2, 0,                tanh(qd2/v_eps), 0,   qd2];
+        Y_stack(rows,:) = [qdd1, qdd1+qdd2, 2*c2*qdd1+c2*qdd2-s2*(2*qd1*qd2+qd2^2),  qd1, 0;
+                           0,    qdd1+qdd2, c2*qdd1+s2*qd1^2,                           0,   qd2];
 
-%         s2 = sin(theta2);
-%         c2 = cos(theta2);
-% 
-%         % Known mass terms contribution
-%         tau_mass1 = (m1*r1^2 + m2*l1^2 + m2*r2^2)*qdd1 + (m2*r2^2)*qdd2;
-%         tau_mass2 = (m2*r2^2)*qdd1 + (m2*r2^2)*qdd2;
-% 
-%         % Known Coriolis/centrifugal
-%         tau_corr1 = -bp*s2*(2*qd1*qd2 + qd2^2);
-%         tau_corr2 =  bp*s2*qd1^2;
-% 
-%         tau_stack(rows) = data.tau_meas(:,k) - [tau_mass1 + tau_corr1;
-%                                                 tau_mass2 + tau_corr2];
-                                            
         tau_stack(rows) = data.tau_meas(:,k);
-
     end
 
-    fprintf('\n=== Regressor Conditioning (LS with Coulomb) ===\n');
+    fprintf('\n=== Regressor Conditioning (LS) ===\n');
     fprintf('Condition number: %.2e\n', cond(Y_stack' * Y_stack));
     fprintf('Rank: %d/%d\n', rank(Y_stack, 1e-10), size(Y_stack, 2));
 
     theta_hat = Y_stack \ tau_stack;
 end
-
