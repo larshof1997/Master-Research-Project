@@ -7,9 +7,9 @@
  *
  * Code generation for model "DATA_COLLECTION".
  *
- * Model version              : 1.114
+ * Model version              : 1.118
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Tue Mar  3 13:11:22 2026
+ * C source code generated on : Wed Mar  4 16:31:09 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping

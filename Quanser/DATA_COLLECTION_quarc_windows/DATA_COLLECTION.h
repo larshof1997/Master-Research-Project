@@ -7,9 +7,9 @@
  *
  * Code generation for model "DATA_COLLECTION".
  *
- * Model version              : 1.114
+ * Model version              : 1.118
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Tue Mar  3 13:11:22 2026
+ * C source code generated on : Wed Mar  4 16:31:09 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -1189,7 +1189,7 @@ struct P_DATA_COLLECTION_T_ {
   real_T UnitDelay_InitialCondition;   /* Expression: 0
                                         * Referenced by: '<Root>/Unit Delay'
                                         */
-  real_T Gain_Gain[2];                 /* Expression: [2; 1]
+  real_T Gain_Gain[2];                 /* Expression: [3; 1.5]
                                         * Referenced by: '<Root>/Gain'
                                         */
   real_T DiscreteTimeIntegrator_gainval;/* Computed Parameter: DiscreteTimeIntegrator_gainval

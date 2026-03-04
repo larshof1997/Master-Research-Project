@@ -20,16 +20,16 @@ F = 61;
 K = 2;
 
 %% ===================== LOAD & PREPARE DATA =====================
-S_traj = load('DATA_2DOF/trajectory1.mat');
+S_traj = load('DATA_2DOF/trajectory.mat');
 q_des   = S_traj.q;
 qd_des  = S_traj.qd;
 qdd_des = S_traj.qdd;
 
-S_res1 = load('DATA_2DOF/shoulder3.mat');
+S_res1 = load('DATA_2DOF/shoulder4.mat');
 S_res1 = S_res1.torque_control_data_shoulder;
 S_res1 = S_res1(1:end-1, :);
 
-S_res2 = load('DATA_2DOF/elbow3.mat');
+S_res2 = load('DATA_2DOF/elbow4.mat');
 S_res2 = S_res2.torque_control_data_elbow;
 S_res2 = S_res2(1:end-1, :);
 
@@ -56,8 +56,8 @@ data = dataset_to_iddata_2dof(t, q_meas, tau_meas, dt, K, F);
 % data.tau_meas(2,:) = data.tau_meas(2,:) - J2_motor * data.qdd_filt(2,:) - B2_motor * data.qd_filt(2,:);
 
 % Filter torque (same SG params as position)
-data.tau_meas(1,:) = sgolayfilt(data.tau_meas(1,:), K, F);
-data.tau_meas(2,:) = sgolayfilt(data.tau_meas(2,:), K, F);
+% data.tau_meas(1,:) = sgolayfilt(data.tau_meas(1,:), K, F);
+% data.tau_meas(2,:) = sgolayfilt(data.tau_meas(2,:), K, F);
 
 
 % Update Nx2 version for simulation/plotting

@@ -7,9 +7,9 @@
  *
  * Code generation for model "DATA_COLLECTION".
  *
- * Model version              : 1.114
+ * Model version              : 1.118
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Tue Mar  3 13:11:22 2026
+ * C source code generated on : Wed Mar  4 16:31:09 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -87,39 +87,39 @@ P_DATA_COLLECTION_T DATA_COLLECTION_P = {
   /* Variable: a1_hat
    * Referenced by: '<Root>/Constant'
    */
-  0.27437240180000005,
+  0.039472,
 
   /* Variable: a2_hat
    * Referenced by: '<Root>/Constant1'
    */
-  0.051334874999999995,
+  0.012978,
 
   /* Variable: b1_hat
    * Referenced by: '<Root>/Constant5'
    */
-  0.209044,
+  0.23188,
 
   /* Variable: b2_hat
    * Referenced by: '<Root>/Constant4'
    */
-  0.225127,
+  0.084552,
 
   /* Variable: b_hat
    * Referenced by:
    *   '<Root>/Constant2'
    *   '<Root>/Constant3'
    */
-  0.059916955,
+  0.015203,
 
   /* Variable: fc1_hat
    * Referenced by: '<Root>/Constant7'
    */
-  0.169008,
+  0.156544,
 
   /* Variable: fc2_hat
    * Referenced by: '<Root>/Constant8'
    */
-  0.336889,
+  0.122073,
 
   /* Variable: i_sat1
    * Referenced by: '<S8>/Saturation'
@@ -160,7 +160,7 @@ P_DATA_COLLECTION_T DATA_COLLECTION_P = {
   /* Variable: kp1
    * Referenced by: '<S8>/Gain'
    */
-  1.5,
+  2.5,
 
   /* Variable: kp2
    * Referenced by: '<S7>/Gain'
@@ -170,7 +170,7 @@ P_DATA_COLLECTION_T DATA_COLLECTION_P = {
   /* Variable: v_eps_hat
    * Referenced by: '<Root>/Constant6'
    */
-  0.039272,
+  0.034663,
 
   /* Mask Parameter: DiscreteDerivative3_ICPrevScale
    * Referenced by: '<S20>/UD'
@@ -317,10 +317,10 @@ P_DATA_COLLECTION_T DATA_COLLECTION_P = {
    */
   0.0,
 
-  /* Expression: [2; 1]
+  /* Expression: [3; 1.5]
    * Referenced by: '<Root>/Gain'
    */
-  { 2.0, 1.0 },
+  { 3.0, 1.5 },
 
   /* Computed Parameter: DiscreteTimeIntegrator_gainval
    * Referenced by: '<Root>/Discrete-Time Integrator'
