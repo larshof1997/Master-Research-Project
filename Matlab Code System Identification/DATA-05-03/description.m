@@ -1,0 +1,1 @@
+% This dataset contains 4 fourier series, then 2 low velocity friction identyfying series, 4 lissajous trajectories and 1 fourier for testing and 1 lissajous for testing

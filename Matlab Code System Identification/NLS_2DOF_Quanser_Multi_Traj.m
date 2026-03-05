@@ -4,6 +4,8 @@ clc; clear all; close all;
 Kt1 = 3.018583e+00;
 Kt2 = 1.111065;
 
+
+
 J1_motor  = 2.030252e-02;
 B1_motor  = 9.233265e-02;
 J2_motor  = 6.530040e-04;
@@ -20,7 +22,7 @@ F = 61;
 K = 2;
 dt = 1e-2;
 
-data_dir = 'DATA_2DOF_12';
+data_dir = 'DATA-05-03_2';
 
 %% ===================== TRAJECTORY DEFINITIONS =====================
 % Each entry: {trajectory_file, shoulder_file, elbow_file, label}
@@ -35,15 +37,15 @@ trajectories = {
     'traj_08.mat', 'shoulder_08.mat', 'elbow_08.mat', 'traj\_08';
     'traj_09.mat', 'shoulder_09.mat', 'elbow_09.mat', 'traj\_09';
     'traj_10.mat', 'shoulder_10.mat', 'elbow_10.mat', 'traj\_10';
-    'traj_11.mat', 'shoulder_11.mat', 'elbow_11.mat', 'traj\_11';
-    'traj_12.mat', 'shoulder_12.mat', 'elbow_12.mat', 'traj\_12';
+%     'traj_11.mat', 'shoulder_11.mat', 'elbow_11.mat', 'traj\_11';
+%     'traj_12.mat', 'shoulder_12.mat', 'elbow_12.mat', 'traj\_12';
 };
 
 %% ===================== TRAIN / VAL / TEST SPLIT =====================
 % Specify trajectory indices (rows of the table above)
-train_idx = [1,2,3,4,5];
-val_idx   = [6,7,8,9];
-test_idx  = [11,12];
+train_idx = [1,2,3,4,5,6,7,8];
+val_idx   = [1];
+test_idx  = [9,10];
 
 fprintf('Training on:   %s\n', mat2str(train_idx));
 fprintf('Validation on: %s\n', mat2str(val_idx));
@@ -358,17 +360,18 @@ function [data, q_meas_out, tau_meas_out] = load_traj_data(data_dir, traj_info, 
     q_meas_2         = S_res2(:,4);
 
     % % Filter torque 
-    actual_current_1 = sgolayfilt(actual_current_1, K, F);
-    actual_current_2 = sgolayfilt(actual_current_2, K, F);
+    filt_current_1 = sgolayfilt(actual_current_1, K, F);
+    filt_current_2 = sgolayfilt(actual_current_2, K, F);
     % % Filter position
-    % q_filt_1 = sgolayfilt(q_meas_1, K, F);
-    % q_filt_2 = sgolayfilt(q_meas_2, K, F);
-
+    q_filt_1 = sgolayfilt(q_meas_1, K, F);
+    q_filt_2 = sgolayfilt(q_meas_2, K, F);
+    
     N = numel(q_meas_1);
     t = (0:N-1).' * dt;
 
-    tau_meas_out = [Kt1 * actual_current_1, Kt2 * actual_current_2];
-    q_meas_out   = [q_meas_1, q_meas_2];
+    tau_meas_out = [Kt1 * filt_current_1, Kt2 * filt_current_2];
+    
+    q_meas_out   = [q_filt_1, q_filt_2];
 
     data = dataset_to_iddata_2dof(t, q_meas_out, tau_meas_out, dt, K, F);
 end
@@ -474,44 +477,6 @@ function dx = f_dyn_2dof(x, tau, a1, a2, b, b1, b2, fc1, fc2, v_eps)
     dx = [dtheta1; dtheta2; ddq(1); ddq(2)];
 end
 
-% function data = dataset_to_iddata_2dof(t, q_meas, tau_meas, dt, K, F)
-%     N = size(q_meas, 1);
-% 
-%     data.t        = t(:).';
-%     data.q_meas   = q_meas.';
-%     data.tau_meas = tau_meas.';
-%     data.dt       = dt;
-% 
-%     data.q_filt   = zeros(2, N);
-%     data.qd_filt  = zeros(2, N);
-%     data.qdd_filt = zeros(2, N);
-% 
-%     for j = 1:2
-%         q_filt_j = sgolayfilt(q_meas(:,j), K, F);
-%         data.q_filt(j,:) = q_filt_j(:).';
-% 
-%         qd_raw = zeros(N,1);
-%         qd_raw(1) = (q_filt_j(2) - q_filt_j(1)) / dt;
-%         for k = 2:N-1
-%             qd_raw(k) = (q_filt_j(k+1) - q_filt_j(k-1)) / (2*dt);
-%         end
-%         qd_raw(N) = (q_filt_j(N) - q_filt_j(N-1)) / dt;
-% 
-%         qd_filt_j = sgolayfilt(qd_raw, K, F);
-%         data.qd_filt(j,:) = qd_filt_j(:).';
-% 
-%         qdd_raw = zeros(N,1);
-%         qdd_raw(1) = (qd_filt_j(2) - qd_filt_j(1)) / dt;
-%         for k = 2:N-1
-%             qdd_raw(k) = (qd_filt_j(k+1) - qd_filt_j(k-1)) / (2*dt);
-%         end
-%         qdd_raw(N) = (qd_filt_j(N) - qd_filt_j(N-1)) / dt;
-% 
-%         qdd_filt_j = sgolayfilt(qdd_raw, K, F);
-%         data.qdd_filt(j,:) = qdd_filt_j(:).';
-%     end
-% end
-
 function data = dataset_to_iddata_2dof(t, q_meas, tau_meas, dt, K, F)
     N = size(q_meas, 1);
 
@@ -535,6 +500,7 @@ function data = dataset_to_iddata_2dof(t, q_meas, tau_meas, dt, K, F)
         data.qd_filt(j,:)  = conv(q_filt_j, d1, 'same').';
         data.qdd_filt(j,:) = conv(q_filt_j, d2, 'same').';
     end
+    
 end
 
 function [r, J] = residualsEL_analytic_2dof(psi, data)

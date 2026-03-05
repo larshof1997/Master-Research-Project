@@ -7,9 +7,9 @@
  *
  * Code generation for model "DATA_COLLECTION".
  *
- * Model version              : 1.118
+ * Model version              : 1.119
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Wed Mar  4 16:31:09 2026
+ * C source code generated on : Thu Mar  5 12:38:24 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -87,39 +87,39 @@ P_DATA_COLLECTION_T DATA_COLLECTION_P = {
   /* Variable: a1_hat
    * Referenced by: '<Root>/Constant'
    */
-  0.039472,
+  0.084096,
 
   /* Variable: a2_hat
    * Referenced by: '<Root>/Constant1'
    */
-  0.012978,
+  0.045944,
 
   /* Variable: b1_hat
    * Referenced by: '<Root>/Constant5'
    */
-  0.23188,
+  0.237201,
 
   /* Variable: b2_hat
    * Referenced by: '<Root>/Constant4'
    */
-  0.084552,
+  0.095302,
 
   /* Variable: b_hat
    * Referenced by:
    *   '<Root>/Constant2'
    *   '<Root>/Constant3'
    */
-  0.015203,
+  0.022785,
 
   /* Variable: fc1_hat
    * Referenced by: '<Root>/Constant7'
    */
-  0.156544,
+  0.132477,
 
   /* Variable: fc2_hat
    * Referenced by: '<Root>/Constant8'
    */
-  0.122073,
+  0.099201,
 
   /* Variable: i_sat1
    * Referenced by: '<S8>/Saturation'
@@ -160,17 +160,17 @@ P_DATA_COLLECTION_T DATA_COLLECTION_P = {
   /* Variable: kp1
    * Referenced by: '<S8>/Gain'
    */
-  2.5,
+  2.0,
 
   /* Variable: kp2
    * Referenced by: '<S7>/Gain'
    */
-  1.0,
+  0.5,
 
   /* Variable: v_eps_hat
    * Referenced by: '<Root>/Constant6'
    */
-  0.034663,
+  0.058784,
 
   /* Mask Parameter: DiscreteDerivative3_ICPrevScale
    * Referenced by: '<S20>/UD'
@@ -302,6 +302,16 @@ P_DATA_COLLECTION_T DATA_COLLECTION_P = {
    */
   1,
 
+  /* Expression: 0
+   * Referenced by: '<Root>/Constant10'
+   */
+  0.0,
+
+  /* Expression: 0
+   * Referenced by: '<Root>/Constant9'
+   */
+  0.0,
+
   /* Computed Parameter: TSamp_WtEt
    * Referenced by: '<S20>/TSamp'
    */
@@ -317,10 +327,10 @@ P_DATA_COLLECTION_T DATA_COLLECTION_P = {
    */
   0.0,
 
-  /* Expression: [3; 1.5]
+  /* Expression: [4; 2]
    * Referenced by: '<Root>/Gain'
    */
-  { 3.0, 1.5 },
+  { 4.0, 2.0 },
 
   /* Computed Parameter: DiscreteTimeIntegrator_gainval
    * Referenced by: '<Root>/Discrete-Time Integrator'
@@ -342,10 +352,10 @@ P_DATA_COLLECTION_T DATA_COLLECTION_P = {
    */
   0.0,
 
-  /* Expression: [0; 0]
+  /* Expression: [0.3; 0.02]
    * Referenced by: '<Root>/Gain2'
    */
-  { 0.0, 0.0 },
+  { 0.3, 0.02 },
 
   /* Computed Parameter: TSamp_WtEt_ei
    * Referenced by: '<S19>/TSamp'
@@ -827,12 +837,17 @@ P_DATA_COLLECTION_T DATA_COLLECTION_P = {
    */
   0U,
 
+  /* Computed Parameter: ManualSwitch1_CurrentSetting
+   * Referenced by: '<Root>/Manual Switch1'
+   */
+  0U,
+
   /* Computed Parameter: ManualSwitch2_CurrentSetting
    * Referenced by: '<S7>/Manual Switch2'
    */
   0U,
 
-  /* Computed Parameter: ManualSwitch1_CurrentSetting
+  /* Computed Parameter: ManualSwitch1_CurrentSetting_o
    * Referenced by: '<S7>/Manual Switch1'
    */
   0U,
@@ -846,6 +861,11 @@ P_DATA_COLLECTION_T DATA_COLLECTION_P = {
    * Referenced by: '<S8>/Manual Switch3'
    */
   1U,
+
+  /* Computed Parameter: ManualSwitch2_CurrentSetting_b
+   * Referenced by: '<Root>/Manual Switch2'
+   */
+  0U,
 
   /* Computed Parameter: ManualSwitch2_CurrentSetting_j
    * Referenced by: '<S8>/Manual Switch2'

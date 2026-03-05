@@ -20,7 +20,7 @@ F = 61;
 K = 2;
 dt = 1e-2;
 
-data_dir = 'DATA_2DOF_12';
+data_dir = 'DATA-05-03_2';
 
 %% ===================== TRAJECTORY DEFINITIONS =====================
 % Each entry: {trajectory_file, shoulder_file, elbow_file, label}
@@ -35,15 +35,15 @@ trajectories = {
     'traj_08.mat', 'shoulder_08.mat', 'elbow_08.mat', 'traj\_08';
     'traj_09.mat', 'shoulder_09.mat', 'elbow_09.mat', 'traj\_09';
     'traj_10.mat', 'shoulder_10.mat', 'elbow_10.mat', 'traj\_10';
-    'traj_11.mat', 'shoulder_11.mat', 'elbow_11.mat', 'traj\_11';
-    'traj_12.mat', 'shoulder_12.mat', 'elbow_12.mat', 'traj\_12';
+%     'traj_11.mat', 'shoulder_11.mat', 'elbow_11.mat', 'traj\_11';
+%     'traj_12.mat', 'shoulder_12.mat', 'elbow_12.mat', 'traj\_12';
 };
 
 %% ===================== TRAIN / VAL / TEST SPLIT =====================
 % Specify trajectory indices (rows of the table above)
-train_idx = [1,11];
-val_idx   = [6,7,8,9];
-test_idx  = [11,12];
+train_idx = [1,2,3,4,5,6,7,8];
+val_idx   = [1];
+test_idx  = [9,10];
 
 fprintf('Training on:   %s\n', mat2str(train_idx));
 fprintf('Validation on: %s\n', mat2str(val_idx));
@@ -85,7 +85,7 @@ end
 
 %% ===================== LINEAR LS (train on training set) =====================
 psi_hat_lin = estimate_theta_ls_2dof(data_train);
-fprintf('\n===== Linear LS (viscous only) — trained on %d trajectories =====\n', numel(train_idx));
+fprintf('\n===== Linear LS (viscous only) --- trained on %d trajectories =====\n', numel(train_idx));
 fprintf('  a1 = %.6f\n', psi_hat_lin(1));
 fprintf('  a2 = %.6f\n', psi_hat_lin(2));
 fprintf('  bp = %.6f\n', psi_hat_lin(3));
@@ -111,7 +111,7 @@ psi0_nls = [psi_hat_lin(1); psi_hat_lin(2); psi_hat_lin(3);
 fun = @(psi) residualsEL_analytic_2dof(psi, data_train);
 [psi_hat, ~, ~, exitflag, out] = lsqnonlin(fun, psi0_nls, lb, ub, opts);
 
-fprintf('\n===== Nonlinear LS — trained on %d trajectories =====\n', numel(train_idx));
+fprintf('\n===== Nonlinear LS --- trained on %d trajectories =====\n', numel(train_idx));
 fprintf('  a1    = %.6f  [kg m^2]\n',   psi_hat(1));
 fprintf('  a2    = %.6f  [kg m^2]\n',   psi_hat(2));
 fprintf('  bp    = %.6f  [kg m^2]\n',   psi_hat(3));
@@ -196,14 +196,14 @@ for i = 1:numel(test_idx)
     plot(t, qm(:,1), 'b'); hold on;
     plot(t, x_lin(:,1), 'r--'); plot(t, x_nls(:,1), 'g-.');
     xlabel('Time $[s]$'); ylabel('$\theta_1$ [rad]');
-    title(sprintf('Joint 1 angle — %s', traj_label)); grid on; box on;
+    title(sprintf('Joint 1 angle --- %s', traj_label)); grid on; box on;
     legend('measured','Linear LS','NLS','Location','best','FontSize',defaultFontSize-2);
 
     nexttile;
     plot(t, qm(:,2), 'b'); hold on;
     plot(t, x_lin(:,2), 'r--'); plot(t, x_nls(:,2), 'g-.');
     xlabel('Time $[s]$'); ylabel('$\theta_2$ [rad]');
-    title(sprintf('Joint 2 angle — %s', traj_label)); grid on; box on;
+    title(sprintf('Joint 2 angle --- %s', traj_label)); grid on; box on;
     legend('measured','Linear LS','NLS','Location','best','FontSize',defaultFontSize-2);
 
     % exportgraphics(fig_ang, sprintf('test_%s_angles.png', trajectories{test_idx(i),4}), ...
@@ -217,19 +217,124 @@ for i = 1:numel(test_idx)
     plot(t, tm(:,1), 'b'); hold on;
     plot(t, tau_model_lin(:,1), 'r--'); plot(t, tau_model_nls(:,1), 'g-.');
     xlabel('Time $[s]$'); ylabel('$\tau_1$ [Nm]');
-    title(sprintf('Joint 1 torque — %s', traj_label)); grid on; box on;
+    title(sprintf('Joint 1 torque --- %s', traj_label)); grid on; box on;
     legend('measured','Linear LS','NLS','Location','best','FontSize',defaultFontSize-2);
 
     nexttile;
     plot(t, tm(:,2), 'b'); hold on;
     plot(t, tau_model_lin(:,2), 'r--'); plot(t, tau_model_nls(:,2), 'g-.');
     xlabel('Time $[s]$'); ylabel('$\tau_2$ [Nm]');
-    title(sprintf('Joint 2 torque — %s', traj_label)); grid on; box on;
+    title(sprintf('Joint 2 torque --- %s', traj_label)); grid on; box on;
     legend('measured','Linear LS','NLS','Location','best','FontSize',defaultFontSize-2);
 
     % exportgraphics(fig_tau, sprintf('test_%s_torques.png', trajectories{test_idx(i),4}), ...
         % 'Resolution', 300, 'BackgroundColor','white');
 end
+
+%% ===================== ADDITIONAL PLOTS =====================
+% Add these to the test loop, or run standalone after the main script.
+% Requires: test_data, test_q_meas, test_tau, psi_hat_lin, psi_hat populated.
+
+%% ---------- Plot 1: Velocity comparison (filtered meas vs forward sim) ----------
+for i = 1:numel(test_idx)
+    traj_label = trajectories{test_idx(i), 4};
+    d   = test_data{i};
+    qm  = test_q_meas{i};
+    tm  = test_tau{i};
+    N   = size(qm, 1);
+    t   = (0:N-1).' * dt;
+
+    x_lin = simulate_forward(N, dt, qm, tm, a1_lin, a2_lin, bp_lin, b1_lin, b2_lin, fc1_lin, fc2_lin, v_eps_lin);
+    x_nls = simulate_forward(N, dt, qm, tm, a1_nls, a2_nls, bp_nls, b1_nls, b2_nls, fc1_nls, fc2_nls, v_eps_nls);
+
+    fig_vel = figure('Color','w', 'Position',[250 250 900 500]);
+    tiledlayout(2,1, 'Padding','compact', 'TileSpacing','compact');
+
+    nexttile;
+    plot(t, d.qd_filt(1,:), 'b'); hold on;
+    plot(t, x_lin(:,3), 'r--'); plot(t, x_nls(:,3), 'g-.');
+    xlabel('Time $[s]$'); ylabel('$\dot{\theta}_1$ [rad/s]');
+    title(sprintf('Joint 1 velocity --- %s', traj_label)); grid on; box on;
+    legend('filtered meas.','Linear LS','NLS','Location','best','FontSize',defaultFontSize-2);
+
+    nexttile;
+    plot(t, d.qd_filt(2,:), 'b'); hold on;
+    plot(t, x_lin(:,4), 'r--'); plot(t, x_nls(:,4), 'g-.');
+    xlabel('Time $[s]$'); ylabel('$\dot{\theta}_2$ [rad/s]');
+    title(sprintf('Joint 2 velocity --- %s', traj_label)); grid on; box on;
+    legend('filtered meas.','Linear LS','NLS','Location','best','FontSize',defaultFontSize-2);
+end
+
+%% ---------- Plot 2: Desired vs filtered derivatives ----------
+% Load trajectory files and compare qd_des vs qd_filt, qdd_des vs qdd_filt
+
+% Choose which trajectories to compare (e.g. test set, or all)
+compare_idx = test_idx;  % change to 1:12 for all
+
+for i = 1:numel(compare_idx)
+    idx = compare_idx(i);
+    traj_label = trajectories{idx, 4};
+
+    % Load trajectory file (desired q, qd, qdd)
+    S_traj = load(fullfile(data_dir, trajectories{idx, 1}));
+    fn = fieldnames(S_traj);
+    % Handle both struct-with-fields and direct variable cases
+    if numel(fn) == 1 && isstruct(S_traj.(fn{1}))
+        S_traj = S_traj.(fn{1});
+        q_des   = S_traj.q;
+        qd_des  = S_traj.qd;
+        qdd_des = S_traj.qdd;
+    else
+        q_des   = S_traj.q;
+        qd_des  = S_traj.qd;
+        qdd_des = S_traj.qdd;
+    end
+
+    % Load measured + filtered data
+    [d, ~, ~] = load_traj_data(data_dir, trajectories(idx,:), Kt1, Kt2, dt, K, F);
+    N = size(d.q_filt, 2);
+    t = (0:N-1).' * dt;
+
+    % Trim desired to match measured length (in case of off-by-one)
+    N_des = min(size(q_des, 1), N);
+
+    % --- Velocity: desired vs filtered ---
+    fig_qd = figure('Color','w', 'Position',[200 200 900 500]);
+    tiledlayout(2,1, 'Padding','compact', 'TileSpacing','compact');
+
+    nexttile;
+    plot(t(1:N_des), qd_des(1:N_des, 1), 'k', 'DisplayName','desired'); hold on;
+    plot(t, d.qd_filt(1,:), 'b--', 'DisplayName','filtered meas.');
+    xlabel('Time $[s]$'); ylabel('$\dot{\theta}_1$ [rad/s]');
+    title(sprintf('Joint 1 velocity: desired vs filtered --- %s', traj_label)); grid on; box on;
+    legend('Location','best','FontSize',defaultFontSize-2);
+
+    nexttile;
+    plot(t(1:N_des), qd_des(1:N_des, 2), 'k', 'DisplayName','desired'); hold on;
+    plot(t, d.qd_filt(2,:), 'b--', 'DisplayName','filtered meas.');
+    xlabel('Time $[s]$'); ylabel('$\dot{\theta}_2$ [rad/s]');
+    title(sprintf('Joint 2 velocity: desired vs filtered --- %s', traj_label)); grid on; box on;
+    legend('Location','best','FontSize',defaultFontSize-2);
+
+    % --- Acceleration: desired vs filtered ---
+    fig_qdd = figure('Color','w', 'Position',[250 250 900 500]);
+    tiledlayout(2,1, 'Padding','compact', 'TileSpacing','compact');
+
+    nexttile;
+    plot(t(1:N_des), qdd_des(1:N_des, 1), 'k', 'DisplayName','desired'); hold on;
+    plot(t, d.qdd_filt(1,:), 'b--', 'DisplayName','filtered meas.');
+    xlabel('Time $[s]$'); ylabel('$\ddot{\theta}_1$ [rad/s$^2$]');
+    title(sprintf('Joint 1 acceleration: desired vs filtered --- %s', traj_label)); grid on; box on;
+    legend('Location','best','FontSize',defaultFontSize-2);
+
+    nexttile;
+    plot(t(1:N_des), qdd_des(1:N_des, 2), 'k', 'DisplayName','desired'); hold on;
+    plot(t, d.qdd_filt(2,:), 'b--', 'DisplayName','filtered meas.');
+    xlabel('Time $[s]$'); ylabel('$\ddot{\theta}_2$ [rad/s$^2$]');
+    title(sprintf('Joint 2 acceleration: desired vs filtered --- %s', traj_label)); grid on; box on;
+    legend('Location','best','FontSize',defaultFontSize-2);
+end
+
 
 fprintf('\n==================== DONE ====================\n');
 
@@ -252,15 +357,19 @@ function [data, q_meas_out, tau_meas_out] = load_traj_data(data_dir, traj_info, 
     actual_current_2 = S_res2(:,2);
     q_meas_2         = S_res2(:,4);
 
-    % Filter torque (same SG params as position)
-    actual_current_1 = sgolayfilt(actual_current_1, K, F);
-    actual_current_2 = sgolayfilt(actual_current_2, K, F);
-
+    % % Filter torque 
+    filt_current_1 = sgolayfilt(actual_current_1, K, F);
+    filt_current_2 = sgolayfilt(actual_current_2, K, F);
+    % % Filter position
+    q_filt_1 = sgolayfilt(q_meas_1, K, F);
+    q_filt_2 = sgolayfilt(q_meas_2, K, F);
+    
     N = numel(q_meas_1);
     t = (0:N-1).' * dt;
 
-    tau_meas_out = [Kt1 * actual_current_1, Kt2 * actual_current_2];
-    q_meas_out   = [q_meas_1, q_meas_2];
+    tau_meas_out = [Kt1 * filt_current_1, Kt2 * filt_current_2];
+    
+    q_meas_out   = [q_filt_1, q_filt_2];
 
     data = dataset_to_iddata_2dof(t, q_meas_out, tau_meas_out, dt, K, F);
 end
@@ -378,29 +487,16 @@ function data = dataset_to_iddata_2dof(t, q_meas, tau_meas, dt, K, F)
     data.qd_filt  = zeros(2, N);
     data.qdd_filt = zeros(2, N);
 
+    % SG differentiation kernels
+    [~, g] = sgolay(K, F);
+    d1 = flipud(g(:,2)) / dt;        % 1st derivative coefficients
+    d2 = flipud(g(:,3)) / (dt^2);    % 2nd derivative coefficients (factorial already in sgolay)
+
     for j = 1:2
         q_filt_j = sgolayfilt(q_meas(:,j), K, F);
-        data.q_filt(j,:) = q_filt_j(:).';
-
-        qd_raw = zeros(N,1);
-        qd_raw(1) = (q_filt_j(2) - q_filt_j(1)) / dt;
-        for k = 2:N-1
-            qd_raw(k) = (q_filt_j(k+1) - q_filt_j(k-1)) / (2*dt);
-        end
-        qd_raw(N) = (q_filt_j(N) - q_filt_j(N-1)) / dt;
-
-        qd_filt_j = sgolayfilt(qd_raw, K, F);
-        data.qd_filt(j,:) = qd_filt_j(:).';
-
-        qdd_raw = zeros(N,1);
-        qdd_raw(1) = (qd_filt_j(2) - qd_filt_j(1)) / dt;
-        for k = 2:N-1
-            qdd_raw(k) = (qd_filt_j(k+1) - qd_filt_j(k-1)) / (2*dt);
-        end
-        qdd_raw(N) = (qd_filt_j(N) - qd_filt_j(N-1)) / dt;
-
-        qdd_filt_j = sgolayfilt(qdd_raw, K, F);
-        data.qdd_filt(j,:) = qdd_filt_j(:).';
+        data.q_filt(j,:)   = q_filt_j(:).';
+        data.qd_filt(j,:)  = conv(q_filt_j, d1, 'same').';
+        data.qdd_filt(j,:) = conv(q_filt_j, d2, 'same').';
     end
 end
 

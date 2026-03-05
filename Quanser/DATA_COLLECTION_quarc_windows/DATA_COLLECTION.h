@@ -7,9 +7,9 @@
  *
  * Code generation for model "DATA_COLLECTION".
  *
- * Model version              : 1.118
+ * Model version              : 1.119
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Wed Mar  4 16:31:09 2026
+ * C source code generated on : Thu Mar  5 12:38:24 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -1180,6 +1180,12 @@ struct P_DATA_COLLECTION_T_ {
   int8_T StopwithMessage3_message_icon;/* Mask Parameter: StopwithMessage3_message_icon
                                         * Referenced by: '<S12>/Show Message on Host'
                                         */
+  real_T Constant10_Value;             /* Expression: 0
+                                        * Referenced by: '<Root>/Constant10'
+                                        */
+  real_T Constant9_Value;              /* Expression: 0
+                                        * Referenced by: '<Root>/Constant9'
+                                        */
   real_T TSamp_WtEt;                   /* Computed Parameter: TSamp_WtEt
                                         * Referenced by: '<S20>/TSamp'
                                         */
@@ -1189,7 +1195,7 @@ struct P_DATA_COLLECTION_T_ {
   real_T UnitDelay_InitialCondition;   /* Expression: 0
                                         * Referenced by: '<Root>/Unit Delay'
                                         */
-  real_T Gain_Gain[2];                 /* Expression: [3; 1.5]
+  real_T Gain_Gain[2];                 /* Expression: [4; 2]
                                         * Referenced by: '<Root>/Gain'
                                         */
   real_T DiscreteTimeIntegrator_gainval;/* Computed Parameter: DiscreteTimeIntegrator_gainval
@@ -1204,7 +1210,7 @@ struct P_DATA_COLLECTION_T_ {
   real_T UnitDelay1_InitialCondition;  /* Expression: 0
                                         * Referenced by: '<Root>/Unit Delay1'
                                         */
-  real_T Gain2_Gain[2];                /* Expression: [0; 0]
+  real_T Gain2_Gain[2];                /* Expression: [0.3; 0.02]
                                         * Referenced by: '<Root>/Gain2'
                                         */
   real_T TSamp_WtEt_ei;                /* Computed Parameter: TSamp_WtEt_ei
@@ -1495,17 +1501,23 @@ struct P_DATA_COLLECTION_T_ {
   uint8_T ManualSwitch3_CurrentSetting;/* Computed Parameter: ManualSwitch3_CurrentSetting
                                         * Referenced by: '<S7>/Manual Switch3'
                                         */
+  uint8_T ManualSwitch1_CurrentSetting;/* Computed Parameter: ManualSwitch1_CurrentSetting
+                                        * Referenced by: '<Root>/Manual Switch1'
+                                        */
   uint8_T ManualSwitch2_CurrentSetting;/* Computed Parameter: ManualSwitch2_CurrentSetting
                                         * Referenced by: '<S7>/Manual Switch2'
                                         */
-  uint8_T ManualSwitch1_CurrentSetting;/* Computed Parameter: ManualSwitch1_CurrentSetting
-                                        * Referenced by: '<S7>/Manual Switch1'
-                                        */
+  uint8_T ManualSwitch1_CurrentSetting_o;/* Computed Parameter: ManualSwitch1_CurrentSetting_o
+                                          * Referenced by: '<S7>/Manual Switch1'
+                                          */
   uint8_T ManualSwitch4_CurrentSetting;/* Computed Parameter: ManualSwitch4_CurrentSetting
                                         * Referenced by: '<S7>/Manual Switch4'
                                         */
   uint8_T ManualSwitch3_CurrentSetting_n;/* Computed Parameter: ManualSwitch3_CurrentSetting_n
                                           * Referenced by: '<S8>/Manual Switch3'
+                                          */
+  uint8_T ManualSwitch2_CurrentSetting_b;/* Computed Parameter: ManualSwitch2_CurrentSetting_b
+                                          * Referenced by: '<Root>/Manual Switch2'
                                           */
   uint8_T ManualSwitch2_CurrentSetting_j;/* Computed Parameter: ManualSwitch2_CurrentSetting_j
                                           * Referenced by: '<S8>/Manual Switch2'

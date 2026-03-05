@@ -260,180 +260,188 @@
       paramMap.sections(4) = section;
       clear section
       
-      section.nData     = 43;
-      section.data(43)  = dumData; %prealloc
+      section.nData     = 45;
+      section.data(45)  = dumData; %prealloc
       
-	  ;% DATA_COLLECTION_P.TSamp_WtEt
+	  ;% DATA_COLLECTION_P.Constant10_Value
 	  section.data(1).logicalSrcIdx = 51;
 	  section.data(1).dtTransOffset = 0;
 	
-	  ;% DATA_COLLECTION_P.TSamp_WtEt_p
+	  ;% DATA_COLLECTION_P.Constant9_Value
 	  section.data(2).logicalSrcIdx = 52;
 	  section.data(2).dtTransOffset = 1;
 	
-	  ;% DATA_COLLECTION_P.UnitDelay_InitialCondition
+	  ;% DATA_COLLECTION_P.TSamp_WtEt
 	  section.data(3).logicalSrcIdx = 53;
 	  section.data(3).dtTransOffset = 2;
 	
-	  ;% DATA_COLLECTION_P.Gain_Gain
+	  ;% DATA_COLLECTION_P.TSamp_WtEt_p
 	  section.data(4).logicalSrcIdx = 54;
 	  section.data(4).dtTransOffset = 3;
 	
-	  ;% DATA_COLLECTION_P.DiscreteTimeIntegrator_gainval
+	  ;% DATA_COLLECTION_P.UnitDelay_InitialCondition
 	  section.data(5).logicalSrcIdx = 55;
-	  section.data(5).dtTransOffset = 5;
+	  section.data(5).dtTransOffset = 4;
 	
-	  ;% DATA_COLLECTION_P.DiscreteTimeIntegrator_IC
+	  ;% DATA_COLLECTION_P.Gain_Gain
 	  section.data(6).logicalSrcIdx = 56;
-	  section.data(6).dtTransOffset = 6;
+	  section.data(6).dtTransOffset = 5;
 	
-	  ;% DATA_COLLECTION_P.TSamp_WtEt_e
+	  ;% DATA_COLLECTION_P.DiscreteTimeIntegrator_gainval
 	  section.data(7).logicalSrcIdx = 57;
 	  section.data(7).dtTransOffset = 7;
 	
-	  ;% DATA_COLLECTION_P.UnitDelay1_InitialCondition
+	  ;% DATA_COLLECTION_P.DiscreteTimeIntegrator_IC
 	  section.data(8).logicalSrcIdx = 58;
 	  section.data(8).dtTransOffset = 8;
 	
-	  ;% DATA_COLLECTION_P.Gain2_Gain
+	  ;% DATA_COLLECTION_P.TSamp_WtEt_e
 	  section.data(9).logicalSrcIdx = 59;
 	  section.data(9).dtTransOffset = 9;
 	
-	  ;% DATA_COLLECTION_P.TSamp_WtEt_ei
+	  ;% DATA_COLLECTION_P.UnitDelay1_InitialCondition
 	  section.data(10).logicalSrcIdx = 60;
-	  section.data(10).dtTransOffset = 11;
+	  section.data(10).dtTransOffset = 10;
 	
-	  ;% DATA_COLLECTION_P.DiscreteTimeIntegrator_gainva_p
+	  ;% DATA_COLLECTION_P.Gain2_Gain
 	  section.data(11).logicalSrcIdx = 61;
-	  section.data(11).dtTransOffset = 12;
+	  section.data(11).dtTransOffset = 11;
 	
-	  ;% DATA_COLLECTION_P.DiscreteTimeIntegrator_IC_i
+	  ;% DATA_COLLECTION_P.TSamp_WtEt_ei
 	  section.data(12).logicalSrcIdx = 62;
 	  section.data(12).dtTransOffset = 13;
 	
-	  ;% DATA_COLLECTION_P.TSamp_WtEt_a
+	  ;% DATA_COLLECTION_P.DiscreteTimeIntegrator_gainva_p
 	  section.data(13).logicalSrcIdx = 63;
 	  section.data(13).dtTransOffset = 14;
 	
-	  ;% DATA_COLLECTION_P.Gain2_Gain_c
+	  ;% DATA_COLLECTION_P.DiscreteTimeIntegrator_IC_i
 	  section.data(14).logicalSrcIdx = 64;
 	  section.data(14).dtTransOffset = 15;
 	
-	  ;% DATA_COLLECTION_P.TSamp_WtEt_h
+	  ;% DATA_COLLECTION_P.TSamp_WtEt_a
 	  section.data(15).logicalSrcIdx = 65;
 	  section.data(15).dtTransOffset = 16;
 	
-	  ;% DATA_COLLECTION_P.TSamp_WtEt_l
+	  ;% DATA_COLLECTION_P.Gain2_Gain_c
 	  section.data(16).logicalSrcIdx = 66;
 	  section.data(16).dtTransOffset = 17;
 	
-	  ;% DATA_COLLECTION_P.TSamp_WtEt_g
+	  ;% DATA_COLLECTION_P.TSamp_WtEt_h
 	  section.data(17).logicalSrcIdx = 67;
 	  section.data(17).dtTransOffset = 18;
 	
-	  ;% DATA_COLLECTION_P.DiscreteTimeIntegrator_gainva_k
+	  ;% DATA_COLLECTION_P.TSamp_WtEt_l
 	  section.data(18).logicalSrcIdx = 68;
 	  section.data(18).dtTransOffset = 19;
 	
-	  ;% DATA_COLLECTION_P.DiscreteTimeIntegrator_IC_l
+	  ;% DATA_COLLECTION_P.TSamp_WtEt_g
 	  section.data(19).logicalSrcIdx = 69;
 	  section.data(19).dtTransOffset = 20;
 	
-	  ;% DATA_COLLECTION_P.TSamp_WtEt_pz
+	  ;% DATA_COLLECTION_P.DiscreteTimeIntegrator_gainva_k
 	  section.data(20).logicalSrcIdx = 70;
 	  section.data(20).dtTransOffset = 21;
 	
-	  ;% DATA_COLLECTION_P.Gain2_Gain_l
+	  ;% DATA_COLLECTION_P.DiscreteTimeIntegrator_IC_l
 	  section.data(21).logicalSrcIdx = 71;
 	  section.data(21).dtTransOffset = 22;
 	
-	  ;% DATA_COLLECTION_P.UnitDelay2_InitialCondition
+	  ;% DATA_COLLECTION_P.TSamp_WtEt_pz
 	  section.data(22).logicalSrcIdx = 72;
 	  section.data(22).dtTransOffset = 23;
 	
-	  ;% DATA_COLLECTION_P.PulseGenerator_Amp
+	  ;% DATA_COLLECTION_P.Gain2_Gain_l
 	  section.data(23).logicalSrcIdx = 73;
 	  section.data(23).dtTransOffset = 24;
 	
-	  ;% DATA_COLLECTION_P.PulseGenerator_Period
+	  ;% DATA_COLLECTION_P.UnitDelay2_InitialCondition
 	  section.data(24).logicalSrcIdx = 74;
 	  section.data(24).dtTransOffset = 25;
 	
-	  ;% DATA_COLLECTION_P.PulseGenerator_Duty
+	  ;% DATA_COLLECTION_P.PulseGenerator_Amp
 	  section.data(25).logicalSrcIdx = 75;
 	  section.data(25).dtTransOffset = 26;
 	
-	  ;% DATA_COLLECTION_P.PulseGenerator_PhaseDelay
+	  ;% DATA_COLLECTION_P.PulseGenerator_Period
 	  section.data(26).logicalSrcIdx = 76;
 	  section.data(26).dtTransOffset = 27;
 	
-	  ;% DATA_COLLECTION_P.HILInitialize_OOTerminate
+	  ;% DATA_COLLECTION_P.PulseGenerator_Duty
 	  section.data(27).logicalSrcIdx = 77;
 	  section.data(27).dtTransOffset = 28;
 	
-	  ;% DATA_COLLECTION_P.HILInitialize_OOExit
+	  ;% DATA_COLLECTION_P.PulseGenerator_PhaseDelay
 	  section.data(28).logicalSrcIdx = 78;
 	  section.data(28).dtTransOffset = 29;
 	
-	  ;% DATA_COLLECTION_P.HILInitialize_OOStart
+	  ;% DATA_COLLECTION_P.HILInitialize_OOTerminate
 	  section.data(29).logicalSrcIdx = 79;
 	  section.data(29).dtTransOffset = 30;
 	
-	  ;% DATA_COLLECTION_P.HILInitialize_OOEnter
+	  ;% DATA_COLLECTION_P.HILInitialize_OOExit
 	  section.data(30).logicalSrcIdx = 80;
 	  section.data(30).dtTransOffset = 31;
 	
-	  ;% DATA_COLLECTION_P.HILInitialize_AOFinal
+	  ;% DATA_COLLECTION_P.HILInitialize_OOStart
 	  section.data(31).logicalSrcIdx = 81;
 	  section.data(31).dtTransOffset = 32;
 	
-	  ;% DATA_COLLECTION_P.HILInitialize_POFinal
+	  ;% DATA_COLLECTION_P.HILInitialize_OOEnter
 	  section.data(32).logicalSrcIdx = 82;
 	  section.data(32).dtTransOffset = 33;
 	
-	  ;% DATA_COLLECTION_P.HILInitialize_AIHigh
+	  ;% DATA_COLLECTION_P.HILInitialize_AOFinal
 	  section.data(33).logicalSrcIdx = 83;
 	  section.data(33).dtTransOffset = 34;
 	
-	  ;% DATA_COLLECTION_P.HILInitialize_AILow
+	  ;% DATA_COLLECTION_P.HILInitialize_POFinal
 	  section.data(34).logicalSrcIdx = 84;
 	  section.data(34).dtTransOffset = 35;
 	
-	  ;% DATA_COLLECTION_P.HILInitialize_AOHigh
+	  ;% DATA_COLLECTION_P.HILInitialize_AIHigh
 	  section.data(35).logicalSrcIdx = 85;
 	  section.data(35).dtTransOffset = 36;
 	
-	  ;% DATA_COLLECTION_P.HILInitialize_AOLow
+	  ;% DATA_COLLECTION_P.HILInitialize_AILow
 	  section.data(36).logicalSrcIdx = 86;
 	  section.data(36).dtTransOffset = 37;
 	
-	  ;% DATA_COLLECTION_P.HILInitialize_AOInitial
+	  ;% DATA_COLLECTION_P.HILInitialize_AOHigh
 	  section.data(37).logicalSrcIdx = 87;
 	  section.data(37).dtTransOffset = 38;
 	
-	  ;% DATA_COLLECTION_P.HILInitialize_AOWatchdog
+	  ;% DATA_COLLECTION_P.HILInitialize_AOLow
 	  section.data(38).logicalSrcIdx = 88;
 	  section.data(38).dtTransOffset = 39;
 	
-	  ;% DATA_COLLECTION_P.HILInitialize_EIFrequency
+	  ;% DATA_COLLECTION_P.HILInitialize_AOInitial
 	  section.data(39).logicalSrcIdx = 89;
 	  section.data(39).dtTransOffset = 40;
 	
-	  ;% DATA_COLLECTION_P.HILInitialize_POFrequency
+	  ;% DATA_COLLECTION_P.HILInitialize_AOWatchdog
 	  section.data(40).logicalSrcIdx = 90;
 	  section.data(40).dtTransOffset = 41;
 	
-	  ;% DATA_COLLECTION_P.HILInitialize_POInitial
+	  ;% DATA_COLLECTION_P.HILInitialize_EIFrequency
 	  section.data(41).logicalSrcIdx = 91;
 	  section.data(41).dtTransOffset = 42;
 	
-	  ;% DATA_COLLECTION_P.EnableActiveLow_Value
+	  ;% DATA_COLLECTION_P.HILInitialize_POFrequency
 	  section.data(42).logicalSrcIdx = 92;
 	  section.data(42).dtTransOffset = 43;
 	
-	  ;% DATA_COLLECTION_P.MasterEnableActiveHigh_Value
+	  ;% DATA_COLLECTION_P.HILInitialize_POInitial
 	  section.data(43).logicalSrcIdx = 93;
-	  section.data(43).dtTransOffset = 45;
+	  section.data(43).dtTransOffset = 44;
+	
+	  ;% DATA_COLLECTION_P.EnableActiveLow_Value
+	  section.data(44).logicalSrcIdx = 94;
+	  section.data(44).dtTransOffset = 45;
+	
+	  ;% DATA_COLLECTION_P.MasterEnableActiveHigh_Value
+	  section.data(45).logicalSrcIdx = 95;
+	  section.data(45).dtTransOffset = 47;
 	
       nTotData = nTotData + section.nData;
       paramMap.sections(5) = section;
@@ -443,23 +451,23 @@
       section.data(5)  = dumData; %prealloc
       
 	  ;% DATA_COLLECTION_P.HILInitialize_CKChannels
-	  section.data(1).logicalSrcIdx = 94;
+	  section.data(1).logicalSrcIdx = 96;
 	  section.data(1).dtTransOffset = 0;
 	
 	  ;% DATA_COLLECTION_P.HILInitialize_CKModes
-	  section.data(2).logicalSrcIdx = 95;
+	  section.data(2).logicalSrcIdx = 97;
 	  section.data(2).dtTransOffset = 2;
 	
 	  ;% DATA_COLLECTION_P.HILInitialize_DOWatchdog
-	  section.data(3).logicalSrcIdx = 96;
+	  section.data(3).logicalSrcIdx = 98;
 	  section.data(3).dtTransOffset = 4;
 	
 	  ;% DATA_COLLECTION_P.HILInitialize_EIInitial
-	  section.data(4).logicalSrcIdx = 97;
+	  section.data(4).logicalSrcIdx = 99;
 	  section.data(4).dtTransOffset = 5;
 	
 	  ;% DATA_COLLECTION_P.HILInitialize_POModes
-	  section.data(5).logicalSrcIdx = 98;
+	  section.data(5).logicalSrcIdx = 100;
 	  section.data(5).dtTransOffset = 6;
 	
       nTotData = nTotData + section.nData;
@@ -470,27 +478,27 @@
       section.data(6)  = dumData; %prealloc
       
 	  ;% DATA_COLLECTION_P.HILInitialize_AIChannels
-	  section.data(1).logicalSrcIdx = 99;
+	  section.data(1).logicalSrcIdx = 101;
 	  section.data(1).dtTransOffset = 0;
 	
 	  ;% DATA_COLLECTION_P.HILInitialize_AOChannels
-	  section.data(2).logicalSrcIdx = 100;
+	  section.data(2).logicalSrcIdx = 102;
 	  section.data(2).dtTransOffset = 8;
 	
 	  ;% DATA_COLLECTION_P.HILInitialize_DIChannels
-	  section.data(3).logicalSrcIdx = 101;
+	  section.data(3).logicalSrcIdx = 103;
 	  section.data(3).dtTransOffset = 16;
 	
 	  ;% DATA_COLLECTION_P.HILInitialize_DOChannels
-	  section.data(4).logicalSrcIdx = 102;
+	  section.data(4).logicalSrcIdx = 104;
 	  section.data(4).dtTransOffset = 24;
 	
 	  ;% DATA_COLLECTION_P.HILInitialize_EIChannels
-	  section.data(5).logicalSrcIdx = 103;
+	  section.data(5).logicalSrcIdx = 105;
 	  section.data(5).dtTransOffset = 33;
 	
 	  ;% DATA_COLLECTION_P.HILInitialize_EIQuadrature
-	  section.data(6).logicalSrcIdx = 104;
+	  section.data(6).logicalSrcIdx = 106;
 	  section.data(6).dtTransOffset = 41;
 	
       nTotData = nTotData + section.nData;
@@ -501,243 +509,251 @@
       section.data(50)  = dumData; %prealloc
       
 	  ;% DATA_COLLECTION_P.HILReadEncoder_Active
-	  section.data(1).logicalSrcIdx = 105;
+	  section.data(1).logicalSrcIdx = 107;
 	  section.data(1).dtTransOffset = 0;
 	
 	  ;% DATA_COLLECTION_P.HILReadEncoder_Active_a
-	  section.data(2).logicalSrcIdx = 106;
+	  section.data(2).logicalSrcIdx = 108;
 	  section.data(2).dtTransOffset = 1;
 	
 	  ;% DATA_COLLECTION_P.HILReadAnalog_Active
-	  section.data(3).logicalSrcIdx = 107;
+	  section.data(3).logicalSrcIdx = 109;
 	  section.data(3).dtTransOffset = 2;
 	
 	  ;% DATA_COLLECTION_P.HILWriteAnalog_Active
-	  section.data(4).logicalSrcIdx = 108;
+	  section.data(4).logicalSrcIdx = 110;
 	  section.data(4).dtTransOffset = 3;
 	
 	  ;% DATA_COLLECTION_P.HILReadEncoder_Active_j
-	  section.data(5).logicalSrcIdx = 109;
+	  section.data(5).logicalSrcIdx = 111;
 	  section.data(5).dtTransOffset = 4;
 	
 	  ;% DATA_COLLECTION_P.HILReadAnalog_Active_l
-	  section.data(6).logicalSrcIdx = 110;
+	  section.data(6).logicalSrcIdx = 112;
 	  section.data(6).dtTransOffset = 5;
 	
 	  ;% DATA_COLLECTION_P.HILWriteAnalog_Active_l
-	  section.data(7).logicalSrcIdx = 111;
+	  section.data(7).logicalSrcIdx = 113;
 	  section.data(7).dtTransOffset = 6;
 	
 	  ;% DATA_COLLECTION_P.HILInitialize_Active
-	  section.data(8).logicalSrcIdx = 112;
+	  section.data(8).logicalSrcIdx = 114;
 	  section.data(8).dtTransOffset = 7;
 	
 	  ;% DATA_COLLECTION_P.HILInitialize_AOTerminate
-	  section.data(9).logicalSrcIdx = 113;
+	  section.data(9).logicalSrcIdx = 115;
 	  section.data(9).dtTransOffset = 8;
 	
 	  ;% DATA_COLLECTION_P.HILInitialize_AOExit
-	  section.data(10).logicalSrcIdx = 114;
+	  section.data(10).logicalSrcIdx = 116;
 	  section.data(10).dtTransOffset = 9;
 	
 	  ;% DATA_COLLECTION_P.HILInitialize_DOTerminate
-	  section.data(11).logicalSrcIdx = 115;
+	  section.data(11).logicalSrcIdx = 117;
 	  section.data(11).dtTransOffset = 10;
 	
 	  ;% DATA_COLLECTION_P.HILInitialize_DOExit
-	  section.data(12).logicalSrcIdx = 116;
+	  section.data(12).logicalSrcIdx = 118;
 	  section.data(12).dtTransOffset = 11;
 	
 	  ;% DATA_COLLECTION_P.HILInitialize_POTerminate
-	  section.data(13).logicalSrcIdx = 117;
+	  section.data(13).logicalSrcIdx = 119;
 	  section.data(13).dtTransOffset = 12;
 	
 	  ;% DATA_COLLECTION_P.HILInitialize_POExit
-	  section.data(14).logicalSrcIdx = 118;
+	  section.data(14).logicalSrcIdx = 120;
 	  section.data(14).dtTransOffset = 13;
 	
 	  ;% DATA_COLLECTION_P.HILInitialize_CKPStart
-	  section.data(15).logicalSrcIdx = 119;
+	  section.data(15).logicalSrcIdx = 121;
 	  section.data(15).dtTransOffset = 14;
 	
 	  ;% DATA_COLLECTION_P.HILInitialize_CKPEnter
-	  section.data(16).logicalSrcIdx = 120;
+	  section.data(16).logicalSrcIdx = 122;
 	  section.data(16).dtTransOffset = 15;
 	
 	  ;% DATA_COLLECTION_P.HILInitialize_CKStart
-	  section.data(17).logicalSrcIdx = 121;
+	  section.data(17).logicalSrcIdx = 123;
 	  section.data(17).dtTransOffset = 16;
 	
 	  ;% DATA_COLLECTION_P.HILInitialize_CKEnter
-	  section.data(18).logicalSrcIdx = 122;
+	  section.data(18).logicalSrcIdx = 124;
 	  section.data(18).dtTransOffset = 17;
 	
 	  ;% DATA_COLLECTION_P.HILInitialize_AIPStart
-	  section.data(19).logicalSrcIdx = 123;
+	  section.data(19).logicalSrcIdx = 125;
 	  section.data(19).dtTransOffset = 18;
 	
 	  ;% DATA_COLLECTION_P.HILInitialize_AIPEnter
-	  section.data(20).logicalSrcIdx = 124;
+	  section.data(20).logicalSrcIdx = 126;
 	  section.data(20).dtTransOffset = 19;
 	
 	  ;% DATA_COLLECTION_P.HILInitialize_AOPStart
-	  section.data(21).logicalSrcIdx = 125;
+	  section.data(21).logicalSrcIdx = 127;
 	  section.data(21).dtTransOffset = 20;
 	
 	  ;% DATA_COLLECTION_P.HILInitialize_AOPEnter
-	  section.data(22).logicalSrcIdx = 126;
+	  section.data(22).logicalSrcIdx = 128;
 	  section.data(22).dtTransOffset = 21;
 	
 	  ;% DATA_COLLECTION_P.HILInitialize_AOStart
-	  section.data(23).logicalSrcIdx = 127;
+	  section.data(23).logicalSrcIdx = 129;
 	  section.data(23).dtTransOffset = 22;
 	
 	  ;% DATA_COLLECTION_P.HILInitialize_AOEnter
-	  section.data(24).logicalSrcIdx = 128;
+	  section.data(24).logicalSrcIdx = 130;
 	  section.data(24).dtTransOffset = 23;
 	
 	  ;% DATA_COLLECTION_P.HILInitialize_AOReset
-	  section.data(25).logicalSrcIdx = 129;
+	  section.data(25).logicalSrcIdx = 131;
 	  section.data(25).dtTransOffset = 24;
 	
 	  ;% DATA_COLLECTION_P.HILInitialize_DOPStart
-	  section.data(26).logicalSrcIdx = 130;
+	  section.data(26).logicalSrcIdx = 132;
 	  section.data(26).dtTransOffset = 25;
 	
 	  ;% DATA_COLLECTION_P.HILInitialize_DOPEnter
-	  section.data(27).logicalSrcIdx = 131;
+	  section.data(27).logicalSrcIdx = 133;
 	  section.data(27).dtTransOffset = 26;
 	
 	  ;% DATA_COLLECTION_P.HILInitialize_DOStart
-	  section.data(28).logicalSrcIdx = 132;
+	  section.data(28).logicalSrcIdx = 134;
 	  section.data(28).dtTransOffset = 27;
 	
 	  ;% DATA_COLLECTION_P.HILInitialize_DOEnter
-	  section.data(29).logicalSrcIdx = 133;
+	  section.data(29).logicalSrcIdx = 135;
 	  section.data(29).dtTransOffset = 28;
 	
 	  ;% DATA_COLLECTION_P.HILInitialize_DOReset
-	  section.data(30).logicalSrcIdx = 134;
+	  section.data(30).logicalSrcIdx = 136;
 	  section.data(30).dtTransOffset = 29;
 	
 	  ;% DATA_COLLECTION_P.HILInitialize_EIPStart
-	  section.data(31).logicalSrcIdx = 135;
+	  section.data(31).logicalSrcIdx = 137;
 	  section.data(31).dtTransOffset = 30;
 	
 	  ;% DATA_COLLECTION_P.HILInitialize_EIPEnter
-	  section.data(32).logicalSrcIdx = 136;
+	  section.data(32).logicalSrcIdx = 138;
 	  section.data(32).dtTransOffset = 31;
 	
 	  ;% DATA_COLLECTION_P.HILInitialize_EIStart
-	  section.data(33).logicalSrcIdx = 137;
+	  section.data(33).logicalSrcIdx = 139;
 	  section.data(33).dtTransOffset = 32;
 	
 	  ;% DATA_COLLECTION_P.HILInitialize_EIEnter
-	  section.data(34).logicalSrcIdx = 138;
+	  section.data(34).logicalSrcIdx = 140;
 	  section.data(34).dtTransOffset = 33;
 	
 	  ;% DATA_COLLECTION_P.HILInitialize_POPStart
-	  section.data(35).logicalSrcIdx = 139;
+	  section.data(35).logicalSrcIdx = 141;
 	  section.data(35).dtTransOffset = 34;
 	
 	  ;% DATA_COLLECTION_P.HILInitialize_POPEnter
-	  section.data(36).logicalSrcIdx = 140;
+	  section.data(36).logicalSrcIdx = 142;
 	  section.data(36).dtTransOffset = 35;
 	
 	  ;% DATA_COLLECTION_P.HILInitialize_POStart
-	  section.data(37).logicalSrcIdx = 141;
+	  section.data(37).logicalSrcIdx = 143;
 	  section.data(37).dtTransOffset = 36;
 	
 	  ;% DATA_COLLECTION_P.HILInitialize_POEnter
-	  section.data(38).logicalSrcIdx = 142;
+	  section.data(38).logicalSrcIdx = 144;
 	  section.data(38).dtTransOffset = 37;
 	
 	  ;% DATA_COLLECTION_P.HILInitialize_POReset
-	  section.data(39).logicalSrcIdx = 143;
+	  section.data(39).logicalSrcIdx = 145;
 	  section.data(39).dtTransOffset = 38;
 	
 	  ;% DATA_COLLECTION_P.HILInitialize_OOReset
-	  section.data(40).logicalSrcIdx = 144;
+	  section.data(40).logicalSrcIdx = 146;
 	  section.data(40).dtTransOffset = 39;
 	
 	  ;% DATA_COLLECTION_P.HILInitialize_DOFinal
-	  section.data(41).logicalSrcIdx = 145;
+	  section.data(41).logicalSrcIdx = 147;
 	  section.data(41).dtTransOffset = 40;
 	
 	  ;% DATA_COLLECTION_P.HILInitialize_DOInitial
-	  section.data(42).logicalSrcIdx = 146;
+	  section.data(42).logicalSrcIdx = 148;
 	  section.data(42).dtTransOffset = 41;
 	
 	  ;% DATA_COLLECTION_P.HILWriteDigitalTimebase_Active
-	  section.data(43).logicalSrcIdx = 147;
+	  section.data(43).logicalSrcIdx = 149;
 	  section.data(43).dtTransOffset = 42;
 	
 	  ;% DATA_COLLECTION_P.HILWriteDigital_Active
-	  section.data(44).logicalSrcIdx = 148;
+	  section.data(44).logicalSrcIdx = 150;
 	  section.data(44).dtTransOffset = 43;
 	
 	  ;% DATA_COLLECTION_P.HILReadDigital_Active
-	  section.data(45).logicalSrcIdx = 149;
+	  section.data(45).logicalSrcIdx = 151;
 	  section.data(45).dtTransOffset = 44;
 	
 	  ;% DATA_COLLECTION_P.HILReadDigital_Active_c
-	  section.data(46).logicalSrcIdx = 150;
+	  section.data(46).logicalSrcIdx = 152;
 	  section.data(46).dtTransOffset = 45;
 	
 	  ;% DATA_COLLECTION_P.Constant_Value
-	  section.data(47).logicalSrcIdx = 151;
+	  section.data(47).logicalSrcIdx = 153;
 	  section.data(47).dtTransOffset = 46;
 	
 	  ;% DATA_COLLECTION_P.Constant_Value_h
-	  section.data(48).logicalSrcIdx = 152;
+	  section.data(48).logicalSrcIdx = 154;
 	  section.data(48).dtTransOffset = 47;
 	
 	  ;% DATA_COLLECTION_P.Constant_Value_m
-	  section.data(49).logicalSrcIdx = 153;
+	  section.data(49).logicalSrcIdx = 155;
 	  section.data(49).dtTransOffset = 48;
 	
 	  ;% DATA_COLLECTION_P.Constant_Value_i
-	  section.data(50).logicalSrcIdx = 154;
+	  section.data(50).logicalSrcIdx = 156;
 	  section.data(50).dtTransOffset = 49;
 	
       nTotData = nTotData + section.nData;
       paramMap.sections(8) = section;
       clear section
       
-      section.nData     = 8;
-      section.data(8)  = dumData; %prealloc
+      section.nData     = 10;
+      section.data(10)  = dumData; %prealloc
       
 	  ;% DATA_COLLECTION_P.ManualSwitch3_CurrentSetting
-	  section.data(1).logicalSrcIdx = 155;
+	  section.data(1).logicalSrcIdx = 157;
 	  section.data(1).dtTransOffset = 0;
 	
-	  ;% DATA_COLLECTION_P.ManualSwitch2_CurrentSetting
-	  section.data(2).logicalSrcIdx = 156;
+	  ;% DATA_COLLECTION_P.ManualSwitch1_CurrentSetting
+	  section.data(2).logicalSrcIdx = 158;
 	  section.data(2).dtTransOffset = 1;
 	
-	  ;% DATA_COLLECTION_P.ManualSwitch1_CurrentSetting
-	  section.data(3).logicalSrcIdx = 157;
+	  ;% DATA_COLLECTION_P.ManualSwitch2_CurrentSetting
+	  section.data(3).logicalSrcIdx = 159;
 	  section.data(3).dtTransOffset = 2;
 	
-	  ;% DATA_COLLECTION_P.ManualSwitch4_CurrentSetting
-	  section.data(4).logicalSrcIdx = 158;
+	  ;% DATA_COLLECTION_P.ManualSwitch1_CurrentSetting_o
+	  section.data(4).logicalSrcIdx = 160;
 	  section.data(4).dtTransOffset = 3;
 	
-	  ;% DATA_COLLECTION_P.ManualSwitch3_CurrentSetting_n
-	  section.data(5).logicalSrcIdx = 159;
+	  ;% DATA_COLLECTION_P.ManualSwitch4_CurrentSetting
+	  section.data(5).logicalSrcIdx = 161;
 	  section.data(5).dtTransOffset = 4;
 	
-	  ;% DATA_COLLECTION_P.ManualSwitch2_CurrentSetting_j
-	  section.data(6).logicalSrcIdx = 160;
+	  ;% DATA_COLLECTION_P.ManualSwitch3_CurrentSetting_n
+	  section.data(6).logicalSrcIdx = 162;
 	  section.data(6).dtTransOffset = 5;
 	
-	  ;% DATA_COLLECTION_P.ManualSwitch1_CurrentSetting_k
-	  section.data(7).logicalSrcIdx = 161;
+	  ;% DATA_COLLECTION_P.ManualSwitch2_CurrentSetting_b
+	  section.data(7).logicalSrcIdx = 163;
 	  section.data(7).dtTransOffset = 6;
 	
-	  ;% DATA_COLLECTION_P.ManualSwitch4_CurrentSetting_i
-	  section.data(8).logicalSrcIdx = 162;
+	  ;% DATA_COLLECTION_P.ManualSwitch2_CurrentSetting_j
+	  section.data(8).logicalSrcIdx = 164;
 	  section.data(8).dtTransOffset = 7;
+	
+	  ;% DATA_COLLECTION_P.ManualSwitch1_CurrentSetting_k
+	  section.data(9).logicalSrcIdx = 165;
+	  section.data(9).dtTransOffset = 8;
+	
+	  ;% DATA_COLLECTION_P.ManualSwitch4_CurrentSetting_i
+	  section.data(10).logicalSrcIdx = 166;
+	  section.data(10).dtTransOffset = 9;
 	
       nTotData = nTotData + section.nData;
       paramMap.sections(9) = section;
@@ -1293,8 +1309,8 @@
   ;%
 
 
-  targMap.checksum0 = 2046208367;
-  targMap.checksum1 = 4212344650;
-  targMap.checksum2 = 1544226929;
-  targMap.checksum3 = 1435153757;
+  targMap.checksum0 = 2528963655;
+  targMap.checksum1 = 2955525092;
+  targMap.checksum2 = 1252618271;
+  targMap.checksum3 = 1184983775;
 

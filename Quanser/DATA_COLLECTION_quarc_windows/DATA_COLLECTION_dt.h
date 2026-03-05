@@ -7,9 +7,9 @@
  *
  * Code generation for model "DATA_COLLECTION".
  *
- * Model version              : 1.118
+ * Model version              : 1.119
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Wed Mar  4 16:31:09 2026
+ * C source code generated on : Thu Mar  5 12:38:24 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -102,7 +102,7 @@ static DataTypeTransition rtPTransitions[] = {
 
   { (char_T *)(&DATA_COLLECTION_P.StopwithMessage_message_icon), 2, 0, 4 },
 
-  { (char_T *)(&DATA_COLLECTION_P.TSamp_WtEt), 0, 0, 46 },
+  { (char_T *)(&DATA_COLLECTION_P.Constant10_Value), 0, 0, 48 },
 
   { (char_T *)(&DATA_COLLECTION_P.HILInitialize_CKChannels[0]), 6, 0, 7 },
 
@@ -110,7 +110,7 @@ static DataTypeTransition rtPTransitions[] = {
 
   { (char_T *)(&DATA_COLLECTION_P.HILReadEncoder_Active), 8, 0, 50 },
 
-  { (char_T *)(&DATA_COLLECTION_P.ManualSwitch3_CurrentSetting), 3, 0, 8 }
+  { (char_T *)(&DATA_COLLECTION_P.ManualSwitch3_CurrentSetting), 3, 0, 10 }
 };
 
 /* data type transition table for Parameters structure */

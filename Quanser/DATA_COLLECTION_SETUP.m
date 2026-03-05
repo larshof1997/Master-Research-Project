@@ -73,11 +73,11 @@ B2 = 4.505757e-02;
 Kt2 = 1.111065;
 
 %%Torque control gains
-kp1 = 2.5;
+kp1 = 2;
 ki1 = 0;
 kd1 = 0;
 
-kp2 = 1;
+kp2 = 0.5;
 ki2 = 0;
 kd2 = 0;
 
@@ -90,20 +90,20 @@ i_sat2 = 1.2;
 % m2 = 0.9982;  l2 = 0.267;  r2 = 0.175;
 % I1_hat  = 0.017859;
 % I2_hat  = 0.020765;
-fc1_hat = 0.156544;
-fc2_hat = 0.122073;
-b1_hat  = 0.231880;
-b2_hat  = 0.084552;
-v_eps_hat = 0.034663;
-a1_hat = 0.039472;
-a2_hat = 0.012978;
-b_hat  = 0.015203;
+fc1_hat = 0.132477;
+fc2_hat = 0.099201;
+b1_hat  = 0.237201;
+b2_hat  = 0.095302;
+v_eps_hat = 0.058784;
+a1_hat = 0.084096;
+a2_hat = 0.045944;
+b_hat  = 0.022785;
 
 kp_traj = zeros(2,2);
 ki_traj = zeros(2,2);
 kd_traj = zeros(2,2);
 
-load('C:\Users\S4236610\Documents\GitHub\Master-Research-Project\Quanser\DATA_2DOF_12\traj_12');
+load('C:\Users\S4236610\Documents\GitHub\Master-Research-Project\Quanser\DATA_2DOF_12\traj_08');
 
 N = size(q,1);
 
