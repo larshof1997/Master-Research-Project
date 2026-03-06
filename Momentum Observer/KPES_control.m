@@ -61,7 +61,7 @@ for k = 1:N-1
     % --- Current state ---
     q_k  = x_sim(k, 1:2);
     dq_k = x_sim(k, 3:4);
-    p0_k = (mass_fn(q_k') * dq_k')';   % canonical momentum
+%     p0_k = (mass_fn(q_k') * dq_k')';   % canonical momentum
 
     % --- Observer: estimate momentum from position only ---
     phat_k = ph(q_k, xp, phi);
@@ -190,7 +190,7 @@ function C = C_mat(theta2, dtheta1, dtheta2, b)
           b*s2*dtheta1,            0];
 end
 
-function out = observer_matrices(q, phat, b)
+function out = observer_matrices(q, phat, b, M)
     q = q(:);  phat = phat(:);
     M  = M_mat(q(2), evalin('caller','a1'), evalin('caller','a2'), b);
     % Better: pass mass_fn as argument. Keeping minimal for clarity.

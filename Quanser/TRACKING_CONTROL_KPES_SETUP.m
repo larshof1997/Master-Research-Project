@@ -73,11 +73,11 @@ B2 = 4.505757e-02;
 Kt2 = 1.111065;
 
 %%Torque control gains
-kp1 = 1.5;
+kp1 = 2;
 ki1 = 0;
 kd1 = 0;
 
-kp2 = 1;
+kp2 = 0.5;
 ki2 = 0;
 kd2 = 0;
 
@@ -90,14 +90,11 @@ i_sat2 = 1.2;
 % m2 = 0.9982;  l2 = 0.267;  r2 = 0.175;
 % I1_hat  = 0.017859;
 % I2_hat  = 0.020765;
-fc1_hat = 0.156544;
-fc2_hat = 0.122073;
-b1_hat  = 0.231880;
-b2_hat  = 0.084552;
-v_eps_hat = 0.034663;
-a1_hat = 0.039472;
-a2_hat = 0.012978;
-b_hat  = 0.015203;
+b1_hat  = 0.396193;
+b2_hat  = 0.195026;
+a1_hat = 0.092202;
+a2_hat = 0.023242;
+b_hat  = 0.027542;
 
 kp_traj = zeros(2,2);
 ki_traj = zeros(2,2);
@@ -105,21 +102,28 @@ kd_traj = zeros(2,2);
 
 load('C:\Users\S4236610\Documents\GitHub\Master-Research-Project\Quanser\DATA_2DOF_12\traj_01');
 
-N = size(
+N = size(q,1);
 
-% N_delay = round(1/dt);   % samples in 1 second
-% 
-% % --- Prepend zeros in time direction ---
-% q   = [zeros(N_delay, size(q,2));   q(1:end-N_delay, :)];
-% qd  = [zeros(N_delay, size(qd,2));  qd(1:end-N_delay, :)];
-% qdd = [zeros(N_delay, size(qdd,2)); qdd(1:end-N_delay, :)];
-% 
-% % --- Original code unchanged ---
 t = (0:length(q)-1)' * dt;
 
 q_ts   = timeseries(q', t);
 qd_ts  = timeseries(qd', t);
 qdd_ts = timeseries(qdd', t);
+
+
+%% Controller parameters
+alpha = 0.2;
+Kp = 6 * eye(2);
+Kd = 1*eye(2);
+
+
+%% Observer parameters
+kappa = 0.1;
+%% Observer initial conditions
+xp  = [0 0];
+phi = 0;
+
+
 function M = M_mat(theta2, a1, a2, b)
     c2 = cos(theta2);
     M = [a1 + a2 + 2*b*c2,  a2 + b*c2;
