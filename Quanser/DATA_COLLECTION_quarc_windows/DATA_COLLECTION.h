@@ -7,9 +7,9 @@
  *
  * Code generation for model "DATA_COLLECTION".
  *
- * Model version              : 1.119
+ * Model version              : 1.123
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Thu Mar  5 12:38:24 2026
+ * C source code generated on : Mon Mar  9 11:42:22 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -1063,12 +1063,6 @@ struct P_DATA_COLLECTION_T_ {
                                         *   '<Root>/Constant2'
                                         *   '<Root>/Constant3'
                                         */
-  real_T fc1_hat;                      /* Variable: fc1_hat
-                                        * Referenced by: '<Root>/Constant7'
-                                        */
-  real_T fc2_hat;                      /* Variable: fc2_hat
-                                        * Referenced by: '<Root>/Constant8'
-                                        */
   real_T i_sat1;                       /* Variable: i_sat1
                                         * Referenced by: '<S8>/Saturation'
                                         */
@@ -1098,9 +1092,6 @@ struct P_DATA_COLLECTION_T_ {
                                         */
   real_T kp2;                          /* Variable: kp2
                                         * Referenced by: '<S7>/Gain'
-                                        */
-  real_T v_eps_hat;                    /* Variable: v_eps_hat
-                                        * Referenced by: '<Root>/Constant6'
                                         */
   real_T DiscreteDerivative3_ICPrevScale;/* Mask Parameter: DiscreteDerivative3_ICPrevScale
                                           * Referenced by: '<S20>/UD'

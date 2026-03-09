@@ -90,20 +90,29 @@ i_sat2 = 1.2;
 % m2 = 0.9982;  l2 = 0.267;  r2 = 0.175;
 % I1_hat  = 0.017859;
 % I2_hat  = 0.020765;
-fc1_hat = 0.132477;
-fc2_hat = 0.099201;
-b1_hat  = 0.237201;
-b2_hat  = 0.095302;
-v_eps_hat = 0.058784;
-a1_hat = 0.084096;
-a2_hat = 0.045944;
-b_hat  = 0.022785;
+
+%%NLS
+% fc1_hat = 0.132477;
+% fc2_hat = 0.099201;
+% b1_hat  = 0.237201;
+% b2_hat  = 0.095302;
+% v_eps_hat = 0.058784;
+% a1_hat = 0.084096;
+% a2_hat = 0.045944;
+% b_hat  = 0.022785;
+
+%%LS
+b1_hat  = 0.396193;
+b2_hat  = 0.195026;
+a1_hat = 0.092202;
+a2_hat = 0.023242;
+b_hat  = 0.027542;
 
 kp_traj = zeros(2,2);
 ki_traj = zeros(2,2);
 kd_traj = zeros(2,2);
 
-load('C:\Users\S4236610\Documents\GitHub\Master-Research-Project\Quanser\DATA_2DOF_12\traj_08');
+load('C:\Users\S4236610\Documents\GitHub\Master-Research-Project\Quanser\DATA_2DOF_12\traj_01');
 
 N = size(q,1);
 

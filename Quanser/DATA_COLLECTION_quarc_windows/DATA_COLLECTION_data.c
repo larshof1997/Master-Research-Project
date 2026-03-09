@@ -7,9 +7,9 @@
  *
  * Code generation for model "DATA_COLLECTION".
  *
- * Model version              : 1.119
+ * Model version              : 1.123
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Thu Mar  5 12:38:24 2026
+ * C source code generated on : Mon Mar  9 11:42:22 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -87,39 +87,29 @@ P_DATA_COLLECTION_T DATA_COLLECTION_P = {
   /* Variable: a1_hat
    * Referenced by: '<Root>/Constant'
    */
-  0.084096,
+  0.092202,
 
   /* Variable: a2_hat
    * Referenced by: '<Root>/Constant1'
    */
-  0.045944,
+  0.023242,
 
   /* Variable: b1_hat
    * Referenced by: '<Root>/Constant5'
    */
-  0.237201,
+  0.396193,
 
   /* Variable: b2_hat
    * Referenced by: '<Root>/Constant4'
    */
-  0.095302,
+  0.195026,
 
   /* Variable: b_hat
    * Referenced by:
    *   '<Root>/Constant2'
    *   '<Root>/Constant3'
    */
-  0.022785,
-
-  /* Variable: fc1_hat
-   * Referenced by: '<Root>/Constant7'
-   */
-  0.132477,
-
-  /* Variable: fc2_hat
-   * Referenced by: '<Root>/Constant8'
-   */
-  0.099201,
+  0.027542,
 
   /* Variable: i_sat1
    * Referenced by: '<S8>/Saturation'
@@ -166,11 +156,6 @@ P_DATA_COLLECTION_T DATA_COLLECTION_P = {
    * Referenced by: '<S7>/Gain'
    */
   0.5,
-
-  /* Variable: v_eps_hat
-   * Referenced by: '<Root>/Constant6'
-   */
-  0.058784,
 
   /* Mask Parameter: DiscreteDerivative3_ICPrevScale
    * Referenced by: '<S20>/UD'

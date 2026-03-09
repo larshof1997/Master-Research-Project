@@ -7,9 +7,9 @@
  *
  * Code generation for model "DATA_COLLECTION".
  *
- * Model version              : 1.119
+ * Model version              : 1.123
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Thu Mar  5 12:38:24 2026
+ * C source code generated on : Mon Mar  9 11:42:22 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -94,7 +94,7 @@ static DataTypeTransitionTable rtBTransTable = {
 
 /* data type transitions for Parameters structure */
 static DataTypeTransition rtPTransitions[] = {
-  { (char_T *)(&DATA_COLLECTION_P.KE_D1), 0, 0, 37 },
+  { (char_T *)(&DATA_COLLECTION_P.KE_D1), 0, 0, 34 },
 
   { (char_T *)(&DATA_COLLECTION_P.HILWriteDigitalTimebase_clock), 6, 0, 1 },
 
