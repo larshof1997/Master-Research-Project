@@ -1,0 +1,39 @@
+%implements "chartSource" "C"
+%function ChartConfig(block, system) void
+  %createrecord chartConfiguration { ...
+          executeAtInitialization  0 ...
+  }
+  %return chartConfiguration
+%endfunction
+%function ChartDataMap(block, system) void
+  %createrecord ChartDataElements {\
+    NumChartData   3 \
+    ChartDataDefaults {\
+      RecordType   "ChartData"\
+      Dimensions   []\
+      IsTestPoint  0\
+    }\
+    ChartData {\
+      Name         "x"\
+      Description  "EmlPersistent"\
+      SFName       ""\
+      Path         ""\
+      SrcLocation  "TRACKING_CONTROL_KPES:987:53-54"\
+    }\
+    ChartData {\
+      Name         "x_not_empty"\
+      Description  "EmlPersistentSentinel"\
+      SFName       ""\
+      Path         ""\
+      SrcLocation  "TRACKING_CONTROL_KPES:987:53-54"\
+    }\
+    ChartData {\
+      Name         "P"\
+      Description  "EmlPersistent"\
+      SFName       ""\
+      Path         ""\
+      SrcLocation  "TRACKING_CONTROL_KPES:987:55-56"\
+    }\
+  }
+  %return ChartDataElements
+%endfunction

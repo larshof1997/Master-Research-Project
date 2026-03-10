@@ -7,9 +7,9 @@
  *
  * Code generation for model "TRACKING_CONTROL_KPES".
  *
- * Model version              : 1.148
+ * Model version              : 1.166
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Mon Mar  9 11:36:23 2026
+ * C source code generated on : Tue Mar 10 15:32:44 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -40,14 +40,11 @@ P_TRACKING_CONTROL_KPES_T TRACKING_CONTROL_KPES_P = {
   3.0679615757712826E-5,
 
   /* Variable: Kd
-   * Referenced by: '<Root>/Constant7'
+   * Referenced by:
+   *   '<Root>/Constant6'
+   *   '<Root>/Constant7'
    */
-  { 1.0, 0.0, 0.0, 1.0 },
-
-  /* Variable: Kp
-   * Referenced by: '<Root>/Constant6'
-   */
-  { 6.0, 0.0, 0.0, 6.0 },
+  { 12.0, 0.0, 0.0, 5.0 },
 
   /* Variable: Kt1
    * Referenced by: '<S5>/Torque to current '
@@ -107,7 +104,7 @@ P_TRACKING_CONTROL_KPES_T TRACKING_CONTROL_KPES_P = {
   /* Variable: alpha
    * Referenced by: '<Root>/Constant8'
    */
-  0.2,
+  0.1827,
 
   /* Variable: b1_hat
    * Referenced by: '<Root>/Constant5'
@@ -127,7 +124,7 @@ P_TRACKING_CONTROL_KPES_T TRACKING_CONTROL_KPES_P = {
   /* Variable: dt
    * Referenced by: '<Root>/Constant3'
    */
-  0.01,
+  0.001,
 
   /* Variable: i_sat1
    * Referenced by: '<S5>/Saturation'
@@ -142,7 +139,7 @@ P_TRACKING_CONTROL_KPES_T TRACKING_CONTROL_KPES_P = {
   /* Variable: kappa
    * Referenced by: '<Root>/Constant9'
    */
-  0.1,
+  0.8564,
 
   /* Variable: ke1
    * Referenced by:
@@ -278,7 +275,7 @@ P_TRACKING_CONTROL_KPES_T TRACKING_CONTROL_KPES_P = {
   /* Mask Parameter: HILWriteDigitalTimebase_samples
    * Referenced by: '<Root>/HIL Write Digital Timebase'
    */
-  100U,
+  1000U,
 
   /* Mask Parameter: StopwithMessage_message_icon
    * Referenced by: '<S6>/Show Message on Host'
@@ -320,25 +317,35 @@ P_TRACKING_CONTROL_KPES_T TRACKING_CONTROL_KPES_P = {
    */
   0.0,
 
+  /* Expression: 0
+   * Referenced by: '<Root>/Unit Delay4'
+   */
+  0.0,
+
+  /* Expression: 0
+   * Referenced by: '<Root>/Unit Delay5'
+   */
+  0.0,
+
   /* Computed Parameter: TSamp_WtEt
    * Referenced by: '<S17>/TSamp'
    */
-  100.0,
+  1000.0,
 
   /* Computed Parameter: TSamp_WtEt_p
    * Referenced by: '<S14>/TSamp'
    */
-  100.0,
+  1000.0,
 
   /* Computed Parameter: TSamp_WtEt_i
    * Referenced by: '<S16>/TSamp'
    */
-  100.0,
+  1000.0,
 
   /* Computed Parameter: DiscreteTimeIntegrator_gainval
    * Referenced by: '<S4>/Discrete-Time Integrator'
    */
-  0.01,
+  0.001,
 
   /* Expression: 0
    * Referenced by: '<S4>/Discrete-Time Integrator'
@@ -348,7 +355,7 @@ P_TRACKING_CONTROL_KPES_T TRACKING_CONTROL_KPES_P = {
   /* Computed Parameter: TSamp_WtEt_o
    * Referenced by: '<S15>/TSamp'
    */
-  100.0,
+  1000.0,
 
   /* Expression: 0
    * Referenced by: '<S4>/Gain2'
@@ -358,22 +365,22 @@ P_TRACKING_CONTROL_KPES_T TRACKING_CONTROL_KPES_P = {
   /* Computed Parameter: TSamp_WtEt_d
    * Referenced by: '<S21>/TSamp'
    */
-  100.0,
+  1000.0,
 
   /* Computed Parameter: TSamp_WtEt_m
    * Referenced by: '<S18>/TSamp'
    */
-  100.0,
+  1000.0,
 
   /* Computed Parameter: TSamp_WtEt_c
    * Referenced by: '<S20>/TSamp'
    */
-  100.0,
+  1000.0,
 
   /* Computed Parameter: DiscreteTimeIntegrator_gainva_p
    * Referenced by: '<S5>/Discrete-Time Integrator'
    */
-  0.01,
+  0.001,
 
   /* Expression: 0
    * Referenced by: '<S5>/Discrete-Time Integrator'
@@ -383,7 +390,7 @@ P_TRACKING_CONTROL_KPES_T TRACKING_CONTROL_KPES_P = {
   /* Computed Parameter: TSamp_WtEt_f
    * Referenced by: '<S19>/TSamp'
    */
-  100.0,
+  1000.0,
 
   /* Expression: 0
    * Referenced by: '<S5>/Gain2'
@@ -398,12 +405,12 @@ P_TRACKING_CONTROL_KPES_T TRACKING_CONTROL_KPES_P = {
   /* Computed Parameter: PulseGenerator_Period
    * Referenced by: '<Root>/Pulse Generator'
    */
-  2.0,
+  20.0,
 
   /* Computed Parameter: PulseGenerator_Duty
    * Referenced by: '<Root>/Pulse Generator'
    */
-  1.0,
+  10.0,
 
   /* Expression: 0
    * Referenced by: '<Root>/Pulse Generator'

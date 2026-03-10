@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.148"
+    ComputedModelVersion    "1.166"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -250,9 +250,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "S4236610"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Mon Mar 09 11:28:06 2026"
-  RTWModifiedTimeStamp	  694956476
-  ModelVersionFormat	  "1.%<AutoIncrement:148>"
+  LastModifiedDate	  "Tue Mar 10 14:09:40 2026"
+  RTWModifiedTimeStamp	  695052579
+  ModelVersionFormat	  "1.%<AutoIncrement:166>"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
   LibraryLinkDisplay	  "none"
@@ -369,10 +369,10 @@ Model {
 	  }
 	  Description		  ""
 	  StartTime		  "0"
-	  StopTime		  "31"
+	  StopTime		  "11"
 	  AbsTol		  "auto"
 	  AutoScaleAbsTol	  on
-	  FixedStep		  "0.01"
+	  FixedStep		  "0.001"
 	  InitialStep		  "auto"
 	  MaxOrder		  5
 	  ZcThreshold		  "auto"
@@ -1310,6 +1310,17 @@ Model {
   }
   BlockParameterDefaults {
     Block {
+      BlockType		      Abs
+      ZeroCross		      on
+      SampleTime	      "-1"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "Inherit: Same as input"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+    }
+    Block {
       BlockType		      Concatenate
       NumInputs		      "2"
       Mode		      "Vector"
@@ -1500,6 +1511,19 @@ Model {
       SampleTime	      "-1"
     }
     Block {
+      BlockType		      Sin
+      SineType		      "Time based"
+      TimeSource	      "Use simulation time"
+      Amplitude		      "1"
+      Bias		      "0"
+      Frequency		      "1"
+      Phase		      "0"
+      Samples		      "10"
+      Offset		      "0"
+      SampleTime	      "-1"
+      VectorParams1D	      on
+    }
+    Block {
       BlockType		      SubSystem
       ShowPortLabels	      "FromPortIcon"
       Permissions	      "ReadWrite"
@@ -1602,7 +1626,23 @@ Model {
     ShowPageBoundaries	    off
     ZoomFactor		    "100"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "962"
+    SIDHighWatermark	    "991"
+    Block {
+      BlockType		      Abs
+      Name		      "Abs"
+      SID		      "977"
+      Position		      [1245, 840, 1275, 870]
+      ZOrder		      831
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      Abs
+      Name		      "Abs1"
+      SID		      "978"
+      Position		      [1245, 925, 1275, 955]
+      ZOrder		      832
+      SaturateOnIntegerOverflow	off
+    }
     Block {
       BlockType		      Constant
       Name		      "Constant"
@@ -1654,10 +1694,10 @@ Model {
     Block {
       BlockType		      Constant
       Name		      "Constant6"
-      SID		      "936"
-      Position		      [895, 1575, 925, 1605]
-      ZOrder		      790
-      Value		      "Kp"
+      SID		      "988"
+      Position		      [895, 1574, 925, 1606]
+      ZOrder		      842
+      Value		      "Kd"
     }
     Block {
       BlockType		      Constant
@@ -1869,28 +1909,28 @@ Model {
     Block {
       BlockType		      FromWorkspace
       Name		      "From\nWorkspace1"
-      SID		      "933"
-      Position		      [875, 1120, 915, 1160]
-      ZOrder		      787
-      VariableName	      "qd_ts"
+      SID		      "965"
+      Position		      [875, 1122, 910, 1158]
+      ZOrder		      819
+      VariableName	      "dqd_ts"
       ZeroCross		      on
     }
     Block {
       BlockType		      FromWorkspace
       Name		      "From\nWorkspace2"
-      SID		      "934"
-      Position		      [875, 1165, 915, 1205]
-      ZOrder		      788
-      VariableName	      "qdd_ts"
+      SID		      "966"
+      Position		      [875, 1167, 910, 1203]
+      ZOrder		      820
+      VariableName	      "ddqd_ts"
       ZeroCross		      on
     }
     Block {
       BlockType		      FromWorkspace
-      Name		      "From\nWorkspace3"
-      SID		      "932"
-      Position		      [875, 1075, 915, 1115]
-      ZOrder		      786
-      VariableName	      "q_ts"
+      Name		      "From\nWorkspace4"
+      SID		      "964"
+      Position		      [875, 1077, 910, 1113]
+      ZOrder		      818
+      VariableName	      "qd_ts"
       ZeroCross		      on
     }
     Block {
@@ -1994,7 +2034,7 @@ Model {
       Name		      "HIL Read Encoder"
       SID		      "835"
       Ports		      [0, 2]
-      Position		      [535, 982, 650, 1113]
+      Position		      [445, 982, 560, 1113]
       ZOrder		      768
       AttributesFormatString  "(%<object_name>)"
       LibraryVersion	      "1.1929"
@@ -2383,7 +2423,7 @@ Model {
       BlockType		      SubSystem
       Name		      "MATLAB Function"
       SID		      "852"
-      Ports		      [16, 6]
+      Ports		      [16, 7]
       Position		      [950, 1012, 1210, 1763]
       ZOrder		      785
       ErrorFcn		      "Stateflow.Translate.translate"
@@ -2410,7 +2450,7 @@ Model {
 	TiledPageScale		1
 	ShowPageBoundaries	off
 	ZoomFactor		"100"
-	SIDHighWatermark	"51"
+	SIDHighWatermark	"52"
 	Block {
 	  BlockType		  Inport
 	  Name			  "q"
@@ -2559,7 +2599,7 @@ Model {
 	  Name			  " Demux "
 	  SID			  "852::20"
 	  Ports			  [1, 1]
-	  Position		  [270, 350, 320, 390]
+	  Position		  [270, 390, 320, 430]
 	  ZOrder		  11
 	  Outputs		  "1"
 	}
@@ -2568,11 +2608,11 @@ Model {
 	  Name			  " SFunction "
 	  SID			  "852::19"
 	  Tag			  "Stateflow S-Function TRACKING_CONTROL_KPES 2"
-	  Ports			  [16, 7]
+	  Ports			  [16, 8]
 	  Position		  [180, 110, 230, 450]
 	  ZOrder		  10
 	  FunctionName		  "sf_sfun"
-	  PortCounts		  "[16 7]"
+	  PortCounts		  "[16 8]"
 	  SFunctionDeploymentMode off
 	  EnableBusSupport	  on
 	  SFcnIsStateOwnerBlock	  off
@@ -2594,10 +2634,14 @@ Model {
 	  }
 	  Port {
 	    PortNumber		    6
-	    Name		    "phi_out"
+	    Name		    "ud"
 	  }
 	  Port {
 	    PortNumber		    7
+	    Name		    "phi_out"
+	  }
+	  Port {
+	    PortNumber		    8
 	    Name		    "xp_out"
 	  }
 	}
@@ -2605,7 +2649,7 @@ Model {
 	  BlockType		  Terminator
 	  Name			  " Terminator "
 	  SID			  "852::21"
-	  Position		  [460, 361, 480, 379]
+	  Position		  [460, 401, 480, 419]
 	  ZOrder		  12
 	}
 	Block {
@@ -2645,129 +2689,138 @@ Model {
 	}
 	Block {
 	  BlockType		  Outport
+	  Name			  "ud"
+	  SID			  "852::52"
+	  Position		  [460, 246, 480, 264]
+	  ZOrder		  37
+	  Port			  "5"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
 	  Name			  "phi_out"
 	  SID			  "852::44"
-	  Position		  [460, 246, 480, 264]
+	  Position		  [460, 281, 480, 299]
 	  ZOrder		  35
-	  Port			  "5"
+	  Port			  "6"
 	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  Outport
 	  Name			  "xp_out"
 	  SID			  "852::45"
-	  Position		  [460, 281, 480, 299]
+	  Position		  [460, 316, 480, 334]
 	  ZOrder		  36
-	  Port			  "6"
+	  Port			  "7"
 	  IconDisplay		  "Port number"
 	}
 	Line {
-	  ZOrder		  581
+	  ZOrder		  630
 	  SrcBlock		  "q"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  1
 	}
 	Line {
-	  ZOrder		  582
+	  ZOrder		  631
 	  SrcBlock		  "qd"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  2
 	}
 	Line {
-	  ZOrder		  583
+	  ZOrder		  632
 	  SrcBlock		  "dqd"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  3
 	}
 	Line {
-	  ZOrder		  584
+	  ZOrder		  633
 	  SrcBlock		  "ddqd"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  4
 	}
 	Line {
-	  ZOrder		  585
+	  ZOrder		  634
 	  SrcBlock		  "xp_in"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  5
 	}
 	Line {
-	  ZOrder		  586
+	  ZOrder		  635
 	  SrcBlock		  "phi_in"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  6
 	}
 	Line {
-	  ZOrder		  587
+	  ZOrder		  636
 	  SrcBlock		  "dt"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  7
 	}
 	Line {
-	  ZOrder		  588
+	  ZOrder		  637
 	  SrcBlock		  "a1"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  8
 	}
 	Line {
-	  ZOrder		  589
+	  ZOrder		  638
 	  SrcBlock		  "a2"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  9
 	}
 	Line {
-	  ZOrder		  590
+	  ZOrder		  639
 	  SrcBlock		  "bp"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  10
 	}
 	Line {
-	  ZOrder		  591
+	  ZOrder		  640
 	  SrcBlock		  "b1"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  11
 	}
 	Line {
-	  ZOrder		  592
+	  ZOrder		  641
 	  SrcBlock		  "b2"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  12
 	}
 	Line {
-	  ZOrder		  593
+	  ZOrder		  642
 	  SrcBlock		  "Kp_diag"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  13
 	}
 	Line {
-	  ZOrder		  594
+	  ZOrder		  643
 	  SrcBlock		  "Kd_diag"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  14
 	}
 	Line {
-	  ZOrder		  595
+	  ZOrder		  644
 	  SrcBlock		  "alpha"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  15
 	}
 	Line {
-	  ZOrder		  596
+	  ZOrder		  645
 	  SrcBlock		  "kappa"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
@@ -2775,7 +2828,7 @@ Model {
 	}
 	Line {
 	  Name			  "u"
-	  ZOrder		  597
+	  ZOrder		  646
 	  Labels		  [0, 0]
 	  SrcBlock		  " SFunction "
 	  SrcPort		  2
@@ -2784,7 +2837,7 @@ Model {
 	}
 	Line {
 	  Name			  "phat_out"
-	  ZOrder		  598
+	  ZOrder		  647
 	  Labels		  [0, 0]
 	  SrcBlock		  " SFunction "
 	  SrcPort		  3
@@ -2793,7 +2846,7 @@ Model {
 	}
 	Line {
 	  Name			  "uo"
-	  ZOrder		  599
+	  ZOrder		  648
 	  Labels		  [0, 0]
 	  SrcBlock		  " SFunction "
 	  SrcPort		  4
@@ -2802,7 +2855,7 @@ Model {
 	}
 	Line {
 	  Name			  "u_ff"
-	  ZOrder		  600
+	  ZOrder		  649
 	  Labels		  [0, 0]
 	  SrcBlock		  " SFunction "
 	  SrcPort		  5
@@ -2810,32 +2863,41 @@ Model {
 	  DstPort		  1
 	}
 	Line {
-	  Name			  "phi_out"
-	  ZOrder		  601
+	  Name			  "ud"
+	  ZOrder		  650
 	  Labels		  [0, 0]
 	  SrcBlock		  " SFunction "
 	  SrcPort		  6
+	  DstBlock		  "ud"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "phi_out"
+	  ZOrder		  651
+	  Labels		  [0, 0]
+	  SrcBlock		  " SFunction "
+	  SrcPort		  7
 	  DstBlock		  "phi_out"
 	  DstPort		  1
 	}
 	Line {
 	  Name			  "xp_out"
-	  ZOrder		  602
+	  ZOrder		  652
 	  Labels		  [0, 0]
 	  SrcBlock		  " SFunction "
-	  SrcPort		  7
+	  SrcPort		  8
 	  DstBlock		  "xp_out"
 	  DstPort		  1
 	}
 	Line {
-	  ZOrder		  603
+	  ZOrder		  653
 	  SrcBlock		  " Demux "
 	  SrcPort		  1
 	  DstBlock		  " Terminator "
 	  DstPort		  1
 	}
 	Line {
-	  ZOrder		  604
+	  ZOrder		  654
 	  SrcBlock		  " SFunction "
 	  SrcPort		  1
 	  DstBlock		  " Demux "
@@ -2847,7 +2909,7 @@ Model {
       BlockType		      Gain
       Name		      "Motor #1 Encoder Calib1"
       SID		      "853"
-      Position		      [690, 993, 760, 1037]
+      Position		      [615, 993, 685, 1037]
       ZOrder		      769
       Gain		      "KE_D1"
     }
@@ -2855,7 +2917,7 @@ Model {
       BlockType		      Gain
       Name		      "Motor #2 Encoder Calib1"
       SID		      "854"
-      Position		      [690, 1058, 760, 1102]
+      Position		      [615, 1058, 685, 1102]
       ZOrder		      770
       Gain		      "KE_D2"
     }
@@ -2875,13 +2937,25 @@ Model {
       Name		      "Scope"
       SID		      "957"
       Ports		      [2]
-      Position		      [965, 826, 1020, 879]
+      Position		      [1050, 830, 1105, 885]
       ZOrder		      811
       ScopeSpecificationString "Simulink.scopes.TimeScopeBlockCfg('CurrentConfiguration', extmgr.ConfigurationSet(extm"
       "gr.Configuration('Core','General UI',true),extmgr.Configuration('Core','Source UI',true),extmgr.Configuration('S"
       "ources','WiredSimulink',true,'DataLoggingVariableName','ScopeData1'),extmgr.Configuration('Visuals','Time Domain"
-      "',true),extmgr.Configuration('Tools','Plot Navigation',true),extmgr.Configuration('Tools','Measurements',true,'V"
-      "ersion','2018b')),'Version','2018b','VisibleAtModelOpen','on')"
+      "',true,'SerializedDisplays',{struct('MinYLimReal','-1.20575','MaxYLimReal','1.24508','YLabelReal','','MinYLimMag"
+      "','0.00000','MaxYLimMag','1.24508','LegendVisibility','off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'Axes"
+      "Color',[0 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.686274509803922],'ColorOrder',[1 1 0.06666"
+      "66666666667;0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;0.392156862745098 0.8313"
+      "72549019608 0.0745098039215686;0.717647058823529 0.274509803921569 1;0.0588235294117647 1 1;1 0.0745098039215686"
+      " 0.650980392156863],'Title','%<SignalLabel>','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines"
+      "',2,'LineNames',{{'Unary Minus','Unit Delay2'}},'ShowContent',true,'Placement',1)},'DisplayPropertyDefaults',str"
+      "uct('MinYLimReal','-1.20575','MaxYLimReal','1.24508','YLabelReal','','MinYLimMag','0.00000','MaxYLimMag','1.2450"
+      "8','LegendVisibility','off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesColor',[0 0 0],'AxesTickColor',["
+      "0.686274509803922 0.686274509803922 0.686274509803922],'ColorOrder',[0.0745098039215686 0.623529411764706 1;1 0."
+      "411764705882353 0.16078431372549;1 1 0.0666666666666667;0.717647058823529 0.274509803921569 1;0.392156862745098 "
+      "0.831372549019608 0.0745098039215686;0.0588235294117647 1 1;1 0.0745098039215686 0.650980392156863])),extmgr.Con"
+      "figuration('Tools','Plot Navigation',true,'OnceAtStop',false),extmgr.Configuration('Tools','Measurements',true,'"
+      "Version','2018b')),'Version','2018b','Position',[2573 589 521 414],'VisibleAtModelOpen','on')"
       NumInputPorts	      "2"
       Floating		      off
     }
@@ -2890,14 +2964,53 @@ Model {
       Name		      "Scope1"
       SID		      "958"
       Ports		      [2]
-      Position		      [965, 916, 1020, 969]
+      Position		      [1050, 920, 1105, 975]
       ZOrder		      812
       ScopeSpecificationString "Simulink.scopes.TimeScopeBlockCfg('CurrentConfiguration', extmgr.ConfigurationSet(extm"
       "gr.Configuration('Core','General UI',true),extmgr.Configuration('Core','Source UI',true),extmgr.Configuration('S"
       "ources','WiredSimulink',true,'DataLoggingVariableName','ScopeData2'),extmgr.Configuration('Visuals','Time Domain"
-      "',true),extmgr.Configuration('Tools','Plot Navigation',true),extmgr.Configuration('Tools','Measurements',true,'V"
-      "ersion','2018b')),'Version','2018b','VisibleAtModelOpen','on')"
+      "',true,'SerializedDisplays',{struct('MinYLimReal','-1.25','MaxYLimReal','1.25','YLabelReal','','MinYLimMag','0.0"
+      "0000','MaxYLimMag','1.25','LegendVisibility','off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesColor',[0"
+      " 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.686274509803922],'ColorOrder',[1 1 0.06666666666666"
+      "67;0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;0.392156862745098 0.8313725490196"
+      "08 0.0745098039215686;0.717647058823529 0.274509803921569 1;0.0588235294117647 1 1;1 0.0745098039215686 0.650980"
+      "392156863],'Title','%<SignalLabel>','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines',2,'Line"
+      "Names',{{'Unary Minus1','Unit Delay3'}},'ShowContent',true,'Placement',1)},'DisplayPropertyDefaults',struct('Min"
+      "YLimReal','-1.25','MaxYLimReal','1.25','YLabelReal','','MinYLimMag','0.00000','MaxYLimMag','1.25','LegendVisibil"
+      "ity','off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesColor',[0 0 0],'AxesTickColor',[0.686274509803922"
+      " 0.686274509803922 0.686274509803922],'ColorOrder',[0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0"
+      ".16078431372549;1 1 0.0666666666666667;0.717647058823529 0.274509803921569 1;0.392156862745098 0.831372549019608"
+      " 0.0745098039215686;0.0588235294117647 1 1;1 0.0745098039215686 0.650980392156863])),extmgr.Configuration('Tools"
+      "','Plot Navigation',true,'OnceAtStop',false),extmgr.Configuration('Tools','Measurements',true,'Version','2018b')"
+      "),'Version','2018b','Position',[2566 39 550 450],'VisibleAtModelOpen','on')"
       NumInputPorts	      "2"
+      Floating		      off
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "Scope2"
+      SID		      "980"
+      Ports		      [3]
+      Position		      [1705, 738, 1760, 792]
+      ZOrder		      834
+      ScopeSpecificationString "Simulink.scopes.TimeScopeBlockCfg('CurrentConfiguration', extmgr.ConfigurationSet(extm"
+      "gr.Configuration('Core','General UI',true),extmgr.Configuration('Core','Source UI',true),extmgr.Configuration('S"
+      "ources','WiredSimulink',true,'DataLoggingVariableName','ScopeData1'),extmgr.Configuration('Visuals','Time Domain"
+      "',true,'SerializedDisplays',{struct('MinYLimReal','-0.13621','MaxYLimReal','1.1259','YLabelReal','','MinYLimMag'"
+      ",'0.00000','MaxYLimMag','1.1259','LegendVisibility','off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesCo"
+      "lor',[0 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.686274509803922],'ColorOrder',[1 1 0.0666666"
+      "666666667;0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;0.392156862745098 0.831372"
+      "549019608 0.0745098039215686;0.717647058823529 0.274509803921569 1;0.0588235294117647 1 1;1 0.0745098039215686 0"
+      ".650980392156863],'Title','%<SignalLabel>','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines',"
+      "3,'LineNames',{{'Abs','Abs1','Sine Wave'}},'ShowContent',true,'Placement',1)},'DisplayPropertyDefaults',struct('"
+      "MinYLimReal','-0.13621','MaxYLimReal','1.1259','YLabelReal','','MinYLimMag','0.00000','MaxYLimMag','1.1259','Leg"
+      "endVisibility','off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesColor',[0 0 0],'AxesTickColor',[0.68627"
+      "4509803922 0.686274509803922 0.686274509803922],'ColorOrder',[0.0745098039215686 0.623529411764706 1;1 0.4117647"
+      "05882353 0.16078431372549;1 1 0.0666666666666667;0.717647058823529 0.274509803921569 1;0.392156862745098 0.83137"
+      "2549019608 0.0745098039215686;0.0588235294117647 1 1;1 0.0745098039215686 0.650980392156863])),extmgr.Configurat"
+      "ion('Tools','Plot Navigation',true),extmgr.Configuration('Tools','Measurements',true,'Version','2018b')),'Versio"
+      "n','2018b','Position',[3110 75 714 917],'VisibleAtModelOpen','on')"
+      NumInputPorts	      "3"
       Floating		      off
     }
     Block {
@@ -2925,17 +3038,132 @@ Model {
       OutputSizes	      "1"
     }
     Block {
+      BlockType		      Sin
+      Name		      "Sine Wave"
+      SID		      "991"
+      Ports		      [0, 1]
+      Position		      [1720, 1040, 1750, 1070]
+      ZOrder		      845
+      Amplitude		      "0.01"
+      SampleTime	      "0"
+    }
+    Block {
+      BlockType		      Sum
+      Name		      "Sum"
+      SID		      "970"
+      Ports		      [2, 1]
+      Position		      [1305, 920, 1345, 960]
+      ZOrder		      824
+      ShowName		      off
+      IconShape		      "round"
+      Inputs		      "|++"
+      InputSameDT	      off
+      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      Sum
+      Name		      "Sum1"
+      SID		      "989"
+      Ports		      [2, 1]
+      Position		      [1810, 980, 1830, 1000]
+      ZOrder		      843
+      ShowName		      off
+      IconShape		      "round"
+      Inputs		      "|++"
+      InputSameDT	      off
+      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      Sum
+      Name		      "Sum2"
+      SID		      "973"
+      Ports		      [2, 1]
+      Position		      [1170, 920, 1210, 960]
+      ZOrder		      827
+      ShowName		      off
+      IconShape		      "round"
+      Inputs		      "|+-"
+      InputSameDT	      off
+      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      Sum
+      Name		      "Sum3"
+      SID		      "974"
+      Ports		      [2, 1]
+      Position		      [1305, 835, 1345, 875]
+      ZOrder		      828
+      ShowName		      off
+      IconShape		      "round"
+      Inputs		      "|++"
+      InputSameDT	      off
+      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      Sum
+      Name		      "Sum4"
+      SID		      "975"
+      Ports		      [2, 1]
+      Position		      [1170, 835, 1210, 875]
+      ZOrder		      829
+      ShowName		      off
+      IconShape		      "round"
+      Inputs		      "|+-"
+      InputSameDT	      off
+      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      Sum
+      Name		      "Sum5"
+      SID		      "990"
+      Ports		      [2, 1]
+      Position		      [1810, 1115, 1830, 1135]
+      ZOrder		      844
+      ShowName		      off
+      IconShape		      "round"
+      Inputs		      "++|"
+      InputSameDT	      off
+      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
       BlockType		      ToWorkspace
       Name		      "To Workspace"
       SID		      "961"
       Ports		      [1]
-      Position		      [1435, 1345, 1495, 1375]
+      Position		      [1495, 1345, 1555, 1375]
       ZOrder		      815
       VariableName	      "simout"
       MaxDataPoints	      "inf"
-      SaveFormat	      "Timeseries"
       Save2DSignal	      "3-D array (concatenate along third dimension)"
       FixptAsFi		      on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      ToWorkspace
+      Name		      "To Workspace1"
+      SID		      "976"
+      Ports		      [1]
+      Position		      [1380, 840, 1440, 870]
+      ZOrder		      830
+      VariableName	      "qe1"
+      MaxDataPoints	      "inf"
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      ToWorkspace
+      Name		      "To Workspace2"
+      SID		      "979"
+      Ports		      [1]
+      Position		      [1380, 925, 1440, 955]
+      ZOrder		      833
+      VariableName	      "qe2"
+      MaxDataPoints	      "inf"
       SampleTime	      "-1"
     }
     Block {
@@ -2943,7 +3171,7 @@ Model {
       Name		      "Torque Control Elbow"
       SID		      "856"
       Ports		      [1]
-      Position		      [1495, 1091, 1670, 1219]
+      Position		      [2030, 1076, 2205, 1204]
       ZOrder		      782
       RequestExecContextInheritance off
       ContentPreviewEnabled   on
@@ -3229,19 +3457,20 @@ Model {
 	  ScopeSpecificationString "Simulink.scopes.TimeScopeBlockCfg('CurrentConfiguration', extmgr.ConfigurationSet(extmgr."
 	  "Configuration('Core','General UI',true),extmgr.Configuration('Core','Source UI',true),extmgr.Configuration('Sources"
 	  "','WiredSimulink',true,'DataLoggingVariableName','ScopeData2'),extmgr.Configuration('Visuals','Time Domain',true,'S"
-	  "erializedDisplays',{struct('MinYLimReal','-0.55557','MaxYLimReal','0.3981','YLabelReal','','MinYLimMag','0.00000','"
-	  "MaxYLimMag','0.55557','LegendVisibility','off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesColor',[0 0 0],'"
-	  "AxesTickColor',[0.686274509803922 0.686274509803922 0.686274509803922],'ColorOrder',[1 1 0.0666666666666667;0.07450"
-	  "98039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;0.392156862745098 0.831372549019608 0.07450980"
-	  "39215686;0.717647058823529 0.274509803921569 1;0.0588235294117647 1 1;1 0.0745098039215686 0.650980392156863],'Titl"
-	  "e','%<SignalLabel>','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines',0,'LineNames',{{[]}},'Show"
-	  "Content',true,'Placement',1)},'DisplayPropertyDefaults',struct('MinYLimReal','-0.55557','MaxYLimReal','0.3981','YLa"
-	  "belReal','','MinYLimMag','0.00000','MaxYLimMag','0.55557','LegendVisibility','off','XGrid',true,'YGrid',true,'PlotM"
-	  "agPhase',false,'AxesColor',[0 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.686274509803922],'ColorOr"
-	  "der',[0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;1 1 0.0666666666666667;0.71764705"
-	  "8823529 0.274509803921569 1;0.392156862745098 0.831372549019608 0.0745098039215686;0.0588235294117647 1 1;1 0.07450"
-	  "98039215686 0.650980392156863])),extmgr.Configuration('Tools','Plot Navigation',true),extmgr.Configuration('Tools',"
-	  "'Measurements',true,'Version','2018b')),'Version','2018b','Position',[3316 44 560 420])"
+	  "erializedDisplays',{struct('MinYLimReal','-4.32213','MaxYLimReal','10.89811','YLabelReal','','MinYLimMag','0.00000'"
+	  ",'MaxYLimMag','10.89811','LegendVisibility','off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesColor',[0 0 0"
+	  "],'AxesTickColor',[0.686274509803922 0.686274509803922 0.686274509803922],'ColorOrder',[1 1 0.0666666666666667;0.07"
+	  "45098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;0.392156862745098 0.831372549019608 0.07450"
+	  "98039215686;0.717647058823529 0.274509803921569 1;0.0588235294117647 1 1;1 0.0745098039215686 0.650980392156863],'T"
+	  "itle','%<SignalLabel>','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines',2,'LineNames',{{'Curren"
+	  "t','Torque to current '}},'ShowContent',true,'Placement',1)},'DisplayPropertyDefaults',struct('MinYLimReal','-4.322"
+	  "13','MaxYLimReal','10.89811','YLabelReal','','MinYLimMag','0.00000','MaxYLimMag','10.89811','LegendVisibility','off"
+	  "','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesColor',[0 0 0],'AxesTickColor',[0.686274509803922 0.686274509"
+	  "803922 0.686274509803922],'ColorOrder',[0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549"
+	  ";1 1 0.0666666666666667;0.717647058823529 0.274509803921569 1;0.392156862745098 0.831372549019608 0.074509803921568"
+	  "6;0.0588235294117647 1 1;1 0.0745098039215686 0.650980392156863])),extmgr.Configuration('Tools','Plot Navigation',t"
+	  "rue,'OnceAtStop',false),extmgr.Configuration('Tools','Measurements',true,'Version','2018b')),'Version','2018b','Pos"
+	  "ition',[3836 58 560 420],'VisibleAtModelOpen','on')"
 	  NumInputPorts		  "2"
 	  Floating		  off
 	}
@@ -3805,7 +4034,7 @@ Model {
       Name		      "Torque Control Shoulder"
       SID		      "892"
       Ports		      [1]
-      Position		      [1495, 941, 1670, 1069]
+      Position		      [2030, 926, 2205, 1054]
       ZOrder		      772
       RequestExecContextInheritance off
       ContentPreviewEnabled   on
@@ -4091,19 +4320,20 @@ Model {
 	  ScopeSpecificationString "Simulink.scopes.TimeScopeBlockCfg('CurrentConfiguration', extmgr.ConfigurationSet(extmgr."
 	  "Configuration('Core','General UI',true),extmgr.Configuration('Core','Source UI',true),extmgr.Configuration('Sources"
 	  "','WiredSimulink',true,'DataLoggingVariableName','ScopeData2'),extmgr.Configuration('Visuals','Time Domain',true,'S"
-	  "erializedDisplays',{struct('MinYLimReal','-0.36942','MaxYLimReal','0.27298','YLabelReal','','MinYLimMag','0.00000',"
-	  "'MaxYLimMag','0.36942','LegendVisibility','off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesColor',[0 0 0],"
+	  "erializedDisplays',{struct('MinYLimReal','-0.30212','MaxYLimReal','1.13212','YLabelReal','','MinYLimMag','0.00000',"
+	  "'MaxYLimMag','1.13212','LegendVisibility','off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesColor',[0 0 0],"
 	  "'AxesTickColor',[0.686274509803922 0.686274509803922 0.686274509803922],'ColorOrder',[1 1 0.0666666666666667;0.0745"
 	  "098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;0.392156862745098 0.831372549019608 0.0745098"
 	  "039215686;0.717647058823529 0.274509803921569 1;0.0588235294117647 1 1;1 0.0745098039215686 0.650980392156863],'Tit"
-	  "le','%<SignalLabel>','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines',0,'LineNames',{{[]}},'Sho"
-	  "wContent',true,'Placement',1)},'DisplayPropertyDefaults',struct('MinYLimReal','-0.36942','MaxYLimReal','0.27298','Y"
-	  "LabelReal','','MinYLimMag','0.00000','MaxYLimMag','0.36942','LegendVisibility','off','XGrid',true,'YGrid',true,'Plo"
-	  "tMagPhase',false,'AxesColor',[0 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.686274509803922],'Color"
-	  "Order',[0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;1 1 0.0666666666666667;0.717647"
-	  "058823529 0.274509803921569 1;0.392156862745098 0.831372549019608 0.0745098039215686;0.0588235294117647 1 1;1 0.074"
-	  "5098039215686 0.650980392156863])),extmgr.Configuration('Tools','Plot Navigation',true),extmgr.Configuration('Tools"
-	  "','Measurements',true,'Version','2018b')),'Version','2018b','Position',[3312 546 560 420])"
+	  "le','%<SignalLabel>','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines',2,'LineNames',{{'Current'"
+	  ",'Torque to current '}},'ShowContent',true,'Placement',1)},'DisplayPropertyDefaults',struct('MinYLimReal','-0.30212"
+	  "','MaxYLimReal','1.13212','YLabelReal','','MinYLimMag','0.00000','MaxYLimMag','1.13212','LegendVisibility','off','X"
+	  "Grid',true,'YGrid',true,'PlotMagPhase',false,'AxesColor',[0 0 0],'AxesTickColor',[0.686274509803922 0.6862745098039"
+	  "22 0.686274509803922],'ColorOrder',[0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;1 1"
+	  " 0.0666666666666667;0.717647058823529 0.274509803921569 1;0.392156862745098 0.831372549019608 0.0745098039215686;0."
+	  "0588235294117647 1 1;1 0.0745098039215686 0.650980392156863])),extmgr.Configuration('Tools','Plot Navigation',true,"
+	  "'OnceAtStop',false),extmgr.Configuration('Tools','Measurements',true,'Version','2018b')),'Version','2018b','Positio"
+	  "n',[3848 564 560 420],'VisibleAtModelOpen','on')"
 	  NumInputPorts		  "2"
 	  Floating		  off
 	}
@@ -4662,14 +4892,14 @@ Model {
       BlockType		      UnaryMinus
       Name		      "Unary Minus"
       SID		      "928"
-      Position		      [775, 1000, 805, 1030]
+      Position		      [715, 1000, 745, 1030]
       ZOrder		      777
     }
     Block {
       BlockType		      UnaryMinus
       Name		      "Unary Minus1"
       SID		      "929"
-      Position		      [775, 1065, 805, 1095]
+      Position		      [715, 1065, 745, 1095]
       ZOrder		      779
     }
     Block {
@@ -4693,13 +4923,55 @@ Model {
       SampleTime	      "-1"
     }
     Block {
+      BlockType		      UnitDelay
+      Name		      "Unit Delay2"
+      SID		      "967"
+      Position		      [980, 848, 1015, 882]
+      ZOrder		      821
+      InputProcessing	      "Elements as channels (sample based)"
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      UnitDelay
+      Name		      "Unit Delay3"
+      SID		      "968"
+      Position		      [980, 938, 1015, 972]
+      ZOrder		      822
+      InputProcessing	      "Elements as channels (sample based)"
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      UnitDelay
+      Name		      "Unit Delay4"
+      SID		      "982"
+      Position		      [1348, 880, 1372, 900]
+      ZOrder		      836
+      BlockRotation	      270
+      BlockMirror	      on
+      NamePlacement	      "alternate"
+      InputProcessing	      "Elements as channels (sample based)"
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      UnitDelay
+      Name		      "Unit Delay5"
+      SID		      "983"
+      Position		      [1348, 955, 1372, 975]
+      ZOrder		      837
+      BlockRotation	      270
+      BlockMirror	      on
+      NamePlacement	      "alternate"
+      InputProcessing	      "Elements as channels (sample based)"
+      SampleTime	      "-1"
+    }
+    Block {
       BlockType		      Concatenate
       Name		      "Vector\nConcatenate"
       SID		      "962"
-      Ports		      [5, 1]
+      Ports		      [6, 1]
       Position		      [1355, 1275, 1405, 1445]
       ZOrder		      816
-      NumInputs		      "5"
+      NumInputs		      "6"
     }
     Block {
       BlockType		      Concatenate
@@ -4712,8 +4984,8 @@ Model {
     Line {
       ZOrder		      1172
       SrcBlock		      "MATLAB Function"
-      SrcPort		      6
-      Points		      [66, 0; 0, 135]
+      SrcPort		      7
+      Points		      [66, 0; 0, 130]
       DstBlock		      "Unit Delay"
       DstPort		      1
     }
@@ -4753,14 +5025,6 @@ Model {
       DstPort		      12
     }
     Line {
-      ZOrder		      1128
-      SrcBlock		      "Demux2"
-      SrcPort		      2
-      Points		      [145, 0]
-      DstBlock		      "Torque Control Elbow"
-      DstPort		      1
-    }
-    Line {
       ZOrder		      1150
       SrcBlock		      "Constant5"
       SrcPort		      1
@@ -4770,8 +5034,8 @@ Model {
     Line {
       ZOrder		      1173
       SrcBlock		      "MATLAB Function"
-      SrcPort		      5
-      Points		      [49, 0; 0, 215]
+      SrcPort		      6
+      Points		      [49, 0; 0, 190]
       DstBlock		      "Unit Delay1"
       DstPort		      1
     }
@@ -4783,67 +5047,11 @@ Model {
       DstPort		      1
     }
     Line {
-      ZOrder		      1132
-      SrcBlock		      "Demux2"
-      SrcPort		      1
-      Points		      [145, 0]
-      DstBlock		      "Torque Control Shoulder"
-      DstPort		      1
-    }
-    Line {
       ZOrder		      1147
       SrcBlock		      "Constant"
       SrcPort		      1
       DstBlock		      "MATLAB Function"
       DstPort		      8
-    }
-    Line {
-      ZOrder		      1134
-      SrcBlock		      "Unary Minus"
-      SrcPort		      1
-      Points		      [1, 0]
-      Branch {
-	ZOrder			1184
-	Points			[0, -175]
-	DstBlock		"Scope"
-	DstPort			1
-      }
-      Branch {
-	ZOrder			1183
-	DstBlock		"Vector\nConcatenate1"
-	DstPort			1
-      }
-    }
-    Line {
-      ZOrder		      1137
-      SrcBlock		      "Unary Minus1"
-      SrcPort		      1
-      Points		      [5, 0]
-      Branch {
-	ZOrder			1186
-	Points			[0, -150]
-	DstBlock		"Scope1"
-	DstPort			1
-      }
-      Branch {
-	ZOrder			1185
-	DstBlock		"Vector\nConcatenate1"
-	DstPort			2
-      }
-    }
-    Line {
-      ZOrder		      1138
-      SrcBlock		      "Motor #1 Encoder Calib1"
-      SrcPort		      1
-      DstBlock		      "Unary Minus"
-      DstPort		      1
-    }
-    Line {
-      ZOrder		      1139
-      SrcBlock		      "Motor #2 Encoder Calib1"
-      SrcPort		      1
-      DstBlock		      "Unary Minus1"
-      DstPort		      1
     }
     Line {
       ZOrder		      1140
@@ -4852,9 +5060,9 @@ Model {
       Points		      [75, 0]
       Branch {
 	ZOrder			1195
-	Points			[8, 0; 0, -45; 371, 0; 0, 425]
+	Points			[8, 0; 0, -45; 371, 0; 0, 433; 26, 0]
 	DstBlock		"Vector\nConcatenate"
-	DstPort			5
+	DstPort			6
       }
       Branch {
 	ZOrder			1194
@@ -4870,10 +5078,10 @@ Model {
       DstPort		      1
     }
     Line {
-      ZOrder		      1142
-      SrcBlock		      "From\nWorkspace3"
+      ZOrder		      1196
+      SrcBlock		      "From\nWorkspace4"
       SrcPort		      1
-      Points		      [0, 0]
+      Points		      [5, 0]
       Branch {
 	ZOrder			1180
 	Points			[0, -84; -35, 0; 0, -56]
@@ -4893,9 +5101,9 @@ Model {
 	Points			[15, 0]
 	Branch {
 	  ZOrder		  1193
-	  Points		  [0, -97; 368, 0; 0, 397]
+	  Points		  [0, -97; 368, 0; 0, 407]
 	  DstBlock		  "Vector\nConcatenate"
-	  DstPort		  4
+	  DstPort		  5
 	}
 	Branch {
 	  ZOrder		  1192
@@ -4905,14 +5113,14 @@ Model {
       }
     }
     Line {
-      ZOrder		      1143
+      ZOrder		      1197
       SrcBlock		      "From\nWorkspace1"
       SrcPort		      1
       DstBlock		      "MATLAB Function"
       DstPort		      3
     }
     Line {
-      ZOrder		      1144
+      ZOrder		      1198
       SrcBlock		      "From\nWorkspace2"
       SrcPort		      1
       DstBlock		      "MATLAB Function"
@@ -4926,7 +5134,7 @@ Model {
       DstPort		      7
     }
     Line {
-      ZOrder		      1153
+      ZOrder		      1274
       SrcBlock		      "Constant6"
       SrcPort		      1
       DstBlock		      "MATLAB Function"
@@ -4973,21 +5181,21 @@ Model {
       ZOrder		      1177
       SrcBlock		      "Selector"
       SrcPort		      1
-      DstBlock		      "Scope"
-      DstPort		      2
+      DstBlock		      "Unit Delay2"
+      DstPort		      1
     }
     Line {
       ZOrder		      1178
       SrcBlock		      "Selector1"
       SrcPort		      1
-      DstBlock		      "Scope1"
-      DstPort		      2
+      DstBlock		      "Unit Delay3"
+      DstPort		      1
     }
     Line {
       ZOrder		      1187
       SrcBlock		      "MATLAB Function"
       SrcPort		      2
-      Points		      [63, 0; 0, 90]
+      Points		      [63, 0; 0, 105]
       DstBlock		      "Vector\nConcatenate"
       DstPort		      1
     }
@@ -4995,6 +5203,7 @@ Model {
       ZOrder		      1188
       SrcBlock		      "MATLAB Function"
       SrcPort		      3
+      Points		      [0, 30]
       DstBlock		      "Vector\nConcatenate"
       DstPort		      2
     }
@@ -5002,7 +5211,7 @@ Model {
       ZOrder		      1189
       SrcBlock		      "MATLAB Function"
       SrcPort		      4
-      Points		      [56, 0; 0, -90]
+      Points		      [56, 0; 0, -45]
       DstBlock		      "Vector\nConcatenate"
       DstPort		      3
     }
@@ -5012,6 +5221,267 @@ Model {
       SrcPort		      1
       DstBlock		      "To Workspace"
       DstPort		      1
+    }
+    Line {
+      ZOrder		      1199
+      SrcBlock		      "Unit Delay2"
+      SrcPort		      1
+      Points		      [15, 0]
+      Branch {
+	ZOrder			1233
+	Points			[0, 26; 155, 0]
+	DstBlock		"Sum4"
+	DstPort			2
+      }
+      Branch {
+	ZOrder			1232
+	DstBlock		"Scope"
+	DstPort			2
+      }
+    }
+    Line {
+      ZOrder		      1200
+      SrcBlock		      "Unit Delay3"
+      SrcPort		      1
+      Points		      [15, 0]
+      Branch {
+	ZOrder			1227
+	Points			[0, 28; 155, 0]
+	DstBlock		"Sum2"
+	DstPort			2
+      }
+      Branch {
+	ZOrder			1226
+	DstBlock		"Scope1"
+	DstPort			2
+      }
+    }
+    Line {
+      ZOrder		      1224
+      SrcBlock		      "Sum4"
+      SrcPort		      1
+      DstBlock		      "Abs"
+      DstPort		      1
+    }
+    Line {
+      ZOrder		      1225
+      SrcBlock		      "Sum2"
+      SrcPort		      1
+      DstBlock		      "Abs1"
+      DstPort		      1
+    }
+    Line {
+      ZOrder		      1234
+      SrcBlock		      "Abs"
+      SrcPort		      1
+      Points		      [10, 0]
+      Branch {
+	ZOrder			1243
+	Points			[0, -105]
+	DstBlock		"Scope2"
+	DstPort			1
+      }
+      Branch {
+	ZOrder			1242
+	DstBlock		"Sum3"
+	DstPort			1
+      }
+    }
+    Line {
+      ZOrder		      1235
+      SrcBlock		      "Abs1"
+      SrcPort		      1
+      Points		      [10, 0]
+      Branch {
+	ZOrder			1245
+	Points			[8, 0; 0, -175]
+	DstBlock		"Scope2"
+	DstPort			2
+      }
+      Branch {
+	ZOrder			1244
+	DstBlock		"Sum"
+	DstPort			1
+      }
+    }
+    Line {
+      ZOrder		      1236
+      SrcBlock		      "Sum3"
+      SrcPort		      1
+      Points		      [10, 0]
+      Branch {
+	ZOrder			1250
+	DstBlock		"Unit Delay4"
+	DstPort			1
+      }
+      Branch {
+	ZOrder			1249
+	DstBlock		"To Workspace1"
+	DstPort			1
+      }
+    }
+    Line {
+      ZOrder		      1237
+      SrcBlock		      "Sum"
+      SrcPort		      1
+      Points		      [10, 0]
+      Branch {
+	ZOrder			1247
+	DstBlock		"Unit Delay5"
+	DstPort			1
+      }
+      Branch {
+	ZOrder			1246
+	DstBlock		"To Workspace2"
+	DstPort			1
+      }
+    }
+    Line {
+      ZOrder		      1253
+      SrcBlock		      "Unit Delay4"
+      SrcPort		      1
+      Points		      [0, 3; -35, 0]
+      DstBlock		      "Sum3"
+      DstPort		      2
+    }
+    Line {
+      ZOrder		      1255
+      SrcBlock		      "Unit Delay5"
+      SrcPort		      1
+      Points		      [0, 3; -35, 0]
+      DstBlock		      "Sum"
+      DstPort		      2
+    }
+    Line {
+      ZOrder		      1272
+      SrcBlock		      "Unary Minus"
+      SrcPort		      1
+      Points		      [61, 0]
+      Branch {
+	ZOrder			1184
+	Points			[0, -175; 224, 0]
+	Branch {
+	  ZOrder		  1231
+	  Points		  [0, -28; 86, 0; 0, 43]
+	  DstBlock		  "Sum4"
+	  DstPort		  1
+	}
+	Branch {
+	  ZOrder		  1230
+	  DstBlock		  "Scope"
+	  DstPort		  1
+	}
+      }
+      Branch {
+	ZOrder			1183
+	DstBlock		"Vector\nConcatenate1"
+	DstPort			1
+      }
+    }
+    Line {
+      ZOrder		      1271
+      SrcBlock		      "Unary Minus1"
+      SrcPort		      1
+      Points		      [65, 0]
+      Branch {
+	ZOrder			1186
+	Points			[0, -150; 220, 0]
+	Branch {
+	  ZOrder		  1229
+	  Points		  [0, -28; 102, 0; 0, 38]
+	  DstBlock		  "Sum2"
+	  DstPort		  1
+	}
+	Branch {
+	  ZOrder		  1228
+	  DstBlock		  "Scope1"
+	  DstPort		  1
+	}
+      }
+      Branch {
+	ZOrder			1185
+	DstBlock		"Vector\nConcatenate1"
+	DstPort			2
+      }
+    }
+    Line {
+      ZOrder		      1265
+      SrcBlock		      "Motor #2 Encoder Calib1"
+      SrcPort		      1
+      DstBlock		      "Unary Minus1"
+      DstPort		      1
+    }
+    Line {
+      ZOrder		      1266
+      SrcBlock		      "Motor #1 Encoder Calib1"
+      SrcPort		      1
+      DstBlock		      "Unary Minus"
+      DstPort		      1
+    }
+    Line {
+      ZOrder		      1275
+      SrcBlock		      "Demux2"
+      SrcPort		      1
+      Points		      [235, 0; 0, -75]
+      DstBlock		      "Sum1"
+      DstPort		      1
+    }
+    Line {
+      ZOrder		      1277
+      SrcBlock		      "Demux2"
+      SrcPort		      2
+      Points		      [235, 0; 0, 40]
+      DstBlock		      "Sum5"
+      DstPort		      2
+    }
+    Line {
+      ZOrder		      1278
+      SrcBlock		      "Sine Wave"
+      SrcPort		      1
+      Points		      [0, 0]
+      Branch {
+	ZOrder			1284
+	Points			[0, -163; -185, 0; 0, -112]
+	DstBlock		"Scope2"
+	DstPort			3
+      }
+      Branch {
+	ZOrder			1283
+	Points			[65, 0]
+	Branch {
+	  ZOrder		  1280
+	  DstBlock		  "Sum5"
+	  DstPort		  1
+	}
+	Branch {
+	  ZOrder		  1279
+	  DstBlock		  "Sum1"
+	  DstPort		  2
+	}
+      }
+    }
+    Line {
+      ZOrder		      1281
+      SrcBlock		      "Sum1"
+      SrcPort		      1
+      DstBlock		      "Torque Control Shoulder"
+      DstPort		      1
+    }
+    Line {
+      ZOrder		      1282
+      SrcBlock		      "Sum5"
+      SrcPort		      1
+      Points		      [95, 0; 0, 15]
+      DstBlock		      "Torque Control Elbow"
+      DstPort		      1
+    }
+    Line {
+      ZOrder		      1290
+      SrcBlock		      "MATLAB Function"
+      SrcPort		      5
+      Points		      [26, 0; 0, -120]
+      DstBlock		      "Vector\nConcatenate"
+      DstPort		      4
     }
     Annotation {
       SID		      "931"
@@ -5032,7 +5502,7 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @        ( $2V0 "
+    "        !0    @    !     0    $         \"0    @         \"(! 0 "
   }
   DataRecord {
     Tag			    DataTag1
@@ -5040,7 +5510,7 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @        ( $2V0 "
+    "        !0    @    !     0    $         \"0    @         \"(! 0 "
   }
   DataRecord {
     Tag			    DataTag2
@@ -5187,7 +5657,7 @@ MatData {
     "U=%]S971?871?;6]D96Q?<W1A<G0                  &]T:&5R7V]U='!U=%]S971?<W=I=&-H:6YG7W1O7VUO9&5L             &]T:&5R7"
     "V]U='!U=%]S971?871?;6]D96Q?=&5R;6EN871I;VX          &]T:&5R7V]U='!U=%]S971?<W=I=&-H:6YG7V9R;VU?;6]D96P          &]"
     "T:&5R7V]U='!U=%]S971?;VY?=V%T8VAD;V<                                .    ,     8    (    !          %    \"     $ "
-    "   !     0         0  $ ,     X    P    !@    @    $          4    (     0    $    !         !   0 @    #@   #@   "
+    "   !     0         0  $ ,     X    P    !@    @    $          4    (               !         !          #@   #@   "
     " &    \"     8         !0    @    !     0    $         \"0    @               X    X    !@    @    $          4   "
     " (     0    4    !         !     %    6S Z,5T    .    .     8    (    !          %    \"     $    %     0         "
     "0    !0   %LP(#!=    #@   #     &    \"     0         !0    @    !     @    $         $  \" %M=   .    .     8    "
@@ -5536,9 +6006,9 @@ MatData {
     "X    !@    @    &          4    (     0    $    !          D    (               .    N $   8    (     @         % "
     "   \"     $    !     0         %  0 $0    $   !5    :7-?=6YI<75E          !O;&1?8FQO8VL          &]L9%]N86UE      "
     "      :7-?;6]D96Q?8VQO<VEN9P!I<U]D96QE=&5D              X    P    !@    @    ) @        4    (     0    $    !    "
-    "      (  0 !    #@   #@    &    \"     8         !0    @    !     0    $         \"0    @        ( $2V0 X    X    "
-    "!@    @    $          4    (     0    4    !         !     %    2$E,+3$    .    ,     8    (    \"0(        %    \""
-    "     $    !     0         \"  $       X    P    !@    @    ) @        4    (     0    $    !          (  0      "
+    "      (  0 !    #@   #@    &    \"     8         !0    @    !     0    $         \"0    @         \"(! 0 X    X   "
+    " !@    @    $          4    (     0    4    !         !     %    2$E,+3$    .    ,     8    (    \"0(        %    "
+    "\"     $    !     0         \"  $       X    P    !@    @    ) @        4    (     0    $    !          (  0      "
   }
   DataRecord {
     Tag			    DataTag3
@@ -5546,7 +6016,7 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @        ( $2V0 "
+    "        !0    @    !     0    $         \"0    @         \"(! 0 "
   }
   DataRecord {
     Tag			    DataTag4
@@ -5554,7 +6024,7 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @        ( $2V0 "
+    "        !0    @    !     0    $         \"0    @         \"(! 0 "
   }
   DataRecord {
     Tag			    DataTag5
@@ -5562,7 +6032,7 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @        ( $2V0 "
+    "        !0    @    !     0    $         \"0    @         \"(! 0 "
   }
   DataRecord {
     Tag			    DataTag6
@@ -5570,7 +6040,7 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @        ( $2V0 "
+    "        !0    @    !     0    $         \"0    @         \"(! 0 "
   }
   DataRecord {
     Tag			    DataTag7
@@ -5578,7 +6048,7 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @        ( $2V0 "
+    "        !0    @    !     0    $         \"0    @         \"(! 0 "
   }
   DataRecord {
     Tag			    DataTag8
@@ -5586,7 +6056,7 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @        ( $2V0 "
+    "        !0    @    !     0    $         \"0    @         \"(! 0 "
   }
   DataRecord {
     Tag			    DataTag9
@@ -5594,7 +6064,7 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @        ( $2V0 "
+    "        !0    @    !     0    $         \"0    @         \"(! 0 "
   }
   DataRecord {
     Tag			    DataTag10
@@ -5602,7 +6072,7 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @        ( $2V0 "
+    "        !0    @    !     0    $         \"0    @         \"(! 0 "
   }
   DataRecord {
     Tag			    DataTag11
@@ -5610,7 +6080,7 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @        ( $2V0 "
+    "        !0    @    !     0    $         \"0    @         \"(! 0 "
   }
 }
 #Finite State Machines
@@ -5625,7 +6095,7 @@ Stateflow {
     created		    "06-Feb-2026 12:19:12"
     isLibrary		    0
     sfVersion		    80000014
-    firstTarget		    29
+    firstTarget		    30
   }
   chart {
     id			    2
@@ -5639,7 +6109,7 @@ Stateflow {
     visible		    1
     subviewS {
     }
-    ssIdHighWaterMark	    35
+    ssIdHighWaterMark	    36
     decomposition	    CLUSTER_CHART
     type		    EML_CHART
     chartFileNumber	    2
@@ -5648,8 +6118,8 @@ Stateflow {
       name		      "pH_controller_fcn"
     }
     firstData		    4
-    firstTransition	    27
-    firstJunction	    26
+    firstTransition	    28
+    firstJunction	    27
   }
   state {
     id			    3
@@ -5665,116 +6135,118 @@ Stateflow {
     decomposition	    CLUSTER_STATE
     eml {
       isEML		      1
-      script		      "function [u, phat_out, uo, u_ff, phi_out, xp_out] = ...\n    pH_controller_fcn(q, qd, dqd, ddqd, "
-      "xp_in, phi_in, dt, ...\n                      a1, a2, bp, b1, b2, Kp_diag, Kd_diag, alpha, kappa)\n%#codegen\n% "
-      "pH_CONTROLLER_FCN  Combined observer + KPES controller for 2-DOF robot.\n%\n%  SIMULINK MATLAB FUNCTION BLOCK - "
-      "2018b / Coder compatible.\n%\n%  HOW TO WIRE IN SIMULINK:\n%  1. Place a MATLAB Function block, paste this code."
-      "\n%  2. In the block's \"Ports and Data Manager\" (or \"Edit Data\"):\n%     - All inputs: Size = as listed belo"
-      "w, Type = double, Complexity = real\n%       q       : [2 1]     qd      : [2 1]     dqd     : [2 1]\n%       dd"
-      "qd    : [2 1]     xp_in   : [2 1]     phi_in  : [1 1]\n%       dt      : [1 1]     a1..kappa: [1 1]  (all scalar"
-      "s)\n%     - For scalar parameters (a1,a2,bp,b1,b2,Kp_diag,Kd_diag,alpha,kappa,dt):\n%       set Scope = \"Parame"
-      "ter\" so they come from the mask/workspace,\n%       OR leave as \"Input\" and wire Constant blocks.\n%  3. Outp"
-      "uts are auto-sized from the initializations below.\n%  4. Connect xp_out -> Unit Delay (IC=[0;0]) -> xp_in\n%   "
-      "  Connect phi_out -> Unit Delay (IC=0)    -> phi_in\n\n% ======================================================="
-      "==============\n%  OUTPUT INITIALIZATION  (THIS is what Simulink uses for dimension\n%  inference. Every output "
-      "must be assigned a fixed-size value before\n%  any conditional or loop code.)\n% ==============================="
-      "======================================\nu         = zeros(2,1);\nphat_out  = zeros(2,1);\nqe        = zeros(2,1)"
-      ";\npe        = zeros(2,1);\nv_k       = zeros(2,1);\nye        = zeros(2,1);\nuo        = zeros(2,1);\nu_ff     "
-      " = zeros(2,1);\nphi_out   = 0;\nxp_out    = zeros(2,1);\nT_out     = zeros(4,1);\nTi_out    = zeros(4,1);\nS_out"
-      "     = zeros(4,1);\nD_out     = zeros(4,1);\nG_out     = zeros(4,1);\nswitchVal = 0;\n\n% ======================"
-      "===============================================\n%  MAIN COMPUTATION\n% ========================================"
-      "=============================\n\n% ---- Local copies (ensure column) ----\nq_c    = [q(1); q(2)];\nqd_c   = [qd("
-      "1); qd(2)];\ndqd_c  = [dqd(1); dqd(2)];\nddqd_c = [ddqd(1); ddqd(2)];\nxp     = [xp_in(1); xp_in(2)];\nphi    = "
-      "phi_in(1);\n\n% ---- Gain matrices ----\nKp = Kp_diag;\nKd = Kd_diag;\n\n% ---- Mass matrix and transforms ----\n"
-      "M       = loc_M(q_c(2), a1, a2, bp);\nMinv    = loc_inv2(M);\nT       = loc_sym_sqrt(Minv);        % M^{-1/2}\nT"
-      "i      = loc_sym_sqrt(M);           % M^{1/2}\n\nD_tilde = T * [b1,0;0,b2] * T;\nG_tilde = T;                   "
-      "      % G0 = I\n\n% ---- dM/dq2 -> dTi/dq2 via Sylvester ----\ns2       = sin(q_c(2));\ndM_dq2   = [-2*bp*s2, -b"
-      "p*s2; -bp*s2, 0];\ndTi_dq2  = loc_sylvester22(Ti, Ti, dM_dq2);\n\n% ---- Observer: momentum estimate ----\nphat "
-      "= [xp(1) + phi*q_c(1); xp(2) + phi*q_c(2)];\n\n% ---- Sbar for switching condition ----\nSbar = loc_compute_Sbar"
-      "(T, dTi_dq2, phat);\n\n% ---- Switching logic (jumps) ----\nmaxJumps  = 50;\njumpCount = 0;\nswitchVal = loc_swi"
-      "tch_cond(phi, Sbar, T) - kappa;\n\nwhile (switchVal <= 0) && (jumpCount < maxJumps)\n    xp(1) = xp(1) - kappa *"
-      " q_c(1);\n    xp(2) = xp(2) - kappa * q_c(2);\n    phi   = phi + kappa;\n    phat(1) = xp(1) + phi*q_c(1);\n    "
-      "phat(2) = xp(2) + phi*q_c(2);\n    Sbar = loc_compute_Sbar(T, dTi_dq2, phat);\n    switchVal = loc_switch_cond(p"
-      "hi, Sbar, T) - kappa;\n    jumpCount = jumpCount + 1;\nend\n\n% ---- S matrix with final phat ----\ncol2    = [d"
-      "Ti_dq2(1,1)*phat(1) + dTi_dq2(1,2)*phat(2);\n           dTi_dq2(2,1)*phat(1) + dTi_dq2(2,2)*phat(2)];\nA_mat   ="
-      " [0, col2(1); 0, col2(2)];\nS_tilde = T * (A_mat' - A_mat) * T;\n\n% ---- Error coordinates ----\npd  = [Ti(1,1)"
-      "*dqd_c(1) + Ti(1,2)*dqd_c(2);\n       Ti(2,1)*dqd_c(1) + Ti(2,2)*dqd_c(2)];\nqe  = [q_c(1) - qd_c(1); q_c(2) - q"
-      "d_c(2)];\npe  = [phat(1) - pd(1);   phat(2) - pd(2)];\n\n% ---- dpd/dq (only q2 column nonzero) ----\ndpd_col2 ="
-      " [dTi_dq2(1,1)*dqd_c(1) + dTi_dq2(1,2)*dqd_c(2);\n            dTi_dq2(2,1)*dqd_c(1) + dTi_dq2(2,2)*dqd_c(2)];\nd"
-      "pd_dq = [0, dpd_col2(1); 0, dpd_col2(2)];\n\n% ---- KPES injection ----\nz   = [qe(1) + alpha*pe(1); qe(2) + alp"
-      "ha*pe(2)];\nKpz = [Kp(1,1)*z(1); Kp(2,2)*z(2)];  % Kp diagonal\nSDK = S_tilde - D_tilde - Kd;\nv_k = [alpha*(SDK"
-      "(1,1)*Kpz(1) + SDK(1,2)*Kpz(2)) - T(1,1)*Kpz(1) - T(1,2)*Kpz(2) - Kd(1,1)*pe(1);\n       alpha*(SDK(2,1)*Kpz(1) "
-      "+ SDK(2,2)*Kpz(2)) - T(2,1)*Kpz(1) - T(2,2)*Kpz(2) - Kd(2,2)*pe(2)];\n\n% ---- Passive output ----\ndHe_dqe = [K"
-      "p(1,1)*(qe(1) + alpha*pe(1)); Kp(2,2)*(qe(2) + alpha*pe(2))];\ndHe_dpe = [pe(1) + alpha*Kp(1,1)*(qe(1) + alpha*p"
-      "e(1));\n           pe(2) + alpha*Kp(2,2)*(qe(2) + alpha*pe(2))];\n\n% top_block = [I2, phi*I2 - dpd_dq']  is 2x4"
-      "\n% stacked   = [dHe_dqe; dHe_dpe]      is 4x1\nphiI_minus_dpdT = [phi - dpd_dq(1,1), -dpd_dq(2,1);\n           "
-      "        -dpd_dq(1,2),  phi - dpd_dq(2,2)];\ninner = [dHe_dqe(1) + phiI_minus_dpdT(1,1)*dHe_dpe(1) + phiI_minus_d"
-      "pdT(1,2)*dHe_dpe(2);\n         dHe_dqe(2) + phiI_minus_dpdT(2,1)*dHe_dpe(1) + phiI_minus_dpdT(2,2)*dHe_dpe(2)];\n"
-      "ye = [-T(1,1)*inner(1) - T(1,2)*inner(2);\n      -T(2,1)*inner(1) - T(2,2)*inner(2)];\n\n% ---- Passive intercon"
-      "nection: uo = -G_tilde^{-1} * ye ----\nuo = loc_solve2(G_tilde, [-ye(1); -ye(2)]);\n\n% ---- Feedforward ----\ng"
-      "radV = [0; 0];\nTphat = [T(1,1)*phat(1) + T(1,2)*phat(2);\n         T(2,1)*phat(1) + T(2,2)*phat(2)];\ndpd_dq_Tp"
-      "hat = [dpd_dq(1,1)*Tphat(1) + dpd_dq(1,2)*Tphat(2);\n                dpd_dq(2,1)*Tphat(1) + dpd_dq(2,2)*Tphat(2)"
-      "];\nTi_ddqd = [Ti(1,1)*ddqd_c(1) + Ti(1,2)*ddqd_c(2);\n           Ti(2,1)*ddqd_c(1) + Ti(2,2)*ddqd_c(2)];\nSD = "
-      "S_tilde - D_tilde;\nff_rhs = [-(SD(1,1)*pd(1) + SD(1,2)*pd(2)) + dpd_dq_Tphat(1) + Ti_ddqd(1) + v_k(1);\n       "
-      "   -(SD(2,1)*pd(1) + SD(2,2)*pd(2)) + dpd_dq_Tphat(2) + Ti_ddqd(2) + v_k(2)];\nu_ff = loc_solve2(G_tilde, ff_rhs"
-      ");\n\n% ---- Total control ----\nu = [-uo(1) + u_ff(1); -uo(2) + u_ff(2)];\n\n% ---- Observer RK4 update ----\nx"
-      "p_out = loc_obs_rk4(q_c, xp, phi, S_tilde, D_tilde, T, G_tilde, ...\n                      u, gradV, uo, dt);\np"
-      "hi_out = phi;\n\n% ---- Estimated momentum in original coords ----\nphat_out = [Ti(1,1)*phat(1) + Ti(1,2)*phat(2"
-      ");\n            Ti(2,1)*phat(1) + Ti(2,2)*phat(2)];\n\n% ---- Pack matrices for logging ----\nT_out  = [T(1,1); "
-      " T(2,1);  T(1,2);  T(2,2)];\nTi_out = [Ti(1,1); Ti(2,1); Ti(1,2); Ti(2,2)];\nS_out  = [S_tilde(1,1); S_tilde(2,1"
-      "); S_tilde(1,2); S_tilde(2,2)];\nD_out  = [D_tilde(1,1); D_tilde(2,1); D_tilde(1,2); D_tilde(2,2)];\nG_out  = [G"
-      "_tilde(1,1); G_tilde(2,1); G_tilde(1,2); G_tilde(2,2)];\n\nend\n\n% ============================================"
-      "=============================\n%  LOCAL FUNCTIONS - all fixed-size 2x2, fully explicit\n% ======================"
-      "===================================================\n\nfunction M = loc_M(theta2, a1, a2, b)\n    c2 = cos(theta"
-      "2);\n    M = [a1 + a2 + 2*b*c2,  a2 + b*c2;\n         a2 + b*c2,          a2       ];\nend\n\nfunction Ainv = lo"
-      "c_inv2(A)\n    detA = A(1,1)*A(2,2) - A(1,2)*A(2,1);\n    invDet = 1.0 / detA;\n    Ainv = [A(2,2)*invDet, -A(1,"
-      "2)*invDet;\n           -A(2,1)*invDet,  A(1,1)*invDet];\nend\n\nfunction x = loc_solve2(A, b)\n    Ainv = loc_in"
-      "v2(A);\n    x = [Ainv(1,1)*b(1) + Ainv(1,2)*b(2);\n         Ainv(2,1)*b(1) + Ainv(2,2)*b(2)];\nend\n\nfunction A"
-      "sqrt = loc_sym_sqrt(A)\n    a11 = A(1,1); a12 = A(1,2); a22 = A(2,2);\n    tr      = a11 + a22;\n    det_val = a"
-      "11*a22 - a12*a12;\n    disc    = tr*tr - 4.0*det_val;\n    if disc < 0\n        disc = 0.0;\n    end\n    sq = s"
-      "qrt(disc);\n    lam1 = 0.5*(tr + sq);\n    lam2 = 0.5*(tr - sq);\n    if lam1 < 1e-12; lam1 = 1e-12; end\n    if"
-      " lam2 < 1e-12; lam2 = 1e-12; end\n\n    v1 = zeros(2,1);\n    v2 = zeros(2,1);\n    if abs(a12) > 1e-14\n       "
-      " v1(1) = lam1 - a22;  v1(2) = a12;\n        v2(1) = lam2 - a22;  v2(2) = a12;\n    elseif a11 >= a22\n        v1"
-      "(1) = 1; v1(2) = 0;\n        v2(1) = 0; v2(2) = 1;\n    else\n        v1(1) = 0; v1(2) = 1;\n        v2(1) = 1; "
-      "v2(2) = 0;\n    end\n    n1 = sqrt(v1(1)*v1(1) + v1(2)*v1(2));\n    n2 = sqrt(v2(1)*v2(1) + v2(2)*v2(2));\n    v"
-      "1(1) = v1(1)/n1; v1(2) = v1(2)/n1;\n    v2(1) = v2(1)/n2; v2(2) = v2(2)/n2;\n    s1 = sqrt(lam1);\n    s2v = sqr"
-      "t(lam2);\n    Asqrt = [v1(1)*v1(1)*s1 + v2(1)*v2(1)*s2v, v1(1)*v1(2)*s1 + v2(1)*v2(2)*s2v;\n             v1(2)*v"
-      "1(1)*s1 + v2(2)*v2(1)*s2v, v1(2)*v1(2)*s1 + v2(2)*v2(2)*s2v];\nend\n\nfunction X = loc_sylvester22(A, B, C)\n   "
-      " bt11 = B(1,1); bt12 = B(2,1); bt21 = B(1,2); bt22 = B(2,2);\n    K = zeros(4,4);\n    K(1,1) = A(1,1) + bt11; K"
-      "(1,2) = A(1,2);          K(1,3) = bt12;          K(1,4) = 0;\n    K(2,1) = A(2,1);        K(2,2) = A(2,2) + bt11"
-      ";   K(2,3) = 0;             K(2,4) = bt12;\n    K(3,1) = bt21;          K(3,2) = 0;                K(3,3) = A(1,"
-      "1) + bt22; K(3,4) = A(1,2);\n    K(4,1) = 0;             K(4,2) = bt21;             K(4,3) = A(2,1);        K(4,"
-      "4) = A(2,2) + bt22;\n    rhs = [C(1,1); C(2,1); C(1,2); C(2,2)];\n    x4  = loc_solve4(K, rhs);\n    X = [x4(1),"
-      " x4(3); x4(2), x4(4)];\nend\n\nfunction x = loc_solve4(A, b)\n    Ab = zeros(4,5);\n    Ab(1,1)=A(1,1); Ab(1,2)="
-      "A(1,2); Ab(1,3)=A(1,3); Ab(1,4)=A(1,4); Ab(1,5)=b(1);\n    Ab(2,1)=A(2,1); Ab(2,2)=A(2,2); Ab(2,3)=A(2,3); Ab(2,"
-      "4)=A(2,4); Ab(2,5)=b(2);\n    Ab(3,1)=A(3,1); Ab(3,2)=A(3,2); Ab(3,3)=A(3,3); Ab(3,4)=A(3,4); Ab(3,5)=b(3);\n   "
-      " Ab(4,1)=A(4,1); Ab(4,2)=A(4,2); Ab(4,3)=A(4,3); Ab(4,4)=A(4,4); Ab(4,5)=b(4);\n    for col = 1:3\n        maxVa"
-      "l = abs(Ab(col,col));\n        maxRow = col;\n        for row = col+1:4\n            if abs(Ab(row,col)) > maxVa"
-      "l\n                maxVal = abs(Ab(row,col));\n                maxRow = row;\n            end\n        end\n    "
-      "    if maxRow ~= col\n            for c = 1:5\n                tmp = Ab(col,c);\n                Ab(col,c) = Ab("
-      "maxRow,c);\n                Ab(maxRow,c) = tmp;\n            end\n        end\n        for row = col+1:4\n      "
-      "      factor = Ab(row,col) / Ab(col,col);\n            for c = col:5\n                Ab(row,c) = Ab(row,c) - fa"
-      "ctor * Ab(col,c);\n            end\n        end\n    end\n    x = zeros(4,1);\n    x(4) = Ab(4,5) / Ab(4,4);\n  "
-      "  x(3) = (Ab(3,5) - Ab(3,4)*x(4)) / Ab(3,3);\n    x(2) = (Ab(2,5) - Ab(2,3)*x(3) - Ab(2,4)*x(4)) / Ab(2,2);\n   "
-      " x(1) = (Ab(1,5) - Ab(1,2)*x(2) - Ab(1,3)*x(3) - Ab(1,4)*x(4)) / Ab(1,1);\nend\n\nfunction Sbar = loc_compute_Sb"
-      "ar(T, dTi_dq2, phat)\n    Sbar = zeros(2,2);\n    % i=1: ei = [1;0]\n    col2_1 = [dTi_dq2(1,1); dTi_dq2(2,1)];\n"
-      "    A1 = [0, col2_1(1); 0, col2_1(2)];\n    S1 = T * (A1' - A1) * T;\n    Sbar(1,1) = S1(1,1)*phat(1) + S1(1,2)*"
-      "phat(2);\n    Sbar(2,1) = S1(2,1)*phat(1) + S1(2,2)*phat(2);\n    % i=2: ei = [0;1]\n    col2_2 = [dTi_dq2(1,2);"
-      " dTi_dq2(2,2)];\n    A2 = [0, col2_2(1); 0, col2_2(2)];\n    S2 = T * (A2' - A2) * T;\n    Sbar(1,2) = S2(1,1)*p"
-      "hat(1) + S2(1,2)*phat(2);\n    Sbar(2,2) = S2(2,1)*phat(1) + S2(2,2)*phat(2);\nend\n\nfunction sc = loc_switch_c"
-      "ond(phi, Sbar, T)\n    P11 = phi*T(1,1) - Sbar(1,1);\n    P12 = phi*T(1,2) - 0.5*(Sbar(1,2) + Sbar(2,1));\n    P"
-      "21 = P12;\n    P22 = phi*T(2,2) - Sbar(2,2);\n    tr_P  = P11 + P22;\n    det_P = P11*P22 - P12*P21;\n    disc  "
-      "= tr_P*tr_P - 4.0*det_P;\n    if disc < 0; disc = 0.0; end\n    sc = 0.5*(tr_P - sqrt(disc));\nend\n\nfunction x"
-      "p_new = loc_obs_rk4(q, xp, phi, S, D, T, G, u, gradV, uo, dt)\n    k1 = loc_obs_dot(q, xp, phi, S, D, T, G, u, g"
-      "radV, uo);\n    xp2 = [xp(1)+0.5*dt*k1(1); xp(2)+0.5*dt*k1(2)];\n    k2 = loc_obs_dot(q, xp2, phi, S, D, T, G, u"
-      ", gradV, uo);\n    xp3 = [xp(1)+0.5*dt*k2(1); xp(2)+0.5*dt*k2(2)];\n    k3 = loc_obs_dot(q, xp3, phi, S, D, T, G"
-      ", u, gradV, uo);\n    xp4 = [xp(1)+dt*k3(1); xp(2)+dt*k3(2)];\n    k4 = loc_obs_dot(q, xp4, phi, S, D, T, G, u, "
-      "gradV, uo);\n    xp_new = [xp(1) + (dt/6.0)*(k1(1)+2.0*k2(1)+2.0*k3(1)+k4(1));\n              xp(2) + (dt/6.0)*("
-      "k1(2)+2.0*k2(2)+2.0*k3(2)+k4(2))];\nend\n\nfunction dxp = loc_obs_dot(q, xp, phi, S, D, T, G, u, gradV, uo)\n   "
-      " ph1 = xp(1) + phi*q(1);\n    ph2 = xp(2) + phi*q(2);\n    SDpT = S - D - phi*T;\n    ut1 = u(1) + uo(1);\n    u"
-      "t2 = u(2) + uo(2);\n    dxp = [SDpT(1,1)*ph1 + SDpT(1,2)*ph2 - T(1,1)*gradV(1) - T(1,2)*gradV(2) + G(1,1)*ut1 + "
-      "G(1,2)*ut2;\n           SDpT(2,1)*ph1 + SDpT(2,2)*ph2 - T(2,1)*gradV(1) - T(2,2)*gradV(2) + G(2,1)*ut1 + G(2,2)*"
-      "ut2];\nend"
+      script		      "function [u, phat_out, uo, u_ff, ud, phi_out, xp_out] = ...\n    pH_controller_fcn(q, qd, dqd, dd"
+      "qd, xp_in, phi_in, dt, ...\n                      a1, a2, bp, b1, b2, Kp_diag, Kd_diag, alpha, kappa)\n%#codegen"
+      "\n% pH_CONTROLLER_FCN  Combined observer + KPES controller for 2-DOF robot.\n%\n%  SIMULINK MATLAB FUNCTION BLOC"
+      "K - 2018b / Coder compatible.\n%\n%  HOW TO WIRE IN SIMULINK:\n%  1. Place a MATLAB Function block, paste this c"
+      "ode.\n%  2. In the block's \"Ports and Data Manager\" (or \"Edit Data\"):\n%     - All inputs: Size = as listed "
+      "below, Type = double, Complexity = real\n%       q       : [2 1]     qd      : [2 1]     dqd     : [2 1]\n%     "
+      "  ddqd    : [2 1]     xp_in   : [2 1]     phi_in  : [1 1]\n%       dt      : [1 1]     a1..kappa: [1 1]  (all sc"
+      "alars)\n%     - For scalar parameters (a1,a2,bp,b1,b2,Kp_diag,Kd_diag,alpha,kappa,dt):\n%       set Scope = \"Pa"
+      "rameter\" so they come from the mask/workspace,\n%       OR leave as \"Input\" and wire Constant blocks.\n%  3. "
+      "Outputs are auto-sized from the initializations below.\n%  4. Connect xp_out -> Unit Delay (IC=[0;0]) -> xp_in\n"
+      "%     Connect phi_out -> Unit Delay (IC=0)    -> phi_in\n\n% ==================================================="
+      "==================\n%  OUTPUT INITIALIZATION  (THIS is what Simulink uses for dimension\n%  inference. Every out"
+      "put must be assigned a fixed-size value before\n%  any conditional or loop code.)\n% ==========================="
+      "==========================================\nu         = zeros(2,1);\nphat_out  = zeros(2,1);\nqe        = zeros("
+      "2,1);\npe        = zeros(2,1);\nv_k       = zeros(2,1);\nye        = zeros(2,1);\nuo        = zeros(2,1);\nud   "
+      "     = zeros(2,1);\nu_ff      = zeros(2,1);\nphi_out   = 0;\nxp_out    = zeros(2,1);\nT_out     = zeros(4,1);\nT"
+      "i_out    = zeros(4,1);\nS_out     = zeros(4,1);\nD_out     = zeros(4,1);\nG_out     = zeros(4,1);\nswitchVal = 0"
+      ";\n\n% =====================================================================\n%  MAIN COMPUTATION\n% ==========="
+      "==========================================================\n\n% ---- Local copies (ensure column) ----\nq_c    ="
+      " [q(1); q(2)];\nqd_c   = [qd(1); qd(2)];\ndqd_c  = [dqd(1); dqd(2)];\nddqd_c = [ddqd(1); ddqd(2)];\nxp     = [xp"
+      "_in(1); xp_in(2)];\nphi    = phi_in(1);\n\n% ---- Gain matrices ----\nKp = Kp_diag;\nKd = Kd_diag;\n\n% ---- Mas"
+      "s matrix and transforms ----\nM       = loc_M(q_c(2), a1, a2, bp);\nMinv    = loc_inv2(M);\nT       = loc_sym_sq"
+      "rt(Minv);        % M^{-1/2}\nTi      = loc_sym_sqrt(M);           % M^{1/2}\n\nD0 = [b1,0;0,b2];\nD_tilde = T * "
+      "D0 * T;\nG_tilde = T;                         % G0 = I\n\n% ---- dM/dq2 -> dTi/dq2 via Sylvester ----\ns2       "
+      "= sin(q_c(2));\ndM_dq2   = [-2*bp*s2, -bp*s2; -bp*s2, 0];\ndTi_dq2  = loc_sylvester22(Ti, Ti, dM_dq2);\n\n% ----"
+      " Observer: momentum estimate ----\nphat = [xp(1) + phi*q_c(1); xp(2) + phi*q_c(2)];\n\n% ---- Sbar for switching"
+      " condition ----\nSbar = loc_compute_Sbar(T, dTi_dq2, phat);\n\n% ---- Switching logic (jumps) ----\nmaxJumps  = "
+      "50;\njumpCount = 0;\nswitchVal = loc_switch_cond(phi, Sbar, T) - kappa;\n\nwhile (switchVal <= 0) && (jumpCount "
+      "< maxJumps)\n    xp(1) = xp(1) - kappa * q_c(1);\n    xp(2) = xp(2) - kappa * q_c(2);\n    phi   = phi + kappa;\n"
+      "    phat(1) = xp(1) + phi*q_c(1);\n    phat(2) = xp(2) + phi*q_c(2);\n    Sbar = loc_compute_Sbar(T, dTi_dq2, ph"
+      "at);\n    switchVal = loc_switch_cond(phi, Sbar, T) - kappa;\n    jumpCount = jumpCount + 1;\nend\n\n% ---- S ma"
+      "trix with final phat ----\ncol2    = [dTi_dq2(1,1)*phat(1) + dTi_dq2(1,2)*phat(2);\n           dTi_dq2(2,1)*phat"
+      "(1) + dTi_dq2(2,2)*phat(2)];\nA_mat   = [0, col2(1); 0, col2(2)];\nS_tilde = T * (A_mat' - A_mat) * T;\n\n% ----"
+      " Error coordinates ----\npd  = [Ti(1,1)*dqd_c(1) + Ti(1,2)*dqd_c(2);\n       Ti(2,1)*dqd_c(1) + Ti(2,2)*dqd_c(2)"
+      "];\nqe  = [q_c(1) - qd_c(1); q_c(2) - qd_c(2)];\npe  = [phat(1) - pd(1);   phat(2) - pd(2)];\n\n% ---- dpd/dq (o"
+      "nly q2 column nonzero) ----\ndpd_col2 = [dTi_dq2(1,1)*dqd_c(1) + dTi_dq2(1,2)*dqd_c(2);\n            dTi_dq2(2,1"
+      ")*dqd_c(1) + dTi_dq2(2,2)*dqd_c(2)];\ndpd_dq = [0, dpd_col2(1); 0, dpd_col2(2)];\n\n% ---- KPES injection ----\n"
+      "z   = [qe(1) + alpha*pe(1); qe(2) + alpha*pe(2)];\nKpz = [Kp(1,1)*z(1); Kp(2,2)*z(2)];  % Kp diagonal\nSDK = S_t"
+      "ilde - D_tilde - Kd;\nv_k = [alpha*(SDK(1,1)*Kpz(1) + SDK(1,2)*Kpz(2)) - T(1,1)*Kpz(1) - T(1,2)*Kpz(2) - Kd(1,1)"
+      "*pe(1);\n       alpha*(SDK(2,1)*Kpz(1) + SDK(2,2)*Kpz(2)) - T(2,1)*Kpz(1) - T(2,2)*Kpz(2) - Kd(2,2)*pe(2)];\n\n%"
+      " ---- Passive output ----\ndHe_dqe = [Kp(1,1)*(qe(1) + alpha*pe(1)); Kp(2,2)*(qe(2) + alpha*pe(2))];\ndHe_dpe = "
+      "[pe(1) + alpha*Kp(1,1)*(qe(1) + alpha*pe(1));\n           pe(2) + alpha*Kp(2,2)*(qe(2) + alpha*pe(2))];\n\n% top"
+      "_block = [I2, phi*I2 - dpd_dq']  is 2x4\n% stacked   = [dHe_dqe; dHe_dpe]      is 4x1\nphiI_minus_dpdT = [phi - "
+      "dpd_dq(1,1), -dpd_dq(2,1);\n                   -dpd_dq(1,2),  phi - dpd_dq(2,2)];\ninner = [dHe_dqe(1) + phiI_mi"
+      "nus_dpdT(1,1)*dHe_dpe(1) + phiI_minus_dpdT(1,2)*dHe_dpe(2);\n         dHe_dqe(2) + phiI_minus_dpdT(2,1)*dHe_dpe("
+      "1) + phiI_minus_dpdT(2,2)*dHe_dpe(2)];\nye = [-T(1,1)*inner(1) - T(1,2)*inner(2);\n      -T(2,1)*inner(1) - T(2,"
+      "2)*inner(2)];\n\n% ---- Passive interconnection: uo = -G_tilde^{-1} * ye ----\nuo = loc_solve2(G_tilde, [-ye(1);"
+      " -ye(2)]);\n\n% ---- Feedforward ----\ngradV = [0; 0];\nTphat = [T(1,1)*phat(1) + T(1,2)*phat(2);\n         T(2,"
+      "1)*phat(1) + T(2,2)*phat(2)];\ndpd_dq_Tphat = [dpd_dq(1,1)*Tphat(1) + dpd_dq(1,2)*Tphat(2);\n                dpd"
+      "_dq(2,1)*Tphat(1) + dpd_dq(2,2)*Tphat(2)];\nTi_ddqd = [Ti(1,1)*ddqd_c(1) + Ti(1,2)*ddqd_c(2);\n           Ti(2,1"
+      ")*ddqd_c(1) + Ti(2,2)*ddqd_c(2)];\nSD = S_tilde - D_tilde;\nff_rhs = [-(SD(1,1)*pd(1) + SD(1,2)*pd(2)) + dpd_dq_"
+      "Tphat(1) + Ti_ddqd(1) + v_k(1);\n          -(SD(2,1)*pd(1) + SD(2,2)*pd(2)) + dpd_dq_Tphat(2) + Ti_ddqd(2) + v_k"
+      "(2)];\nu_ff = loc_solve2(G_tilde, ff_rhs);\n\n% ---- Total control ----\nu = [-uo(1) + u_ff(1); -uo(2) + u_ff(2)"
+      "];\n\n%Nominal input\nC = C_mat(qd_c(2), dqd_c(1), dqd_c(2), bp);\nud = (M*ddqd_c+C*dqd_c+D0*qd_c);\n\n% ---- Ob"
+      "server RK4 update ----\nxp_out = loc_obs_rk4(q_c, xp, phi, S_tilde, D_tilde, T, G_tilde, ...\n                  "
+      "    u, gradV, uo, dt);\nphi_out = phi;\n\n% ---- Estimated momentum in original coords ----\nphat_out = [Ti(1,1)"
+      "*phat(1) + Ti(1,2)*phat(2);\n            Ti(2,1)*phat(1) + Ti(2,2)*phat(2)];\n\n% ---- Pack matrices for logging"
+      " ----\nT_out  = [T(1,1);  T(2,1);  T(1,2);  T(2,2)];\nTi_out = [Ti(1,1); Ti(2,1); Ti(1,2); Ti(2,2)];\nS_out  = ["
+      "S_tilde(1,1); S_tilde(2,1); S_tilde(1,2); S_tilde(2,2)];\nD_out  = [D_tilde(1,1); D_tilde(2,1); D_tilde(1,2); D_"
+      "tilde(2,2)];\nG_out  = [G_tilde(1,1); G_tilde(2,1); G_tilde(1,2); G_tilde(2,2)];\n\nend\n\n% ==================="
+      "======================================================\n%  LOCAL FUNCTIONS - all fixed-size 2x2, fully explicit\n"
+      "% =========================================================================\n\nfunction M = loc_M(theta2, a1, a2"
+      ", b)\n    c2 = cos(theta2);\n    M = [a1 + a2 + 2*b*c2,  a2 + b*c2;\n         a2 + b*c2,          a2       ];\ne"
+      "nd\n\nfunction Ainv = loc_inv2(A)\n    detA = A(1,1)*A(2,2) - A(1,2)*A(2,1);\n    invDet = 1.0 / detA;\n    Ainv"
+      " = [A(2,2)*invDet, -A(1,2)*invDet;\n           -A(2,1)*invDet,  A(1,1)*invDet];\nend\n\nfunction x = loc_solve2("
+      "A, b)\n    Ainv = loc_inv2(A);\n    x = [Ainv(1,1)*b(1) + Ainv(1,2)*b(2);\n         Ainv(2,1)*b(1) + Ainv(2,2)*b"
+      "(2)];\nend\n\nfunction Asqrt = loc_sym_sqrt(A)\n    a11 = A(1,1); a12 = A(1,2); a22 = A(2,2);\n    tr      = a11"
+      " + a22;\n    det_val = a11*a22 - a12*a12;\n    disc    = tr*tr - 4.0*det_val;\n    if disc < 0\n        disc = 0"
+      ".0;\n    end\n    sq = sqrt(disc);\n    lam1 = 0.5*(tr + sq);\n    lam2 = 0.5*(tr - sq);\n    if lam1 < 1e-12; l"
+      "am1 = 1e-12; end\n    if lam2 < 1e-12; lam2 = 1e-12; end\n\n    v1 = zeros(2,1);\n    v2 = zeros(2,1);\n    if a"
+      "bs(a12) > 1e-14\n        v1(1) = lam1 - a22;  v1(2) = a12;\n        v2(1) = lam2 - a22;  v2(2) = a12;\n    elsei"
+      "f a11 >= a22\n        v1(1) = 1; v1(2) = 0;\n        v2(1) = 0; v2(2) = 1;\n    else\n        v1(1) = 0; v1(2) ="
+      " 1;\n        v2(1) = 1; v2(2) = 0;\n    end\n    n1 = sqrt(v1(1)*v1(1) + v1(2)*v1(2));\n    n2 = sqrt(v2(1)*v2(1"
+      ") + v2(2)*v2(2));\n    v1(1) = v1(1)/n1; v1(2) = v1(2)/n1;\n    v2(1) = v2(1)/n2; v2(2) = v2(2)/n2;\n    s1 = sq"
+      "rt(lam1);\n    s2v = sqrt(lam2);\n    Asqrt = [v1(1)*v1(1)*s1 + v2(1)*v2(1)*s2v, v1(1)*v1(2)*s1 + v2(1)*v2(2)*s2"
+      "v;\n             v1(2)*v1(1)*s1 + v2(2)*v2(1)*s2v, v1(2)*v1(2)*s1 + v2(2)*v2(2)*s2v];\nend\n\nfunction X = loc_s"
+      "ylvester22(A, B, C)\n    bt11 = B(1,1); bt12 = B(2,1); bt21 = B(1,2); bt22 = B(2,2);\n    K = zeros(4,4);\n    K"
+      "(1,1) = A(1,1) + bt11; K(1,2) = A(1,2);          K(1,3) = bt12;          K(1,4) = 0;\n    K(2,1) = A(2,1);      "
+      "  K(2,2) = A(2,2) + bt11;   K(2,3) = 0;             K(2,4) = bt12;\n    K(3,1) = bt21;          K(3,2) = 0;     "
+      "           K(3,3) = A(1,1) + bt22; K(3,4) = A(1,2);\n    K(4,1) = 0;             K(4,2) = bt21;             K(4,"
+      "3) = A(2,1);        K(4,4) = A(2,2) + bt22;\n    rhs = [C(1,1); C(2,1); C(1,2); C(2,2)];\n    x4  = loc_solve4(K"
+      ", rhs);\n    X = [x4(1), x4(3); x4(2), x4(4)];\nend\n\nfunction x = loc_solve4(A, b)\n    Ab = zeros(4,5);\n    "
+      "Ab(1,1)=A(1,1); Ab(1,2)=A(1,2); Ab(1,3)=A(1,3); Ab(1,4)=A(1,4); Ab(1,5)=b(1);\n    Ab(2,1)=A(2,1); Ab(2,2)=A(2,2"
+      "); Ab(2,3)=A(2,3); Ab(2,4)=A(2,4); Ab(2,5)=b(2);\n    Ab(3,1)=A(3,1); Ab(3,2)=A(3,2); Ab(3,3)=A(3,3); Ab(3,4)=A("
+      "3,4); Ab(3,5)=b(3);\n    Ab(4,1)=A(4,1); Ab(4,2)=A(4,2); Ab(4,3)=A(4,3); Ab(4,4)=A(4,4); Ab(4,5)=b(4);\n    for "
+      "col = 1:3\n        maxVal = abs(Ab(col,col));\n        maxRow = col;\n        for row = col+1:4\n            if "
+      "abs(Ab(row,col)) > maxVal\n                maxVal = abs(Ab(row,col));\n                maxRow = row;\n          "
+      "  end\n        end\n        if maxRow ~= col\n            for c = 1:5\n                tmp = Ab(col,c);\n       "
+      "         Ab(col,c) = Ab(maxRow,c);\n                Ab(maxRow,c) = tmp;\n            end\n        end\n        f"
+      "or row = col+1:4\n            factor = Ab(row,col) / Ab(col,col);\n            for c = col:5\n                Ab"
+      "(row,c) = Ab(row,c) - factor * Ab(col,c);\n            end\n        end\n    end\n    x = zeros(4,1);\n    x(4) "
+      "= Ab(4,5) / Ab(4,4);\n    x(3) = (Ab(3,5) - Ab(3,4)*x(4)) / Ab(3,3);\n    x(2) = (Ab(2,5) - Ab(2,3)*x(3) - Ab(2,"
+      "4)*x(4)) / Ab(2,2);\n    x(1) = (Ab(1,5) - Ab(1,2)*x(2) - Ab(1,3)*x(3) - Ab(1,4)*x(4)) / Ab(1,1);\nend\n\nfuncti"
+      "on Sbar = loc_compute_Sbar(T, dTi_dq2, phat)\n    Sbar = zeros(2,2);\n    % i=1: ei = [1;0]\n    col2_1 = [dTi_d"
+      "q2(1,1); dTi_dq2(2,1)];\n    A1 = [0, col2_1(1); 0, col2_1(2)];\n    S1 = T * (A1' - A1) * T;\n    Sbar(1,1) = S"
+      "1(1,1)*phat(1) + S1(1,2)*phat(2);\n    Sbar(2,1) = S1(2,1)*phat(1) + S1(2,2)*phat(2);\n    % i=2: ei = [0;1]\n  "
+      "  col2_2 = [dTi_dq2(1,2); dTi_dq2(2,2)];\n    A2 = [0, col2_2(1); 0, col2_2(2)];\n    S2 = T * (A2' - A2) * T;\n"
+      "    Sbar(1,2) = S2(1,1)*phat(1) + S2(1,2)*phat(2);\n    Sbar(2,2) = S2(2,1)*phat(1) + S2(2,2)*phat(2);\nend\n\nf"
+      "unction sc = loc_switch_cond(phi, Sbar, T)\n    P11 = phi*T(1,1) - Sbar(1,1);\n    P12 = phi*T(1,2) - 0.5*(Sbar("
+      "1,2) + Sbar(2,1));\n    P21 = P12;\n    P22 = phi*T(2,2) - Sbar(2,2);\n    tr_P  = P11 + P22;\n    det_P = P11*P"
+      "22 - P12*P21;\n    disc  = tr_P*tr_P - 4.0*det_P;\n    if disc < 0; disc = 0.0; end\n    sc = 0.5*(tr_P - sqrt(d"
+      "isc));\nend\n\nfunction xp_new = loc_obs_rk4(q, xp, phi, S, D, T, G, u, gradV, uo, dt)\n    k1 = loc_obs_dot(q, "
+      "xp, phi, S, D, T, G, u, gradV, uo);\n    xp2 = [xp(1)+0.5*dt*k1(1); xp(2)+0.5*dt*k1(2)];\n    k2 = loc_obs_dot(q"
+      ", xp2, phi, S, D, T, G, u, gradV, uo);\n    xp3 = [xp(1)+0.5*dt*k2(1); xp(2)+0.5*dt*k2(2)];\n    k3 = loc_obs_do"
+      "t(q, xp3, phi, S, D, T, G, u, gradV, uo);\n    xp4 = [xp(1)+dt*k3(1); xp(2)+dt*k3(2)];\n    k4 = loc_obs_dot(q, "
+      "xp4, phi, S, D, T, G, u, gradV, uo);\n    xp_new = [xp(1) + (dt/6.0)*(k1(1)+2.0*k2(1)+2.0*k3(1)+k4(1));\n       "
+      "       xp(2) + (dt/6.0)*(k1(2)+2.0*k2(2)+2.0*k3(2)+k4(2))];\nend\n\nfunction dxp = loc_obs_dot(q, xp, phi, S, D,"
+      " T, G, u, gradV, uo)\n    ph1 = xp(1) + phi*q(1);\n    ph2 = xp(2) + phi*q(2);\n    SDpT = S - D - phi*T;\n    u"
+      "t1 = u(1) + uo(1);\n    ut2 = u(2) + uo(2);\n    dxp = [SDpT(1,1)*ph1 + SDpT(1,2)*ph2 - T(1,1)*gradV(1) - T(1,2)"
+      "*gradV(2) + G(1,1)*ut1 + G(1,2)*ut2;\n           SDpT(2,1)*ph1 + SDpT(2,2)*ph2 - T(2,1)*gradV(1) - T(2,2)*gradV("
+      "2) + G(2,1)*ut1 + G(2,2)*ut2];\nend\n\nfunction C = C_mat(theta2, dtheta1, dtheta2, b)\n    s2 = sin(theta2);\n "
+      "   C = [-b*s2*dtheta2,           -b*s2*(dtheta1 + dtheta2);\n          b*s2*dtheta1,            0];\nend\n"
       editorLayout	      "100 M4x1[10 5 700 500]"
     }
   }
@@ -6275,8 +6747,8 @@ Stateflow {
   }
   data {
     id			    24
-    ssIdNumber		    28
-    name		    "phi_out"
+    ssIdNumber		    36
+    name		    "ud"
     scope		    OUTPUT_DATA
     machine		    1
     props {
@@ -6300,6 +6772,31 @@ Stateflow {
   }
   data {
     id			    25
+    ssIdNumber		    28
+    name		    "phi_out"
+    scope		    OUTPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_NO
+      unit {
+	name			"inherit"
+      }
+    }
+    dataType		    "Inherit: Same as Simulink"
+    linkNode		    [2 24 26]
+  }
+  data {
+    id			    26
     ssIdNumber		    29
     name		    "xp_out"
     scope		    OUTPUT_DATA
@@ -6321,10 +6818,10 @@ Stateflow {
       }
     }
     dataType		    "Inherit: Same as Simulink"
-    linkNode		    [2 24 0]
+    linkNode		    [2 25 0]
   }
   junction {
-    id			    26
+    id			    27
     position		    [23.5747 49.5747 7]
     chart		    2
     subviewer		    2
@@ -6333,7 +6830,7 @@ Stateflow {
     linkNode		    [2 0 0]
   }
   transition {
-    id			    27
+    id			    28
     labelString		    "{eML_blk_kernel();}"
     labelPosition	    [28.125 13.875 102.544 14.964]
     fontSize		    12
@@ -6341,7 +6838,7 @@ Stateflow {
       intersection	      [0 0 1 0 23.5747 14.625 0 0]
     }
     dst {
-      id		      26
+      id		      27
       intersection	      [1 0 -1 0 23.5747 42.5747 0 0]
     }
     midPoint		    [23.5747 24.9468]
@@ -6357,22 +6854,22 @@ Stateflow {
     linkNode		    [2 0 0]
   }
   instance {
-    id			    28
+    id			    29
     machine		    1
     name		    "MATLAB Function"
     chart		    2
   }
   target {
-    id			    29
+    id			    30
     machine		    1
     name		    "sfun"
     description		    "Default Simulink S-Function Target."
-    linkNode		    [1 0 30]
+    linkNode		    [1 0 31]
   }
   target {
-    id			    30
+    id			    31
     machine		    1
     name		    "rtw"
-    linkNode		    [1 29 0]
+    linkNode		    [1 30 0]
   }
 }

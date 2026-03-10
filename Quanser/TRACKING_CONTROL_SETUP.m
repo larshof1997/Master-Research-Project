@@ -13,7 +13,7 @@
 clear all
 %
 
-dt = 0.01;
+dt = 0.001;
 
 %% Watchdogs
 % Turn on or off all four limit switches of the system. When enabled, it
@@ -100,25 +100,45 @@ kp_traj = zeros(2,2);
 ki_traj = zeros(2,2);
 kd_traj = zeros(2,2);
 
-load('C:\Users\S4236610\Documents\GitHub\Master-Research-Project\Quanser\DATA_2DOF_12\traj_01');
+%% Load desired trajectory 
+sleep = 2;
 
-N = size(q,1);
+t_end = 10;
+n_pad = round(sleep/dt);
+t = (0:dt:t_end)';
 
-t = (0:length(q)-1)' * dt;
+%control input perubation
+a1 = 0;
+a2 = 0;
+f=2;
+u_pert   = [a1*sin(2*pi*f*t), a2*sin(2*pi*f*t)];
 
-q_ts   = timeseries(q', t);
-qd_ts  = timeseries(qd', t);
-qdd_ts = timeseries(qdd', t);
+qd   = [sin(t), cos(2*t)];
+dqd  = [cos(t), -2*sin(2*t)];
+ddqd = [-sin(t), -4*cos(2*t)];
+
+u_pert   = [zeros(n_pad, 2); u_pert];
+qd   = [zeros(n_pad, 2); qd];
+dqd  = [zeros(n_pad, 2); dqd];
+ddqd = [zeros(n_pad, 2); ddqd];
+
+N = length(qd);
+t = (0:dt:t_end + sleep)';
+
+u_pert_ts   = timeseries(u_pert, t);
+qd_ts   = timeseries(qd, t);
+dqd_ts  = timeseries(dqd, t);
+ddqd_ts = timeseries(ddqd, t);
 
 
 %% Controller parameters
-alpha = 0.2;
-Kp = 6 * eye(2);
-Kd = 1*eye(2);
+alpha = 0.1827;
+Kp = 1.7373 * eye(2);
+Kd = diag([12,5]);
 
 
 %% Observer parameters
-kappa = 0.1;
+kappa = 0.8564;
 %% Observer initial conditions
 xp  = [0 0];
 phi = 0;

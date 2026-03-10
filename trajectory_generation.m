@@ -309,7 +309,7 @@ for ti = 1:N_traj
     save(fname, 'q','qd','qdd','t','Ts_save','traj_name','traj_type');
     fprintf('  Saved %s  (%s)\n', fname, traj_name);
 end
-all_trajs = trajs; %#ok<NASGU>
+all_trajs = trajs; 
 save('all_trajectories.mat', 'all_trajs');
 fprintf('  Saved all_trajectories.mat\n');
 

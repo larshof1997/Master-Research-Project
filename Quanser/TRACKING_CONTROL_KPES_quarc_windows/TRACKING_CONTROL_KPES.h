@@ -7,9 +7,9 @@
  *
  * Code generation for model "TRACKING_CONTROL_KPES".
  *
- * Model version              : 1.148
+ * Model version              : 1.166
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Mon Mar  9 11:36:23 2026
+ * C source code generated on : Tue Mar 10 15:32:44 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -850,8 +850,12 @@ typedef struct {
   real_T UnitDelay2;                   /* '<Root>/Unit Delay2' */
   real_T UnaryMinus1;                  /* '<Root>/Unary Minus1' */
   real_T UnitDelay3;                   /* '<Root>/Unit Delay3' */
+  real_T Abs;                          /* '<Root>/Abs' */
+  real_T Abs1;                         /* '<Root>/Abs1' */
   real_T FromWorkspace4[2];            /* '<Root>/From Workspace4' */
-  real_T VectorConcatenate[10];        /* '<Root>/Vector Concatenate' */
+  real_T VectorConcatenate[14];        /* '<Root>/Vector Concatenate' */
+  real_T Sum3;                         /* '<Root>/Sum3' */
+  real_T Sum;                          /* '<Root>/Sum' */
   real_T TSamp;                        /* '<S17>/TSamp' */
   real_T TSamp_g;                      /* '<S14>/TSamp' */
   real_T Torquetocurrent;              /* '<S4>/Torque to current ' */
@@ -887,6 +891,8 @@ typedef struct {
   real_T UnitDelay3_DSTATE;            /* '<Root>/Unit Delay3' */
   real_T UnitDelay_DSTATE[2];          /* '<Root>/Unit Delay' */
   real_T UnitDelay1_DSTATE;            /* '<Root>/Unit Delay1' */
+  real_T UnitDelay4_DSTATE;            /* '<Root>/Unit Delay4' */
+  real_T UnitDelay5_DSTATE;            /* '<Root>/Unit Delay5' */
   real_T UD_DSTATE;                    /* '<S17>/UD' */
   real_T UD_DSTATE_e;                  /* '<S14>/UD' */
   real_T UD_DSTATE_i;                  /* '<S16>/UD' */
@@ -917,6 +923,10 @@ typedef struct {
   } Scope1_PWORK;                      /* '<Root>/Scope1' */
 
   struct {
+    void *LoggedData[3];
+  } Scope2_PWORK;                      /* '<Root>/Scope2' */
+
+  struct {
     void *TimePtr;
     void *DataPtr;
     void *RSimInfoPtr;
@@ -935,8 +945,22 @@ typedef struct {
   } FromWorkspace2_PWORK;              /* '<Root>/From Workspace2' */
 
   struct {
+    void *TimePtr;
+    void *DataPtr;
+    void *RSimInfoPtr;
+  } FromWorkspace3_PWORK;              /* '<Root>/From Workspace3' */
+
+  struct {
     void *LoggedData;
   } ToWorkspace_PWORK;                 /* '<Root>/To Workspace' */
+
+  struct {
+    void *LoggedData;
+  } ToWorkspace1_PWORK;                /* '<Root>/To Workspace1' */
+
+  struct {
+    void *LoggedData;
+  } ToWorkspace2_PWORK;                /* '<Root>/To Workspace2' */
 
   void *HILReadEncoder_PWORK_j;        /* '<S4>/HIL Read Encoder' */
   void *HILReadAnalog_PWORK;           /* '<S4>/HIL Read Analog' */
@@ -990,6 +1014,10 @@ typedef struct {
     int_T PrevIndex;
   } FromWorkspace2_IWORK;              /* '<Root>/From Workspace2' */
 
+  struct {
+    int_T PrevIndex;
+  } FromWorkspace3_IWORK;              /* '<Root>/From Workspace3' */
+
   boolean_T HILInitialize_DOBits[9];   /* '<Root>/HIL Initialize' */
   boolean_T HILWriteDigitalTimebase_Started;/* '<Root>/HIL Write Digital Timebase' */
   t_boolean HILWriteDigitalTimebase_Buffer;/* '<Root>/HIL Write Digital Timebase' */
@@ -1021,10 +1049,9 @@ struct P_TRACKING_CONTROL_KPES_T_ {
                                         *   '<S5>/Motor #2 Encoder Calib1'
                                         */
   real_T Kd[4];                        /* Variable: Kd
-                                        * Referenced by: '<Root>/Constant7'
-                                        */
-  real_T Kp[4];                        /* Variable: Kp
-                                        * Referenced by: '<Root>/Constant6'
+                                        * Referenced by:
+                                        *   '<Root>/Constant6'
+                                        *   '<Root>/Constant7'
                                         */
   real_T Kt1;                          /* Variable: Kt1
                                         * Referenced by: '<S5>/Torque to current '
@@ -1194,6 +1221,12 @@ struct P_TRACKING_CONTROL_KPES_T_ {
                                         */
   real_T UnitDelay1_InitialCondition;  /* Expression: 0
                                         * Referenced by: '<Root>/Unit Delay1'
+                                        */
+  real_T UnitDelay4_InitialCondition;  /* Expression: 0
+                                        * Referenced by: '<Root>/Unit Delay4'
+                                        */
+  real_T UnitDelay5_InitialCondition;  /* Expression: 0
+                                        * Referenced by: '<Root>/Unit Delay5'
                                         */
   real_T TSamp_WtEt;                   /* Computed Parameter: TSamp_WtEt
                                         * Referenced by: '<S17>/TSamp'

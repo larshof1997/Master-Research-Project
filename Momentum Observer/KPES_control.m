@@ -5,24 +5,18 @@ t_end = 10;
 t = (0:dt:t_end)';
 N = numel(t);
 
-%% Load desired trajectory (placeholder — replace with your .mat)
-% Expects: qd (Nx2), dqd (Nx2), ddqd (Nx2)
-% traj = load('trajectory.mat');
-% qd = traj.qd;  dqd = traj.dqd;  ddqd = traj.ddqd;
-
-% For now, use a simple sinusoidal reference
+%% Load desired trajectory 
 qd   = [sin(t), cos(2*t)];
 dqd  = [cos(t), -2*sin(2*t)];
 ddqd = [-sin(t), -4*cos(2*t)];
 
-%% Physical constants
-m1 = 1.6537;  l1 = 0.343;  r1 = 0.29;  I1 = 0.039;
-m2 = 0.9982;  l2 = 0.267;  r2 = 0.175; I2 = 0.0081;
-b1 = 0.02;    b2 = 0.025;
+%% Physical constants (from LS analysis)
+a1 = 0.092202;
+a2 = 0.023242;
+bp  = 0.027542;
 
-a1 = m1*r1^2 + m2*l1^2 + I1;
-a2 = m2*r2^2 + I2;
-bp = m2*l1*r2;
+b1  = 0.396193;
+b0  = 0.195026;
 
 mass_fn = @(q) M_mat(q(2), a1, a2, bp);
 D0      = D_mat(b1, b2);
@@ -43,7 +37,7 @@ switchCond = @(phi, Sbar, T_mat) ...
 
 %% Preallocate
 x_sim    = zeros(N, 4);           % plant state [q1 q2 dq1 dq2]
-x_sim(1,:) = [0.5, -0.3, 0, 0];  % initial condition (away from trajectory)
+x_sim(1,:) = [0.5, -0.3, 0, 0];  % initial condition 
 p_hat    = zeros(N, 2);
 u_log    = zeros(N, 2);
 qe_log   = zeros(N, 2);
@@ -53,24 +47,19 @@ pe_log   = zeros(N, 2);
 xp  = [0 0];
 phi = 0;
 
-
-
 %% Simulation loop
 for k = 1:N-1
 
-    % --- Current state ---
+    % Current state
     q_k  = x_sim(k, 1:2);
     dq_k = x_sim(k, 3:4);
 %     p0_k = (mass_fn(q_k') * dq_k')';   % canonical momentum
 
-    % --- Observer: estimate momentum from position only ---
+    % Observer:
     phat_k = ph(q_k, xp, phi);
     out = observer_matrices(q_k, phat_k, bp);
     M_k = mass_fn(q_k');
-    % 
-    % % Replace phat_k with true transformed momentum:
-    % p0_k = (mass_fn(q_k') * x_sim(k,3:4)')';
-    % phat_k = (out.T * p0_k(:))';   % true p in transformed coords
+
 
     % Jump logic
     while switchCond(phi, out.Sbar, out.T) <= 0
@@ -79,31 +68,31 @@ for k = 1:N-1
         phat_k = ph(q_k, xp, phi);
     end
 
-    % --- Error coordinates ---
+    % Error coordinates
     qd_k   = qd(k, :)';
     dqd_k  = dqd(k, :)';
     ddqd_k = ddqd(k, :)';
 
-    pd_k = out.Ti * dqd_k;                        % target momentum
-    qe_k = q_k' - qd_k;                           % configuration error
-    pe_k = phat_k(:) - pd_k;                       % momentum error
+    pd_k = out.Ti * dqd_k;  % target momentum
+    qe_k = q_k' - qd_k;  % configuration error
+    pe_k = phat_k(:) - pd_k; % momentum error
 
     % dpd/dq: only q2 contributes
     dTi_dq2 = get_dTi_dq(q_k, out.Ti, bp);
-    dpd_dq  = [zeros(2,1), dTi_dq2 * dqd_k];     % 2x2
+    dpd_dq  = [zeros(2,1), dTi_dq2 * dqd_k];     
 
-    % --- KPES feedback ---
+    %  KPES feedback
     v_k = KPES(out.S, out.D, out.T, Kd, Kp, alpha, qe_k, pe_k);
 
-    % --- Passive output from tracking error ---
+    % Passive output from tracking error 
     dHe_dqe = Kp * (qe_k + alpha * pe_k);
     dHe_dpe = pe_k + alpha * Kp * (qe_k + alpha * pe_k);
     ye_k = -out.T * [eye(2), phi*eye(2) - dpd_dq'] * [dHe_dqe; dHe_dpe];
 
-    % --- Passive interconnection ---
+    %Passive interconnection
     uo_k = -out.G \ ye_k;                          % u_o = -G^{-1} * ye
 
-    % --- Feedforward ---
+    % Feedforward 
     u_ff = out.G \ ( ...
         -(out.S - out.D) * pd_k ...
         + out.T * gradV(q_k') ...
@@ -111,11 +100,11 @@ for k = 1:N-1
         + out.Ti * ddqd_k ...
         + v_k);
 
-    % --- Total control input ---
+    % Total control input
     u_k = -uo_k + u_ff;
     u_log(k,:) = u_k';
 
-    % --- Observer flow (RK4) ---
+    % Observer flow (RK4)
     obs_rhs = @(xp_) obs_flow(q_k, xp_, phi, out, u_k', gradV, uo_k);
     rk1 = obs_rhs(xp)';
     rk2 = obs_rhs(xp + 0.5*dt*rk1)';
@@ -123,7 +112,7 @@ for k = 1:N-1
     rk4 = obs_rhs(xp + dt*rk3)';
     xp  = xp + (dt/6)*(rk1 + 2*rk2 + 2*rk3 + rk4);
 
-    % --- Plant dynamics (RK4) ---
+    %  Plant dynamics (RK4) 
     plant_rhs = @(x_) f_dyn(x_, u_k, a1, a2, bp, b1, b2);
     pk1 = plant_rhs(x_sim(k,:)')';
     pk2 = plant_rhs(x_sim(k,:)' + 0.5*dt*pk1')';
@@ -131,7 +120,7 @@ for k = 1:N-1
     pk4 = plant_rhs(x_sim(k,:)' + dt*pk3')';
     x_sim(k+1,:) = x_sim(k,:) + (dt/6)*(pk1 + 2*pk2 + 2*pk3 + pk4);
 
-    % --- Store ---
+    % Store 
     p_hat(k,:)  = (out.Ti * phat_k(:))';
     qe_log(k,:) = qe_k';
     pe_log(k,:) = pe_k';
@@ -162,8 +151,7 @@ for j = 1:2
     title(sprintf('Joint %d torque', j));
 end
 
-%% ========== Functions ==========
-
+%% Functions 
 function M = M_mat(theta2, a1, a2, b)
     c2 = cos(theta2);
     M = [a1 + a2 + 2*b*c2,  a2 + b*c2;
@@ -193,7 +181,6 @@ end
 function out = observer_matrices(q, phat, b, M)
     q = q(:);  phat = phat(:);
     M  = M_mat(q(2), evalin('caller','a1'), evalin('caller','a2'), b);
-    % Better: pass mass_fn as argument. Keeping minimal for clarity.
     T  = sym_sqrt(inv(M));
     Ti = sym_sqrt(M);
 

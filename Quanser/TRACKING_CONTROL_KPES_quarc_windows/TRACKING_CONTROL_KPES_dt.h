@@ -7,9 +7,9 @@
  *
  * Code generation for model "TRACKING_CONTROL_KPES".
  *
- * Model version              : 1.148
+ * Model version              : 1.166
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Mon Mar  9 11:36:23 2026
+ * C source code generated on : Tue Mar 10 15:32:44 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -64,24 +64,24 @@ static const char_T * rtDataTypeNames[] = {
 
 /* data type transitions for block I/O structure */
 static DataTypeTransition rtBTransitions[] = {
-  { (char_T *)(&TRACKING_CONTROL_KPES_B.UnaryMinus), 0, 0, 46 },
+  { (char_T *)(&TRACKING_CONTROL_KPES_B.UnaryMinus), 0, 0, 54 },
 
   { (char_T *)(&TRACKING_CONTROL_KPES_B.LogicalOperator4), 8, 0, 4 }
   ,
 
-  { (char_T *)(&TRACKING_CONTROL_KPES_DW.UnitDelay2_DSTATE), 0, 0, 65 },
+  { (char_T *)(&TRACKING_CONTROL_KPES_DW.UnitDelay2_DSTATE), 0, 0, 67 },
 
   { (char_T *)(&TRACKING_CONTROL_KPES_DW.HILInitialize_Card), 15, 0, 1 },
 
   { (char_T *)(&TRACKING_CONTROL_KPES_DW.HILWriteDigitalTimebase_Task), 16, 0, 1
   },
 
-  { (char_T *)(&TRACKING_CONTROL_KPES_DW.HILReadEncoder_PWORK), 11, 0, 26 },
+  { (char_T *)(&TRACKING_CONTROL_KPES_DW.HILReadEncoder_PWORK), 11, 0, 32 },
 
   { (char_T *)(&TRACKING_CONTROL_KPES_DW.HILReadEncoder_Buffer[0]), 6, 0, 32 },
 
   { (char_T *)(&TRACKING_CONTROL_KPES_DW.FromWorkspace4_IWORK.PrevIndex), 10, 0,
-    3 },
+    4 },
 
   { (char_T *)(&TRACKING_CONTROL_KPES_DW.HILInitialize_DOBits[0]), 8, 0, 10 },
 
@@ -97,7 +97,7 @@ static DataTypeTransitionTable rtBTransTable = {
 
 /* data type transitions for Parameters structure */
 static DataTypeTransition rtPTransitions[] = {
-  { (char_T *)(&TRACKING_CONTROL_KPES_P.KE_D1), 0, 0, 40 },
+  { (char_T *)(&TRACKING_CONTROL_KPES_P.KE_D1), 0, 0, 36 },
 
   { (char_T *)(&TRACKING_CONTROL_KPES_P.HILWriteDigitalTimebase_clock), 6, 0, 1
   },
@@ -106,7 +106,7 @@ static DataTypeTransition rtPTransitions[] = {
 
   { (char_T *)(&TRACKING_CONTROL_KPES_P.StopwithMessage_message_icon), 2, 0, 4 },
 
-  { (char_T *)(&TRACKING_CONTROL_KPES_P.UnitDelay2_InitialCondition), 0, 0, 40 },
+  { (char_T *)(&TRACKING_CONTROL_KPES_P.UnitDelay2_InitialCondition), 0, 0, 42 },
 
   { (char_T *)(&TRACKING_CONTROL_KPES_P.HILInitialize_CKChannels[0]), 6, 0, 7 },
 
