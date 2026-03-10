@@ -10,7 +10,7 @@ B2_motor  = 4.505757e-02;
 v_eps = 0.034872;
 
 % Savitzky-Golay filter parameters
-F = 61;
+F = 131;
 K = 2;
 dt = 1e-2;
 data_dir = 'DATA-05-03_2';
@@ -104,6 +104,7 @@ for i = 1:num_trajectories
     % --- Torques ---
     % Motor-side torque: Kt * I_filtered
     tau_motor = d.tau_meas.';  % Nx2
+    tau_noisy = d.tau_filt.';  % Nx2
 
     % Link-side torque: subtract motor shaft dynamics
     %   tau_link = tau_motor - J_motor * qdd - B_motor * qd
@@ -122,7 +123,7 @@ for i = 1:num_trajectories
     runs(i).y_meas     = y_meas(idx_keep, :);
     runs(i).y_filt     = y_filt(idx_keep, :);
     runs(i).u_cmd      = tau_motor(idx_keep, :);       % motor-side
-    runs(i).u_cmd_noisy = tau_motor(idx_keep, :);      % identical (real data)
+    runs(i).u_cmd_noisy = tau_noisy(idx_keep, :);      % identical (real data)
     runs(i).u_applied  = tau_motor(idx_keep, :);       % link-side
     runs(i).ddq        = qdd_filt(idx_keep, :);
     runs(i).initial_condition = x_true(idx_keep(1), :);
@@ -171,11 +172,12 @@ r = runs(1); tt = r.time;
 
 figure('Color','w','Name','Run 1: Torques');
 subplot(2,1,1);
-plot(tt, r.u_cmd(:,1), '-', tt, r.u_applied(:,1), '--');
+plot(tt, r.u_cmd_noisy(:,1), '-', tt, r.u_applied(:,1), '--');
 grid on; ylabel('Nm'); title('Joint 1 torque');
 legend('Motor-side (Kt*I)', 'Link-side (motor dyn subtracted)', 'Location','best');
 subplot(2,1,2);
-plot(tt, r.u_cmd(:,2), '-', tt, r.u_applied(:,2), '--');
+hold on
+plot(tt, r.u_cmd_noisy(:,2), '-', tt, r.u_applied(:,2), '--');
 grid on; ylabel('Nm'); xlabel('Time [s]'); title('Joint 2 torque');
 legend('Motor-side (Kt*I)', 'Link-side (motor dyn subtracted)', 'Location','best');
 
@@ -227,18 +229,20 @@ function data = load_traj_data(data_dir, traj_info, Kt1, Kt2, dt, K, F)
     N = numel(q_meas_1);
     t = (0:N-1).' * dt;
 
-    tau_meas = [Kt1 * filt_current_1, Kt2 * filt_current_2];
+    tau_meas = [Kt1 * actual_current_1, Kt2 * actual_current_2];
+    tau_filt = [Kt1 * filt_current_1, Kt2 * filt_current_2];
     q_meas   = [q_filt_1, q_filt_2];
 
     % Build struct with SG derivatives
-    data = dataset_to_iddata_2dof(t, q_meas, tau_meas, dt, K, F);
+    data = dataset_to_iddata_2dof(t, q_meas, tau_filt,tau_meas, dt, K, F);
 end
 
-function data = dataset_to_iddata_2dof(t, q_meas, tau_meas, dt, K, F)
+function data = dataset_to_iddata_2dof(t, q_meas, tau_filt, tau_meas, dt, K, F)
     N = size(q_meas, 1);
     data.t        = t(:).';
     data.q_meas   = q_meas.';      % 2xN
     data.tau_meas = tau_meas.';     % 2xN
+    data.tau_filt = tau_filt.';     % 2xN
     data.dt       = dt;
     data.q_filt   = zeros(2, N);
     data.qd_filt  = zeros(2, N);
