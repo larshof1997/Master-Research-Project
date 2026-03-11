@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.166"
+    ComputedModelVersion    "1.167"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -250,9 +250,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "S4236610"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Tue Mar 10 14:09:40 2026"
-  RTWModifiedTimeStamp	  695052579
-  ModelVersionFormat	  "1.%<AutoIncrement:166>"
+  LastModifiedDate	  "Tue Mar 10 17:53:32 2026"
+  RTWModifiedTimeStamp	  695054749
+  ModelVersionFormat	  "1.%<AutoIncrement:167>"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
   LibraryLinkDisplay	  "none"
@@ -369,7 +369,7 @@ Model {
 	  }
 	  Description		  ""
 	  StartTime		  "0"
-	  StopTime		  "11"
+	  StopTime		  "12"
 	  AbsTol		  "auto"
 	  AutoScaleAbsTol	  on
 	  FixedStep		  "0.001"
@@ -1511,19 +1511,6 @@ Model {
       SampleTime	      "-1"
     }
     Block {
-      BlockType		      Sin
-      SineType		      "Time based"
-      TimeSource	      "Use simulation time"
-      Amplitude		      "1"
-      Bias		      "0"
-      Frequency		      "1"
-      Phase		      "0"
-      Samples		      "10"
-      Offset		      "0"
-      SampleTime	      "-1"
-      VectorParams1D	      on
-    }
-    Block {
       BlockType		      SubSystem
       ShowPortLabels	      "FromPortIcon"
       Permissions	      "ReadWrite"
@@ -1626,7 +1613,7 @@ Model {
     ShowPageBoundaries	    off
     ZoomFactor		    "100"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "991"
+    SIDHighWatermark	    "1001"
     Block {
       BlockType		      Abs
       Name		      "Abs"
@@ -1722,6 +1709,17 @@ Model {
       Position		      [895, 1710, 925, 1740]
       ZOrder		      793
       Value		      "kappa"
+    }
+    Block {
+      BlockType		      Demux
+      Name		      "Demux1"
+      SID		      "1001"
+      Ports		      [1, 2]
+      Position		      [1820, 1046, 1825, 1084]
+      ZOrder		      855
+      ShowName		      off
+      Outputs		      "2"
+      DisplayOption	      "bar"
     }
     Block {
       BlockType		      Demux
@@ -1922,6 +1920,15 @@ Model {
       Position		      [875, 1167, 910, 1203]
       ZOrder		      820
       VariableName	      "ddqd_ts"
+      ZeroCross		      on
+    }
+    Block {
+      BlockType		      FromWorkspace
+      Name		      "From\nWorkspace3"
+      SID		      "1000"
+      Position		      [1730, 1044, 1780, 1086]
+      ZOrder		      854
+      VariableName	      "u_pert_ts"
       ZeroCross		      on
     }
     Block {
@@ -2996,20 +3003,20 @@ Model {
       ScopeSpecificationString "Simulink.scopes.TimeScopeBlockCfg('CurrentConfiguration', extmgr.ConfigurationSet(extm"
       "gr.Configuration('Core','General UI',true),extmgr.Configuration('Core','Source UI',true),extmgr.Configuration('S"
       "ources','WiredSimulink',true,'DataLoggingVariableName','ScopeData1'),extmgr.Configuration('Visuals','Time Domain"
-      "',true,'SerializedDisplays',{struct('MinYLimReal','-0.13621','MaxYLimReal','1.1259','YLabelReal','','MinYLimMag'"
-      ",'0.00000','MaxYLimMag','1.1259','LegendVisibility','off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesCo"
-      "lor',[0 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.686274509803922],'ColorOrder',[1 1 0.0666666"
-      "666666667;0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;0.392156862745098 0.831372"
-      "549019608 0.0745098039215686;0.717647058823529 0.274509803921569 1;0.0588235294117647 1 1;1 0.0745098039215686 0"
-      ".650980392156863],'Title','%<SignalLabel>','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines',"
-      "3,'LineNames',{{'Abs','Abs1','Sine Wave'}},'ShowContent',true,'Placement',1)},'DisplayPropertyDefaults',struct('"
-      "MinYLimReal','-0.13621','MaxYLimReal','1.1259','YLabelReal','','MinYLimMag','0.00000','MaxYLimMag','1.1259','Leg"
-      "endVisibility','off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesColor',[0 0 0],'AxesTickColor',[0.68627"
-      "4509803922 0.686274509803922 0.686274509803922],'ColorOrder',[0.0745098039215686 0.623529411764706 1;1 0.4117647"
-      "05882353 0.16078431372549;1 1 0.0666666666666667;0.717647058823529 0.274509803921569 1;0.392156862745098 0.83137"
-      "2549019608 0.0745098039215686;0.0588235294117647 1 1;1 0.0745098039215686 0.650980392156863])),extmgr.Configurat"
-      "ion('Tools','Plot Navigation',true),extmgr.Configuration('Tools','Measurements',true,'Version','2018b')),'Versio"
-      "n','2018b','Position',[3110 75 714 917],'VisibleAtModelOpen','on')"
+      "',true,'SerializedDisplays',{struct('MinYLimReal','-0.12496','MaxYLimReal','1.12465','YLabelReal','','MinYLimMag"
+      "','0.00000','MaxYLimMag','1.12465','LegendVisibility','off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'Axes"
+      "Color',[0 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.686274509803922],'ColorOrder',[1 1 0.06666"
+      "66666666667;0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;0.392156862745098 0.8313"
+      "72549019608 0.0745098039215686;0.717647058823529 0.274509803921569 1;0.0588235294117647 1 1;1 0.0745098039215686"
+      " 0.650980392156863],'Title','%<SignalLabel>','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines"
+      "',3,'LineNames',{{'Abs','Abs1','Channel 3'}},'ShowContent',true,'Placement',1)},'DisplayPropertyDefaults',struct"
+      "('MinYLimReal','-0.12496','MaxYLimReal','1.12465','YLabelReal','','MinYLimMag','0.00000','MaxYLimMag','1.12465',"
+      "'LegendVisibility','off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesColor',[0 0 0],'AxesTickColor',[0.6"
+      "86274509803922 0.686274509803922 0.686274509803922],'ColorOrder',[0.0745098039215686 0.623529411764706 1;1 0.411"
+      "764705882353 0.16078431372549;1 1 0.0666666666666667;0.717647058823529 0.274509803921569 1;0.392156862745098 0.8"
+      "31372549019608 0.0745098039215686;0.0588235294117647 1 1;1 0.0745098039215686 0.650980392156863])),extmgr.Config"
+      "uration('Tools','Plot Navigation',true),extmgr.Configuration('Tools','Measurements',true,'Version','2018b')),'Ve"
+      "rsion','2018b','Position',[3110 75 714 917],'VisibleAtModelOpen','on')"
       NumInputPorts	      "3"
       Floating		      off
     }
@@ -3038,16 +3045,6 @@ Model {
       OutputSizes	      "1"
     }
     Block {
-      BlockType		      Sin
-      Name		      "Sine Wave"
-      SID		      "991"
-      Ports		      [0, 1]
-      Position		      [1720, 1040, 1750, 1070]
-      ZOrder		      845
-      Amplitude		      "0.01"
-      SampleTime	      "0"
-    }
-    Block {
       BlockType		      Sum
       Name		      "Sum"
       SID		      "970"
@@ -3066,7 +3063,7 @@ Model {
       Name		      "Sum1"
       SID		      "989"
       Ports		      [2, 1]
-      Position		      [1810, 980, 1830, 1000]
+      Position		      [1875, 980, 1895, 1000]
       ZOrder		      843
       ShowName		      off
       IconShape		      "round"
@@ -3122,7 +3119,7 @@ Model {
       Name		      "Sum5"
       SID		      "990"
       Ports		      [2, 1]
-      Position		      [1810, 1115, 1830, 1135]
+      Position		      [1885, 1120, 1905, 1140]
       ZOrder		      844
       ShowName		      off
       IconShape		      "round"
@@ -3136,7 +3133,7 @@ Model {
       Name		      "To Workspace"
       SID		      "961"
       Ports		      [1]
-      Position		      [1495, 1345, 1555, 1375]
+      Position		      [1495, 1365, 1555, 1395]
       ZOrder		      815
       VariableName	      "simout"
       MaxDataPoints	      "inf"
@@ -4968,10 +4965,10 @@ Model {
       BlockType		      Concatenate
       Name		      "Vector\nConcatenate"
       SID		      "962"
-      Ports		      [6, 1]
-      Position		      [1355, 1275, 1405, 1445]
+      Ports		      [7, 1]
+      Position		      [1355, 1275, 1465, 1485]
       ZOrder		      816
-      NumInputs		      "6"
+      NumInputs		      "7"
     }
     Block {
       BlockType		      Concatenate
@@ -5060,9 +5057,9 @@ Model {
       Points		      [75, 0]
       Branch {
 	ZOrder			1195
-	Points			[8, 0; 0, -45; 371, 0; 0, 433; 26, 0]
+	Points			[8, 0; 0, -59; 379, 0; 0, 479]
 	DstBlock		"Vector\nConcatenate"
-	DstPort			6
+	DstPort			7
       }
       Branch {
 	ZOrder			1194
@@ -5101,9 +5098,9 @@ Model {
 	Points			[15, 0]
 	Branch {
 	  ZOrder		  1193
-	  Points		  [0, -97; 368, 0; 0, 407]
+	  Points		  [0, -97; 368, 0; 0, 442]
 	  DstBlock		  "Vector\nConcatenate"
-	  DstPort		  5
+	  DstPort		  6
 	}
 	Branch {
 	  ZOrder		  1192
@@ -5195,7 +5192,7 @@ Model {
       ZOrder		      1187
       SrcBlock		      "MATLAB Function"
       SrcPort		      2
-      Points		      [63, 0; 0, 105]
+      Points		      [63, 0; 0, 110]
       DstBlock		      "Vector\nConcatenate"
       DstPort		      1
     }
@@ -5203,7 +5200,7 @@ Model {
       ZOrder		      1188
       SrcBlock		      "MATLAB Function"
       SrcPort		      3
-      Points		      [0, 30]
+      Points		      [0, 35]
       DstBlock		      "Vector\nConcatenate"
       DstPort		      2
     }
@@ -5211,7 +5208,7 @@ Model {
       ZOrder		      1189
       SrcBlock		      "MATLAB Function"
       SrcPort		      4
-      Points		      [56, 0; 0, -45]
+      Points		      [56, 0; 0, -40]
       DstBlock		      "Vector\nConcatenate"
       DstPort		      3
     }
@@ -5430,35 +5427,9 @@ Model {
       ZOrder		      1277
       SrcBlock		      "Demux2"
       SrcPort		      2
-      Points		      [235, 0; 0, 40]
+      Points		      [235, 0; 0, 45]
       DstBlock		      "Sum5"
       DstPort		      2
-    }
-    Line {
-      ZOrder		      1278
-      SrcBlock		      "Sine Wave"
-      SrcPort		      1
-      Points		      [0, 0]
-      Branch {
-	ZOrder			1284
-	Points			[0, -163; -185, 0; 0, -112]
-	DstBlock		"Scope2"
-	DstPort			3
-      }
-      Branch {
-	ZOrder			1283
-	Points			[65, 0]
-	Branch {
-	  ZOrder		  1280
-	  DstBlock		  "Sum5"
-	  DstPort		  1
-	}
-	Branch {
-	  ZOrder		  1279
-	  DstBlock		  "Sum1"
-	  DstPort		  2
-	}
-      }
     }
     Line {
       ZOrder		      1281
@@ -5471,7 +5442,7 @@ Model {
       ZOrder		      1282
       SrcBlock		      "Sum5"
       SrcPort		      1
-      Points		      [95, 0; 0, 15]
+      Points		      [20, 0; 0, 10]
       DstBlock		      "Torque Control Elbow"
       DstPort		      1
     }
@@ -5479,9 +5450,42 @@ Model {
       ZOrder		      1290
       SrcBlock		      "MATLAB Function"
       SrcPort		      5
-      Points		      [26, 0; 0, -120]
+      Points		      [26, 0; 0, -115]
       DstBlock		      "Vector\nConcatenate"
       DstPort		      4
+    }
+    Line {
+      ZOrder		      1314
+      SrcBlock		      "From\nWorkspace3"
+      SrcPort		      1
+      Points		      [15, 0]
+      Branch {
+	ZOrder			1318
+	Points			[0, 434; -461, 0; 0, -89]
+	DstBlock		"Vector\nConcatenate"
+	DstPort			5
+      }
+      Branch {
+	ZOrder			1317
+	DstBlock		"Demux1"
+	DstPort			1
+      }
+    }
+    Line {
+      ZOrder		      1315
+      SrcBlock		      "Demux1"
+      SrcPort		      1
+      Points		      [55, 0]
+      DstBlock		      "Sum1"
+      DstPort		      2
+    }
+    Line {
+      ZOrder		      1316
+      SrcBlock		      "Demux1"
+      SrcPort		      2
+      Points		      [65, 0]
+      DstBlock		      "Sum5"
+      DstPort		      1
     }
     Annotation {
       SID		      "931"

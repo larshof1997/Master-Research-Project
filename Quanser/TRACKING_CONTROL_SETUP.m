@@ -131,17 +131,26 @@ dqd_ts  = timeseries(dqd, t);
 ddqd_ts = timeseries(ddqd, t);
 
 
-%% Controller parameters
+%% KPES Controller parameters
 alpha = 0.1827;
 Kp = 1.7373 * eye(2);
 Kd = diag([12,5]);
 
 
-%% Observer parameters
+% Observer parameters
 kappa = 0.8564;
-%% Observer initial conditions
+% Observer initial conditions
 xp  = [0 0];
 phi = 0;
+
+%% Cruz 2021 controller parameters
+P1_cruz = 6.46;
+P2_cruz = 1.72;
+D1_cruz = 3.83; 
+D2_cruz = 0.88;
+A_f_cruz  = 7.36 * eye(2);
+r1_cruz = 1.50;
+
 
 
 function M = M_mat(theta2, a1, a2, b)
