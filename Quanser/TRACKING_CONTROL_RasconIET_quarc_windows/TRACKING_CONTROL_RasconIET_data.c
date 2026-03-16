@@ -9,7 +9,7 @@
  *
  * Model version              : 1.176
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Mon Mar 16 13:33:07 2026
+ * C source code generated on : Mon Mar 16 14:39:55 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -129,14 +129,14 @@ P_TRACKING_CONTROL_RasconIET_T TRACKING_CONTROL_RasconIET_P = {
    *   '<S4>/Motor #1 Encoder Calib3'
    *   '<S5>/Motor #1 Encoder Calib3'
    */
-  0.0,
+  0.06847,
 
   /* Variable: ke2
    * Referenced by:
    *   '<S4>/Motor #1 Encoder Calib8'
    *   '<S5>/Motor #1 Encoder Calib8'
    */
-  0.0,
+  0.007983,
 
   /* Variable: ki1
    * Referenced by:

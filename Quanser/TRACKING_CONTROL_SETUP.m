@@ -57,8 +57,8 @@ SYS_ANALYSIS_2 = 'NO';
 %Electrical Parameters
 L1 = 4.7544e-02;
 R1 = 4.2737;
-% ke1 = 6.8470e-02;
-ke1 = 0;
+ke1 = 6.8470e-02;
+% ke1 = 0;
 
 J1 = 2.030252e-02;
 B1 = 9.233265e-02;
@@ -67,8 +67,8 @@ Kt1 = 3.018583e+00;
 
 L2 = 4.8190e-02;
 R2 = 4.0364e+00;
-% ke2 = 7.9830e-03;
-ke2 = 0;
+ke2 = 7.9830e-03;
+% ke2 = 0;
 
 J2 = 6.530040e-04;
 B2 = 4.505757e-02;
@@ -110,8 +110,8 @@ n_pad = round(sleep/dt);
 t = (0:dt:t_end)';
 
 %control input perubation
-a1 = 0.5;
-a2 = 1;
+a1 = 0.75;
+a2 = 1.5;
 f=2;
 u_pert   = [a1*sin(2*pi*f*t), a2*sin(2*pi*f*t)];
 
