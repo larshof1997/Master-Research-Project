@@ -7,9 +7,9 @@
  *
  * Code generation for model "TRACKING_CONTROL_Cruz".
  *
- * Model version              : 1.174
+ * Model version              : 1.175
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Mon Mar 16 13:14:11 2026
+ * C source code generated on : Mon Mar 16 15:23:13 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -129,14 +129,14 @@ P_TRACKING_CONTROL_Cruz_T TRACKING_CONTROL_Cruz_P = {
    *   '<S4>/Motor #1 Encoder Calib3'
    *   '<S5>/Motor #1 Encoder Calib3'
    */
-  0.0,
+  0.06847,
 
   /* Variable: ke2
    * Referenced by:
    *   '<S4>/Motor #1 Encoder Calib8'
    *   '<S5>/Motor #1 Encoder Calib8'
    */
-  0.0,
+  0.007983,
 
   /* Variable: ki1
    * Referenced by:

@@ -7,9 +7,9 @@
  *
  * Code generation for model "TRACKING_CONTROL_RasconIET".
  *
- * Model version              : 1.176
+ * Model version              : 1.177
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Mon Mar 16 14:39:55 2026
+ * C source code generated on : Mon Mar 16 15:29:10 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping

@@ -9,7 +9,7 @@
  *
  * Model version              : 1.112
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Mon Mar 16 14:45:12 2026
+ * C source code generated on : Mon Mar 16 15:01:25 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -41,7 +41,7 @@ P_torque_control_T torque_control_P = {
   /* Variable: L1
    * Referenced by: '<Root>/Motor #1 Encoder Calib2'
    */
-  0.0,
+  0.047544,
 
   /* Variable: L2
    * Referenced by: '<Root>/Motor #1 Encoder Calib5'
@@ -123,12 +123,12 @@ P_torque_control_T torque_control_P = {
   /* Mask Parameter: HILReadAnalog_channels
    * Referenced by: '<Root>/HIL Read Analog'
    */
-  1U,
+  0U,
 
   /* Mask Parameter: HILWriteAnalog_channels
    * Referenced by: '<Root>/HIL Write Analog'
    */
-  1U,
+  0U,
 
   /* Mask Parameter: HILWriteDigitalTimebase_channel
    * Referenced by: '<Root>/HIL Write Digital Timebase'
@@ -643,7 +643,7 @@ P_torque_control_T torque_control_P = {
   /* Computed Parameter: ManualSwitch3_CurrentSetting
    * Referenced by: '<Root>/Manual Switch3'
    */
-  0U,
+  1U,
 
   /* Computed Parameter: ManualSwitch4_CurrentSetting
    * Referenced by: '<Root>/Manual Switch4'
@@ -653,10 +653,10 @@ P_torque_control_T torque_control_P = {
   /* Computed Parameter: ManualSwitch2_CurrentSetting
    * Referenced by: '<Root>/Manual Switch2'
    */
-  0U,
+  1U,
 
   /* Computed Parameter: ManualSwitch1_CurrentSetting
    * Referenced by: '<Root>/Manual Switch1'
    */
-  0U
+  1U
 };
