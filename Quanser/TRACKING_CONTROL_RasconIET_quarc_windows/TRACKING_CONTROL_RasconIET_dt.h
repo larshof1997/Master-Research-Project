@@ -7,9 +7,9 @@
  *
  * Code generation for model "TRACKING_CONTROL_RasconIET".
  *
- * Model version              : 1.175
+ * Model version              : 1.176
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Wed Mar 11 11:28:11 2026
+ * C source code generated on : Mon Mar 16 13:33:07 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -76,13 +76,13 @@ static DataTypeTransition rtBTransitions[] = {
   { (char_T *)(&TRACKING_CONTROL_RasconIET_DW.HILWriteDigitalTimebase_Task), 16,
     0, 1 },
 
-  { (char_T *)(&TRACKING_CONTROL_RasconIET_DW.HILReadEncoder_PWORK), 11, 0, 28 },
+  { (char_T *)(&TRACKING_CONTROL_RasconIET_DW.HILReadEncoder_PWORK), 11, 0, 29 },
 
   { (char_T *)(&TRACKING_CONTROL_RasconIET_DW.HILReadEncoder_Buffer[0]), 6, 0,
     32 },
 
   { (char_T *)(&TRACKING_CONTROL_RasconIET_DW.FromWorkspace4_IWORK.PrevIndex),
-    10, 0, 3 },
+    10, 0, 4 },
 
   { (char_T *)(&TRACKING_CONTROL_RasconIET_DW.HILInitialize_DOBits[0]), 8, 0, 10
   },

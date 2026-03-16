@@ -7,9 +7,9 @@
  *
  * Code generation for model "TRACKING_CONTROL_KPES".
  *
- * Model version              : 1.166
+ * Model version              : 1.167
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Tue Mar 10 15:32:44 2026
+ * C source code generated on : Mon Mar 16 10:30:43 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping

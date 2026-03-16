@@ -57,7 +57,8 @@ SYS_ANALYSIS_2 = 'NO';
 %Electrical Parameters
 L1 = 4.7544e-02;
 R1 = 4.2737;
-ke1 = 6.8470e-02;
+% ke1 = 6.8470e-02;
+ke1 = 0;
 
 J1 = 2.030252e-02;
 B1 = 9.233265e-02;
@@ -66,7 +67,8 @@ Kt1 = 3.018583e+00;
 
 L2 = 4.8190e-02;
 R2 = 4.0364e+00;
-ke2 = 7.9830e-03;
+% ke2 = 7.9830e-03;
+ke2 = 0;
 
 J2 = 6.530040e-04;
 B2 = 4.505757e-02;
@@ -103,13 +105,13 @@ kd_traj = zeros(2,2);
 %% Load desired trajectory 
 sleep = 2;
 
-t_end = 10;
+t_end = 120;
 n_pad = round(sleep/dt);
 t = (0:dt:t_end)';
 
 %control input perubation
-a1 = 0;
-a2 = 0;
+a1 = 0.5;
+a2 = 1;
 f=2;
 u_pert   = [a1*sin(2*pi*f*t), a2*sin(2*pi*f*t)];
 
@@ -144,13 +146,12 @@ xp  = [0 0];
 phi = 0;
 
 %% Cruz 2021 controller parameters
-P1_cruz = 6.46;
-P2_cruz = 1.72;
-D1_cruz = 3.83; 
-D2_cruz = 0.88;
-A_f_cruz  = 7.36 * eye(2);
+P1_cruz = 0.7;
+P2_cruz = 0.4;
+D1_cruz = 0.1; 
+D2_cruz = 0.04;
+A_f_cruz  = 2 * eye(2);
 r1_cruz = 1.50;
-
 
 
 function M = M_mat(theta2, a1, a2, b)

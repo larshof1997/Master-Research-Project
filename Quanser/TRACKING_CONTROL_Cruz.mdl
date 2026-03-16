@@ -1,12 +1,12 @@
 Model {
-  Name			  "Copy_of_TRACKING_CONTROL_KPES"
+  Name			  "TRACKING_CONTROL_Cruz"
   Version		  9.2
   SavedCharacterEncoding  "windows-1252"
   GraphicalInterface {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.174"
+    ComputedModelVersion    "1.175"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -20,145 +20,145 @@ Model {
     NumExternalFileReferences 24
     ExternalFileReference {
       Reference		      "quarc_library/Data Acquisition/Generic/Immediate I//O/HIL Read Digital"
-      Path		      "Copy_of_TRACKING_CONTROL_KPES/Enable AMPAQ/HIL Read Digital"
+      Path		      "TRACKING_CONTROL_Cruz/Enable AMPAQ/HIL Read Digital"
       SID		      "827"
       Type		      "LIBRARY_BLOCK"
     }
     ExternalFileReference {
       Reference		      "quarc_library/Data Acquisition/Generic/Immediate I//O/HIL Write Digital"
-      Path		      "Copy_of_TRACKING_CONTROL_KPES/Enable AMPAQ/HIL Write Digital"
+      Path		      "TRACKING_CONTROL_Cruz/Enable AMPAQ/HIL Write Digital"
       SID		      "828"
       Type		      "LIBRARY_BLOCK"
     }
     ExternalFileReference {
       Reference		      "quarc_library/Data Acquisition/Generic/Configuration/HIL Initialize"
-      Path		      "Copy_of_TRACKING_CONTROL_KPES/HIL Initialize"
+      Path		      "TRACKING_CONTROL_Cruz/HIL Initialize"
       SID		      "834"
       Type		      "LIBRARY_BLOCK"
     }
     ExternalFileReference {
       Reference		      "quarc_library/Data Acquisition/Generic/Immediate I//O/HIL Read Encoder"
-      Path		      "Copy_of_TRACKING_CONTROL_KPES/HIL Read Encoder"
+      Path		      "TRACKING_CONTROL_Cruz/HIL Read Encoder"
       SID		      "835"
       Type		      "LIBRARY_BLOCK"
     }
     ExternalFileReference {
       Reference		      "quarc_library/Data Acquisition/Generic/Timebases/HIL Write Digital\nTimebase"
-      Path		      "Copy_of_TRACKING_CONTROL_KPES/HIL Write Digital Timebase"
+      Path		      "TRACKING_CONTROL_Cruz/HIL Write Digital Timebase"
       SID		      "836"
       Type		      "LIBRARY_BLOCK"
     }
     ExternalFileReference {
       Reference		      "quarc_library/Data Acquisition/Generic/Immediate I//O/HIL Read Digital"
-      Path		      "Copy_of_TRACKING_CONTROL_KPES/Limit Switches/HIL Read Digital"
+      Path		      "TRACKING_CONTROL_Cruz/Limit Switches/HIL Read Digital"
       SID		      "839"
       Type		      "LIBRARY_BLOCK"
     }
     ExternalFileReference {
       Reference		      "quarc_library/Sinks/Error Handling/Stop with Message"
-      Path		      "Copy_of_TRACKING_CONTROL_KPES/Limit Switches/Stop with Message"
+      Path		      "TRACKING_CONTROL_Cruz/Limit Switches/Stop with Message"
       SID		      "848"
       Type		      "LIBRARY_BLOCK"
     }
     ExternalFileReference {
       Reference		      "quarc_library/Sinks/Error Handling/Stop with Message"
-      Path		      "Copy_of_TRACKING_CONTROL_KPES/Limit Switches/Stop with Message1"
+      Path		      "TRACKING_CONTROL_Cruz/Limit Switches/Stop with Message1"
       SID		      "849"
       Type		      "LIBRARY_BLOCK"
     }
     ExternalFileReference {
       Reference		      "quarc_library/Sinks/Error Handling/Stop with Message"
-      Path		      "Copy_of_TRACKING_CONTROL_KPES/Limit Switches/Stop with Message2"
+      Path		      "TRACKING_CONTROL_Cruz/Limit Switches/Stop with Message2"
       SID		      "850"
       Type		      "LIBRARY_BLOCK"
     }
     ExternalFileReference {
       Reference		      "quarc_library/Sinks/Error Handling/Stop with Message"
-      Path		      "Copy_of_TRACKING_CONTROL_KPES/Limit Switches/Stop with Message3"
+      Path		      "TRACKING_CONTROL_Cruz/Limit Switches/Stop with Message3"
       SID		      "851"
       Type		      "LIBRARY_BLOCK"
     }
     ExternalFileReference {
       Reference		      "simulink/Discrete/Discrete Derivative"
-      Path		      "Copy_of_TRACKING_CONTROL_KPES/Torque Control Elbow/Discrete Derivative"
+      Path		      "TRACKING_CONTROL_Cruz/Torque Control Elbow/Discrete Derivative"
       SID		      "860"
       Type		      "LIBRARY_BLOCK"
     }
     ExternalFileReference {
       Reference		      "simulink/Discrete/Discrete Derivative"
-      Path		      "Copy_of_TRACKING_CONTROL_KPES/Torque Control Elbow/Discrete Derivative1"
+      Path		      "TRACKING_CONTROL_Cruz/Torque Control Elbow/Discrete Derivative1"
       SID		      "861"
       Type		      "LIBRARY_BLOCK"
     }
     ExternalFileReference {
       Reference		      "simulink/Discrete/Discrete Derivative"
-      Path		      "Copy_of_TRACKING_CONTROL_KPES/Torque Control Elbow/Discrete Derivative2"
+      Path		      "TRACKING_CONTROL_Cruz/Torque Control Elbow/Discrete Derivative2"
       SID		      "862"
       Type		      "LIBRARY_BLOCK"
     }
     ExternalFileReference {
       Reference		      "simulink/Discrete/Discrete Derivative"
-      Path		      "Copy_of_TRACKING_CONTROL_KPES/Torque Control Elbow/Discrete Derivative3"
+      Path		      "TRACKING_CONTROL_Cruz/Torque Control Elbow/Discrete Derivative3"
       SID		      "863"
       Type		      "LIBRARY_BLOCK"
     }
     ExternalFileReference {
       Reference		      "quarc_library/Data Acquisition/Generic/Immediate I//O/HIL Read Analog"
-      Path		      "Copy_of_TRACKING_CONTROL_KPES/Torque Control Elbow/HIL Read Analog"
+      Path		      "TRACKING_CONTROL_Cruz/Torque Control Elbow/HIL Read Analog"
       SID		      "868"
       Type		      "LIBRARY_BLOCK"
     }
     ExternalFileReference {
       Reference		      "quarc_library/Data Acquisition/Generic/Immediate I//O/HIL Read Encoder"
-      Path		      "Copy_of_TRACKING_CONTROL_KPES/Torque Control Elbow/HIL Read Encoder"
+      Path		      "TRACKING_CONTROL_Cruz/Torque Control Elbow/HIL Read Encoder"
       SID		      "869"
       Type		      "LIBRARY_BLOCK"
     }
     ExternalFileReference {
       Reference		      "quarc_library/Data Acquisition/Generic/Immediate I//O/HIL Write Analog"
-      Path		      "Copy_of_TRACKING_CONTROL_KPES/Torque Control Elbow/HIL Write Analog"
+      Path		      "TRACKING_CONTROL_Cruz/Torque Control Elbow/HIL Write Analog"
       SID		      "870"
       Type		      "LIBRARY_BLOCK"
     }
     ExternalFileReference {
       Reference		      "simulink/Discrete/Discrete Derivative"
-      Path		      "Copy_of_TRACKING_CONTROL_KPES/Torque Control Shoulder/Discrete Derivative"
+      Path		      "TRACKING_CONTROL_Cruz/Torque Control Shoulder/Discrete Derivative"
       SID		      "896"
       Type		      "LIBRARY_BLOCK"
     }
     ExternalFileReference {
       Reference		      "simulink/Discrete/Discrete Derivative"
-      Path		      "Copy_of_TRACKING_CONTROL_KPES/Torque Control Shoulder/Discrete Derivative1"
+      Path		      "TRACKING_CONTROL_Cruz/Torque Control Shoulder/Discrete Derivative1"
       SID		      "897"
       Type		      "LIBRARY_BLOCK"
     }
     ExternalFileReference {
       Reference		      "simulink/Discrete/Discrete Derivative"
-      Path		      "Copy_of_TRACKING_CONTROL_KPES/Torque Control Shoulder/Discrete Derivative2"
+      Path		      "TRACKING_CONTROL_Cruz/Torque Control Shoulder/Discrete Derivative2"
       SID		      "898"
       Type		      "LIBRARY_BLOCK"
     }
     ExternalFileReference {
       Reference		      "simulink/Discrete/Discrete Derivative"
-      Path		      "Copy_of_TRACKING_CONTROL_KPES/Torque Control Shoulder/Discrete Derivative3"
+      Path		      "TRACKING_CONTROL_Cruz/Torque Control Shoulder/Discrete Derivative3"
       SID		      "899"
       Type		      "LIBRARY_BLOCK"
     }
     ExternalFileReference {
       Reference		      "quarc_library/Data Acquisition/Generic/Immediate I//O/HIL Read Analog"
-      Path		      "Copy_of_TRACKING_CONTROL_KPES/Torque Control Shoulder/HIL Read Analog"
+      Path		      "TRACKING_CONTROL_Cruz/Torque Control Shoulder/HIL Read Analog"
       SID		      "904"
       Type		      "LIBRARY_BLOCK"
     }
     ExternalFileReference {
       Reference		      "quarc_library/Data Acquisition/Generic/Immediate I//O/HIL Read Encoder"
-      Path		      "Copy_of_TRACKING_CONTROL_KPES/Torque Control Shoulder/HIL Read Encoder"
+      Path		      "TRACKING_CONTROL_Cruz/Torque Control Shoulder/HIL Read Encoder"
       SID		      "905"
       Type		      "LIBRARY_BLOCK"
     }
     ExternalFileReference {
       Reference		      "quarc_library/Data Acquisition/Generic/Immediate I//O/HIL Write Analog"
-      Path		      "Copy_of_TRACKING_CONTROL_KPES/Torque Control Shoulder/HIL Write Analog"
+      Path		      "TRACKING_CONTROL_Cruz/Torque Control Shoulder/HIL Write Analog"
       SID		      "906"
       Type		      "LIBRARY_BLOCK"
     }
@@ -250,9 +250,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "S4236610"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Mar 11 11:16:09 2026"
-  RTWModifiedTimeStamp	  695128568
-  ModelVersionFormat	  "1.%<AutoIncrement:174>"
+  LastModifiedDate	  "Mon Mar 16 13:24:14 2026"
+  RTWModifiedTimeStamp	  695567078
+  ModelVersionFormat	  "1.%<AutoIncrement:175>"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
   LibraryLinkDisplay	  "none"
@@ -309,11 +309,11 @@ Model {
     $PropName		    "DataLoggingOverride"
     $ObjectID		    7
     $ClassName		    "Simulink.SimulationData.ModelLoggingInfo"
-    model_		    "Copy_of_TRACKING_CONTROL_KPES"
+    model_		    "TRACKING_CONTROL_Cruz"
     Array {
       Type		      "Cell"
       Dimension		      1
-      Cell		      "Copy_of_TRACKING_CONTROL_KPES"
+      Cell		      "TRACKING_CONTROL_Cruz"
       PropName		      "logAsSpecifiedByModels_"
     }
     Array {
@@ -1595,7 +1595,7 @@ Model {
     }
   }
   System {
-    Name		    "Copy_of_TRACKING_CONTROL_KPES"
+    Name		    "TRACKING_CONTROL_Cruz"
     Location		    [-8, -8, 2568, 1408]
     Open		    on
     PortBlocksUseCompactNotation off
@@ -1613,7 +1613,7 @@ Model {
     ShowPageBoundaries	    off
     ZoomFactor		    "100"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "1008"
+    SIDHighWatermark	    "1014"
     Block {
       BlockType		      Abs
       Name		      "Abs"
@@ -1725,6 +1725,17 @@ Model {
       Position		      [895, 1417, 930, 1453]
       ZOrder		      781
       Value		      "b1_hat"
+    }
+    Block {
+      BlockType		      Demux
+      Name		      "Demux1"
+      SID		      "1009"
+      Ports		      [1, 2]
+      Position		      [1825, 1056, 1830, 1094]
+      ZOrder		      865
+      ShowName		      off
+      Outputs		      "2"
+      DisplayOption	      "bar"
     }
     Block {
       BlockType		      Demux
@@ -1925,6 +1936,15 @@ Model {
       Position		      [875, 1147, 910, 1183]
       ZOrder		      820
       VariableName	      "ddqd_ts"
+      ZeroCross		      on
+    }
+    Block {
+      BlockType		      FromWorkspace
+      Name		      "From\nWorkspace3"
+      SID		      "1010"
+      Position		      [1735, 1054, 1785, 1096]
+      ZOrder		      864
+      VariableName	      "u_pert_ts"
       ZeroCross		      on
     }
     Block {
@@ -2619,7 +2639,7 @@ Model {
 	  BlockType		  S-Function
 	  Name			  " SFunction "
 	  SID			  "852::19"
-	  Tag			  "Stateflow S-Function Copy_of_TRACKING_CONTROL_KPES 2"
+	  Tag			  "Stateflow S-Function TRACKING_CONTROL_Cruz 2"
 	  Ports			  [17, 3]
 	  Position		  [180, 110, 230, 470]
 	  ZOrder		  10
@@ -2896,6 +2916,33 @@ Model {
       Floating		      off
     }
     Block {
+      BlockType		      Scope
+      Name		      "Scope2"
+      SID		      "1013"
+      Ports		      [2]
+      Position		      [1545, 781, 1575, 814]
+      ZOrder		      867
+      ScopeSpecificationString "Simulink.scopes.TimeScopeBlockCfg('CurrentConfiguration', extmgr.ConfigurationSet(extm"
+      "gr.Configuration('Core','General UI',true),extmgr.Configuration('Core','Source UI',true),extmgr.Configuration('S"
+      "ources','WiredSimulink',true,'DataLoggingVariableName','ScopeData1'),extmgr.Configuration('Visuals','Time Domain"
+      "',true,'SerializedDisplays',{struct('MinYLimReal','-0.12497','MaxYLimReal','1.12469','YLabelReal','','MinYLimMag"
+      "','0.00000','MaxYLimMag','1.12469','LegendVisibility','off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'Axes"
+      "Color',[0 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.686274509803922],'ColorOrder',[1 1 0.06666"
+      "66666666667;0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;0.392156862745098 0.8313"
+      "72549019608 0.0745098039215686;0.717647058823529 0.274509803921569 1;0.0588235294117647 1 1;1 0.0745098039215686"
+      " 0.650980392156863],'Title','%<SignalLabel>','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines"
+      "',2,'LineNames',{{'Abs','Abs1'}},'ShowContent',true,'Placement',1)},'DisplayPropertyDefaults',struct('MinYLimRea"
+      "l','-0.12497','MaxYLimReal','1.12469','YLabelReal','','MinYLimMag','0.00000','MaxYLimMag','1.12469','LegendVisib"
+      "ility','off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesColor',[0 0 0],'AxesTickColor',[0.6862745098039"
+      "22 0.686274509803922 0.686274509803922],'ColorOrder',[0.0745098039215686 0.623529411764706 1;1 0.411764705882353"
+      " 0.16078431372549;1 1 0.0666666666666667;0.717647058823529 0.274509803921569 1;0.392156862745098 0.8313725490196"
+      "08 0.0745098039215686;0.0588235294117647 1 1;1 0.0745098039215686 0.650980392156863])),extmgr.Configuration('Too"
+      "ls','Plot Navigation',true),extmgr.Configuration('Tools','Measurements',true,'Version','2018b')),'Version','2018"
+      "b','Position',[3108 78 703 915],'VisibleAtModelOpen','on')"
+      NumInputPorts	      "2"
+      Floating		      off
+    }
+    Block {
       BlockType		      Selector
       Name		      "Selector"
       SID		      "959"
@@ -2926,6 +2973,20 @@ Model {
       Ports		      [2, 1]
       Position		      [1305, 920, 1345, 960]
       ZOrder		      824
+      ShowName		      off
+      IconShape		      "round"
+      Inputs		      "|++"
+      InputSameDT	      off
+      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      Sum
+      Name		      "Sum1"
+      SID		      "1012"
+      Ports		      [2, 1]
+      Position		      [1880, 995, 1900, 1015]
+      ZOrder		      866
       ShowName		      off
       IconShape		      "round"
       Inputs		      "|++"
@@ -2976,6 +3037,34 @@ Model {
       SaturateOnIntegerOverflow	off
     }
     Block {
+      BlockType		      Sum
+      Name		      "Sum5"
+      SID		      "1011"
+      Ports		      [2, 1]
+      Position		      [1890, 1145, 1910, 1165]
+      ZOrder		      863
+      ShowName		      off
+      IconShape		      "round"
+      Inputs		      "++|"
+      InputSameDT	      off
+      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      Sum
+      Name		      "Sum6"
+      SID		      "1014"
+      Ports		      [2, 1]
+      Position		      [635, 760, 655, 780]
+      ZOrder		      868
+      ShowName		      off
+      IconShape		      "round"
+      Inputs		      "++|"
+      InputSameDT	      off
+      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
       BlockType		      ToWorkspace
       Name		      "To Workspace"
       SID		      "961"
@@ -3015,7 +3104,7 @@ Model {
       Name		      "Torque Control Elbow"
       SID		      "856"
       Ports		      [1]
-      Position		      [1550, 1076, 1725, 1204]
+      Position		      [1985, 1091, 2160, 1219]
       ZOrder		      782
       RequestExecContextInheritance off
       ContentPreviewEnabled   on
@@ -3878,7 +3967,7 @@ Model {
       Name		      "Torque Control Shoulder"
       SID		      "892"
       Ports		      [1]
-      Position		      [1550, 926, 1725, 1054]
+      Position		      [1985, 941, 2160, 1069]
       ZOrder		      772
       RequestExecContextInheritance off
       ContentPreviewEnabled   on
@@ -4840,7 +4929,7 @@ Model {
       }
       Branch {
 	ZOrder			1357
-	Points			[0, 0; 0, -130]
+	Points			[0, -130]
 	DstBlock		"Demux2"
 	DstPort			1
       }
@@ -5014,15 +5103,35 @@ Model {
       ZOrder		      1234
       SrcBlock		      "Abs"
       SrcPort		      1
-      DstBlock		      "Sum3"
-      DstPort		      1
+      Points		      [10, 0]
+      Branch {
+	ZOrder			1440
+	Points			[0, -65]
+	DstBlock		"Scope2"
+	DstPort			1
+      }
+      Branch {
+	ZOrder			1439
+	DstBlock		"Sum3"
+	DstPort			1
+      }
     }
     Line {
       ZOrder		      1235
       SrcBlock		      "Abs1"
       SrcPort		      1
-      DstBlock		      "Sum"
-      DstPort		      1
+      Points		      [10, 0]
+      Branch {
+	ZOrder			1442
+	Points			[8, 0; 0, -135]
+	DstBlock		"Scope2"
+	DstPort			2
+      }
+      Branch {
+	ZOrder			1441
+	DstBlock		"Sum"
+	DstPort			1
+      }
     }
     Line {
       ZOrder		      1236
@@ -5139,14 +5248,6 @@ Model {
       DstPort		      1
     }
     Line {
-      ZOrder		      1350
-      SrcBlock		      "Demux2"
-      SrcPort		      1
-      Points		      [200, 0]
-      DstBlock		      "Torque Control Shoulder"
-      DstPort		      1
-    }
-    Line {
       ZOrder		      1337
       SrcBlock		      "Constant4"
       SrcPort		      1
@@ -5231,14 +5332,6 @@ Model {
       DstPort		      17
     }
     Line {
-      ZOrder		      1355
-      SrcBlock		      "Demux2"
-      SrcPort		      2
-      Points		      [200, 0]
-      DstBlock		      "Torque Control Elbow"
-      DstPort		      1
-    }
-    Line {
       ZOrder		      1356
       SrcBlock		      "Unit Delay"
       SrcPort		      1
@@ -5253,6 +5346,59 @@ Model {
       Points		      [0, 195]
       DstBlock		      "Vector\nConcatenate"
       DstPort		      2
+    }
+    Line {
+      ZOrder		      1431
+      SrcBlock		      "From\nWorkspace3"
+      SrcPort		      1
+      DstBlock		      "Demux1"
+      DstPort		      1
+    }
+    Line {
+      ZOrder		      1438
+      SrcBlock		      "Demux1"
+      SrcPort		      1
+      Points		      [55, 0]
+      DstBlock		      "Sum1"
+      DstPort		      2
+    }
+    Line {
+      ZOrder		      1433
+      SrcBlock		      "Demux1"
+      SrcPort		      2
+      Points		      [65, 0]
+      DstBlock		      "Sum5"
+      DstPort		      1
+    }
+    Line {
+      ZOrder		      1434
+      SrcBlock		      "Demux2"
+      SrcPort		      2
+      Points		      [202, 0; 0, 70]
+      DstBlock		      "Sum5"
+      DstPort		      2
+    }
+    Line {
+      ZOrder		      1435
+      SrcBlock		      "Sum5"
+      SrcPort		      1
+      DstBlock		      "Torque Control Elbow"
+      DstPort		      1
+    }
+    Line {
+      ZOrder		      1436
+      SrcBlock		      "Demux2"
+      SrcPort		      1
+      Points		      [202, 0; 0, -60]
+      DstBlock		      "Sum1"
+      DstPort		      1
+    }
+    Line {
+      ZOrder		      1437
+      SrcBlock		      "Sum1"
+      SrcPort		      1
+      DstBlock		      "Torque Control Shoulder"
+      DstPort		      1
     }
     Annotation {
       SID		      "931"
@@ -5273,7 +5419,7 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @         !(!\"0 "
+    "        !0    @    !     0    $         \"0    @         $(!\"0 "
   }
   DataRecord {
     Tag			    DataTag1
@@ -5281,7 +5427,7 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @         !(!\"0 "
+    "        !0    @    !     0    $         \"0    @         $(!\"0 "
   }
   DataRecord {
     Tag			    DataTag2
@@ -5777,7 +5923,7 @@ MatData {
     "X    !@    @    &          4    (     0    $    !          D    (               .    N $   8    (     @         % "
     "   \"     $    !     0         %  0 $0    $   !5    :7-?=6YI<75E          !O;&1?8FQO8VL          &]L9%]N86UE      "
     "      :7-?;6]D96Q?8VQO<VEN9P!I<U]D96QE=&5D              X    P    !@    @    ) @        4    (     0    $    !    "
-    "      (  0 !    #@   #@    &    \"     8         !0    @    !     0    $         \"0    @         !(!\"0 X    X   "
+    "      (  0 !    #@   #@    &    \"     8         !0    @    !     0    $         \"0    @         $(!\"0 X    X   "
     " !@    @    $          4    (     0    4    !         !     %    2$E,+3$    .    ,     8    (    \"0(        %    "
     "\"     $    !     0         \"  $       X    P    !@    @    ) @        4    (     0    $    !          (  0      "
   }
@@ -5787,7 +5933,7 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @         !(!\"0 "
+    "        !0    @    !     0    $         \"0    @         $(!\"0 "
   }
   DataRecord {
     Tag			    DataTag4
@@ -5795,7 +5941,7 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @         !(!\"0 "
+    "        !0    @    !     0    $         \"0    @         $(!\"0 "
   }
   DataRecord {
     Tag			    DataTag5
@@ -5803,7 +5949,7 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @         !(!\"0 "
+    "        !0    @    !     0    $         \"0    @         $(!\"0 "
   }
   DataRecord {
     Tag			    DataTag6
@@ -5811,7 +5957,7 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @         !(!\"0 "
+    "        !0    @    !     0    $         \"0    @         $(!\"0 "
   }
   DataRecord {
     Tag			    DataTag7
@@ -5819,7 +5965,7 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @         !(!\"0 "
+    "        !0    @    !     0    $         \"0    @         $(!\"0 "
   }
   DataRecord {
     Tag			    DataTag8
@@ -5827,7 +5973,7 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @         !(!\"0 "
+    "        !0    @    !     0    $         \"0    @         $(!\"0 "
   }
   DataRecord {
     Tag			    DataTag9
@@ -5835,7 +5981,7 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @         !(!\"0 "
+    "        !0    @    !     0    $         \"0    @         $(!\"0 "
   }
   DataRecord {
     Tag			    DataTag10
@@ -5843,7 +5989,7 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @         !(!\"0 "
+    "        !0    @    !     0    $         \"0    @         $(!\"0 "
   }
   DataRecord {
     Tag			    DataTag11
@@ -5851,7 +5997,7 @@ MatData {
     "-T7VYA;64       X    8 0  !@    @    \"          4    (     0    $    !          4 !  -     0   \"<   !O;&1?;F%M90"
     "      :7-?9&5L971E9    &]B:F5C=%]B;&]C:P  #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
     "   !(24PM,0    X    P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@    &    \"     8 "
-    "        !0    @    !     0    $         \"0    @         !(!\"0 "
+    "        !0    @    !     0    $         \"0    @         $(!\"0 "
   }
 }
 #Finite State Machines
@@ -5862,7 +6008,7 @@ MatData {
 Stateflow {
   machine {
     id			    1
-    name		    "Copy_of_TRACKING_CONTROL_KPES"
+    name		    "TRACKING_CONTROL_Cruz"
     created		    "06-Feb-2026 12:19:12"
     isLibrary		    0
     sfVersion		    80000014
@@ -5877,9 +6023,6 @@ Stateflow {
     screen		    [1 1 3600 1200 1.180555555555556]
     treeNode		    [0 3 0 0]
     viewObj		    2
-    visible		    1
-    subviewS {
-    }
     ssIdHighWaterMark	    37
     decomposition	    CLUSTER_CHART
     type		    EML_CHART

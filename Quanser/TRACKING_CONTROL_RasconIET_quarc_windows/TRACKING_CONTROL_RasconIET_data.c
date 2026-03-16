@@ -7,9 +7,9 @@
  *
  * Code generation for model "TRACKING_CONTROL_RasconIET".
  *
- * Model version              : 1.175
+ * Model version              : 1.176
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Wed Mar 11 11:28:11 2026
+ * C source code generated on : Mon Mar 16 13:33:07 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -129,14 +129,14 @@ P_TRACKING_CONTROL_RasconIET_T TRACKING_CONTROL_RasconIET_P = {
    *   '<S4>/Motor #1 Encoder Calib3'
    *   '<S5>/Motor #1 Encoder Calib3'
    */
-  0.06847,
+  0.0,
 
   /* Variable: ke2
    * Referenced by:
    *   '<S4>/Motor #1 Encoder Calib8'
    *   '<S5>/Motor #1 Encoder Calib8'
    */
-  0.007983,
+  0.0,
 
   /* Variable: ki1
    * Referenced by:
@@ -300,15 +300,15 @@ P_TRACKING_CONTROL_RasconIET_T TRACKING_CONTROL_RasconIET_P = {
    */
   0.0,
 
-  /* Expression: 1
+  /* Expression: 15
    * Referenced by: '<Root>/Constant10'
    */
-  1.0,
+  15.0,
 
-  /* Expression: 0
+  /* Expression: 3
    * Referenced by: '<Root>/Constant11'
    */
-  0.0,
+  3.0,
 
   /* Expression: 0
    * Referenced by: '<Root>/Unit Delay4'

@@ -1084,8 +1084,8 @@
       dworkMap.sections(3) = section;
       clear section
       
-      section.nData     = 24;
-      section.data(24)  = dumData; %prealloc
+      section.nData     = 25;
+      section.data(25)  = dumData; %prealloc
       
 	  ;% TRACKING_CONTROL_RasconIET_DW.HILReadEncoder_PWORK
 	  section.data(1).logicalSrcIdx = 26;
@@ -1127,61 +1127,65 @@
 	  section.data(10).logicalSrcIdx = 35;
 	  section.data(10).dtTransOffset = 11;
 	
-	  ;% TRACKING_CONTROL_RasconIET_DW.HILReadAnalog_PWORK
+	  ;% TRACKING_CONTROL_RasconIET_DW.FromWorkspace3_PWORK.TimePtr
 	  section.data(11).logicalSrcIdx = 36;
 	  section.data(11).dtTransOffset = 12;
 	
-	  ;% TRACKING_CONTROL_RasconIET_DW.HILWriteAnalog_PWORK
+	  ;% TRACKING_CONTROL_RasconIET_DW.HILReadAnalog_PWORK
 	  section.data(12).logicalSrcIdx = 37;
 	  section.data(12).dtTransOffset = 13;
 	
-	  ;% TRACKING_CONTROL_RasconIET_DW.Ielbow_PWORK.LoggedData
+	  ;% TRACKING_CONTROL_RasconIET_DW.HILWriteAnalog_PWORK
 	  section.data(13).logicalSrcIdx = 38;
 	  section.data(13).dtTransOffset = 14;
 	
-	  ;% TRACKING_CONTROL_RasconIET_DW.ToWorkspace_PWORK_l.LoggedData
+	  ;% TRACKING_CONTROL_RasconIET_DW.Ielbow_PWORK.LoggedData
 	  section.data(14).logicalSrcIdx = 39;
-	  section.data(14).dtTransOffset = 16;
+	  section.data(14).dtTransOffset = 15;
 	
-	  ;% TRACKING_CONTROL_RasconIET_DW.Velbow_PWORK.LoggedData
+	  ;% TRACKING_CONTROL_RasconIET_DW.ToWorkspace_PWORK_l.LoggedData
 	  section.data(15).logicalSrcIdx = 40;
 	  section.data(15).dtTransOffset = 17;
 	
-	  ;% TRACKING_CONTROL_RasconIET_DW.HILReadEncoder_PWORK_i
+	  ;% TRACKING_CONTROL_RasconIET_DW.Velbow_PWORK.LoggedData
 	  section.data(16).logicalSrcIdx = 41;
 	  section.data(16).dtTransOffset = 18;
 	
-	  ;% TRACKING_CONTROL_RasconIET_DW.HILReadAnalog_PWORK_e
+	  ;% TRACKING_CONTROL_RasconIET_DW.HILReadEncoder_PWORK_i
 	  section.data(17).logicalSrcIdx = 42;
 	  section.data(17).dtTransOffset = 19;
 	
-	  ;% TRACKING_CONTROL_RasconIET_DW.HILWriteAnalog_PWORK_a
+	  ;% TRACKING_CONTROL_RasconIET_DW.HILReadAnalog_PWORK_e
 	  section.data(18).logicalSrcIdx = 43;
 	  section.data(18).dtTransOffset = 20;
 	
-	  ;% TRACKING_CONTROL_RasconIET_DW.Ishoulder1_PWORK.LoggedData
+	  ;% TRACKING_CONTROL_RasconIET_DW.HILWriteAnalog_PWORK_a
 	  section.data(19).logicalSrcIdx = 44;
 	  section.data(19).dtTransOffset = 21;
 	
-	  ;% TRACKING_CONTROL_RasconIET_DW.ToWorkspace_PWORK_k.LoggedData
+	  ;% TRACKING_CONTROL_RasconIET_DW.Ishoulder1_PWORK.LoggedData
 	  section.data(20).logicalSrcIdx = 45;
-	  section.data(20).dtTransOffset = 23;
+	  section.data(20).dtTransOffset = 22;
 	
-	  ;% TRACKING_CONTROL_RasconIET_DW.Vshoulder_PWORK.LoggedData
+	  ;% TRACKING_CONTROL_RasconIET_DW.ToWorkspace_PWORK_k.LoggedData
 	  section.data(21).logicalSrcIdx = 46;
 	  section.data(21).dtTransOffset = 24;
 	
-	  ;% TRACKING_CONTROL_RasconIET_DW.HILWriteDigital_PWORK
+	  ;% TRACKING_CONTROL_RasconIET_DW.Vshoulder_PWORK.LoggedData
 	  section.data(22).logicalSrcIdx = 47;
 	  section.data(22).dtTransOffset = 25;
 	
-	  ;% TRACKING_CONTROL_RasconIET_DW.HILReadDigital_PWORK
+	  ;% TRACKING_CONTROL_RasconIET_DW.HILWriteDigital_PWORK
 	  section.data(23).logicalSrcIdx = 48;
 	  section.data(23).dtTransOffset = 26;
 	
-	  ;% TRACKING_CONTROL_RasconIET_DW.HILReadDigital_PWORK_l
+	  ;% TRACKING_CONTROL_RasconIET_DW.HILReadDigital_PWORK
 	  section.data(24).logicalSrcIdx = 49;
 	  section.data(24).dtTransOffset = 27;
+	
+	  ;% TRACKING_CONTROL_RasconIET_DW.HILReadDigital_PWORK_l
+	  section.data(25).logicalSrcIdx = 50;
+	  section.data(25).dtTransOffset = 28;
 	
       nTotData = nTotData + section.nData;
       dworkMap.sections(4) = section;
@@ -1191,51 +1195,55 @@
       section.data(7)  = dumData; %prealloc
       
 	  ;% TRACKING_CONTROL_RasconIET_DW.HILReadEncoder_Buffer
-	  section.data(1).logicalSrcIdx = 50;
+	  section.data(1).logicalSrcIdx = 51;
 	  section.data(1).dtTransOffset = 0;
 	
 	  ;% TRACKING_CONTROL_RasconIET_DW.HILReadEncoder_Buffer_l
-	  section.data(2).logicalSrcIdx = 51;
+	  section.data(2).logicalSrcIdx = 52;
 	  section.data(2).dtTransOffset = 2;
 	
 	  ;% TRACKING_CONTROL_RasconIET_DW.HILReadEncoder_Buffer_c
-	  section.data(3).logicalSrcIdx = 52;
+	  section.data(3).logicalSrcIdx = 53;
 	  section.data(3).dtTransOffset = 4;
 	
 	  ;% TRACKING_CONTROL_RasconIET_DW.clockTickCounter
-	  section.data(4).logicalSrcIdx = 53;
+	  section.data(4).logicalSrcIdx = 54;
 	  section.data(4).dtTransOffset = 6;
 	
 	  ;% TRACKING_CONTROL_RasconIET_DW.HILInitialize_DOStates
-	  section.data(5).logicalSrcIdx = 54;
+	  section.data(5).logicalSrcIdx = 55;
 	  section.data(5).dtTransOffset = 7;
 	
 	  ;% TRACKING_CONTROL_RasconIET_DW.HILInitialize_QuadratureModes
-	  section.data(6).logicalSrcIdx = 55;
+	  section.data(6).logicalSrcIdx = 56;
 	  section.data(6).dtTransOffset = 16;
 	
 	  ;% TRACKING_CONTROL_RasconIET_DW.HILInitialize_InitialEICounts
-	  section.data(7).logicalSrcIdx = 56;
+	  section.data(7).logicalSrcIdx = 57;
 	  section.data(7).dtTransOffset = 24;
 	
       nTotData = nTotData + section.nData;
       dworkMap.sections(5) = section;
       clear section
       
-      section.nData     = 3;
-      section.data(3)  = dumData; %prealloc
+      section.nData     = 4;
+      section.data(4)  = dumData; %prealloc
       
 	  ;% TRACKING_CONTROL_RasconIET_DW.FromWorkspace4_IWORK.PrevIndex
-	  section.data(1).logicalSrcIdx = 57;
+	  section.data(1).logicalSrcIdx = 58;
 	  section.data(1).dtTransOffset = 0;
 	
 	  ;% TRACKING_CONTROL_RasconIET_DW.FromWorkspace1_IWORK.PrevIndex
-	  section.data(2).logicalSrcIdx = 58;
+	  section.data(2).logicalSrcIdx = 59;
 	  section.data(2).dtTransOffset = 1;
 	
 	  ;% TRACKING_CONTROL_RasconIET_DW.FromWorkspace2_IWORK.PrevIndex
-	  section.data(3).logicalSrcIdx = 59;
+	  section.data(3).logicalSrcIdx = 60;
 	  section.data(3).dtTransOffset = 2;
+	
+	  ;% TRACKING_CONTROL_RasconIET_DW.FromWorkspace3_IWORK.PrevIndex
+	  section.data(4).logicalSrcIdx = 61;
+	  section.data(4).dtTransOffset = 3;
 	
       nTotData = nTotData + section.nData;
       dworkMap.sections(6) = section;
@@ -1245,11 +1253,11 @@
       section.data(2)  = dumData; %prealloc
       
 	  ;% TRACKING_CONTROL_RasconIET_DW.HILInitialize_DOBits
-	  section.data(1).logicalSrcIdx = 60;
+	  section.data(1).logicalSrcIdx = 62;
 	  section.data(1).dtTransOffset = 0;
 	
 	  ;% TRACKING_CONTROL_RasconIET_DW.HILWriteDigitalTimebase_Started
-	  section.data(2).logicalSrcIdx = 61;
+	  section.data(2).logicalSrcIdx = 63;
 	  section.data(2).dtTransOffset = 9;
 	
       nTotData = nTotData + section.nData;
@@ -1260,19 +1268,19 @@
       section.data(4)  = dumData; %prealloc
       
 	  ;% TRACKING_CONTROL_RasconIET_DW.HILWriteDigitalTimebase_Buffer
-	  section.data(1).logicalSrcIdx = 62;
+	  section.data(1).logicalSrcIdx = 64;
 	  section.data(1).dtTransOffset = 0;
 	
 	  ;% TRACKING_CONTROL_RasconIET_DW.HILWriteDigital_Buffer
-	  section.data(2).logicalSrcIdx = 63;
+	  section.data(2).logicalSrcIdx = 65;
 	  section.data(2).dtTransOffset = 1;
 	
 	  ;% TRACKING_CONTROL_RasconIET_DW.HILReadDigital_Buffer
-	  section.data(3).logicalSrcIdx = 64;
+	  section.data(3).logicalSrcIdx = 66;
 	  section.data(3).dtTransOffset = 4;
 	
 	  ;% TRACKING_CONTROL_RasconIET_DW.HILReadDigital_Buffer_a
-	  section.data(4).logicalSrcIdx = 65;
+	  section.data(4).logicalSrcIdx = 67;
 	  section.data(4).dtTransOffset = 7;
 	
       nTotData = nTotData + section.nData;
@@ -1305,8 +1313,8 @@
   ;%
 
 
-  targMap.checksum0 = 3995782890;
-  targMap.checksum1 = 3634446734;
-  targMap.checksum2 = 3272895130;
-  targMap.checksum3 = 2979562137;
+  targMap.checksum0 = 2738772412;
+  targMap.checksum1 = 2581492766;
+  targMap.checksum2 = 262321487;
+  targMap.checksum3 = 1864559402;
 

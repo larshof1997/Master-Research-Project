@@ -7,9 +7,9 @@
  *
  * Code generation for model "TRACKING_CONTROL_RasconIET".
  *
- * Model version              : 1.175
+ * Model version              : 1.176
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Wed Mar 11 11:28:11 2026
+ * C source code generated on : Mon Mar 16 13:33:07 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -950,6 +950,12 @@ typedef struct {
   } ToWorkspace2_PWORK;                /* '<Root>/To Workspace2' */
 
   void *HILReadEncoder_PWORK_j;        /* '<S4>/HIL Read Encoder' */
+  struct {
+    void *TimePtr;
+    void *DataPtr;
+    void *RSimInfoPtr;
+  } FromWorkspace3_PWORK;              /* '<Root>/From Workspace3' */
+
   void *HILReadAnalog_PWORK;           /* '<S4>/HIL Read Analog' */
   void *HILWriteAnalog_PWORK;          /* '<S4>/HIL Write Analog' */
   struct {
@@ -1000,6 +1006,10 @@ typedef struct {
   struct {
     int_T PrevIndex;
   } FromWorkspace2_IWORK;              /* '<Root>/From Workspace2' */
+
+  struct {
+    int_T PrevIndex;
+  } FromWorkspace3_IWORK;              /* '<Root>/From Workspace3' */
 
   boolean_T HILInitialize_DOBits[9];   /* '<Root>/HIL Initialize' */
   boolean_T HILWriteDigitalTimebase_Started;/* '<Root>/HIL Write Digital Timebase' */
@@ -1194,10 +1204,10 @@ struct P_TRACKING_CONTROL_RasconIET_T_ {
   real_T UnitDelay_InitialCondition;   /* Expression: 0
                                         * Referenced by: '<Root>/Unit Delay'
                                         */
-  real_T Constant10_Value;             /* Expression: 1
+  real_T Constant10_Value;             /* Expression: 15
                                         * Referenced by: '<Root>/Constant10'
                                         */
-  real_T Constant11_Value;             /* Expression: 0
+  real_T Constant11_Value;             /* Expression: 3
                                         * Referenced by: '<Root>/Constant11'
                                         */
   real_T UnitDelay4_InitialCondition;  /* Expression: 0
