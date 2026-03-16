@@ -9,7 +9,7 @@
  *
  * Model version              : 1.112
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Tue Mar  3 10:14:41 2026
+ * C source code generated on : Mon Mar 16 14:45:12 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -36,22 +36,22 @@ P_torque_control_T torque_control_P = {
   /* Variable: Kt2
    * Referenced by: '<Root>/Torque to current '
    */
-  1.111065,
+  1.553175,
 
   /* Variable: L1
    * Referenced by: '<Root>/Motor #1 Encoder Calib2'
    */
-  0.047544,
+  0.0,
 
   /* Variable: L2
    * Referenced by: '<Root>/Motor #1 Encoder Calib5'
    */
-  0.04819,
+  0.041682,
 
   /* Variable: LIMIT_SWITCHES_ENABLE
    * Referenced by: '<S7>/Constant'
    */
-  1.0,
+  0.0,
 
   /* Variable: R1
    * Referenced by: '<Root>/Motor #1 Encoder Calib6'
@@ -61,7 +61,7 @@ P_torque_control_T torque_control_P = {
   /* Variable: R2
    * Referenced by: '<Root>/Motor #1 Encoder Calib7'
    */
-  4.0364,
+  4.0151,
 
   /* Variable: ke1
    * Referenced by: '<Root>/Motor #1 Encoder Calib3'
@@ -71,7 +71,7 @@ P_torque_control_T torque_control_P = {
   /* Variable: ke2
    * Referenced by: '<Root>/Motor #1 Encoder Calib8'
    */
-  0.007983,
+  0.0027453,
 
   /* Mask Parameter: DiscreteDerivative1_ICPrevScale
    * Referenced by: '<S3>/UD'
@@ -123,12 +123,12 @@ P_torque_control_T torque_control_P = {
   /* Mask Parameter: HILReadAnalog_channels
    * Referenced by: '<Root>/HIL Read Analog'
    */
-  0U,
+  1U,
 
   /* Mask Parameter: HILWriteAnalog_channels
    * Referenced by: '<Root>/HIL Write Analog'
    */
-  0U,
+  1U,
 
   /* Mask Parameter: HILWriteDigitalTimebase_channel
    * Referenced by: '<Root>/HIL Write Digital Timebase'
@@ -643,7 +643,7 @@ P_torque_control_T torque_control_P = {
   /* Computed Parameter: ManualSwitch3_CurrentSetting
    * Referenced by: '<Root>/Manual Switch3'
    */
-  1U,
+  0U,
 
   /* Computed Parameter: ManualSwitch4_CurrentSetting
    * Referenced by: '<Root>/Manual Switch4'
@@ -653,10 +653,10 @@ P_torque_control_T torque_control_P = {
   /* Computed Parameter: ManualSwitch2_CurrentSetting
    * Referenced by: '<Root>/Manual Switch2'
    */
-  1U,
+  0U,
 
   /* Computed Parameter: ManualSwitch1_CurrentSetting
    * Referenced by: '<Root>/Manual Switch1'
    */
-  1U
+  0U
 };

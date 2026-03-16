@@ -95,7 +95,8 @@ end
 
 %% Torque calibration parameters
 %Electrical Parameters
-L1 = 4.7544e-02;
+% L1 = 4.7544e-02;
+L1 = 0;
 R1 = 4.2737;
 ke1 = 6.8470e-02;
 
