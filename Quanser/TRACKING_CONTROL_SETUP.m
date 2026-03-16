@@ -110,7 +110,7 @@ n_pad = round(sleep/dt);
 t = (0:dt:t_end)';
 
 %control input perubation
-a1 = 0.8;
+a1 = 0.6;
 a2 = 0.8;
 f=2;
 u_pert   = [a1*sin(2*pi*f*t), a2*sin(2*pi*f*t)];
