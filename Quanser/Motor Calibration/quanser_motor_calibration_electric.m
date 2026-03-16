@@ -17,7 +17,8 @@ set(groot, 'defaultAxesFontSize', defaultFontSize);
 set(groot, 'defaultLineLineWidth', defaultLineWidth);
 
 % Directory
-data_dir = 'C:\Users\S4236610\Documents\GitHub\Master-Research-Project\Quanser\motor_calibration_data_shoulder\';
+% data_dir = 'C:\Users\S4236610\Documents\GitHub\Master-Research-Project\Quanser\motor_calibration_data_shoulder\';
+data_dir = '/Users/lars/Documents/GitHub/Master-Research-Project/Quanser/motor_calibration_data_shoulder';
 
 %% File lists
 mat_files = {
@@ -139,7 +140,7 @@ X = [train_i_dot, ...   % inductance term
      train_omega];      % back-EMF term
 
 % Ordinary Least Squares
-Theta_ols = (X' * X) \ (X' * Y);
+Theta_ols = X\Y;
 
 L_est_ols  = Theta_ols(1);
 R_est_ols  = Theta_ols(2);

@@ -17,7 +17,8 @@ set(groot, 'defaultAxesFontSize', defaultFontSize);
 set(groot, 'defaultLineLineWidth', defaultLineWidth);
 
 % Directory
-data_dir = 'C:\Users\S4236610\Documents\GitHub\Master-Research-Project\Quanser\motor_calibration_data_elbow/';
+% data_dir = 'C:\Users\S4236610\Documents\GitHub\Master-Research-Project\Quanser\motor_calibration_data_elbow/';
+data_dir = '/Users/lars/Documents/GitHub/Master-Research-Project/Quanser/motor_calibration_data_elbow/';
 
 %% ===================== STAGE 1: Kt from stall tests =====================
 stall_mat_files = {

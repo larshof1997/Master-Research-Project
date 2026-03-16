@@ -4,8 +4,6 @@ clc; clear all; close all;
 Kt1 = 3.018583e+00;
 Kt2 = 1.111065;
 
-
-
 J1_motor  = 2.030252e-02;
 B1_motor  = 9.233265e-02;
 J2_motor  = 6.530040e-04;
@@ -45,7 +43,7 @@ trajectories = {
 % Specify trajectory indices (rows of the table above)
 train_idx = [1,2,3,4,5,6,7,8];
 val_idx   = [1];
-test_idx  = [9,10];
+test_idx  = [9];
 
 fprintf('Training on:   %s\n', mat2str(train_idx));
 fprintf('Validation on: %s\n', mat2str(val_idx));
@@ -189,45 +187,82 @@ for i = 1:numel(test_idx)
     fprintf('  MSE tau1:   %.6e     %.6e\n', mean((tm(:,1)-tau_model_lin(:,1)).^2), mean((tm(:,1)-tau_model_nls(:,1)).^2));
     fprintf('  MSE tau2:   %.6e     %.6e\n', mean((tm(:,2)-tau_model_lin(:,2)).^2), mean((tm(:,2)-tau_model_nls(:,2)).^2));
 
+    % Pack into struct-friendly variables
+    true_theta1 = qm(:,1);
+    true_theta2 = qm(:,2);
+    true_dtheta1 = d.qd_filt(1,:).';
+    true_dtheta2 = d.qd_filt(2,:).';
+
+    % LS predictions
+    pred_theta1_LS  = x_lin(:,1);
+    pred_theta2_LS  = x_lin(:,2);
+    pred_dtheta1_LS = x_lin(:,3);
+    pred_dtheta2_LS = x_lin(:,4);
+
+    % NLS predictions
+    pred_theta1_NLS  = x_nls(:,1);
+    pred_theta2_NLS  = x_nls(:,2);
+    pred_dtheta1_NLS = x_nls(:,3);
+    pred_dtheta2_NLS = x_nls(:,4);
+
+    % Torques
+    tau_meas1 = tm(:,1);
+    tau_meas2 = tm(:,2);
+    tau_LS1   = tau_model_lin(:,1);
+    tau_LS2   = tau_model_lin(:,2);
+    tau_NLS1  = tau_model_nls(:,1);
+    tau_NLS2  = tau_model_nls(:,2);
+
+    fname = sprintf('results_LS_NLS_test_%02d.mat', test_idx(i));
+    save(fname, ...
+        't', 'dt', ...
+        'true_theta1', 'true_theta2', 'true_dtheta1', 'true_dtheta2', ...
+        'pred_theta1_LS', 'pred_theta2_LS', 'pred_dtheta1_LS', 'pred_dtheta2_LS', ...
+        'pred_theta1_NLS', 'pred_theta2_NLS', 'pred_dtheta1_NLS', 'pred_dtheta2_NLS', ...
+        'tau_meas1', 'tau_meas2', ...
+        'tau_LS1', 'tau_LS2', 'tau_NLS1', 'tau_NLS2');
+
+    fprintf('Saved %s\n', fname);
+
     % ---- Plots per test trajectory ----
     % Joint angles
-    fig_ang = figure('Color','w', 'Position',[200 200 900 500]);
-    tiledlayout(2,1, 'Padding','compact', 'TileSpacing','compact');
-
-    nexttile;
-    plot(t, qm(:,1), 'b'); hold on;
-    plot(t, x_lin(:,1), 'r--'); plot(t, x_nls(:,1), 'g-.');
-    xlabel('Time $[s]$'); ylabel('$\theta_1$ [rad]');
-    title(sprintf('Joint 1 angle --- %s', traj_label)); grid on; box on;
-    legend('measured','Linear LS','NLS','Location','best','FontSize',defaultFontSize-2);
-
-    nexttile;
-    plot(t, qm(:,2), 'b'); hold on;
-    plot(t, x_lin(:,2), 'r--'); plot(t, x_nls(:,2), 'g-.');
-    xlabel('Time $[s]$'); ylabel('$\theta_2$ [rad]');
-    title(sprintf('Joint 2 angle --- %s', traj_label)); grid on; box on;
-    legend('measured','Linear LS','NLS','Location','best','FontSize',defaultFontSize-2);
+    % fig_ang = figure('Color','w', 'Position',[200 200 900 500]);
+    % tiledlayout(2,1, 'Padding','compact', 'TileSpacing','compact');
+    % 
+    % nexttile;
+    % plot(t, qm(:,1), 'b'); hold on;
+    % plot(t, x_lin(:,1), 'r--'); plot(t, x_nls(:,1), 'g-.');
+    % xlabel('Time $[s]$'); ylabel('$\theta_1$ [rad]');
+    % title(sprintf('Joint 1 angle --- %s', traj_label)); grid on; box on;
+    % legend('measured','Linear LS','NLS','Location','best','FontSize',defaultFontSize-2);
+    % 
+    % nexttile;
+    % plot(t, qm(:,2), 'b'); hold on;
+    % plot(t, x_lin(:,2), 'r--'); plot(t, x_nls(:,2), 'g-.');
+    % xlabel('Time $[s]$'); ylabel('$\theta_2$ [rad]');
+    % title(sprintf('Joint 2 angle --- %s', traj_label)); grid on; box on;
+    % legend('measured','Linear LS','NLS','Location','best','FontSize',defaultFontSize-2);
 
     % exportgraphics(fig_ang, sprintf('test_%s_angles.png', trajectories{test_idx(i),4}), ...
         % 'Resolution', 300, 'BackgroundColor','white');
 
     % Torques
-    fig_tau = figure('Color','w', 'Position',[300 300 900 500]);
-    tiledlayout(2,1, 'Padding','compact', 'TileSpacing','compact');
-
-    nexttile;
-    plot(t, tm(:,1), 'b'); hold on;
-    plot(t, tau_model_lin(:,1), 'r--'); plot(t, tau_model_nls(:,1), 'g-.');
-    xlabel('Time $[s]$'); ylabel('$\tau_1$ [Nm]');
-    title(sprintf('Joint 1 torque --- %s', traj_label)); grid on; box on;
-    legend('measured','Linear LS','NLS','Location','best','FontSize',defaultFontSize-2);
-
-    nexttile;
-    plot(t, tm(:,2), 'b'); hold on;
-    plot(t, tau_model_lin(:,2), 'r--'); plot(t, tau_model_nls(:,2), 'g-.');
-    xlabel('Time $[s]$'); ylabel('$\tau_2$ [Nm]');
-    title(sprintf('Joint 2 torque --- %s', traj_label)); grid on; box on;
-    legend('measured','Linear LS','NLS','Location','best','FontSize',defaultFontSize-2);
+    % fig_tau = figure('Color','w', 'Position',[300 300 900 500]);
+    % tiledlayout(2,1, 'Padding','compact', 'TileSpacing','compact');
+    % 
+    % nexttile;
+    % plot(t, tm(:,1), 'b'); hold on;
+    % plot(t, tau_model_lin(:,1), 'r--'); plot(t, tau_model_nls(:,1), 'g-.');
+    % xlabel('Time $[s]$'); ylabel('$\tau_1$ [Nm]');
+    % title(sprintf('Joint 1 torque --- %s', traj_label)); grid on; box on;
+    % legend('measured','Linear LS','NLS','Location','best','FontSize',defaultFontSize-2);
+    % 
+    % nexttile;
+    % plot(t, tm(:,2), 'b'); hold on;
+    % plot(t, tau_model_lin(:,2), 'r--'); plot(t, tau_model_nls(:,2), 'g-.');
+    % xlabel('Time $[s]$'); ylabel('$\tau_2$ [Nm]');
+    % title(sprintf('Joint 2 torque --- %s', traj_label)); grid on; box on;
+    % legend('measured','Linear LS','NLS','Location','best','FontSize',defaultFontSize-2);
 
     % exportgraphics(fig_tau, sprintf('test_%s_torques.png', trajectories{test_idx(i),4}), ...
         % 'Resolution', 300, 'BackgroundColor','white');
@@ -249,22 +284,22 @@ for i = 1:numel(test_idx)
     x_lin = simulate_forward(N, dt, qm, tm, a1_lin, a2_lin, bp_lin, b1_lin, b2_lin, fc1_lin, fc2_lin, v_eps_lin);
     x_nls = simulate_forward(N, dt, qm, tm, a1_nls, a2_nls, bp_nls, b1_nls, b2_nls, fc1_nls, fc2_nls, v_eps_nls);
 
-    fig_vel = figure('Color','w', 'Position',[250 250 900 500]);
-    tiledlayout(2,1, 'Padding','compact', 'TileSpacing','compact');
-
-    nexttile;
-    plot(t, d.qd_filt(1,:), 'b'); hold on;
-    plot(t, x_lin(:,3), 'r--'); plot(t, x_nls(:,3), 'g-.');
-    xlabel('Time $[s]$'); ylabel('$\dot{\theta}_1$ [rad/s]');
-    title(sprintf('Joint 1 velocity --- %s', traj_label)); grid on; box on;
-    legend('filtered meas.','Linear LS','NLS','Location','best','FontSize',defaultFontSize-2);
-
-    nexttile;
-    plot(t, d.qd_filt(2,:), 'b'); hold on;
-    plot(t, x_lin(:,4), 'r--'); plot(t, x_nls(:,4), 'g-.');
-    xlabel('Time $[s]$'); ylabel('$\dot{\theta}_2$ [rad/s]');
-    title(sprintf('Joint 2 velocity --- %s', traj_label)); grid on; box on;
-    legend('filtered meas.','Linear LS','NLS','Location','best','FontSize',defaultFontSize-2);
+    % fig_vel = figure('Color','w', 'Position',[250 250 900 500]);
+    % tiledlayout(2,1, 'Padding','compact', 'TileSpacing','compact');
+    % 
+    % nexttile;
+    % plot(t, d.qd_filt(1,:), 'b'); hold on;
+    % plot(t, x_lin(:,3), 'r--'); plot(t, x_nls(:,3), 'g-.');
+    % xlabel('Time $[s]$'); ylabel('$\dot{\theta}_1$ [rad/s]');
+    % title(sprintf('Joint 1 velocity --- %s', traj_label)); grid on; box on;
+    % legend('filtered meas.','Linear LS','NLS','Location','best','FontSize',defaultFontSize-2);
+    % 
+    % nexttile;
+    % plot(t, d.qd_filt(2,:), 'b'); hold on;
+    % plot(t, x_lin(:,4), 'r--'); plot(t, x_nls(:,4), 'g-.');
+    % xlabel('Time $[s]$'); ylabel('$\dot{\theta}_2$ [rad/s]');
+    % title(sprintf('Joint 2 velocity --- %s', traj_label)); grid on; box on;
+    % legend('filtered meas.','Linear LS','NLS','Location','best','FontSize',defaultFontSize-2);
 end
 
 %% ---------- Plot 2: Desired vs filtered derivatives ----------
@@ -300,41 +335,41 @@ for i = 1:numel(compare_idx)
     % Trim desired to match measured length (in case of off-by-one)
     N_des = min(size(q_des, 1), N);
 
-    % --- Velocity: desired vs filtered ---
-    fig_qd = figure('Color','w', 'Position',[200 200 900 500]);
-    tiledlayout(2,1, 'Padding','compact', 'TileSpacing','compact');
-
-    nexttile;
-    plot(t(1:N_des), qd_des(1:N_des, 1), 'k', 'DisplayName','desired'); hold on;
-    plot(t, d.qd_filt(1,:), 'b--', 'DisplayName','filtered meas.');
-    xlabel('Time $[s]$'); ylabel('$\dot{\theta}_1$ [rad/s]');
-    title(sprintf('Joint 1 velocity: desired vs filtered --- %s', traj_label)); grid on; box on;
-    legend('Location','best','FontSize',defaultFontSize-2);
-
-    nexttile;
-    plot(t(1:N_des), qd_des(1:N_des, 2), 'k', 'DisplayName','desired'); hold on;
-    plot(t, d.qd_filt(2,:), 'b--', 'DisplayName','filtered meas.');
-    xlabel('Time $[s]$'); ylabel('$\dot{\theta}_2$ [rad/s]');
-    title(sprintf('Joint 2 velocity: desired vs filtered --- %s', traj_label)); grid on; box on;
-    legend('Location','best','FontSize',defaultFontSize-2);
-
-    % --- Acceleration: desired vs filtered ---
-    fig_qdd = figure('Color','w', 'Position',[250 250 900 500]);
-    tiledlayout(2,1, 'Padding','compact', 'TileSpacing','compact');
-
-    nexttile;
-    plot(t(1:N_des), qdd_des(1:N_des, 1), 'k', 'DisplayName','desired'); hold on;
-    plot(t, d.qdd_filt(1,:), 'b--', 'DisplayName','filtered meas.');
-    xlabel('Time $[s]$'); ylabel('$\ddot{\theta}_1$ [rad/s$^2$]');
-    title(sprintf('Joint 1 acceleration: desired vs filtered --- %s', traj_label)); grid on; box on;
-    legend('Location','best','FontSize',defaultFontSize-2);
-
-    nexttile;
-    plot(t(1:N_des), qdd_des(1:N_des, 2), 'k', 'DisplayName','desired'); hold on;
-    plot(t, d.qdd_filt(2,:), 'b--', 'DisplayName','filtered meas.');
-    xlabel('Time $[s]$'); ylabel('$\ddot{\theta}_2$ [rad/s$^2$]');
-    title(sprintf('Joint 2 acceleration: desired vs filtered --- %s', traj_label)); grid on; box on;
-    legend('Location','best','FontSize',defaultFontSize-2);
+    % % --- Velocity: desired vs filtered ---
+    % fig_qd = figure('Color','w', 'Position',[200 200 900 500]);
+    % tiledlayout(2,1, 'Padding','compact', 'TileSpacing','compact');
+    % 
+    % nexttile;
+    % plot(t(1:N_des), qd_des(1:N_des, 1), 'k', 'DisplayName','desired'); hold on;
+    % plot(t, d.qd_filt(1,:), 'b--', 'DisplayName','filtered meas.');
+    % xlabel('Time $[s]$'); ylabel('$\dot{\theta}_1$ [rad/s]');
+    % title(sprintf('Joint 1 velocity: desired vs filtered --- %s', traj_label)); grid on; box on;
+    % legend('Location','best','FontSize',defaultFontSize-2);
+    % 
+    % nexttile;
+    % plot(t(1:N_des), qd_des(1:N_des, 2), 'k', 'DisplayName','desired'); hold on;
+    % plot(t, d.qd_filt(2,:), 'b--', 'DisplayName','filtered meas.');
+    % xlabel('Time $[s]$'); ylabel('$\dot{\theta}_2$ [rad/s]');
+    % title(sprintf('Joint 2 velocity: desired vs filtered --- %s', traj_label)); grid on; box on;
+    % legend('Location','best','FontSize',defaultFontSize-2);
+    % 
+    % % --- Acceleration: desired vs filtered ---
+    % fig_qdd = figure('Color','w', 'Position',[250 250 900 500]);
+    % tiledlayout(2,1, 'Padding','compact', 'TileSpacing','compact');
+    % 
+    % nexttile;
+    % plot(t(1:N_des), qdd_des(1:N_des, 1), 'k', 'DisplayName','desired'); hold on;
+    % plot(t, d.qdd_filt(1,:), 'b--', 'DisplayName','filtered meas.');
+    % xlabel('Time $[s]$'); ylabel('$\ddot{\theta}_1$ [rad/s$^2$]');
+    % title(sprintf('Joint 1 acceleration: desired vs filtered --- %s', traj_label)); grid on; box on;
+    % legend('Location','best','FontSize',defaultFontSize-2);
+    % 
+    % nexttile;
+    % plot(t(1:N_des), qdd_des(1:N_des, 2), 'k', 'DisplayName','desired'); hold on;
+    % plot(t, d.qdd_filt(2,:), 'b--', 'DisplayName','filtered meas.');
+    % xlabel('Time $[s]$'); ylabel('$\ddot{\theta}_2$ [rad/s$^2$]');
+    % title(sprintf('Joint 2 acceleration: desired vs filtered --- %s', traj_label)); grid on; box on;
+    % legend('Location','best','FontSize',defaultFontSize-2);
 end
 
 
@@ -343,6 +378,8 @@ fprintf('\n==================== DONE ====================\n');
 %% ===================== LOCAL FUNCTIONS =====================
 
 function [data, q_meas_out, tau_meas_out] = load_traj_data(data_dir, traj_info, Kt1, Kt2, dt, K, F)
+    t_remove = 1;
+
     % traj_info: {traj_file, shoulder_file, elbow_file, label}
     S_res1 = load(fullfile(data_dir, traj_info{2}));
     fn1 = fieldnames(S_res1);
@@ -359,9 +396,19 @@ function [data, q_meas_out, tau_meas_out] = load_traj_data(data_dir, traj_info, 
     actual_current_2 = S_res2(:,2);
     q_meas_2         = S_res2(:,4);
 
+    % ---- Remove first seconds ----
+    N_remove = round(t_remove / dt);
+    
+    actual_current_1 = actual_current_1(N_remove+1:end);
+    actual_current_2 = actual_current_2(N_remove+1:end);
+    q_meas_1         = q_meas_1(N_remove+1:end);
+    q_meas_2         = q_meas_2(N_remove+1:end);
+
     % % Filter torque 
-    filt_current_1 = sgolayfilt(actual_current_1, K, F);
-    filt_current_2 = sgolayfilt(actual_current_2, K, F);
+    % filt_current_1 = sgolayfilt(actual_current_1, K, F);
+    % filt_current_2 = sgolayfilt(actual_current_2, K, F);
+    filt_current_1 = actual_current_1;
+    filt_current_2 = actual_current_2;
     % % Filter position
     q_filt_1 = sgolayfilt(q_meas_1, K, F);
     q_filt_2 = sgolayfilt(q_meas_2, K, F);
