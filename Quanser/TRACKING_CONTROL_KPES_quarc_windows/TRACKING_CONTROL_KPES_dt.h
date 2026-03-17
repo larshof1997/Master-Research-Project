@@ -9,7 +9,7 @@
  *
  * Model version              : 1.167
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Mon Mar 16 16:05:03 2026
+ * C source code generated on : Tue Mar 17 10:38:20 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -64,12 +64,12 @@ static const char_T * rtDataTypeNames[] = {
 
 /* data type transitions for block I/O structure */
 static DataTypeTransition rtBTransitions[] = {
-  { (char_T *)(&TRACKING_CONTROL_KPES_B.UnaryMinus), 0, 0, 54 },
+  { (char_T *)(&TRACKING_CONTROL_KPES_B.MeasuredPosition), 0, 0, 54 },
 
   { (char_T *)(&TRACKING_CONTROL_KPES_B.LogicalOperator4), 8, 0, 4 }
   ,
 
-  { (char_T *)(&TRACKING_CONTROL_KPES_DW.UnitDelay2_DSTATE), 0, 0, 67 },
+  { (char_T *)(&TRACKING_CONTROL_KPES_DW.qd_DSTATE), 0, 0, 67 },
 
   { (char_T *)(&TRACKING_CONTROL_KPES_DW.HILInitialize_Card), 15, 0, 1 },
 
@@ -106,7 +106,7 @@ static DataTypeTransition rtPTransitions[] = {
 
   { (char_T *)(&TRACKING_CONTROL_KPES_P.StopwithMessage_message_icon), 2, 0, 4 },
 
-  { (char_T *)(&TRACKING_CONTROL_KPES_P.UnitDelay2_InitialCondition), 0, 0, 42 },
+  { (char_T *)(&TRACKING_CONTROL_KPES_P.qd_InitialCondition), 0, 0, 42 },
 
   { (char_T *)(&TRACKING_CONTROL_KPES_P.HILInitialize_CKChannels[0]), 6, 0, 7 },
 

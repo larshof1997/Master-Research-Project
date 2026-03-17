@@ -9,7 +9,7 @@
  *
  * Model version              : 1.167
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Mon Mar 16 16:05:03 2026
+ * C source code generated on : Tue Mar 17 10:38:20 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -846,11 +846,11 @@
 
 /* Block signals (default storage) */
 typedef struct {
-  real_T UnaryMinus;                   /* '<Root>/Unary Minus' */
-  real_T UnitDelay2;                   /* '<Root>/Unit Delay2' */
-  real_T UnaryMinus1;                  /* '<Root>/Unary Minus1' */
-  real_T UnitDelay3;                   /* '<Root>/Unit Delay3' */
+  real_T MeasuredPosition;             /* '<Root>/q' */
+  real_T DesiredPosition;              /* '<Root>/qd' */
   real_T Abs;                          /* '<Root>/Abs' */
+  real_T MeasuredPosition_a;           /* '<Root>/q ' */
+  real_T DesiredPosition_n;            /* '<Root>/qd ' */
   real_T Abs1;                         /* '<Root>/Abs1' */
   real_T FromWorkspace4[2];            /* '<Root>/From Workspace4' */
   real_T VectorConcatenate[14];        /* '<Root>/Vector Concatenate' */
@@ -858,18 +858,18 @@ typedef struct {
   real_T Sum;                          /* '<Root>/Sum' */
   real_T TSamp;                        /* '<S17>/TSamp' */
   real_T TSamp_g;                      /* '<S14>/TSamp' */
-  real_T Torquetocurrent;              /* '<S4>/Torque to current ' */
+  real_T DesiredCurrent;               /* '<S4>/Torque to current ' */
   real_T TSamp_k;                      /* '<S16>/TSamp' */
-  real_T Current;                      /* '<S4>/HIL Read Analog' */
+  real_T MeasuredCurrent;              /* '<S4>/HIL Read Analog' */
   real_T Sum1;                         /* '<S4>/Sum1' */
   real_T TSamp_e;                      /* '<S15>/TSamp' */
   real_T Saturation;                   /* '<S4>/Saturation' */
   real_T VectorConcatenate_j[4];       /* '<S4>/Vector Concatenate' */
   real_T TSamp_gy;                     /* '<S21>/TSamp' */
   real_T TSamp_d;                      /* '<S18>/TSamp' */
-  real_T Torquetocurrent_d;            /* '<S5>/Torque to current ' */
+  real_T DesiredCurrent_g;             /* '<S5>/Torque to current ' */
   real_T TSamp_dk;                     /* '<S20>/TSamp' */
-  real_T Current_c;                    /* '<S5>/HIL Read Analog' */
+  real_T MeasuredCurrent_p;            /* '<S5>/HIL Read Analog' */
   real_T Sum1_l;                       /* '<S5>/Sum1' */
   real_T TSamp_i;                      /* '<S19>/TSamp' */
   real_T Saturation_h;                 /* '<S5>/Saturation' */
@@ -887,8 +887,8 @@ typedef struct {
 
 /* Block states (default storage) for system '<Root>' */
 typedef struct {
-  real_T UnitDelay2_DSTATE;            /* '<Root>/Unit Delay2' */
-  real_T UnitDelay3_DSTATE;            /* '<Root>/Unit Delay3' */
+  real_T qd_DSTATE;                    /* '<Root>/qd' */
+  real_T qd_DSTATE_l;                  /* '<Root>/qd ' */
   real_T UnitDelay_DSTATE[2];          /* '<Root>/Unit Delay' */
   real_T UnitDelay1_DSTATE;            /* '<Root>/Unit Delay1' */
   real_T UnitDelay4_DSTATE;            /* '<Root>/Unit Delay4' */
@@ -914,14 +914,6 @@ typedef struct {
   t_card HILInitialize_Card;           /* '<Root>/HIL Initialize' */
   t_task HILWriteDigitalTimebase_Task; /* '<Root>/HIL Write Digital Timebase' */
   void *HILReadEncoder_PWORK;          /* '<Root>/HIL Read Encoder' */
-  struct {
-    void *LoggedData[2];
-  } Scope_PWORK;                       /* '<Root>/Scope' */
-
-  struct {
-    void *LoggedData[2];
-  } Scope1_PWORK;                      /* '<Root>/Scope1' */
-
   struct {
     void *LoggedData[3];
   } Scope2_PWORK;                      /* '<Root>/Scope2' */
@@ -966,10 +958,6 @@ typedef struct {
   void *HILReadAnalog_PWORK;           /* '<S4>/HIL Read Analog' */
   void *HILWriteAnalog_PWORK;          /* '<S4>/HIL Write Analog' */
   struct {
-    void *LoggedData[2];
-  } Ielbow_PWORK;                      /* '<S4>/I elbow' */
-
-  struct {
     void *LoggedData;
   } ToWorkspace_PWORK_l;               /* '<S4>/To Workspace' */
 
@@ -977,13 +965,13 @@ typedef struct {
     void *LoggedData;
   } Velbow_PWORK;                      /* '<S4>/V elbow' */
 
+  struct {
+    void *LoggedData[2];
+  } i2_PWORK;                          /* '<S4>/i2 ' */
+
   void *HILReadEncoder_PWORK_i;        /* '<S5>/HIL Read Encoder' */
   void *HILReadAnalog_PWORK_e;         /* '<S5>/HIL Read Analog' */
   void *HILWriteAnalog_PWORK_a;        /* '<S5>/HIL Write Analog' */
-  struct {
-    void *LoggedData[2];
-  } Ishoulder1_PWORK;                  /* '<S5>/I shoulder1' */
-
   struct {
     void *LoggedData;
   } ToWorkspace_PWORK_k;               /* '<S5>/To Workspace' */
@@ -991,6 +979,18 @@ typedef struct {
   struct {
     void *LoggedData;
   } Vshoulder_PWORK;                   /* '<S5>/V shoulder' */
+
+  struct {
+    void *LoggedData[2];
+  } i1_PWORK;                          /* '<S5>/i1' */
+
+  struct {
+    void *LoggedData[2];
+  } q1_PWORK;                          /* '<Root>/q1' */
+
+  struct {
+    void *LoggedData[2];
+  } q2_PWORK;                          /* '<Root>/q2' */
 
   void *HILWriteDigital_PWORK;         /* '<S1>/HIL Write Digital' */
   void *HILReadDigital_PWORK;          /* '<S1>/HIL Read Digital' */
@@ -1210,11 +1210,11 @@ struct P_TRACKING_CONTROL_KPES_T_ {
   int8_T StopwithMessage3_message_icon;/* Mask Parameter: StopwithMessage3_message_icon
                                         * Referenced by: '<S9>/Show Message on Host'
                                         */
-  real_T UnitDelay2_InitialCondition;  /* Expression: 0
-                                        * Referenced by: '<Root>/Unit Delay2'
+  real_T qd_InitialCondition;          /* Expression: 0
+                                        * Referenced by: '<Root>/qd'
                                         */
-  real_T UnitDelay3_InitialCondition;  /* Expression: 0
-                                        * Referenced by: '<Root>/Unit Delay3'
+  real_T qd_InitialCondition_g;        /* Expression: 0
+                                        * Referenced by: '<Root>/qd '
                                         */
   real_T UnitDelay_InitialCondition;   /* Expression: 0
                                         * Referenced by: '<Root>/Unit Delay'

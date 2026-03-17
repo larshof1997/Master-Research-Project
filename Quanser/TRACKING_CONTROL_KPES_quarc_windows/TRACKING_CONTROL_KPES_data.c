@@ -9,7 +9,7 @@
  *
  * Model version              : 1.167
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Mon Mar 16 16:05:03 2026
+ * C source code generated on : Tue Mar 17 10:38:20 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -298,12 +298,12 @@ P_TRACKING_CONTROL_KPES_T TRACKING_CONTROL_KPES_P = {
   1,
 
   /* Expression: 0
-   * Referenced by: '<Root>/Unit Delay2'
+   * Referenced by: '<Root>/qd'
    */
   0.0,
 
   /* Expression: 0
-   * Referenced by: '<Root>/Unit Delay3'
+   * Referenced by: '<Root>/qd '
    */
   0.0,
 

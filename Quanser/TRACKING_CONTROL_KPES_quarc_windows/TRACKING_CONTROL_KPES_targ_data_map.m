@@ -259,11 +259,11 @@
       section.nData     = 41;
       section.data(41)  = dumData; %prealloc
       
-	  ;% TRACKING_CONTROL_KPES_P.UnitDelay2_InitialCondition
+	  ;% TRACKING_CONTROL_KPES_P.qd_InitialCondition
 	  section.data(1).logicalSrcIdx = 50;
 	  section.data(1).dtTransOffset = 0;
 	
-	  ;% TRACKING_CONTROL_KPES_P.UnitDelay3_InitialCondition
+	  ;% TRACKING_CONTROL_KPES_P.qd_InitialCondition_g
 	  section.data(2).logicalSrcIdx = 51;
 	  section.data(2).dtTransOffset = 1;
 	
@@ -775,23 +775,23 @@
       section.nData     = 33;
       section.data(33)  = dumData; %prealloc
       
-	  ;% TRACKING_CONTROL_KPES_B.UnaryMinus
+	  ;% TRACKING_CONTROL_KPES_B.MeasuredPosition
 	  section.data(1).logicalSrcIdx = 0;
 	  section.data(1).dtTransOffset = 0;
 	
-	  ;% TRACKING_CONTROL_KPES_B.UnitDelay2
+	  ;% TRACKING_CONTROL_KPES_B.DesiredPosition
 	  section.data(2).logicalSrcIdx = 1;
 	  section.data(2).dtTransOffset = 1;
 	
-	  ;% TRACKING_CONTROL_KPES_B.UnaryMinus1
+	  ;% TRACKING_CONTROL_KPES_B.Abs
 	  section.data(3).logicalSrcIdx = 2;
 	  section.data(3).dtTransOffset = 2;
 	
-	  ;% TRACKING_CONTROL_KPES_B.UnitDelay3
+	  ;% TRACKING_CONTROL_KPES_B.MeasuredPosition_a
 	  section.data(4).logicalSrcIdx = 3;
 	  section.data(4).dtTransOffset = 3;
 	
-	  ;% TRACKING_CONTROL_KPES_B.Abs
+	  ;% TRACKING_CONTROL_KPES_B.DesiredPosition_n
 	  section.data(5).logicalSrcIdx = 4;
 	  section.data(5).dtTransOffset = 4;
 	
@@ -823,7 +823,7 @@
 	  section.data(12).logicalSrcIdx = 11;
 	  section.data(12).dtTransOffset = 25;
 	
-	  ;% TRACKING_CONTROL_KPES_B.Torquetocurrent
+	  ;% TRACKING_CONTROL_KPES_B.DesiredCurrent
 	  section.data(13).logicalSrcIdx = 12;
 	  section.data(13).dtTransOffset = 26;
 	
@@ -831,7 +831,7 @@
 	  section.data(14).logicalSrcIdx = 13;
 	  section.data(14).dtTransOffset = 27;
 	
-	  ;% TRACKING_CONTROL_KPES_B.Current
+	  ;% TRACKING_CONTROL_KPES_B.MeasuredCurrent
 	  section.data(15).logicalSrcIdx = 14;
 	  section.data(15).dtTransOffset = 28;
 	
@@ -859,7 +859,7 @@
 	  section.data(21).logicalSrcIdx = 20;
 	  section.data(21).dtTransOffset = 37;
 	
-	  ;% TRACKING_CONTROL_KPES_B.Torquetocurrent_d
+	  ;% TRACKING_CONTROL_KPES_B.DesiredCurrent_g
 	  section.data(22).logicalSrcIdx = 21;
 	  section.data(22).dtTransOffset = 38;
 	
@@ -867,7 +867,7 @@
 	  section.data(23).logicalSrcIdx = 22;
 	  section.data(23).dtTransOffset = 39;
 	
-	  ;% TRACKING_CONTROL_KPES_B.Current_c
+	  ;% TRACKING_CONTROL_KPES_B.MeasuredCurrent_p
 	  section.data(24).logicalSrcIdx = 23;
 	  section.data(24).dtTransOffset = 40;
 	
@@ -978,11 +978,11 @@
       section.nData     = 24;
       section.data(24)  = dumData; %prealloc
       
-	  ;% TRACKING_CONTROL_KPES_DW.UnitDelay2_DSTATE
+	  ;% TRACKING_CONTROL_KPES_DW.qd_DSTATE
 	  section.data(1).logicalSrcIdx = 0;
 	  section.data(1).dtTransOffset = 0;
 	
-	  ;% TRACKING_CONTROL_KPES_DW.UnitDelay3_DSTATE
+	  ;% TRACKING_CONTROL_KPES_DW.qd_DSTATE_l
 	  section.data(2).logicalSrcIdx = 1;
 	  section.data(2).dtTransOffset = 1;
 	
@@ -1107,93 +1107,93 @@
 	  section.data(1).logicalSrcIdx = 26;
 	  section.data(1).dtTransOffset = 0;
 	
-	  ;% TRACKING_CONTROL_KPES_DW.Scope_PWORK.LoggedData
+	  ;% TRACKING_CONTROL_KPES_DW.Scope2_PWORK.LoggedData
 	  section.data(2).logicalSrcIdx = 27;
 	  section.data(2).dtTransOffset = 1;
 	
-	  ;% TRACKING_CONTROL_KPES_DW.Scope1_PWORK.LoggedData
+	  ;% TRACKING_CONTROL_KPES_DW.FromWorkspace4_PWORK.TimePtr
 	  section.data(3).logicalSrcIdx = 28;
-	  section.data(3).dtTransOffset = 3;
+	  section.data(3).dtTransOffset = 4;
 	
-	  ;% TRACKING_CONTROL_KPES_DW.Scope2_PWORK.LoggedData
+	  ;% TRACKING_CONTROL_KPES_DW.FromWorkspace1_PWORK.TimePtr
 	  section.data(4).logicalSrcIdx = 29;
 	  section.data(4).dtTransOffset = 5;
 	
-	  ;% TRACKING_CONTROL_KPES_DW.FromWorkspace4_PWORK.TimePtr
-	  section.data(5).logicalSrcIdx = 30;
-	  section.data(5).dtTransOffset = 8;
-	
-	  ;% TRACKING_CONTROL_KPES_DW.FromWorkspace1_PWORK.TimePtr
-	  section.data(6).logicalSrcIdx = 31;
-	  section.data(6).dtTransOffset = 9;
-	
 	  ;% TRACKING_CONTROL_KPES_DW.FromWorkspace2_PWORK.TimePtr
-	  section.data(7).logicalSrcIdx = 32;
-	  section.data(7).dtTransOffset = 10;
+	  section.data(5).logicalSrcIdx = 30;
+	  section.data(5).dtTransOffset = 6;
 	
 	  ;% TRACKING_CONTROL_KPES_DW.FromWorkspace3_PWORK.TimePtr
-	  section.data(8).logicalSrcIdx = 33;
-	  section.data(8).dtTransOffset = 11;
+	  section.data(6).logicalSrcIdx = 31;
+	  section.data(6).dtTransOffset = 7;
 	
 	  ;% TRACKING_CONTROL_KPES_DW.ToWorkspace_PWORK.LoggedData
-	  section.data(9).logicalSrcIdx = 34;
-	  section.data(9).dtTransOffset = 12;
+	  section.data(7).logicalSrcIdx = 32;
+	  section.data(7).dtTransOffset = 8;
 	
 	  ;% TRACKING_CONTROL_KPES_DW.ToWorkspace1_PWORK.LoggedData
-	  section.data(10).logicalSrcIdx = 35;
-	  section.data(10).dtTransOffset = 13;
+	  section.data(8).logicalSrcIdx = 33;
+	  section.data(8).dtTransOffset = 9;
 	
 	  ;% TRACKING_CONTROL_KPES_DW.ToWorkspace2_PWORK.LoggedData
-	  section.data(11).logicalSrcIdx = 36;
-	  section.data(11).dtTransOffset = 14;
+	  section.data(9).logicalSrcIdx = 34;
+	  section.data(9).dtTransOffset = 10;
 	
 	  ;% TRACKING_CONTROL_KPES_DW.HILReadEncoder_PWORK_j
-	  section.data(12).logicalSrcIdx = 37;
-	  section.data(12).dtTransOffset = 15;
+	  section.data(10).logicalSrcIdx = 35;
+	  section.data(10).dtTransOffset = 11;
 	
 	  ;% TRACKING_CONTROL_KPES_DW.HILReadAnalog_PWORK
-	  section.data(13).logicalSrcIdx = 38;
-	  section.data(13).dtTransOffset = 16;
+	  section.data(11).logicalSrcIdx = 36;
+	  section.data(11).dtTransOffset = 12;
 	
 	  ;% TRACKING_CONTROL_KPES_DW.HILWriteAnalog_PWORK
-	  section.data(14).logicalSrcIdx = 39;
-	  section.data(14).dtTransOffset = 17;
-	
-	  ;% TRACKING_CONTROL_KPES_DW.Ielbow_PWORK.LoggedData
-	  section.data(15).logicalSrcIdx = 40;
-	  section.data(15).dtTransOffset = 18;
+	  section.data(12).logicalSrcIdx = 37;
+	  section.data(12).dtTransOffset = 13;
 	
 	  ;% TRACKING_CONTROL_KPES_DW.ToWorkspace_PWORK_l.LoggedData
-	  section.data(16).logicalSrcIdx = 41;
-	  section.data(16).dtTransOffset = 20;
+	  section.data(13).logicalSrcIdx = 38;
+	  section.data(13).dtTransOffset = 14;
 	
 	  ;% TRACKING_CONTROL_KPES_DW.Velbow_PWORK.LoggedData
-	  section.data(17).logicalSrcIdx = 42;
-	  section.data(17).dtTransOffset = 21;
+	  section.data(14).logicalSrcIdx = 39;
+	  section.data(14).dtTransOffset = 15;
+	
+	  ;% TRACKING_CONTROL_KPES_DW.i2_PWORK.LoggedData
+	  section.data(15).logicalSrcIdx = 40;
+	  section.data(15).dtTransOffset = 16;
 	
 	  ;% TRACKING_CONTROL_KPES_DW.HILReadEncoder_PWORK_i
-	  section.data(18).logicalSrcIdx = 43;
-	  section.data(18).dtTransOffset = 22;
+	  section.data(16).logicalSrcIdx = 41;
+	  section.data(16).dtTransOffset = 18;
 	
 	  ;% TRACKING_CONTROL_KPES_DW.HILReadAnalog_PWORK_e
-	  section.data(19).logicalSrcIdx = 44;
-	  section.data(19).dtTransOffset = 23;
+	  section.data(17).logicalSrcIdx = 42;
+	  section.data(17).dtTransOffset = 19;
 	
 	  ;% TRACKING_CONTROL_KPES_DW.HILWriteAnalog_PWORK_a
-	  section.data(20).logicalSrcIdx = 45;
-	  section.data(20).dtTransOffset = 24;
-	
-	  ;% TRACKING_CONTROL_KPES_DW.Ishoulder1_PWORK.LoggedData
-	  section.data(21).logicalSrcIdx = 46;
-	  section.data(21).dtTransOffset = 25;
+	  section.data(18).logicalSrcIdx = 43;
+	  section.data(18).dtTransOffset = 20;
 	
 	  ;% TRACKING_CONTROL_KPES_DW.ToWorkspace_PWORK_k.LoggedData
-	  section.data(22).logicalSrcIdx = 47;
-	  section.data(22).dtTransOffset = 27;
+	  section.data(19).logicalSrcIdx = 44;
+	  section.data(19).dtTransOffset = 21;
 	
 	  ;% TRACKING_CONTROL_KPES_DW.Vshoulder_PWORK.LoggedData
+	  section.data(20).logicalSrcIdx = 45;
+	  section.data(20).dtTransOffset = 22;
+	
+	  ;% TRACKING_CONTROL_KPES_DW.i1_PWORK.LoggedData
+	  section.data(21).logicalSrcIdx = 46;
+	  section.data(21).dtTransOffset = 23;
+	
+	  ;% TRACKING_CONTROL_KPES_DW.q1_PWORK.LoggedData
+	  section.data(22).logicalSrcIdx = 47;
+	  section.data(22).dtTransOffset = 25;
+	
+	  ;% TRACKING_CONTROL_KPES_DW.q2_PWORK.LoggedData
 	  section.data(23).logicalSrcIdx = 48;
-	  section.data(23).dtTransOffset = 28;
+	  section.data(23).dtTransOffset = 27;
 	
 	  ;% TRACKING_CONTROL_KPES_DW.HILWriteDigital_PWORK
 	  section.data(24).logicalSrcIdx = 49;
@@ -1333,8 +1333,8 @@
   ;%
 
 
-  targMap.checksum0 = 3920241742;
-  targMap.checksum1 = 1872183578;
-  targMap.checksum2 = 3521348068;
-  targMap.checksum3 = 3274760037;
+  targMap.checksum0 = 377304200;
+  targMap.checksum1 = 3322046932;
+  targMap.checksum2 = 2330790335;
+  targMap.checksum3 = 1893177404;
 
