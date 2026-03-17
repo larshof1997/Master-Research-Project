@@ -7,9 +7,9 @@
  *
  * Code generation for model "TRACKING_CONTROL_KPES".
  *
- * Model version              : 1.167
+ * Model version              : 1.168
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Tue Mar 17 10:38:20 2026
+ * C source code generated on : Tue Mar 17 11:51:19 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -314,6 +314,11 @@ P_TRACKING_CONTROL_KPES_T TRACKING_CONTROL_KPES_P = {
 
   /* Expression: 0
    * Referenced by: '<Root>/Unit Delay1'
+   */
+  0.0,
+
+  /* Expression: 0
+   * Referenced by: '<Root>/Gain'
    */
   0.0,
 

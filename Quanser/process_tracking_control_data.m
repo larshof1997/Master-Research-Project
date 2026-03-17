@@ -28,7 +28,7 @@ q_desired   = data(:,  3:4);
 u_total     = data(:,  5:6);
 e_track     = q_desired - q_meas;
 
-fname = sprintf('Cruz_pert_a1_%.2f_a2_%.2f.mat', a1, a2);
+fname = sprintf('Rascon_pert_a1_%.2f_a2_%.2f.mat', a1, a2);
 save(fname, ...
      't','dt','q_desired','q_meas','u_total','e_track');
 fprintf('Saved %s (%d samples, %.2f s)\n', fname, N, N*dt);

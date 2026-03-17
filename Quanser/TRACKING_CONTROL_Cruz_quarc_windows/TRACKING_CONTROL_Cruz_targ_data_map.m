@@ -248,8 +248,8 @@
       paramMap.sections(4) = section;
       clear section
       
-      section.nData     = 46;
-      section.data(46)  = dumData; %prealloc
+      section.nData     = 47;
+      section.data(47)  = dumData; %prealloc
       
 	  ;% TRACKING_CONTROL_Cruz_P.UnitDelay2_InitialCondition
 	  section.data(1).logicalSrcIdx = 48;
@@ -303,137 +303,141 @@
 	  section.data(13).logicalSrcIdx = 60;
 	  section.data(13).dtTransOffset = 15;
 	
-	  ;% TRACKING_CONTROL_Cruz_P.TSamp_WtEt_i
+	  ;% TRACKING_CONTROL_Cruz_P.Gain_Gain
 	  section.data(14).logicalSrcIdx = 61;
 	  section.data(14).dtTransOffset = 16;
 	
-	  ;% TRACKING_CONTROL_Cruz_P.DiscreteTimeIntegrator_gainval
+	  ;% TRACKING_CONTROL_Cruz_P.TSamp_WtEt_i
 	  section.data(15).logicalSrcIdx = 62;
 	  section.data(15).dtTransOffset = 17;
 	
-	  ;% TRACKING_CONTROL_Cruz_P.DiscreteTimeIntegrator_IC
+	  ;% TRACKING_CONTROL_Cruz_P.DiscreteTimeIntegrator_gainval
 	  section.data(16).logicalSrcIdx = 63;
 	  section.data(16).dtTransOffset = 18;
 	
-	  ;% TRACKING_CONTROL_Cruz_P.TSamp_WtEt_o
+	  ;% TRACKING_CONTROL_Cruz_P.DiscreteTimeIntegrator_IC
 	  section.data(17).logicalSrcIdx = 64;
 	  section.data(17).dtTransOffset = 19;
 	
-	  ;% TRACKING_CONTROL_Cruz_P.Gain2_Gain
+	  ;% TRACKING_CONTROL_Cruz_P.TSamp_WtEt_o
 	  section.data(18).logicalSrcIdx = 65;
 	  section.data(18).dtTransOffset = 20;
 	
-	  ;% TRACKING_CONTROL_Cruz_P.TSamp_WtEt_d
+	  ;% TRACKING_CONTROL_Cruz_P.Gain2_Gain
 	  section.data(19).logicalSrcIdx = 66;
 	  section.data(19).dtTransOffset = 21;
 	
-	  ;% TRACKING_CONTROL_Cruz_P.TSamp_WtEt_m
+	  ;% TRACKING_CONTROL_Cruz_P.TSamp_WtEt_d
 	  section.data(20).logicalSrcIdx = 67;
 	  section.data(20).dtTransOffset = 22;
 	
-	  ;% TRACKING_CONTROL_Cruz_P.TSamp_WtEt_c
+	  ;% TRACKING_CONTROL_Cruz_P.TSamp_WtEt_m
 	  section.data(21).logicalSrcIdx = 68;
 	  section.data(21).dtTransOffset = 23;
 	
-	  ;% TRACKING_CONTROL_Cruz_P.DiscreteTimeIntegrator_gainva_p
+	  ;% TRACKING_CONTROL_Cruz_P.TSamp_WtEt_c
 	  section.data(22).logicalSrcIdx = 69;
 	  section.data(22).dtTransOffset = 24;
 	
-	  ;% TRACKING_CONTROL_Cruz_P.DiscreteTimeIntegrator_IC_m
+	  ;% TRACKING_CONTROL_Cruz_P.DiscreteTimeIntegrator_gainva_p
 	  section.data(23).logicalSrcIdx = 70;
 	  section.data(23).dtTransOffset = 25;
 	
-	  ;% TRACKING_CONTROL_Cruz_P.TSamp_WtEt_f
+	  ;% TRACKING_CONTROL_Cruz_P.DiscreteTimeIntegrator_IC_m
 	  section.data(24).logicalSrcIdx = 71;
 	  section.data(24).dtTransOffset = 26;
 	
-	  ;% TRACKING_CONTROL_Cruz_P.Gain2_Gain_p
+	  ;% TRACKING_CONTROL_Cruz_P.TSamp_WtEt_f
 	  section.data(25).logicalSrcIdx = 72;
 	  section.data(25).dtTransOffset = 27;
 	
-	  ;% TRACKING_CONTROL_Cruz_P.PulseGenerator_Amp
+	  ;% TRACKING_CONTROL_Cruz_P.Gain2_Gain_p
 	  section.data(26).logicalSrcIdx = 73;
 	  section.data(26).dtTransOffset = 28;
 	
-	  ;% TRACKING_CONTROL_Cruz_P.PulseGenerator_Period
+	  ;% TRACKING_CONTROL_Cruz_P.PulseGenerator_Amp
 	  section.data(27).logicalSrcIdx = 74;
 	  section.data(27).dtTransOffset = 29;
 	
-	  ;% TRACKING_CONTROL_Cruz_P.PulseGenerator_Duty
+	  ;% TRACKING_CONTROL_Cruz_P.PulseGenerator_Period
 	  section.data(28).logicalSrcIdx = 75;
 	  section.data(28).dtTransOffset = 30;
 	
-	  ;% TRACKING_CONTROL_Cruz_P.PulseGenerator_PhaseDelay
+	  ;% TRACKING_CONTROL_Cruz_P.PulseGenerator_Duty
 	  section.data(29).logicalSrcIdx = 76;
 	  section.data(29).dtTransOffset = 31;
 	
-	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_OOTerminate
+	  ;% TRACKING_CONTROL_Cruz_P.PulseGenerator_PhaseDelay
 	  section.data(30).logicalSrcIdx = 77;
 	  section.data(30).dtTransOffset = 32;
 	
-	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_OOExit
+	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_OOTerminate
 	  section.data(31).logicalSrcIdx = 78;
 	  section.data(31).dtTransOffset = 33;
 	
-	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_OOStart
+	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_OOExit
 	  section.data(32).logicalSrcIdx = 79;
 	  section.data(32).dtTransOffset = 34;
 	
-	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_OOEnter
+	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_OOStart
 	  section.data(33).logicalSrcIdx = 80;
 	  section.data(33).dtTransOffset = 35;
 	
-	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_AOFinal
+	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_OOEnter
 	  section.data(34).logicalSrcIdx = 81;
 	  section.data(34).dtTransOffset = 36;
 	
-	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_POFinal
+	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_AOFinal
 	  section.data(35).logicalSrcIdx = 82;
 	  section.data(35).dtTransOffset = 37;
 	
-	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_AIHigh
+	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_POFinal
 	  section.data(36).logicalSrcIdx = 83;
 	  section.data(36).dtTransOffset = 38;
 	
-	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_AILow
+	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_AIHigh
 	  section.data(37).logicalSrcIdx = 84;
 	  section.data(37).dtTransOffset = 39;
 	
-	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_AOHigh
+	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_AILow
 	  section.data(38).logicalSrcIdx = 85;
 	  section.data(38).dtTransOffset = 40;
 	
-	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_AOLow
+	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_AOHigh
 	  section.data(39).logicalSrcIdx = 86;
 	  section.data(39).dtTransOffset = 41;
 	
-	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_AOInitial
+	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_AOLow
 	  section.data(40).logicalSrcIdx = 87;
 	  section.data(40).dtTransOffset = 42;
 	
-	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_AOWatchdog
+	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_AOInitial
 	  section.data(41).logicalSrcIdx = 88;
 	  section.data(41).dtTransOffset = 43;
 	
-	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_EIFrequency
+	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_AOWatchdog
 	  section.data(42).logicalSrcIdx = 89;
 	  section.data(42).dtTransOffset = 44;
 	
-	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_POFrequency
+	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_EIFrequency
 	  section.data(43).logicalSrcIdx = 90;
 	  section.data(43).dtTransOffset = 45;
 	
-	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_POInitial
+	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_POFrequency
 	  section.data(44).logicalSrcIdx = 91;
 	  section.data(44).dtTransOffset = 46;
 	
-	  ;% TRACKING_CONTROL_Cruz_P.EnableActiveLow_Value
+	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_POInitial
 	  section.data(45).logicalSrcIdx = 92;
 	  section.data(45).dtTransOffset = 47;
 	
-	  ;% TRACKING_CONTROL_Cruz_P.MasterEnableActiveHigh_Value
+	  ;% TRACKING_CONTROL_Cruz_P.EnableActiveLow_Value
 	  section.data(46).logicalSrcIdx = 93;
-	  section.data(46).dtTransOffset = 49;
+	  section.data(46).dtTransOffset = 48;
+	
+	  ;% TRACKING_CONTROL_Cruz_P.MasterEnableActiveHigh_Value
+	  section.data(47).logicalSrcIdx = 94;
+	  section.data(47).dtTransOffset = 50;
 	
       nTotData = nTotData + section.nData;
       paramMap.sections(5) = section;
@@ -443,23 +447,23 @@
       section.data(5)  = dumData; %prealloc
       
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_CKChannels
-	  section.data(1).logicalSrcIdx = 94;
+	  section.data(1).logicalSrcIdx = 95;
 	  section.data(1).dtTransOffset = 0;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_CKModes
-	  section.data(2).logicalSrcIdx = 95;
+	  section.data(2).logicalSrcIdx = 96;
 	  section.data(2).dtTransOffset = 2;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_DOWatchdog
-	  section.data(3).logicalSrcIdx = 96;
+	  section.data(3).logicalSrcIdx = 97;
 	  section.data(3).dtTransOffset = 4;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_EIInitial
-	  section.data(4).logicalSrcIdx = 97;
+	  section.data(4).logicalSrcIdx = 98;
 	  section.data(4).dtTransOffset = 5;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_POModes
-	  section.data(5).logicalSrcIdx = 98;
+	  section.data(5).logicalSrcIdx = 99;
 	  section.data(5).dtTransOffset = 6;
 	
       nTotData = nTotData + section.nData;
@@ -470,27 +474,27 @@
       section.data(6)  = dumData; %prealloc
       
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_AIChannels
-	  section.data(1).logicalSrcIdx = 99;
+	  section.data(1).logicalSrcIdx = 100;
 	  section.data(1).dtTransOffset = 0;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_AOChannels
-	  section.data(2).logicalSrcIdx = 100;
+	  section.data(2).logicalSrcIdx = 101;
 	  section.data(2).dtTransOffset = 8;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_DIChannels
-	  section.data(3).logicalSrcIdx = 101;
+	  section.data(3).logicalSrcIdx = 102;
 	  section.data(3).dtTransOffset = 16;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_DOChannels
-	  section.data(4).logicalSrcIdx = 102;
+	  section.data(4).logicalSrcIdx = 103;
 	  section.data(4).dtTransOffset = 24;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_EIChannels
-	  section.data(5).logicalSrcIdx = 103;
+	  section.data(5).logicalSrcIdx = 104;
 	  section.data(5).dtTransOffset = 33;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_EIQuadrature
-	  section.data(6).logicalSrcIdx = 104;
+	  section.data(6).logicalSrcIdx = 105;
 	  section.data(6).dtTransOffset = 41;
 	
       nTotData = nTotData + section.nData;
@@ -501,203 +505,203 @@
       section.data(50)  = dumData; %prealloc
       
 	  ;% TRACKING_CONTROL_Cruz_P.HILReadEncoder_Active
-	  section.data(1).logicalSrcIdx = 105;
+	  section.data(1).logicalSrcIdx = 106;
 	  section.data(1).dtTransOffset = 0;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILReadEncoder_Active_l
-	  section.data(2).logicalSrcIdx = 106;
+	  section.data(2).logicalSrcIdx = 107;
 	  section.data(2).dtTransOffset = 1;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILReadAnalog_Active
-	  section.data(3).logicalSrcIdx = 107;
+	  section.data(3).logicalSrcIdx = 108;
 	  section.data(3).dtTransOffset = 2;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILWriteAnalog_Active
-	  section.data(4).logicalSrcIdx = 108;
+	  section.data(4).logicalSrcIdx = 109;
 	  section.data(4).dtTransOffset = 3;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILReadEncoder_Active_d
-	  section.data(5).logicalSrcIdx = 109;
+	  section.data(5).logicalSrcIdx = 110;
 	  section.data(5).dtTransOffset = 4;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILReadAnalog_Active_n
-	  section.data(6).logicalSrcIdx = 110;
+	  section.data(6).logicalSrcIdx = 111;
 	  section.data(6).dtTransOffset = 5;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILWriteAnalog_Active_e
-	  section.data(7).logicalSrcIdx = 111;
+	  section.data(7).logicalSrcIdx = 112;
 	  section.data(7).dtTransOffset = 6;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_Active
-	  section.data(8).logicalSrcIdx = 112;
+	  section.data(8).logicalSrcIdx = 113;
 	  section.data(8).dtTransOffset = 7;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_AOTerminate
-	  section.data(9).logicalSrcIdx = 113;
+	  section.data(9).logicalSrcIdx = 114;
 	  section.data(9).dtTransOffset = 8;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_AOExit
-	  section.data(10).logicalSrcIdx = 114;
+	  section.data(10).logicalSrcIdx = 115;
 	  section.data(10).dtTransOffset = 9;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_DOTerminate
-	  section.data(11).logicalSrcIdx = 115;
+	  section.data(11).logicalSrcIdx = 116;
 	  section.data(11).dtTransOffset = 10;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_DOExit
-	  section.data(12).logicalSrcIdx = 116;
+	  section.data(12).logicalSrcIdx = 117;
 	  section.data(12).dtTransOffset = 11;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_POTerminate
-	  section.data(13).logicalSrcIdx = 117;
+	  section.data(13).logicalSrcIdx = 118;
 	  section.data(13).dtTransOffset = 12;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_POExit
-	  section.data(14).logicalSrcIdx = 118;
+	  section.data(14).logicalSrcIdx = 119;
 	  section.data(14).dtTransOffset = 13;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_CKPStart
-	  section.data(15).logicalSrcIdx = 119;
+	  section.data(15).logicalSrcIdx = 120;
 	  section.data(15).dtTransOffset = 14;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_CKPEnter
-	  section.data(16).logicalSrcIdx = 120;
+	  section.data(16).logicalSrcIdx = 121;
 	  section.data(16).dtTransOffset = 15;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_CKStart
-	  section.data(17).logicalSrcIdx = 121;
+	  section.data(17).logicalSrcIdx = 122;
 	  section.data(17).dtTransOffset = 16;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_CKEnter
-	  section.data(18).logicalSrcIdx = 122;
+	  section.data(18).logicalSrcIdx = 123;
 	  section.data(18).dtTransOffset = 17;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_AIPStart
-	  section.data(19).logicalSrcIdx = 123;
+	  section.data(19).logicalSrcIdx = 124;
 	  section.data(19).dtTransOffset = 18;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_AIPEnter
-	  section.data(20).logicalSrcIdx = 124;
+	  section.data(20).logicalSrcIdx = 125;
 	  section.data(20).dtTransOffset = 19;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_AOPStart
-	  section.data(21).logicalSrcIdx = 125;
+	  section.data(21).logicalSrcIdx = 126;
 	  section.data(21).dtTransOffset = 20;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_AOPEnter
-	  section.data(22).logicalSrcIdx = 126;
+	  section.data(22).logicalSrcIdx = 127;
 	  section.data(22).dtTransOffset = 21;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_AOStart
-	  section.data(23).logicalSrcIdx = 127;
+	  section.data(23).logicalSrcIdx = 128;
 	  section.data(23).dtTransOffset = 22;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_AOEnter
-	  section.data(24).logicalSrcIdx = 128;
+	  section.data(24).logicalSrcIdx = 129;
 	  section.data(24).dtTransOffset = 23;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_AOReset
-	  section.data(25).logicalSrcIdx = 129;
+	  section.data(25).logicalSrcIdx = 130;
 	  section.data(25).dtTransOffset = 24;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_DOPStart
-	  section.data(26).logicalSrcIdx = 130;
+	  section.data(26).logicalSrcIdx = 131;
 	  section.data(26).dtTransOffset = 25;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_DOPEnter
-	  section.data(27).logicalSrcIdx = 131;
+	  section.data(27).logicalSrcIdx = 132;
 	  section.data(27).dtTransOffset = 26;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_DOStart
-	  section.data(28).logicalSrcIdx = 132;
+	  section.data(28).logicalSrcIdx = 133;
 	  section.data(28).dtTransOffset = 27;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_DOEnter
-	  section.data(29).logicalSrcIdx = 133;
+	  section.data(29).logicalSrcIdx = 134;
 	  section.data(29).dtTransOffset = 28;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_DOReset
-	  section.data(30).logicalSrcIdx = 134;
+	  section.data(30).logicalSrcIdx = 135;
 	  section.data(30).dtTransOffset = 29;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_EIPStart
-	  section.data(31).logicalSrcIdx = 135;
+	  section.data(31).logicalSrcIdx = 136;
 	  section.data(31).dtTransOffset = 30;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_EIPEnter
-	  section.data(32).logicalSrcIdx = 136;
+	  section.data(32).logicalSrcIdx = 137;
 	  section.data(32).dtTransOffset = 31;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_EIStart
-	  section.data(33).logicalSrcIdx = 137;
+	  section.data(33).logicalSrcIdx = 138;
 	  section.data(33).dtTransOffset = 32;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_EIEnter
-	  section.data(34).logicalSrcIdx = 138;
+	  section.data(34).logicalSrcIdx = 139;
 	  section.data(34).dtTransOffset = 33;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_POPStart
-	  section.data(35).logicalSrcIdx = 139;
+	  section.data(35).logicalSrcIdx = 140;
 	  section.data(35).dtTransOffset = 34;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_POPEnter
-	  section.data(36).logicalSrcIdx = 140;
+	  section.data(36).logicalSrcIdx = 141;
 	  section.data(36).dtTransOffset = 35;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_POStart
-	  section.data(37).logicalSrcIdx = 141;
+	  section.data(37).logicalSrcIdx = 142;
 	  section.data(37).dtTransOffset = 36;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_POEnter
-	  section.data(38).logicalSrcIdx = 142;
+	  section.data(38).logicalSrcIdx = 143;
 	  section.data(38).dtTransOffset = 37;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_POReset
-	  section.data(39).logicalSrcIdx = 143;
+	  section.data(39).logicalSrcIdx = 144;
 	  section.data(39).dtTransOffset = 38;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_OOReset
-	  section.data(40).logicalSrcIdx = 144;
+	  section.data(40).logicalSrcIdx = 145;
 	  section.data(40).dtTransOffset = 39;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_DOFinal
-	  section.data(41).logicalSrcIdx = 145;
+	  section.data(41).logicalSrcIdx = 146;
 	  section.data(41).dtTransOffset = 40;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILInitialize_DOInitial
-	  section.data(42).logicalSrcIdx = 146;
+	  section.data(42).logicalSrcIdx = 147;
 	  section.data(42).dtTransOffset = 41;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILWriteDigitalTimebase_Active
-	  section.data(43).logicalSrcIdx = 147;
+	  section.data(43).logicalSrcIdx = 148;
 	  section.data(43).dtTransOffset = 42;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILWriteDigital_Active
-	  section.data(44).logicalSrcIdx = 148;
+	  section.data(44).logicalSrcIdx = 149;
 	  section.data(44).dtTransOffset = 43;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILReadDigital_Active
-	  section.data(45).logicalSrcIdx = 149;
+	  section.data(45).logicalSrcIdx = 150;
 	  section.data(45).dtTransOffset = 44;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.HILReadDigital_Active_e
-	  section.data(46).logicalSrcIdx = 150;
+	  section.data(46).logicalSrcIdx = 151;
 	  section.data(46).dtTransOffset = 45;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.Constant_Value
-	  section.data(47).logicalSrcIdx = 151;
+	  section.data(47).logicalSrcIdx = 152;
 	  section.data(47).dtTransOffset = 46;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.Constant_Value_o
-	  section.data(48).logicalSrcIdx = 152;
+	  section.data(48).logicalSrcIdx = 153;
 	  section.data(48).dtTransOffset = 47;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.Constant_Value_f
-	  section.data(49).logicalSrcIdx = 153;
+	  section.data(49).logicalSrcIdx = 154;
 	  section.data(49).dtTransOffset = 48;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.Constant_Value_d
-	  section.data(50).logicalSrcIdx = 154;
+	  section.data(50).logicalSrcIdx = 155;
 	  section.data(50).dtTransOffset = 49;
 	
       nTotData = nTotData + section.nData;
@@ -708,35 +712,35 @@
       section.data(8)  = dumData; %prealloc
       
 	  ;% TRACKING_CONTROL_Cruz_P.ManualSwitch3_CurrentSetting
-	  section.data(1).logicalSrcIdx = 155;
+	  section.data(1).logicalSrcIdx = 156;
 	  section.data(1).dtTransOffset = 0;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.ManualSwitch2_CurrentSetting
-	  section.data(2).logicalSrcIdx = 156;
+	  section.data(2).logicalSrcIdx = 157;
 	  section.data(2).dtTransOffset = 1;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.ManualSwitch1_CurrentSetting
-	  section.data(3).logicalSrcIdx = 157;
+	  section.data(3).logicalSrcIdx = 158;
 	  section.data(3).dtTransOffset = 2;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.ManualSwitch4_CurrentSetting
-	  section.data(4).logicalSrcIdx = 158;
+	  section.data(4).logicalSrcIdx = 159;
 	  section.data(4).dtTransOffset = 3;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.ManualSwitch3_CurrentSetting_g
-	  section.data(5).logicalSrcIdx = 159;
+	  section.data(5).logicalSrcIdx = 160;
 	  section.data(5).dtTransOffset = 4;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.ManualSwitch2_CurrentSetting_o
-	  section.data(6).logicalSrcIdx = 160;
+	  section.data(6).logicalSrcIdx = 161;
 	  section.data(6).dtTransOffset = 5;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.ManualSwitch1_CurrentSetting_i
-	  section.data(7).logicalSrcIdx = 161;
+	  section.data(7).logicalSrcIdx = 162;
 	  section.data(7).dtTransOffset = 6;
 	
 	  ;% TRACKING_CONTROL_Cruz_P.ManualSwitch4_CurrentSetting_l
-	  section.data(8).logicalSrcIdx = 162;
+	  section.data(8).logicalSrcIdx = 163;
 	  section.data(8).dtTransOffset = 7;
 	
       nTotData = nTotData + section.nData;
@@ -1341,8 +1345,8 @@
   ;%
 
 
-  targMap.checksum0 = 2167775257;
-  targMap.checksum1 = 3645667286;
-  targMap.checksum2 = 781886959;
-  targMap.checksum3 = 3651214815;
+  targMap.checksum0 = 1674800253;
+  targMap.checksum1 = 1615895801;
+  targMap.checksum2 = 2480877554;
+  targMap.checksum3 = 3636838215;
 

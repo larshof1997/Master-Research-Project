@@ -7,9 +7,9 @@
  *
  * Code generation for model "TRACKING_CONTROL_Cruz".
  *
- * Model version              : 1.175
+ * Model version              : 1.176
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Tue Mar 17 11:21:06 2026
+ * C source code generated on : Tue Mar 17 11:58:53 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -1240,6 +1240,9 @@ struct P_TRACKING_CONTROL_Cruz_T_ {
                                         */
   real_T TSamp_WtEt_p;                 /* Computed Parameter: TSamp_WtEt_p
                                         * Referenced by: '<S14>/TSamp'
+                                        */
+  real_T Gain_Gain;                    /* Expression: 1
+                                        * Referenced by: '<Root>/Gain'
                                         */
   real_T TSamp_WtEt_i;                 /* Computed Parameter: TSamp_WtEt_i
                                         * Referenced by: '<S16>/TSamp'

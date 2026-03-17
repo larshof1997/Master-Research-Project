@@ -7,9 +7,9 @@
  *
  * Code generation for model "TRACKING_CONTROL_Cruz".
  *
- * Model version              : 1.175
+ * Model version              : 1.176
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Tue Mar 17 11:21:06 2026
+ * C source code generated on : Tue Mar 17 11:58:53 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -106,7 +106,7 @@ static DataTypeTransition rtPTransitions[] = {
 
   { (char_T *)(&TRACKING_CONTROL_Cruz_P.StopwithMessage_message_icon), 2, 0, 4 },
 
-  { (char_T *)(&TRACKING_CONTROL_Cruz_P.UnitDelay2_InitialCondition), 0, 0, 50 },
+  { (char_T *)(&TRACKING_CONTROL_Cruz_P.UnitDelay2_InitialCondition), 0, 0, 51 },
 
   { (char_T *)(&TRACKING_CONTROL_Cruz_P.HILInitialize_CKChannels[0]), 6, 0, 7 },
 

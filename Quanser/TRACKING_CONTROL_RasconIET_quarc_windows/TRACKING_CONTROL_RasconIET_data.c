@@ -7,9 +7,9 @@
  *
  * Code generation for model "TRACKING_CONTROL_RasconIET".
  *
- * Model version              : 1.177
+ * Model version              : 1.178
  * Simulink Coder version : 9.0 (R2018b) 24-May-2018
- * C source code generated on : Mon Mar 16 16:01:42 2026
+ * C source code generated on : Tue Mar 17 12:02:38 2026
  *
  * Target selection: quarc_windows.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -329,6 +329,11 @@ P_TRACKING_CONTROL_RasconIET_T TRACKING_CONTROL_RasconIET_P = {
    * Referenced by: '<S14>/TSamp'
    */
   1000.0,
+
+  /* Expression: 1.2
+   * Referenced by: '<Root>/Gain'
+   */
+  1.2,
 
   /* Computed Parameter: TSamp_WtEt_i
    * Referenced by: '<S16>/TSamp'
