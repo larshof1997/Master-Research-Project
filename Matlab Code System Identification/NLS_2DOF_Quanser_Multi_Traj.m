@@ -1,4 +1,5 @@
 clc; clear all; close all;
+%% (N)LS on real experimental setup
 
 %% ===================== USER SETTINGS =====================
 Kt1 = 3.018583e+00;
@@ -43,7 +44,7 @@ trajectories = {
 % Specify trajectory indices (rows of the table above)
 train_idx = [1,2,3,4,5,6,7,8];
 val_idx   = [1];
-test_idx  = [9];
+test_idx  = [9,10];
 
 fprintf('Training on:   %s\n', mat2str(train_idx));
 fprintf('Validation on: %s\n', mat2str(val_idx));
@@ -212,17 +213,64 @@ for i = 1:numel(test_idx)
     tau_LS2   = tau_model_lin(:,2);
     tau_NLS1  = tau_model_nls(:,1);
     tau_NLS2  = tau_model_nls(:,2);
+    % 
+    % fname = sprintf('results_LS_NLS_test_%02d.mat', test_idx(i));
+    % save(fname, ...
+    %     't', 'dt', ...
+    %     'true_theta1', 'true_theta2', 'true_dtheta1', 'true_dtheta2', ...
+    %     'pred_theta1_LS', 'pred_theta2_LS', 'pred_dtheta1_LS', 'pred_dtheta2_LS', ...
+    %     'pred_theta1_NLS', 'pred_theta2_NLS', 'pred_dtheta1_NLS', 'pred_dtheta2_NLS', ...
+    %     'tau_meas1', 'tau_meas2', ...
+    %     'tau_LS1', 'tau_LS2', 'tau_NLS1', 'tau_NLS2');
+    % 
+    % fprintf('Saved %s\n', fname);
 
-    fname = sprintf('results_LS_NLS_test_%02d.mat', test_idx(i));
-    save(fname, ...
-        't', 'dt', ...
+    % ============================================================
+    %  SAVE PER-MODEL RESULTS (forward sim + torque reconstruction)
+    %  Replace the existing single save(...) block with this.
+    % ============================================================
+
+    % ---- Common ground truth ----
+    true_theta1  = qm(:,1);
+    true_theta2  = qm(:,2);
+    true_dtheta1 = d.qd_filt(1,:).';
+    true_dtheta2 = d.qd_filt(2,:).';
+    tau_meas1    = tm(:,1);
+    tau_meas2    = tm(:,2);
+
+    % ---- Save LS ----
+    model_name   = 'LS';
+    pred_theta1  = x_lin(:,1);
+    pred_theta2  = x_lin(:,2);
+    pred_dtheta1 = x_lin(:,3);
+    pred_dtheta2 = x_lin(:,4);
+    pred_tau1    = tau_model_lin(:,1);
+    pred_tau2    = tau_model_lin(:,2);
+
+    fname_ls = sprintf('results_LS_test_%02d.mat', test_idx(i));
+    save(fname_ls, ...
+        'model_name', 'dt', 't', ...
         'true_theta1', 'true_theta2', 'true_dtheta1', 'true_dtheta2', ...
-        'pred_theta1_LS', 'pred_theta2_LS', 'pred_dtheta1_LS', 'pred_dtheta2_LS', ...
-        'pred_theta1_NLS', 'pred_theta2_NLS', 'pred_dtheta1_NLS', 'pred_dtheta2_NLS', ...
-        'tau_meas1', 'tau_meas2', ...
-        'tau_LS1', 'tau_LS2', 'tau_NLS1', 'tau_NLS2');
+        'pred_theta1', 'pred_theta2', 'pred_dtheta1', 'pred_dtheta2', ...
+        'tau_meas1', 'tau_meas2', 'pred_tau1', 'pred_tau2');
+    fprintf('  Saved %s\n', fname_ls);
 
-    fprintf('Saved %s\n', fname);
+    % ---- Save NLS ----
+    model_name   = 'NLS';
+    pred_theta1  = x_nls(:,1);
+    pred_theta2  = x_nls(:,2);
+    pred_dtheta1 = x_nls(:,3);
+    pred_dtheta2 = x_nls(:,4);
+    pred_tau1    = tau_model_nls(:,1);
+    pred_tau2    = tau_model_nls(:,2);
+
+    fname_nls = sprintf('results_NLS_test_%02d.mat', test_idx(i));
+    save(fname_nls, ...
+        'model_name', 'dt', 't', ...
+        'true_theta1', 'true_theta2', 'true_dtheta1', 'true_dtheta2', ...
+        'pred_theta1', 'pred_theta2', 'pred_dtheta1', 'pred_dtheta2', ...
+        'tau_meas1', 'tau_meas2', 'pred_tau1', 'pred_tau2');
+    fprintf('  Saved %s\n', fname_nls);
 
     % ---- Plots per test trajectory ----
     % Joint angles
@@ -284,22 +332,22 @@ for i = 1:numel(test_idx)
     x_lin = simulate_forward(N, dt, qm, tm, a1_lin, a2_lin, bp_lin, b1_lin, b2_lin, fc1_lin, fc2_lin, v_eps_lin);
     x_nls = simulate_forward(N, dt, qm, tm, a1_nls, a2_nls, bp_nls, b1_nls, b2_nls, fc1_nls, fc2_nls, v_eps_nls);
 
-    % fig_vel = figure('Color','w', 'Position',[250 250 900 500]);
-    % tiledlayout(2,1, 'Padding','compact', 'TileSpacing','compact');
-    % 
-    % nexttile;
-    % plot(t, d.qd_filt(1,:), 'b'); hold on;
-    % plot(t, x_lin(:,3), 'r--'); plot(t, x_nls(:,3), 'g-.');
-    % xlabel('Time $[s]$'); ylabel('$\dot{\theta}_1$ [rad/s]');
-    % title(sprintf('Joint 1 velocity --- %s', traj_label)); grid on; box on;
-    % legend('filtered meas.','Linear LS','NLS','Location','best','FontSize',defaultFontSize-2);
-    % 
-    % nexttile;
-    % plot(t, d.qd_filt(2,:), 'b'); hold on;
-    % plot(t, x_lin(:,4), 'r--'); plot(t, x_nls(:,4), 'g-.');
-    % xlabel('Time $[s]$'); ylabel('$\dot{\theta}_2$ [rad/s]');
-    % title(sprintf('Joint 2 velocity --- %s', traj_label)); grid on; box on;
-    % legend('filtered meas.','Linear LS','NLS','Location','best','FontSize',defaultFontSize-2);
+    fig_vel = figure('Color','w', 'Position',[250 250 900 500]);
+    tiledlayout(2,1, 'Padding','compact', 'TileSpacing','compact');
+
+    nexttile;
+    plot(t, d.qd_filt(1,:), 'b'); hold on;
+    plot(t, x_lin(:,3), 'r--'); plot(t, x_nls(:,3), 'g-.');
+    xlabel('Time $[s]$'); ylabel('$\dot{\theta}_1$ [rad/s]');
+    title(sprintf('Joint 1 velocity --- %s', traj_label)); grid on; box on;
+    legend('filtered meas.','Linear LS','NLS','Location','best','FontSize',defaultFontSize-2);
+
+    nexttile;
+    plot(t, d.qd_filt(2,:), 'b'); hold on;
+    plot(t, x_lin(:,4), 'r--'); plot(t, x_nls(:,4), 'g-.');
+    xlabel('Time $[s]$'); ylabel('$\dot{\theta}_2$ [rad/s]');
+    title(sprintf('Joint 2 velocity --- %s', traj_label)); grid on; box on;
+    legend('filtered meas.','Linear LS','NLS','Location','best','FontSize',defaultFontSize-2);
 end
 
 %% ---------- Plot 2: Desired vs filtered derivatives ----------
@@ -642,3 +690,4 @@ function theta_hat = estimate_theta_ls_2dof(data)
 
     theta_hat = Y_stack \ tau_stack;
 end
+

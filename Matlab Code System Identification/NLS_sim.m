@@ -8,7 +8,7 @@ opts = optimoptions('lsqnonlin','Display','iter','FiniteDifferenceType','forward
                     'SpecifyObjectiveGradient',false,'MaxFunctionEvaluations',1e5, ...
                     'FunctionTolerance',1e-9,'StepTolerance',1e-9);
 
-S = load('planar_2dof_dataset_no_noise_linear_friction.mat');
+S = load('planar_2dof_dataset_gaussian_noise.mat');
 dataset = S.dataset;  
 % Convert to identification data format
 % Filter parameters
@@ -18,9 +18,6 @@ data = dataset_to_iddata(dataset, K, F);
 
 t_plot = dataset.time;
 idxs = 1:numel(t_plot);
-
-
-
 
 opts = optimoptions('lsqnonlin', ...
     'Display','iter', ...
@@ -39,7 +36,7 @@ fun = @(psi) residualsEL_analytic(psi, data);
 
 %% Check results
 %Load dataset
-S = load('planar_2dof_dataset_no_noise_linear_friction.mat');
+S = load('planar_2dof_dataset_gaussian_noise.mat');
 dataset = S.dataset;
 
 % Choose a run to validate on (change this index if you like)
@@ -583,4 +580,4 @@ function mse = computeMSEJointStates(x_true, x_hat)
 end
 
 
-   
+ 

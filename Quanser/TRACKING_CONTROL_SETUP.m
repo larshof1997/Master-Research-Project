@@ -174,3 +174,95 @@ end
 
 
 
+
+% %% ===================== Rascón gain condition check =====================
+% % Conditions from Rascón et al. 2020, Eqs. (17)-(27)
+% 
+% %% ---------- Bounds from identified EL model ----------
+% q2_range = linspace(-pi, pi, 1000);
+% lam_max_M = 0; lam_min_M = inf;
+% 
+% for k = 1:length(q2_range)
+%     Mk = M_mat(q2_range(k), a1_hat, a2_hat, b_hat);
+%     ev = eig(Mk);
+%     lam_max_M = max(lam_max_M, max(ev));
+%     lam_min_M = min(lam_min_M, min(ev));
+% end
+% 
+% % Coriolis bound: ||C(q, a)b|| <= kc1 * ||a|| * ||b||
+% % Compute numerically by maximizing ||C(q, a)|| / ||a|| over q2 and a
+% kc1 = 0;
+% for q2 = linspace(-pi, pi, 500)
+%     for th = linspace(0, 2*pi, 500)
+%         a_vec = [cos(th); sin(th)];  % unit vector
+%         Ck = C_mat(q2, a_vec(1), a_vec(2), b_hat);
+%         kc1 = max(kc1, norm(Ck, 2));  % induced 2-norm
+%     end
+% end
+% fprintf('kc1 = %.6f  (conservative: %.6f)\n', kc1, 2*abs(b_hat));
+% % Mdot, Mddot bounds
+% qdot_max  = 5.0;
+% qddot_max = 20.0;
+% lam_max_Mdot  = 2*abs(b_hat) * qdot_max;
+% lam_max_Mddot = 2*abs(b_hat) * (qdot_max^2 + qddot_max);
+% 
+% % Friction and disturbance
+% Fv_diag = [b1_hat; b2_hat];
+% Fc_diag = [0; 0];              % no Coulomb friction identified
+% omega_bnd = 0.1;               % disturbance bound (includes unmodeled friction)
+% qd_dot_bnd = max(vecnorm(dqd, 2, 2));
+% 
+% % Aggregate uncertainty
+% beta = max(Fv_diag)*qd_dot_bnd + max(Fc_diag) + omega_bnd;
+% 
+% %% ---------- Candidate gains ----------
+% K1_R = diag([5, 3]);
+% K2_R = diag([10, 8]);
+% Delta_R = diag([1, 1]);
+% 
+% k1d = diag(K1_R); k2d = diag(K2_R); dd = diag(Delta_R);
+% 
+% %% ---------- Check conditions ----------
+% % V > 0
+% c_V1 = min(k1d) > max(dd);
+% c_V2 = (min(k2d)+min(Fv_diag)) > (0.5*lam_max_Mdot + lam_max_M^2/lam_min_M);
+% 
+% % Vdot < 0: R matrix (Eq. 27)
+% R11 = - 0.25*lam_max_Mddot+min(eig(K2_R));
+% R22 = min(Fv_diag) - 2*kc1*qd_dot_bnd - lam_max_M;
+% R12 = -kc1*qd_dot_bnd;
+% detR = R11*R22 - R12^2;
+% 
+% c1 = R11 > 0;
+% c2 = detR > 0;
+% c3 = min(k1d) > beta;
+% c4 = min(dd)  > beta;
+% 
+% fprintf('\n=== Rascón gain conditions ===\n');
+% fprintf('V>0:  lmin(K1)>lmax(D):     %.3f > %.3f  %s\n', min(k1d), max(dd), ps(c_V1));
+% fprintf('V>0:  lmin(K2)+lmin(Fv)>..  %.3f > %.3f  %s\n', min(k2d)+min(Fv_diag), 0.5*lam_max_Mdot+lam_max_M^2/lam_min_M, ps(c_V2));
+% fprintf('Vd:   R11>0:                %.3f          %s\n', R11, ps(c1));
+% fprintf('Vd:   R22:                  %.3f          (need >0)\n', R22);
+% fprintf('Vd:   det(R)>0:             %.3f          %s\n', detR, ps(c2));
+% fprintf('Vd:   lmin(K1)>beta:        %.3f > %.3f  %s\n', min(k1d), beta, ps(c3));
+% fprintf('Vd:   lmin(Delta)>beta:     %.3f > %.3f  %s\n', min(dd), beta, ps(c4));
+% 
+% %% ---------- R22 feasibility ----------
+% % R22 = lmin(Fv) - 2*kc1*||dqd|| - lmax(M)
+% % Even at ||dqd||=0: R22 = lmin(Fv) - lmax(M)
+% R22_static = min(Fv_diag) - lam_max_M;
+% if R22_static < 0
+%     fprintf('\nR22 < 0 even for stationary references (regulation).\n');
+%     fprintf('  lmin(Fv)=%.4f < lmax(M)=%.4f\n', min(Fv_diag), lam_max_M);
+%     fprintf('  Lyapunov proof inapplicable to this plant.\n');
+% else
+%     qd_dot_crit = (min(Fv_diag) - lam_max_M) / (2*kc1);
+%     fprintf('\nMax ||dqd|| for R22>0: %.4f rad/s\n', qd_dot_crit);
+% end
+% 
+% fprintf('\n--- Minimum gains (where feasible) ---\n');
+% fprintf('K1 > %.4f,  Delta > %.4f\n', beta, beta);
+% fprintf('K2 > %.4f  (from Vdot R11)\n', 0.25*lam_max_Mddot);
+% fprintf('K2 > %.4f  (from V>0)\n', 0.5*lam_max_Mdot + lam_max_M^2/lam_min_M - min(Fv_diag));
+% 
+% function s = ps(b), if b, s='PASS'; else, s='FAIL'; end, end
