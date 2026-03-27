@@ -106,6 +106,24 @@ Many scripts contain hardcoded paths (e.g. `/Users/lars/Documents/GitHub/Master-
 
 ---
 
+### QUARC / Simulink Hardware Interface
+
+All Simulink models (`.mdl` files) communicate with the Quanser hardware through QUARC blocks. A few things are critical to understand before modifying or creating new models:
+
+**Timebase:** Every QUARC model needs exactly one HIL Timebase block to synchronize execution to the DAQ card's hardware clock (rather than the less accurate system timer). In all `.mdl` files in this repo, this is provided by a **HIL Read Digital Timebase** block reading digital channel 16 (the pulse signal). Do not remove this block — without it, the other QUARC I/O blocks have no timebase and the model will not run in real-time. Only one timebase block per model is allowed.
+
+**Channel mapping** for the Quanser 2-DOF platform:
+
+| Function | QUARC Block | Channel(s) |
+|----------|-------------|------------|
+| **Motor command** (voltage) | HIL Write Analog | 0 = shoulder, 1 = elbow |
+| **Joint positions** (encoder) | HIL Read Encoder | 0 = shoulder, 2 = elbow |
+| **Limit switches** | HIL Read Encoder | 1 = shoulder, 3 = elbow |
+| **Motor current** (feedback) | HIL Read Analog | 0 = shoulder, 1 = elbow |
+| **Digital pulse** (timebase) | HIL Read Digital | 16 |
+
+---
+
 ### 1. DC Motor Calibration
 
 Motor calibration requires three processes running in parallel:
