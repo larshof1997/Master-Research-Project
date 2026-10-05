@@ -1,7 +1,7 @@
 # Port-Hamiltonian Neural Networks for System Identification and Control of a 2-DOF Robotic Manipulator
 
 > **Master Research Project** — University of Groningen  
-> For a complete description of the methods and results, see the [thesis (link to be added)]().
+> For a complete description of the methods and results, see the [thesis](https://fse.studenttheses.ub.rug.nl/37267/).
 
 This repository contains all code, data, and Simulink models for:
 
